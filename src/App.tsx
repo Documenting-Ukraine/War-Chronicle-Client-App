@@ -1,25 +1,54 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React,{ Suspense } from "react";
+import {BrowserRouter, Routes, Route } from "react-router-dom"
+import NavWrapper from "./pages/utilityComponents/navWrapper/NavWrapper"
+import LoadingIcon from "./pages/utilityComponents/loadingIcon/LoadingIcon"
+const HomePage = React.lazy(() => import("./pages/homePage/HomePage"))
+const AboutPage = React.lazy(() => import("./pages/aboutPage/AboutPage"))
+const SearchRoutes = React.lazy(() => import("./routes/searchRoutes/SearchRoutes"))
+const DashboardRoutes = React.lazy(() => import("./routes/dashboardRoutes/DashboardRoutes"))
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Suspense fallback={<LoadingIcon />}>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <NavWrapper>
+                  <HomePage />
+                </NavWrapper>
+              }
+            />
+            <Route
+              path="/about/*"
+              element={
+                <NavWrapper>
+                  <AboutPage />
+                </NavWrapper>
+              }
+            />
+            <Route
+              path="/dashboard/*"
+              element={
+                <NavWrapper>
+                  <DashboardRoutes />
+                </NavWrapper>
+              }
+            />
+            <Route
+              path="/search/*"
+              element={
+                <NavWrapper>
+                  <SearchRoutes />
+                </NavWrapper>
+              }
+            />
+          </Routes>
+        </Suspense>
+      </div>
+    </BrowserRouter>
   );
 }
 
