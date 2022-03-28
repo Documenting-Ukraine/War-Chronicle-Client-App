@@ -1,18 +1,15 @@
 import * as Realm from "realm-web";
-
+import { UserSignUpData } from "../../../types";
 export const googleLogin = async ({
   res,
-  //app,
+  app,
   customErrorFunc,
   customData,
 }: {
-  res: any;
-  //app: Realm.App;
+  res: Response;
+  app: any;
   customErrorFunc: (e: Error) => void;
-  customData: {
-    occupation: string;
-    phoneNumber: string | null;
-  };
+  customData: UserSignUpData | null;
 }) => {
   //   try {
   //     const credentials = Realm.Credentials.google(res.credential);

@@ -54,7 +54,6 @@ export const RealmAppProvider = ({
     setCurrentUser(app.currentUser);
   }
   const wrapped = { ...app, currentUser, logIn, logOut };
-  console.log(wrapped);
 
   return (
     <RealmAppContext.Provider value={wrapped}>

@@ -6,8 +6,106 @@ $invite-page-height: calc(100vh - #{$navbar-height});
     display: flex;
     justify-content: center;
 }
-.signup-form-container{
-    margin: auto;
+.invite-link-google-auth{
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
+.signup-form-container{
+    margin: auto 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.invite-link-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    height: fit-content;
+    min-width: 280px;
+    max-width: 22rem;
+    width: 20vw;
+    border-radius: 1rem;
+    overflow: auto;
+    overflow-x: hidden;
+    padding: calc(max(3%, 1.5rem));
+}
+.invite-link-form-logo{
+    margin-bottom: 1.5rem;
+    background-color: gray;
+    height: 3rem;
+    width: 100%;
+}
+.invite-link-form-title{
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+    font-family: 'Poppins','Segoe UI', Tahoma, "Geneva", Verdana, sans-serif;
+    margin: 0.5rem;
+}
+.invite-link-input-container{
+    width: 100%;
+}
+.invite-link-input{
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    div:first-child{
+        display: flex;
+        align-items: center;
+        span{
+            margin-left: 0.2rem;
+            font-weight: 700;
+            color: darkred;
+        }
+    }
+    h2{
+        font-size: 0.9rem;
+        font-weight: 300;
+        margin-bottom: 0.7rem;
+        font-family: "Poppins", "san-serif", "arial";
+    }
+    input{
+        font-size: 1rem;
+        border: 1px solid gray;
+        border-radius: 0.3rem;
+        height: 1.9rem;
+        padding-left: 0.5rem;
+    }
+    //hide number pointers
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+    &:last-child{
+        margin-bottom: 0;
+    }
+}
+.invite-link-google-auth{
+    display: flex;
+    align-items: center;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    height: 44px;
+}
+.invite-link-login{
+    display: flex;
+    align-items: center;
+    color:rgb(83, 83, 83);
+    font-size: 0.8rem;
+    font-weight: 400;
+    font-family:"Poppins",'Segoe UI', Tahoma, 'Geneva', Verdana, sans-serif;
+    a{
+        margin-left: 0.2rem;
+        text-decoration: none;
+    }
+}
+@import "../utilityComponents/googleAuthBtn/googleBtn"

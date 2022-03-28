@@ -1,5 +1,5 @@
 
-import SignUpForm from "../utilityComponents/forms/SignupForm"
+import SignUpForm from "../utilityComponents/forms/signupForm/SignupForm"
 import { useParams } from "react-router-dom";
 const InviteLinkPage = (): JSX.Element => {
     const params = useParams()
