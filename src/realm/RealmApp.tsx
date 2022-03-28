@@ -18,12 +18,14 @@ export const RealmAppProvider = ({
   appId,
 }: {
   children: any;
-  appId: string;
+  appId: string | undefined;
 }) => {
-  const [app, setApp] = useState(new Realm.App(appId));
+  const [app, setApp] = useState(
+    appId ? new Realm.App(appId) : new Realm.App("")
+  );
 
   useEffect(() => {
-    setApp(new Realm.App(appId));
+    setApp(new Realm.App(appId ? appId: ""));
   }, [appId]);
   //const dispatch = useDispatch()
   // Wrap the Realm.App object's user state with React state
@@ -51,8 +53,8 @@ export const RealmAppProvider = ({
     // Otherwise, app.currentUser is null.
     setCurrentUser(app.currentUser);
   }
-
   const wrapped = { ...app, currentUser, logIn, logOut };
+  console.log(wrapped);
 
   return (
     <RealmAppContext.Provider value={wrapped}>

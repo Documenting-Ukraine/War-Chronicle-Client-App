@@ -20,7 +20,8 @@
     "web-vitals": "=2.1.4"
   },
   "scripts": {
-    "start": "npm run scss && react-scripts start",
+    "secrets": "doppler secrets download --no-file --format env > .env",
+    "start": "npm run secrets && npm run scss && react-scripts start",
     "build": "npm run scss & react-scripts build & npm install -g serve",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

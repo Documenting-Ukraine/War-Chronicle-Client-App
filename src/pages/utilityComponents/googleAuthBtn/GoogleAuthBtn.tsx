@@ -35,7 +35,7 @@ const GoogleBtn = ({
             if (customSuccessCallback && user) customSuccessCallback(user);
           } catch (e) {
             console.error(e);
-            if (customErrorFunc) customErrorFunc(e);
+            if (e instanceof Error && customErrorFunc) customErrorFunc(e);
           }
         },
       });

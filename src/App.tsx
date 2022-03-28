@@ -9,58 +9,59 @@ const InviteLinkPage = React.lazy(() => import("./pages/inviteLinkPage/InviteLin
 
 const SearchRoutes = React.lazy(() => import("./routes/searchRoutes/SearchRoutes"))
 const DashboardRoutes = React.lazy(() => import("./routes/dashboardRoutes/DashboardRoutes"))
+const RealmAppId = process.env["REACT_APP_REALM_APP_DEV"];
 function App() {
   return (
-    <RealmAppProvider appId={process.env["REACT_APP_REALM_APP_ID"]}>
-    <BrowserRouter>
-      <div className="App">
-        <Suspense fallback={<LoadingIcon entireViewPort={true} />}>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <NavWrapper>
-                  <HomePage />
-                </NavWrapper>
-              }
-            />
-            <Route
-              path="/about/*"
-              element={
-                <NavWrapper>
-                  <AboutPage />
-                </NavWrapper>
-              }
-            />
-            <Route
-              path="/dashboard/*"
-              element={
-                <NavWrapper>
-                  <DashboardRoutes />
-                </NavWrapper>
-              }
-            />
-            <Route
-              path="/search/*"
-              element={
-                <NavWrapper>
-                  <SearchRoutes />
-                </NavWrapper>
-              }
-            />
-            <Route
-              path="/invite-links/:id"
-              element={
-                <NavWrapper>
-                  <InviteLinkPage/>
-                </NavWrapper>
-              }
-            />
-          </Routes>
-        </Suspense>
-      </div>
+    <RealmAppProvider appId={RealmAppId}>
+      <BrowserRouter>
+        <div className="App">
+          <Suspense fallback={<LoadingIcon entireViewPort={true} />}>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <NavWrapper>
+                    <HomePage />
+                  </NavWrapper>
+                }
+              />
+              <Route
+                path="/about/*"
+                element={
+                  <NavWrapper>
+                    <AboutPage />
+                  </NavWrapper>
+                }
+              />
+              <Route
+                path="/dashboard/*"
+                element={
+                  <NavWrapper>
+                    <DashboardRoutes />
+                  </NavWrapper>
+                }
+              />
+              <Route
+                path="/search/*"
+                element={
+                  <NavWrapper>
+                    <SearchRoutes />
+                  </NavWrapper>
+                }
+              />
+              <Route
+                path="/invite-links/:id"
+                element={
+                  <NavWrapper>
+                    <InviteLinkPage />
+                  </NavWrapper>
+                }
+              />
+            </Routes>
+          </Suspense>
+        </div>
       </BrowserRouter>
-      </RealmAppProvider>
+    </RealmAppProvider>
   );
 }
 
