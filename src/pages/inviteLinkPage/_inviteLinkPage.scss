@@ -1,0 +1,13 @@
+$invite-page-height: calc(100vh - #{$navbar-height});
+.invite-page-bg{
+    min-width: 100%;
+    min-height: calc(max(#{$invite-page-height}, 600px));
+    background-color: $badge;
+    display: flex;
+    justify-content: center;
+}
+.signup-form-container{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}

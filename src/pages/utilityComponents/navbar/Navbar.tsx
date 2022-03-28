@@ -1,6 +1,6 @@
 const Navbar = (): JSX.Element => {
     return (
-        <nav>
+        <nav id="navbar">
             Navbar
         </nav>
     )
