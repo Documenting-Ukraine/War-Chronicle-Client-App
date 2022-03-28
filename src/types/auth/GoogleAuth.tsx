@@ -11,5 +11,8 @@ type GoogleLogin = Pick<
   GoogleSignUp,
   "customSuccessCallback" | "customErrorFunc"
 > & { btnType: "signin"; customData: null };
-
-export type {GoogleSignUp, GoogleLogin}
+interface GoogleCredientals {
+  clientId: string;
+  credential: string;
+}
+export type {GoogleSignUp, GoogleLogin, GoogleCredientals}

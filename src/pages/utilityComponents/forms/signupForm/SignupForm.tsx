@@ -3,7 +3,6 @@ import GoogleBtn from "../../googleAuthBtn/GoogleAuthBtn";
 import PlaceHolderGoogle from "../../googleAuthBtn/PlaceholderGoogle";
 import onlyNumInput from "../../../../helperFunctions/onlyNumInput";
 import { Link } from "react-router-dom";
-import ExitIcon from "../../exitIcon/ExitIcon";
 const SignUpForm = ({
     inviteId = ""
 }): JSX.Element => {

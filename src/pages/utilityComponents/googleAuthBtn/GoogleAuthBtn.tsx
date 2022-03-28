@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import { useRealmApp } from "../../../realm/RealmApp";
-import { googleLogin } from "./googleLogin";
+import { googleSignUp } from "./googleSignUp";
+import { googleSignIn } from "./googleSignIn";
 import { GoogleSignUp, GoogleLogin } from "../../../types/index";
+import { GoogleCredientals } from "../../../types/auth/GoogleAuth";
 /*global google */
 declare const google: any;
 const googleClientID = process.env.REACT_APP_GOOGLE_CLIENT_ID_DEV;
@@ -13,13 +15,19 @@ const GoogleBtn = ({
   customData
 }: GoogleLogin | GoogleSignUp) => {
   const app = useRealmApp();
-    const googleCallBack = async (res: Response) => {
+    const googleCallBack = async (res: GoogleCredientals) => {
         try {
-            const user = await googleLogin({
+            let user
+            if(btnType === "signup")user = await googleSignUp({
                 res: res,
                 app: app,
                 customErrorFunc: customErrorFunc,
                 customData: customData,
+            });
+            else user = await googleSignIn({
+              res: res,
+              app: app,
+              customErrorFunc: customErrorFunc,
             });
             if (customSuccessCallback && user) customSuccessCallback(user);
         } catch (e) {
