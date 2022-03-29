@@ -37,37 +37,39 @@ const GoogleBtn = ({
     }
 
     useEffect(() => {
-        const initializeGsi = (): any => {
+      const initializeGsi = (): any => {
         google.accounts.id.initialize({
-            context: btnType === "signup" ? "signup" : "signin",
-                client_id: googleClientID, 
-                callback: googleCallBack
-            })
+          context: btnType === "signup" ? "signup" : "signin",
+          client_id: googleClientID,
+          callback: googleCallBack,
+        });
         google.accounts.id.renderButton(
-            document.getElementById("googleAuthBtn"),
-            {
+          document.getElementById("googleAuthBtn"),
+          {
             shape: "circle",
             theme: "filled_blue",
             size: "large",
             text: btnType === "signup" ? "signup_with" : "signin_with",
-            }
+          }
         );
-    };
-      
-    const script = document.createElement("script");
-    script.id = "googleLoginIdScript";
-    script.src = "https://accounts.google.com/gsi/client";
-    script.async = true;
-    script.onload = initializeGsi();
+      };
 
-    const documentBody = document.querySelector("body");
-    if (documentBody !== null) documentBody.appendChild(script);
-    //cleanup script
-    return () => {
-      const documentScript = document.getElementById("googleLoginIdScript");
-      if (documentScript !== null) documentScript.remove();
-    };
-  }, [app, btnType]);
+      const script = document.createElement("script");
+      script.id = "googleLoginIdScript";
+      script.src = "https://accounts.google.com/gsi/client";
+      script.async = true;
+      script.onload = initializeGsi();
+
+      const documentBody = document.querySelector("body");
+      if (documentBody !== null) documentBody.appendChild(script);
+      //cleanup script
+      return () => {
+        const documentScript = document.getElementById("googleLoginIdScript");
+        if (documentScript !== null) documentScript.remove();
+      };
+      // eslint-disable-next-line
+    }, [app, btnType]);
+    
   return (
     <div>
           <button id="googleAuthBtn"/>

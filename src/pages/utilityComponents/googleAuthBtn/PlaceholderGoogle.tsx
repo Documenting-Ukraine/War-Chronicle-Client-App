@@ -26,7 +26,6 @@ const PlaceHolderGoogle = ({
     <div id="container" style={{ display: "inline-block" }}>
       <button
         type="submit"
-        role="button"
         aria-labelledby="button-label"
         style={containerStyles}
         disabled = {btnDisabled}

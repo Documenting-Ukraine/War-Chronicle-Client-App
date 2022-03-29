@@ -8,12 +8,13 @@ const SignUpForm = ({
 }): JSX.Element => {
     const [occupation, setOccupation] = useState("");
     const [phoneNum, setPhoneNum] = useState("");
-    const [confirmCred, setConfirmCred] = useState(false);
+  const [confirmCred, setConfirmCred] = useState(false);
+  
     //handle sign in with google button status
     useEffect(() => {
         if (occupation === "" && confirmCred) setConfirmCred(false);
         if (occupation !== "" && !confirmCred) setConfirmCred(true);
-    }, [occupation])
+    }, [occupation, confirmCred])
     const customData = {
         occupation: occupation,
         phoneNumber: phoneNum,
