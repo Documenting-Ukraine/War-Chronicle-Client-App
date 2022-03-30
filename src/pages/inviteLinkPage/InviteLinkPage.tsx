@@ -7,7 +7,7 @@ const InviteLinkPage = (): JSX.Element => {
     return (
       <div className="invite-page-bg">
         <div className="signup-form-container">
-          <SignUpForm inviteId={inviteId} />
+          <SignUpForm inviteId={inviteId ? inviteId: ''} />
         </div>
       </div>
     );

@@ -3,13 +3,17 @@ import GoogleBtn from "../../googleAuthBtn/GoogleAuthBtn";
 import PlaceHolderGoogle from "../../googleAuthBtn/PlaceholderGoogle";
 import onlyNumInput from "../../../../helperFunctions/onlyNumInput";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { User } from "realm-web";
 const SignUpForm = ({
-    inviteId = ""
-}): JSX.Element => {
+  inviteId = ""
+}:{inviteId: string}): JSX.Element => {
     const [occupation, setOccupation] = useState("");
     const [phoneNum, setPhoneNum] = useState("");
     const [confirmCred, setConfirmCred] = useState(false);
-  
+    const [signupErr, setSignupErr] = useState({ err: false, message: "" })
+    const naviagte = useNavigate();
+
     //handle sign in with google button status
     useEffect(() => {
         if (occupation === "" && confirmCred) setConfirmCred(false);
@@ -40,31 +44,36 @@ const SignUpForm = ({
         onKeyDown: onlyNumInput,
       },
     ];
+    const onSignUpError = () => {
+      setSignupErr({err: true, message: `We could not sign you up. Please contact ${process.env.REACT_APP_SUPPORT_EMAIL} for more information`}) 
+    }
+    const onSignUpSuccess = (user: User) => {
+      //navigate to user dashboard
+      naviagte(`/dashboard/${user.id}`);
+    }
     return (
         <form className="invite-link-form">
-               
         <div className="invite-link-form-logo"></div>
         <h1 className="invite-link-form-title">Create your Account</h1>
         <div className="invite-link-input-container">
-          {inviteLinkInputs.map((input) => {
-            return (
-              <div key={input.heading} className="invite-link-input">
-                <div>
-                  <h2>{input.heading}</h2>
-                  <span>{input.required ? "*" : ""}</span>
-                </div>
-                <input
-                  type={input.type}
-                  value={input.inputVal}
-                  required={input.required}
-                  onChange={input.onChange}
-                  onKeyDown={input.onKeyDown}
-                />
+        {inviteLinkInputs.map((input) => {
+          return (
+            <div key={input.heading} className="invite-link-input">
+              <div>
+                <h2>{input.heading}</h2>
+                <span>{input.required ? "*" : ""}</span>
               </div>
-            );
-          })}
+              <input
+                type={input.type}
+                value={input.inputVal}
+                required={input.required}
+                onChange={input.onChange}
+                onKeyDown={input.onKeyDown}
+              />
+            </div>
+          );
+        })}
         </div>
-
         <div className="invite-link-google-auth">
           {!confirmCred ? (
             <PlaceHolderGoogle btnDisabled={confirmCred} />
@@ -72,14 +81,14 @@ const SignUpForm = ({
             <GoogleBtn
               customData={customData}
               btnType="signup"
-              customSuccessCallback={() => {}}
-              customErrorFunc={() => {}}
+              customSuccessCallback={onSignUpSuccess}
+              customErrorFunc={onSignUpError}
             />
           )}
         </div>
         <div className="invite-link-login">
-                <p>Already have an account?</p>
-                <Link to="/login">Sign In</Link>
+              <p>Already have an account?</p>
+              <Link to="/login">Sign In</Link>
         </div>
       </form>
     );

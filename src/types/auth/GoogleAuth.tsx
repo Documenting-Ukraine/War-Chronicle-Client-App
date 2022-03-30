@@ -1,4 +1,5 @@
 
+import { User } from "realm-web";
 import { ErrorResponseData, SuccessResponseData } from "../generics/CustomHTTPTypes";
 import { UserSignUpData } from "./UserAuthData";
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
@@ -6,7 +7,7 @@ export default UserSignUpData;
 interface GoogleSignUp {
   btnType: "signup";
   customData: UserSignUpData;
-  customSuccessCallback: null | ((e: Event | ErrorResponseData) => void);
+  customSuccessCallback: null | ((e: User) => void);
   customErrorFunc: (e: Error | ErrorResponseData) => void;
 }
 type GoogleLogin = Pick<

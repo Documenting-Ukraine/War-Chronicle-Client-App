@@ -3,6 +3,7 @@ import { useRealmApp } from "../../../realm/RealmApp";
 import { googleAuth } from "./googleAuth";
 import { GoogleSignUp, GoogleLogin } from "../../../types/index";
 import { GoogleCredientals } from "../../../types/auth/GoogleAuth";
+import { User } from "realm-web";
 /*global google */
 declare const google: any;
 const googleClientID = process.env.REACT_APP_GOOGLE_CLIENT_ID_DEV;
@@ -13,7 +14,7 @@ const GoogleBtn = ({
   customErrorFunc,
   customData
 }: GoogleLogin | GoogleSignUp) => {
-  const app = useRealmApp();
+    const app = useRealmApp();
     const googleCallBack = async (res: GoogleCredientals) => {
         try {
             let user
@@ -31,13 +32,13 @@ const GoogleBtn = ({
               auth_type: "signin",
               customData: null
             });
-            if (customSuccessCallback && user) customSuccessCallback(user);
+            if (customSuccessCallback && user instanceof User) customSuccessCallback(user);
+
         } catch (e) {
             console.error(e);
             if (e instanceof Error && customErrorFunc) customErrorFunc(e);
         }
     }
-
     useEffect(() => {
       const initializeGsi = (): any => {
         google.accounts.id.initialize({

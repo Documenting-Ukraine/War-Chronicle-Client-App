@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import * as Realm from "realm-web";
-
+import { unstable_batchedUpdates } from "react-dom";
 const RealmAppContext = createContext({});
 
 export const useRealmApp = () => {
@@ -30,14 +30,20 @@ export const RealmAppProvider = ({
   //const dispatch = useDispatch()
   // Wrap the Realm.App object's user state with React state
   const [currentUser, setCurrentUser] = useState(app.currentUser);
+  //to give feedback while a user is being authenticated
+  const [userLoading, setUserLoading] = useState(false)
   async function logIn(
     credentials: Realm.Credentials,
     errorCallBack: (e: Realm.MongoDBRealmError) => void
   ) {
     try {
+      setUserLoading(true)
       await app.logIn(credentials);
       // If successful, app.currentUser is the user that just logged in
-      setCurrentUser(app.currentUser);
+      unstable_batchedUpdates(() => {
+          setCurrentUser(app.currentUser);
+          setUserLoading(false);
+      })
       return app.currentUser;
     } catch (e) {
         if (e instanceof Realm.MongoDBRealmError) {
@@ -53,7 +59,7 @@ export const RealmAppProvider = ({
     // Otherwise, app.currentUser is null.
     setCurrentUser(app.currentUser);
   }
-  const wrapped = { ...app, currentUser, logIn, logOut };
+  const wrapped = { ...app, currentUser, logIn, logOut, userLoading };
 
   return (
     <RealmAppContext.Provider value={wrapped}>
