@@ -1,7 +1,7 @@
 const ExitIcon = ({
   customStrokeWidth,
 }: {
-  customStrokeWidth: string;
+  customStrokeWidth: string | null;
 }): JSX.Element => {
   return (
     <svg

@@ -5,57 +5,71 @@ import onlyNumInput from "../../../../helperFunctions/onlyNumInput";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { User } from "realm-web";
-const SignUpForm = ({
-  inviteId = ""
-}:{inviteId: string}): JSX.Element => {
-    const [occupation, setOccupation] = useState("");
-    const [phoneNum, setPhoneNum] = useState("");
-    const [confirmCred, setConfirmCred] = useState(false);
-    const [signupErr, setSignupErr] = useState({ err: false, message: "" })
-    const naviagte = useNavigate();
+import ExitIcon from "../../exitIcon/ExitIcon";
+const SignUpForm = ({ inviteId = "" }: { inviteId: string }): JSX.Element => {
+  const [occupation, setOccupation] = useState("");
+  const [phoneNum, setPhoneNum] = useState("");
+  const [confirmCred, setConfirmCred] = useState(false);
+  const [signupErr, setSignupErr] = useState({ err: false, message: "" });
+  const naviagte = useNavigate();
 
-    //handle sign in with google button status
-    useEffect(() => {
-        if (occupation === "" && confirmCred) setConfirmCred(false);
-        if (occupation !== "" && !confirmCred) setConfirmCred(true);
-    }, [occupation, confirmCred])
-    const customData = {
-        occupation: occupation,
-        phoneNumber: phoneNum,
-        inviteId: inviteId
-    };
-    const inviteLinkInputs = [
+  //handle sign in with google button status
+  useEffect(() => {
+    if (occupation === "" && confirmCred) setConfirmCred(false);
+    if (occupation !== "" && !confirmCred) setConfirmCred(true);
+  }, [occupation, confirmCred]);
+  const customData = {
+    occupation: occupation,
+    phoneNumber: phoneNum,
+    inviteId: inviteId,
+  };
+  const inviteLinkInputs = [
     {
-        type: "text",
-        inputVal: occupation,
-        heading: "Occupation",
-        required: true,
-        onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-            setOccupation(e.target.value);
-        },
-        onKeyDown: undefined,
+      type: "text",
+      inputVal: occupation,
+      heading: "Occupation",
+      required: true,
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+        setOccupation(e.target.value);
       },
-        {
-        type: "number",
-        inputVal: phoneNum,
-        heading: "Phone Number",
-        required: false,
-        onChange: (e: React.ChangeEvent<HTMLInputElement>) => setPhoneNum(e.target.value),
-        onKeyDown: onlyNumInput,
-      },
-    ];
-    const onSignUpError = () => {
-      setSignupErr({err: true, message: `We could not sign you up. Please contact ${process.env.REACT_APP_SUPPORT_EMAIL} for more information`}) 
-    }
-    const onSignUpSuccess = (user: User) => {
-      //navigate to user dashboard
-      naviagte(`/dashboard/${user.id}`);
-    }
-    return (
-        <form className="invite-link-form">
-        <div className="invite-link-form-logo"></div>
-        <h1 className="invite-link-form-title">Create your Account</h1>
-        <div className="invite-link-input-container">
+      onKeyDown: undefined,
+    },
+    {
+      type: "number",
+      inputVal: phoneNum,
+      heading: "Phone Number",
+      required: false,
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+        setPhoneNum(e.target.value),
+      onKeyDown: onlyNumInput,
+    },
+  ];
+  const onSignUpError = () => {
+    setSignupErr({
+      err: true,
+      message: `We could not sign you up. Please contact ${process.env.REACT_APP_SUPPORT_EMAIL} for more information`,
+    });
+  };
+  const onSignUpSuccess = (user: User) => {
+    //navigate to user dashboard
+    naviagte(`/dashboard/${user.id}`);
+  };
+  return (
+    <form className="invite-link-form">
+      {signupErr.err && (
+        <div className="alert alert-danger invite-link-err-banner">
+          {signupErr.message}
+          <button
+            aria-label="close banner"
+            onClick={() => setSignupErr({ err: false, message: "" })}
+          >
+            <ExitIcon customStrokeWidth="0.5rem" />
+          </button>
+        </div>
+      )}
+      <div className="invite-link-form-logo"></div>
+      <h1 className="invite-link-form-title">Create your Account</h1>
+      <div className="invite-link-input-container">
         {inviteLinkInputs.map((input) => {
           return (
             <div key={input.heading} className="invite-link-input">
@@ -73,24 +87,24 @@ const SignUpForm = ({
             </div>
           );
         })}
-        </div>
-        <div className="invite-link-google-auth">
-          {!confirmCred ? (
-            <PlaceHolderGoogle btnDisabled={confirmCred} />
-          ) : (
-            <GoogleBtn
-              customData={customData}
-              btnType="signup"
-              customSuccessCallback={onSignUpSuccess}
-              customErrorFunc={onSignUpError}
-            />
-          )}
-        </div>
-        <div className="invite-link-login">
-              <p>Already have an account?</p>
-              <Link to="/login">Sign In</Link>
-        </div>
-      </form>
-    );
-} 
-export default SignUpForm
+      </div>
+      <div className="invite-link-google-auth">
+        {!confirmCred ? (
+          <PlaceHolderGoogle btnDisabled={confirmCred} />
+        ) : (
+          <GoogleBtn
+            customData={customData}
+            btnType="signup"
+            customSuccessCallback={onSignUpSuccess}
+            customErrorFunc={onSignUpError}
+          />
+        )}
+      </div>
+      <div className="invite-link-login">
+        <p>Already have an account?</p>
+        <Link to="/login">Sign In</Link>
+      </div>
+    </form>
+  );
+};
+export default SignUpForm;

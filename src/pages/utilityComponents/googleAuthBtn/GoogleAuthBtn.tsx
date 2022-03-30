@@ -4,7 +4,7 @@ import { googleAuth } from "./googleAuth";
 import { GoogleSignUp, GoogleLogin } from "../../../types/index";
 import { GoogleCredientals } from "../../../types/auth/GoogleAuth";
 import { User } from "realm-web";
-/*global google */
+/*global google*/
 declare const google: any;
 const googleClientID = process.env.REACT_APP_GOOGLE_CLIENT_ID_DEV;
 

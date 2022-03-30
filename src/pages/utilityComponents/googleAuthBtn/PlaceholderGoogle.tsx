@@ -35,15 +35,17 @@ const PlaceHolderGoogle = ({
           style={{
             backgroundColor: "white",
             borderRadius: "20px",
-            width: "18px",
-            padding: "9px",
+            height: "35px",
+            width: "35px",
+            display: "flex",
+            alignItems: "center",
+            padding: "8.5px",
           }}
         >
           <svg
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 48 48"
-            className="LgbsSe-Bz112c"
           >
             <g>
               <path

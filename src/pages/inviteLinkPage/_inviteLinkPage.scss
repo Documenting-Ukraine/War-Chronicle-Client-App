@@ -6,11 +6,6 @@ $invite-page-height: calc(100vh - #{$navbar-height});
     display: flex;
     justify-content: center;
 }
-.invite-link-google-auth{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 .signup-form-container{
     margin: auto 0;
     display: flex;
@@ -25,8 +20,8 @@ $invite-page-height: calc(100vh - #{$navbar-height});
     background-color: white;
     height: fit-content;
     min-width: 280px;
-    max-width: 22rem;
-    width: 20vw;
+    max-width: 25rem;
+    width: 22vw;
     border-radius: 1rem;
     overflow: auto;
     overflow-x: hidden;
@@ -45,18 +40,23 @@ $invite-page-height: calc(100vh - #{$navbar-height});
     letter-spacing: -0.5px;
     font-family: 'Poppins','Segoe UI', Tahoma, "Geneva", Verdana, sans-serif;
     margin: 0.5rem;
+    margin-bottom: 1.5rem;
 }
 .invite-link-input-container{
     width: 100%;
 }
 .invite-link-input{
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
     display: flex;
     flex-direction: column;
     width: 100%;
     div:first-child{
         display: flex;
         align-items: center;
+        margin-bottom: 0.6rem;
+        h2{
+            margin: 0;
+        }
         span{
             margin-left: 0.2rem;
             font-weight: 700;
@@ -91,11 +91,12 @@ $invite-page-height: calc(100vh - #{$navbar-height});
 }
 .invite-link-google-auth{
     display: flex;
+    flex-direction: column;
     align-items: center;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
     height: 44px;
+    margin: 1.7rem 0;
 }
+
 .invite-link-login{
     display: flex;
     align-items: center;
@@ -107,5 +108,31 @@ $invite-page-height: calc(100vh - #{$navbar-height});
         margin-left: 0.2rem;
         text-decoration: none;
     }
+    p{
+        margin: 0;
+    }
 }
-@import "../utilityComponents/googleAuthBtn/googleBtn"
+.invite-link-err-banner{
+    position: relative;
+    display: flex;
+    justify-content:center;
+    width: 100%;
+    padding: 0.6rem !important;
+    button{
+        position: absolute;
+        right: 0.4rem;
+        top: 0.4rem;
+        background-color: rgba(255, 255, 255, 0);
+        outline: none;
+        border: none;
+        height: 1rem;
+        width: 1rem;
+        display: flex;
+        align-items: center;
+        padding: 0;
+        .exit-icon{
+            stroke: rgb(102, 102, 102);
+        }
+    }
+};
+@import "../utilityComponents/googleAuthBtn/_googleBtn.scss";
