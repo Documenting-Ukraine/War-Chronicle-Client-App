@@ -8,7 +8,7 @@ const SignUpForm = ({
 }): JSX.Element => {
     const [occupation, setOccupation] = useState("");
     const [phoneNum, setPhoneNum] = useState("");
-  const [confirmCred, setConfirmCred] = useState(false);
+    const [confirmCred, setConfirmCred] = useState(false);
   
     //handle sign in with google button status
     useEffect(() => {

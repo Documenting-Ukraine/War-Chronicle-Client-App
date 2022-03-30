@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useRealmApp } from "../../../realm/RealmApp";
-import { googleSignUp } from "./googleSignUp";
-import { googleSignIn } from "./googleSignIn";
+import { googleAuth } from "./googleAuth";
 import { GoogleSignUp, GoogleLogin } from "../../../types/index";
 import { GoogleCredientals } from "../../../types/auth/GoogleAuth";
 /*global google */
@@ -18,16 +17,19 @@ const GoogleBtn = ({
     const googleCallBack = async (res: GoogleCredientals) => {
         try {
             let user
-            if(btnType === "signup")user = await googleSignUp({
+            if(btnType === "signup")user = await googleAuth({
                 res: res,
                 app: app,
                 customErrorFunc: customErrorFunc,
                 customData: customData,
+                auth_type: "signup"
             });
-            else user = await googleSignIn({
+            else user = await googleAuth({
               res: res,
               app: app,
               customErrorFunc: customErrorFunc,
+              auth_type: "signin",
+              customData: null
             });
             if (customSuccessCallback && user) customSuccessCallback(user);
         } catch (e) {
