@@ -1,6 +1,6 @@
 import * as Realm from "realm-web";
-import { UserSignUpData } from "../../../types";
-import { GoogleCredientals, ErrorResponseData } from "../../../types";
+import { UserSignUpData } from "../../types";
+import { GoogleCredientals, ErrorResponseData } from "../../types";
 
 export const googleAuth = async ({
   res,

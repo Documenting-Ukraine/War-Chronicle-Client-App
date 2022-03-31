@@ -3,6 +3,7 @@ import {BrowserRouter, Routes, Route } from "react-router-dom"
 import NavWrapper from "./pages/utilityComponents/navWrapper/NavWrapper"
 import LoadingIcon from "./pages/utilityComponents/loadingIcon/LoadingIcon"
 import {RealmAppProvider} from "./realm/RealmApp"
+const LoginPage = React.lazy(()=> import("./pages/loginPage/LoginPage"));
 const HomePage = React.lazy(() => import("./pages/homePage/HomePage"))
 const AboutPage = React.lazy(() => import("./pages/aboutPage/AboutPage"))
 const InviteLinkPage = React.lazy(() => import("./pages/inviteLinkPage/InviteLinkPage"));
@@ -54,6 +55,14 @@ function App() {
                 element={
                   <NavWrapper>
                     <InviteLinkPage />
+                  </NavWrapper>
+                }
+              />
+              <Route
+                path="/login"
+                element={
+                  <NavWrapper >
+                    <LoginPage />
                   </NavWrapper>
                 }
               />

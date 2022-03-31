@@ -1,0 +1,117 @@
+$login-page-height: calc(100vh - #{$navbar-height});
+
+.login-pg-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: $badge;
+    height: $login-page-height;
+}
+.login-form-container{
+    margin: auto 0;
+    border-radius: 0.5rem;
+    max-width: 350px;
+    min-width: 280px;
+    width: 23vw;
+    display: flex;
+    flex-direction: column;
+    padding: calc(max(1.5rem, 13%)) calc(max(2rem, 15%));
+    align-items: center;
+    background-color: $white;
+    transition: all 250ms ease-in;
+}
+.login-pg-err-banner{
+    display: flex;
+    width: 100%;
+    padding: 0.5rem !important;
+}
+.login-form-logo{
+    margin-bottom: 1.7rem;
+    background-color: $dark-gray;
+    height: 3rem;
+    width: 100%;
+}
+.login-form-title{
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+    font-family: 'Poppins','Segoe UI', Tahoma, "Geneva", Verdana, sans-serif;
+    margin: 0rem;
+    margin-bottom: 1.7rem;
+    line-height: 2.3rem;
+}
+.login-form-google-auth{
+    margin-bottom: 1.2rem;
+}
+.login-pg-hr-line{
+    display: flex;
+    align-items: center;
+    min-width: 250px;
+    width: 100%;
+    div{
+        height: 2px;
+        width: 100%;
+        background-color: $dark-gray;
+    }
+    span{
+        font-size: 1rem;
+        margin: 0 0.6rem;
+        margin-bottom: 0.2rem;
+        padding: 0;
+    }
+}
+.login-form-guest-btn{
+    margin-top: 1.2rem;
+    font-weight: 500;
+    background-color: $blue;
+    width: 250px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    color: $white;
+    font-family: 'Lato','Segoe UI', Tahoma, "Geneva", Verdana, sans-serif;
+}
+
+
+.login-guest-form{
+    @extend .login-form-container;
+    
+}
+//transition classes for carousel like effect
+.login-transition-container{
+    display: flex;
+    flex-direction: column;
+    transition: all 250ms ease-in;
+    height: 100%;
+    width: 100%;
+}
+.login-form-pg-enter{
+    position: absolute;
+    transform: translateX(-400px);
+}
+.login-form-pg-enter-active{
+    transform: translateX(0px);
+}
+.login-form-exit{
+    position: absolute;
+    transform: translateX(0px);
+}
+.login-form-pg-exit-active{
+    transform: translateX(-400px);
+}
+.guest-form-pg-enter{
+    position: absolute;
+    transform: translateX(400px)
+}
+.guest-form-pg-enter-active{
+    transform: translateX(0px);
+}
+.guest-form-pg-exit{
+    position: absolute;
+    transform: translateX(0px);
+};
+.guest-form-pg-exit-active{
+    transform: translateX(-400px);
+}
+

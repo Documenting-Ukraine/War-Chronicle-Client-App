@@ -4,11 +4,10 @@ const PlaceHolderGoogle = ({
 }:{btnDisabled: boolean}): JSX.Element => {
   const containerStyles = {
     display: "flex",
-    justifyContent: "space-around",
     alignItems: "center",
     backgroundColor: "rgba(26, 115, 232)",
     backgroundImage: "none",
-    border: "1px solid #dadce0",
+    border: "none",
     color: "#3c4043",
     fontFamily: "'Google Sans',arial,sans-serif",
     fontSize: "14px",
@@ -18,8 +17,8 @@ const PlaceHolderGoogle = ({
     overflow: "hidden",
     padding: "1px",
     verticalAlign: "middle",
-    width: "auto",
-    borderRadius: "20px",
+    width: "250px",
+    borderRadius: "4px",
     opacity: 0.7,
   };
   return (
@@ -34,12 +33,12 @@ const PlaceHolderGoogle = ({
         <div
           style={{
             backgroundColor: "white",
-            borderRadius: "20px",
-            height: "35px",
-            width: "35px",
+            borderRadius: "3px 0px 0px 3px",
+            minHeight: "36px",
+            minWidth: "36px",
             display: "flex",
             alignItems: "center",
-            padding: "8.5px",
+            padding: "8.7px",
           }}
         >
           <svg
@@ -76,6 +75,7 @@ const PlaceHolderGoogle = ({
             fontSize: "14px",
             fontFamily: "'Google Sans',arial,sans-serif",
             letterSpacing: "0.4px",
+            flexGrow: "1",
           }}
         >
           Sign up with Google

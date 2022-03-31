@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useRealmApp } from "../../../realm/RealmApp";
-import { googleAuth } from "./googleAuth";
+import { googleAuth } from "../../../realm/auth/googleAuth";
 import { GoogleSignUp, GoogleLogin } from "../../../types/index";
 import { GoogleCredientals } from "../../../types/auth/GoogleAuth";
 import { User } from "realm-web";
@@ -49,7 +49,8 @@ const GoogleBtn = ({
         google.accounts.id.renderButton(
           document.getElementById("googleAuthBtn"),
           {
-            shape: "circle",
+            //shape: "circle",
+            width: "250px",
             theme: "filled_blue",
             size: "large",
             text: btnType === "signup" ? "signup_with" : "signin_with",
@@ -75,7 +76,11 @@ const GoogleBtn = ({
     
   return (
     <div>
-          <button id="googleAuthBtn"/>
+      <button
+        id="googleAuthBtn"
+        tabIndex={1}
+        role ="button"
+      />
     </div>
   );
 };
