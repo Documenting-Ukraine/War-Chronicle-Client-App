@@ -1,5 +1,6 @@
 import { User } from "realm-web";
 import GoogleBtn from "../../googleAuthBtn/GoogleAuthBtn"
+import FormLogo from "../FormLogo"
 //first page of login form
 interface MainLoginFormProps{
     signInErr: { err: boolean, message: JSX.Element }
@@ -20,7 +21,7 @@ const MainLoginForm = ({
             {signInErr.message}
           </div>
         )}
-        <div className="login-form-logo"></div>
+        <FormLogo />
         <h1 className="login-form-title">Log in to your account</h1>
         <div className="login-form-google-auth">
           <GoogleBtn

@@ -75,7 +75,9 @@ $login-page-height: calc(100vh - #{$navbar-height});
 
 
 .login-guest-form{
-    @extend .login-form-container;
+    @extend .login-form-container;   
+}
+.login-guest-form-back-btn{
     
 }
 //transition classes for carousel like effect

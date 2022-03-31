@@ -7,7 +7,6 @@ const LoginPage = React.lazy(()=> import("./pages/loginPage/LoginPage"));
 const HomePage = React.lazy(() => import("./pages/homePage/HomePage"))
 const AboutPage = React.lazy(() => import("./pages/aboutPage/AboutPage"))
 const InviteLinkPage = React.lazy(() => import("./pages/inviteLinkPage/InviteLinkPage"));
-
 const SearchRoutes = React.lazy(() => import("./routes/searchRoutes/SearchRoutes"))
 const DashboardRoutes = React.lazy(() => import("./routes/dashboardRoutes/DashboardRoutes"))
 const RealmAppId = process.env["REACT_APP_REALM_APP_DEV"];
@@ -59,7 +58,7 @@ function App() {
                 }
               />
               <Route
-                path="/login"
+                path="/login/*"
                 element={
                   <NavWrapper >
                     <LoginPage />
