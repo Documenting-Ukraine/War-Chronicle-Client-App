@@ -64,7 +64,7 @@ $login-page-height: calc(100vh - #{$navbar-height});
 .login-form-guest-btn{
     margin-top: 1.2rem;
     font-weight: 500;
-    background-color: $blue;
+    background-color: $dark-blue;
     width: 250px;
     height: 40px;
     border: none;
@@ -75,10 +75,81 @@ $login-page-height: calc(100vh - #{$navbar-height});
 
 
 .login-guest-form{
-    @extend .login-form-container;   
+    @extend .login-form-container;  
+    position: relative; 
 }
 .login-guest-form-back-btn{
-    
+    position: absolute;
+    top: 0.7rem;
+    left: 0.7rem;
+    border: 1px solid $dark-blue;
+    background-color: $white;
+    border-radius: 0.4rem;
+    color: $dark-blue
+}
+.login-guest-form-row{
+    margin-bottom: 2rem;
+
+    h2{
+        font-size: 1rem;
+        font-family: "Lato",'Segoe UI', Tahoma, "Geneva", Verdana, sans-serif;
+        margin-bottom: 0.8rem;
+    }
+}
+.login-guest-form-row-body{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    input[type="text"]{
+        width: 100%;
+        border: 1px solid $dark-gray;
+        min-height: 2rem;
+        padding-left: 0.5rem;
+        font-size: 0.9rem;
+        border-radius: 0.3rem;
+    };
+    input[type="radio"]{
+        visibility: hidden;
+        opacity: 0;
+        width: 0;
+    }
+    input[type="radio"]~label{
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background-color: $white;
+        border-radius: 0.3rem;
+        border: 1px solid $dark-gray;
+        color: $dark-gray;
+        font-size: 0.9rem;
+        padding: 0.2rem 1rem;
+        margin-right: 0.5rem;
+        font-weight: 600;
+    }
+    #login-guest-form-org-yes:checked+label{
+        border: 1px solid $green;
+        color: $green
+    }
+    #login-guest-form-org-no:checked+label{
+        border: 1px solid red;
+        color: red
+    }
+}
+.login-guest-form-auth-btn{
+    background-color: $dark-blue;
+    color: $white;
+    border: none;
+    min-height: 41px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.4rem;
+    font-size: 0.85rem;
+    font-family: 'Poppins','Segoe UI', Tahoma, 'Geneva', Verdana, sans-serif;
+    margin-top: 2.5rem;
 }
 //transition classes for carousel like effect
 .login-transition-container{
@@ -109,11 +180,8 @@ $login-page-height: calc(100vh - #{$navbar-height});
 .guest-form-pg-enter-active{
     transform: translateX(0px);
 }
-.guest-form-pg-exit{
-    position: absolute;
-    transform: translateX(0px);
-};
+
 .guest-form-pg-exit-active{
-    transform: translateX(-400px);
+    transform: translateX(400px);
 }
 

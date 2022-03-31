@@ -15,9 +15,9 @@ interface FormRowProps{
     heading: string
 }
 const FormRow = ({children, heading}: FormRowProps): JSX.Element => {
-    return <div className="guest-form-row">
+    return <div className="login-guest-form-row">
         <h2>{heading}</h2>
-        <div className="guest-form-row-body">
+        <div className="login-guest-form-row-body">
             {children}
         </div>
     </div>
@@ -44,9 +44,9 @@ const GuestForm = ({
         <button
           aria-label="return to first login page"
           onClick={() => setGuestLogin(false)}
-          className= {"login-guest-form-back-btn"}
+          className={"login-guest-form-back-btn"}
         >
-            <FontAwesomeIcon icon = {faArrowLeft} />    
+          <FontAwesomeIcon icon={faArrowLeft} />
         </button>
         {signInErr.err && (
           <div className="alert alert-danger login-pg-err-banner">
@@ -56,12 +56,12 @@ const GuestForm = ({
         <FormLogo />
         <form className="">
           <FormRow heading="What will you use this service for?">
-            <input />
+            <input type={"text"} />
           </FormRow>
           <FormRow heading="Are you part of an organization?">
             <>
               <input
-                id = {"login-guest-form-org-yes"}
+                id={"login-guest-form-org-yes"}
                 type={"radio"}
                 name={"organization"}
                 value={"yes"}
@@ -74,7 +74,7 @@ const GuestForm = ({
               />
               <label htmlFor="login-guest-form-org-yes">Yes</label>
               <input
-                id = {"login-guest-form-org-no"}
+                id={"login-guest-form-org-no"}
                 type={"radio"}
                 name={"organization"}
                 value={"no"}
@@ -90,11 +90,11 @@ const GuestForm = ({
           </FormRow>
           {organization.selected && (
             <FormRow heading="Organization Name">
-              <input />
+              <input type={"text"} />
             </FormRow>
           )}
           <FormRow heading="Occupation">
-            <input />
+            <input type={"text"} />
           </FormRow>
           <button
             onClick={() =>
