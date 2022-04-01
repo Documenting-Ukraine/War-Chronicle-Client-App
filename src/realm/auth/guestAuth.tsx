@@ -26,6 +26,7 @@ const guestLogin = async ({
   customSuccessCallback,
 }: guestProps) => {
   //login user
+  if(app.currentUser) await app.logOut()
   const credentials = Realm.Credentials.anonymous();
   let currentUser=null;
   try {
@@ -33,6 +34,7 @@ const guestLogin = async ({
   } catch (e) {
     console.error(e)
     if (e instanceof Realm.MongoDBRealmError) customErrorFunc(e);
+    await app.logOut();
   }
   //this data is useful, but not necessarily essential
   // so we can login first

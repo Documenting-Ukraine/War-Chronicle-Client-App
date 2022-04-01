@@ -1,6 +1,7 @@
 import { User } from "realm-web";
 import GoogleBtn from "../../googleAuthBtn/GoogleAuthBtn"
 import FormLogo from "../FormLogo"
+import {Link} from "react-router-dom"
 //first page of login form
 interface MainLoginFormProps{
     signInErr: { err: boolean, message: JSX.Element }
@@ -45,6 +46,10 @@ const MainLoginForm = ({
         >
           Continue As Guest
         </button>
+        <div className="login-form-request-account">
+          <div>Want to contribute?</div>
+          <Link to="/join">Request an account</Link>
+        </div>
       </div>
     );
 }

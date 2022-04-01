@@ -52,20 +52,22 @@ export const RealmAppProvider = ({
         setCurrentUser(app.currentUser);
         setUserLoading(false);
       });
+      return app.currentUser;
     } catch (e) {
+      setCurrentUser(null);
       if (e instanceof Realm.MongoDBRealmError) {
         console.error(e);
         if (errorCallBack) errorCallBack(e);
       }
+      return null
     }
-    return app.currentUser;
   }
   async function logOut() {
     // Log out the currently active user
     await app.currentUser?.logOut();
     // If another user was logged in too, they're now the current user.
     // Otherwise, app.currentUser is null.
-    setCurrentUser(app.currentUser);
+    setCurrentUser(null);
   }
   const wrapped: RealmApp = {
     app, currentUser, logIn, logOut, userLoading

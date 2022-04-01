@@ -9,8 +9,8 @@ const timeout = 300
 const LoginPage = (): JSX.Element => {
     const navigate = useNavigate()
     const [signInErr, onSignInError] = useLoginError({ loginType: "googleLogin" }) 
-    const [guestLogin, setGuestLogin] = useState(true)
-    const onSignInSuccess = (user: User) => {
+    const [guestLogin, setGuestLogin] = useState(false)
+  const onSignInSuccess = (user: User) => {
       navigate(`/dashboard/${user.id}`);
     };
     return (

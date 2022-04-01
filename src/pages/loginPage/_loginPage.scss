@@ -75,7 +75,17 @@ $login-page-height: calc(100vh - #{$navbar-height});
     font-family: 'Lato','Segoe UI', Tahoma, "Geneva", Verdana, sans-serif;
 }
 
-
+.login-form-request-account{
+    font-size: 0.9rem;
+    font-family: 'Lato','Segoe UI', Tahoma, "Geneva", Verdana, sans-serif;
+    margin-top: 1.5rem;
+    line-height: 1.3rem;
+    color: $darkest-gray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    a{text-decoration: none; font-size: 0.8rem}
+}
 .login-guest-form-container{
     @extend .login-form-container;  
     position: relative; 
