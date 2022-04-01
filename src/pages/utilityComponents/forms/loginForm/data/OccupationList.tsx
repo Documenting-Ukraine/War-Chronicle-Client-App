@@ -22,4 +22,4 @@ const occupationData: GroupedOption[] = occupationDataKeys.map((key) => {
 })
 
 export { occupationData, transfromOptions};
-export type { GroupedOption }
+export type { GroupedOption, Option }
