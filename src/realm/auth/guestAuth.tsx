@@ -1,23 +1,43 @@
-import { User } from "realm-web";
+import * as Realm from "realm-web";
 import { GoogleLogin } from "../../types";
-interface anonCustomData{
-  purpose: string, 
+import { RealmApp } from "../RealmApp";
+
+interface anonCustomData {
+  purpose: string;
   organization: {
-    selected: boolean, orgName: string
-  },
-  occupation: string
+    selected: boolean;
+    orgName: string;
+  };
+  occupation: string;
 }
-interface addedProps{
-  app: Object, 
-  customData: anonCustomData
+interface addedProps {
+  app: RealmApp;
+  customData: anonCustomData;
 }
-type guestProps = Pick<GoogleLogin, "customErrorFunc"|"customSuccessCallback"> & addedProps 
-const guestLogin = ({
+type guestProps = Pick<
+  GoogleLogin,
+  "customErrorFunc" | "customSuccessCallback"
+> &
+  addedProps;
+const guestLogin = async ({
   app,
   customData,
   customErrorFunc,
   customSuccessCallback,
 }: guestProps) => {
-    
+  //login user
+  const credentials = Realm.Credentials.anonymous();
+  let currentUser=null;
+  try {
+      currentUser = await app.logIn(credentials, customErrorFunc);
+  } catch (e) {
+    console.error(e)
+    if (e instanceof Realm.MongoDBRealmError) customErrorFunc(e);
+  }
+  //this data is useful, but not necessarily essential
+  // so we can login first
+  if (app instanceof Realm.App) app.currentUser?.callFunction("guest_login_form", customData)
+  if (currentUser instanceof Realm.User && customSuccessCallback) customSuccessCallback(currentUser);
+  return currentUser;
 };
-export default guestLogin
+export default guestLogin;

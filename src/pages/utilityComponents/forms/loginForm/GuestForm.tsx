@@ -19,15 +19,17 @@ interface FormRowProps {
   children: JSX.Element;
   heading: string;
   errMessage?: string | null;
+  required?: boolean
 }
 const FormRow = ({
   children,
   heading,
   errMessage,
+  required = false
 }: FormRowProps): JSX.Element => {
   return (
     <div className="login-guest-form-row">
-      <h2>{heading}</h2>
+          <h2>{heading}{required &&  <span>*</span> }</h2>
       <div className="login-guest-form-row-body">{children}</div>
       {errMessage && (
         <div className="login-guest-form-input-err">{errMessage}</div>
@@ -79,6 +81,7 @@ const GuestForm = ({
       <FormLogo />
       <form className="login-guest-form">
         <FormRow
+          required={true}
           heading="What will you use this service for?"
           errMessage={purposeErr ? "Please select a response" : null}
         >
@@ -90,6 +93,7 @@ const GuestForm = ({
           />
         </FormRow>
         <FormRow
+          required={true}
           heading="Occupation"
           errMessage={occupationErr ? "Please select an occupation" : null}
         >
@@ -102,7 +106,7 @@ const GuestForm = ({
             }
           />
         </FormRow>
-        <FormRow heading="Are you part of an organization?">
+        <FormRow heading="Are you part of an organization?" required={true}>
           <>
             <input
               id={"login-guest-form-org-yes"}
@@ -133,6 +137,7 @@ const GuestForm = ({
           <FormRow
             heading="Organization Name"
             errMessage={orgErr ? "Please enter a valid name" : null}
+            required={true}
           >
             <input
               value={organization.orgName}
@@ -175,7 +180,7 @@ const GuestForm = ({
               customData: customData,
             });
           }}
-          className="login-guest-form-auth-btn"
+          className={"login-guest-form-auth-btn"}
         >
           Start Exploring !
         </button>

@@ -1,8 +1,16 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import * as Realm from "realm-web";
 import { unstable_batchedUpdates } from "react-dom";
-const RealmAppContext = createContext({});
-
+type ErrorCallBack = (e: Realm.MongoDBRealmError) => any
+export interface RealmApp {
+  app: Realm.App,
+  currentUser: Realm.User | null,
+  logIn: (cred: Realm.Credentials, errCall: ErrorCallBack) => Promise<Realm.User | null>,
+  logOut: () => Promise<void>,
+  userLoading: boolean
+}
+const RealmAppContext = createContext<RealmApp | null>(null);
+  
 export const useRealmApp = () => {
   const app = useContext(RealmAppContext);
   if (!app) {
@@ -17,7 +25,7 @@ export const RealmAppProvider = ({
   children,
   appId,
 }: {
-  children: any;
+  children: JSX.Element;
   appId: string | undefined;
 }) => {
   const [app, setApp] = useState(
@@ -25,32 +33,32 @@ export const RealmAppProvider = ({
   );
 
   useEffect(() => {
-    setApp(new Realm.App(appId ? appId: ""));
+    setApp(new Realm.App(appId ? appId : ""));
   }, [appId]);
   //const dispatch = useDispatch()
   // Wrap the Realm.App object's user state with React state
   const [currentUser, setCurrentUser] = useState(app.currentUser);
   //to give feedback while a user is being authenticated
-  const [userLoading, setUserLoading] = useState(false)
+  const [userLoading, setUserLoading] = useState(false);
   async function logIn(
     credentials: Realm.Credentials,
     errorCallBack: (e: Realm.MongoDBRealmError) => void
   ) {
     try {
-      setUserLoading(true)
+      setUserLoading(true);
       await app.logIn(credentials);
       // If successful, app.currentUser is the user that just logged in
       unstable_batchedUpdates(() => {
-          setCurrentUser(app.currentUser);
-          setUserLoading(false);
-      })
-      return app.currentUser;
+        setCurrentUser(app.currentUser);
+        setUserLoading(false);
+      });
     } catch (e) {
-        if (e instanceof Realm.MongoDBRealmError) {
-            console.error(e);
-            if (errorCallBack) errorCallBack(e);
-        }
+      if (e instanceof Realm.MongoDBRealmError) {
+        console.error(e);
+        if (errorCallBack) errorCallBack(e);
+      }
     }
+    return app.currentUser;
   }
   async function logOut() {
     // Log out the currently active user
@@ -59,8 +67,9 @@ export const RealmAppProvider = ({
     // Otherwise, app.currentUser is null.
     setCurrentUser(app.currentUser);
   }
-  const wrapped = { ...app, currentUser, logIn, logOut, userLoading };
-
+  const wrapped: RealmApp = {
+    app, currentUser, logIn, logOut, userLoading
+  };
   return (
     <RealmAppContext.Provider value={wrapped}>
       {children}

@@ -36,7 +36,8 @@ const GoogleBtn = ({
 
         } catch (e) {
             console.error(e);
-            if (e instanceof Error && customErrorFunc) customErrorFunc(e);
+            if (e instanceof Error && customErrorFunc)
+              customErrorFunc(e);
         }
     }
     useEffect(() => {
