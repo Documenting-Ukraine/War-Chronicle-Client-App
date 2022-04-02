@@ -58,9 +58,25 @@ function RequireNonGuestAndOwner({
     </RequireStrictAuth>
   );
 }
+function RequireNoUser({ children, allowGuest = false}: {
+    children: JSX.Element,
+    allowGuest?: boolean
+}) {
+    let app = useRealmApp();
+    if (app.currentUser) {
+        if (app.currentUser.providerType === "anon-user" && !allowGuest) {
+            return <Navigate to={"/search"}/>
+        }
+        if (app.currentUser.providerType === "custom-function") {
+            return <Navigate to={`/dashboard/${app.currentUser.id}`} />
+        }
+    }
+    return children 
+}
 export {
   RequireAuth,
   RequireStrictAuth,
   RequireNonGuestAccount,
   RequireNonGuestAndOwner,
+  RequireNoUser
 };

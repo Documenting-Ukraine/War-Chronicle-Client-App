@@ -1,14 +1,24 @@
-import React,{ Suspense } from "react";
-import {BrowserRouter, Routes, Route } from "react-router-dom"
-import NavWrapper from "./pages/utilityComponents/navWrapper/NavWrapper"
-import LoadingIcon from "./pages/utilityComponents/loadingIcon/LoadingIcon"
-import {RealmAppProvider} from "./realm/RealmApp"
-import { RequireStrictAuth, RequireNonGuestAccount, RequireAuth, RequireNonGuestAndOwner } from "./pages/utilityComponents/protectedRoute/ProtectedRoute";
-const FormPage = React.lazy(() => import("./pages/formPage/FormPage"))
-const HomePage = React.lazy(() => import("./pages/homePage/HomePage"))
-const AboutPage = React.lazy(() => import("./pages/aboutPage/AboutPage"))
-const SearchRoutes = React.lazy(() => import("./routes/searchRoutes/SearchRoutes"))
-const DashboardRoutes = React.lazy(() => import("./routes/dashboardRoutes/DashboardRoutes"))
+import React, { Suspense } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import NavWrapper from "./pages/utilityComponents/navWrapper/NavWrapper";
+import LoadingIcon from "./pages/utilityComponents/loadingIcon/LoadingIcon";
+import { RealmAppProvider } from "./realm/RealmApp";
+import {
+  RequireStrictAuth,
+  RequireNonGuestAccount,
+  RequireAuth,
+  RequireNonGuestAndOwner,
+  RequireNoUser,
+} from "./pages/utilityComponents/protectedRoute/ProtectedRoute";
+const FormPage = React.lazy(() => import("./pages/formPage/FormPage"));
+const HomePage = React.lazy(() => import("./pages/homePage/HomePage"));
+const AboutPage = React.lazy(() => import("./pages/aboutPage/AboutPage"));
+const SearchRoutes = React.lazy(
+  () => import("./routes/searchRoutes/SearchRoutes")
+);
+const DashboardRoutes = React.lazy(
+  () => import("./routes/dashboardRoutes/DashboardRoutes")
+);
 const RealmAppId = process.env["REACT_APP_REALM_APP_DEV"];
 
 function App() {
@@ -44,7 +54,7 @@ function App() {
                   </RequireNonGuestAndOwner>
                 }
               ></Route>
-              
+
               <Route
                 path="/search/*"
                 element={
@@ -54,33 +64,37 @@ function App() {
                     </NavWrapper>
                   </RequireAuth>
                 }
-              >
-              
-              </Route>
-              
+              ></Route>
+
               <Route path="/forms/">
                 <Route
                   path="login"
                   element={
-                    <NavWrapper>
-                      <FormPage formType={"login"} />
-                    </NavWrapper>
+                    <RequireNoUser>
+                      <NavWrapper>
+                        <FormPage formType={"login"} />
+                      </NavWrapper>
+                    </RequireNoUser>
                   }
                 />
                 <Route
                   path="invite-links/:id"
                   element={
-                    <NavWrapper>
-                      <FormPage formType={"invite-links"} />
-                    </NavWrapper>
+                    <RequireNoUser allowGuest={true}>
+                      <NavWrapper>
+                        <FormPage formType={"invite-links"} />
+                      </NavWrapper>
+                    </RequireNoUser>
                   }
                 />
                 <Route
                   path="join"
                   element={
-                    <NavWrapper>
-                      <FormPage formType={"join"} />
-                    </NavWrapper>
+                    <RequireNoUser allowGuest={true}>
+                      <NavWrapper>
+                        <FormPage formType={"join"} />
+                      </NavWrapper>
+                    </RequireNoUser>
                   }
                 />
               </Route>

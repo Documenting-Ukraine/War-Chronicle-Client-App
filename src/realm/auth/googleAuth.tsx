@@ -17,8 +17,15 @@ export const googleAuth = async({
     customData: UserSignUpData | null;
     auth_type: "signup" | "signin";
   }) => {
-  if (app.currentUser) await app.logOut();
-
+  if (app.currentUser) app.logOut();
+  //logout all previous users. 
+  //Only one should have access to the account
+  const pastUsers = app.app.allUsers
+  const pastUserKeys = Object.keys(pastUsers)
+  if (pastUserKeys.length > 0) {
+    const userArray = pastUserKeys.map((key) => pastUsers[key].logOut()) 
+    Promise.all(userArray)
+  }
   const payload = {
     custom_data: customData,
     token: res,

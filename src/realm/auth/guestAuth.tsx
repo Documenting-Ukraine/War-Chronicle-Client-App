@@ -26,20 +26,30 @@ const guestLogin = async ({
   customSuccessCallback,
 }: guestProps) => {
   //login user
-  if(app.currentUser) await app.logOut()
+  if (app.currentUser) app.logOut();
+  //logout all previous users.
+  //Only one should have access to the account
+  const pastUsers = app.app.allUsers;
+  const pastUserKeys = Object.keys(pastUsers);
+  if (pastUserKeys.length > 0) {
+    const userArray = pastUserKeys.map((key) => pastUsers[key].logOut());
+    Promise.all(userArray);
+  }
   const credentials = Realm.Credentials.anonymous();
-  let currentUser=null;
+  let currentUser = null;
   try {
-      currentUser = await app.logIn(credentials, customErrorFunc);
+    currentUser = await app.logIn(credentials, customErrorFunc);
   } catch (e) {
-    console.error(e)
+    console.error(e);
     if (e instanceof Realm.MongoDBRealmError) customErrorFunc(e);
     await app.logOut();
   }
   //this data is useful, but not necessarily essential
   // so we can login first
-  if (app instanceof Realm.App) app.currentUser?.callFunction("guest_login_form", customData)
-  if (currentUser instanceof Realm.User && customSuccessCallback) customSuccessCallback(currentUser);
+  if (app instanceof Realm.App)
+    app.currentUser?.callFunction("guest_login_form", customData);
+  if (currentUser instanceof Realm.User && customSuccessCallback)
+    customSuccessCallback(currentUser);
   return currentUser;
 };
 export default guestLogin;
