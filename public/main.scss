@@ -1,11 +1,12 @@
 @import "./variables";
+@import "../src/pages/utilityComponents/utilities";
 @import "../src/pages/aboutPage/aboutPage";
 @import "../src/pages/dashboard/adminDashboard/adminDashboard";
 @import "../src/pages/dashboard/contributorDashboard/contributorDashboard";
 @import "../src/pages/homePage/homePage";
-@import "../src/pages/inviteLinkPage/inviteLinkPage";
-@import "../src/pages/loginPage/loginPage";
-@import "../src/pages/utilityComponents/utilities";
+// @import "../src/pages/inviteLinkPage/inviteLinkPage";
+// @import "../src/pages/loginPage/loginPage";
+@import "../src/pages/formPage/formPage";
 @import "./breakpoints";
 body{
     margin: 0;

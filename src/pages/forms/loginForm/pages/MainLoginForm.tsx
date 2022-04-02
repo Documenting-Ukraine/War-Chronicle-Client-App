@@ -1,7 +1,10 @@
 import { User } from "realm-web";
-import GoogleBtn from "../../googleAuthBtn/GoogleAuthBtn"
-import FormLogo from "../FormLogo"
-import {Link} from "react-router-dom"
+import GoogleBtn from "../../../utilityComponents/googleAuthBtn/GoogleAuthBtn"
+import FormLogo from "../../FormLogo"
+import { Link } from "react-router-dom"
+import { useRealmApp } from "../../../../realm/RealmApp";
+import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
+import LoginLoadingMessage from "../LoginLoadingMessage";
 //first page of login form
 interface MainLoginFormProps{
     signInErr: { err: boolean, message: JSX.Element }
@@ -15,8 +18,14 @@ const MainLoginForm = ({
     onSignInSuccess,
     setGuestLogin
 }: MainLoginFormProps): JSX.Element => {
+    const app = useRealmApp()
     return (
       <div className="login-form-container">
+        {app?.userLoading && (
+          <PopUpBg className="login-form-container-loading">
+            <LoginLoadingMessage />
+          </PopUpBg>
+        )}
         {signInErr.err && (
           <div className="alert alert-danger login-pg-err-banner">
             {signInErr.message}
@@ -48,7 +57,7 @@ const MainLoginForm = ({
         </button>
         <div className="login-form-request-account">
           <div>Want to contribute?</div>
-          <Link to="/join">Request an account</Link>
+          <Link to="/forms/join">Request to Join</Link>
         </div>
       </div>
     );

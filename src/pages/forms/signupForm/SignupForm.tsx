@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import GoogleBtn from "../../googleAuthBtn/GoogleAuthBtn";
-import PlaceHolderGoogle from "../../googleAuthBtn/PlaceholderGoogle";
-import onlyNumInput from "../../../../helperFunctions/onlyNumInput";
+import GoogleBtn from "../../utilityComponents/googleAuthBtn/GoogleAuthBtn";
+import PlaceHolderGoogle from "../../utilityComponents/googleAuthBtn/PlaceholderGoogle";
+import onlyNumInput from "../../../helperFunctions/onlyNumInput";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { User } from "realm-web";
-import ExitIcon from "../../exitIcon/ExitIcon";
+import ExitIcon from "../../utilityComponents/exitIcon/ExitIcon";
 const SignUpForm = ({ inviteId = "" }: { inviteId: string }): JSX.Element => {
   const [occupation, setOccupation] = useState("");
   const [phoneNum, setPhoneNum] = useState("");
@@ -102,7 +102,7 @@ const SignUpForm = ({ inviteId = "" }: { inviteId: string }): JSX.Element => {
       </div>
       <div className="invite-link-login">
         <p>Already have an account?</p>
-        <Link to="/login">Sign In</Link>
+        <Link to="/forms/login">Sign In</Link>
       </div>
     </form>
   );

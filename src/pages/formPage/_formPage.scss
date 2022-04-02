@@ -1,0 +1,18 @@
+@import "../forms/loginForm/loginForm";
+@import "../forms/signupForm/signUpForm";
+$form-page-height: calc(100vh - #{$navbar-height});
+.form-pg-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: $badge;
+    height: $form-page-height;
+    min-height: 600px;
+}
+.form-overall-container{
+    margin: auto 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}

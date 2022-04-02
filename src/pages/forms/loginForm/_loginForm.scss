@@ -1,16 +1,5 @@
-$login-page-height: calc(100vh - #{$navbar-height});
-
-.login-pg-container{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    background-color: $badge;
-    height: $login-page-height;
-    min-height: 600px;
-
-}
 .login-form-container{
-    margin: auto 0;
+    position: relative;
     border-radius: 0.5rem;
     max-width: 350px;
     min-width: 280px;
@@ -74,18 +63,29 @@ $login-page-height: calc(100vh - #{$navbar-height});
     color: $white;
     font-family: 'Lato','Segoe UI', Tahoma, "Geneva", Verdana, sans-serif;
 }
-
 .login-form-request-account{
     font-size: 0.9rem;
     font-family: 'Lato','Segoe UI', Tahoma, "Geneva", Verdana, sans-serif;
-    margin-top: 1.5rem;
-    line-height: 1.3rem;
+    margin-top: 2rem;
+    line-height: 1.5rem;
     color: $darkest-gray;
     display: flex;
     flex-direction: column;
     align-items: center;
     a{text-decoration: none; font-size: 0.8rem}
 }
+.login-form-container-loading{
+    background-color: $white;
+    border-radius: 0.5rem;
+
+    .login-loading-text{
+        font-family: "Lato",'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        letter-spacing: 0.3px;
+        font-size: 1.2rem;
+        color: $dark-blue;
+    }
+}
+//2nd page of form
 .login-guest-form-container{
     @extend .login-form-container;  
     position: relative; 
@@ -215,13 +215,16 @@ $login-page-height: calc(100vh - #{$navbar-height});
 }
 //transition classes for carousel like effect
 .login-transition-container{
-    display: flex;
-    flex-direction: column;
     transition: all 250ms ease-in;
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
     height: 100%;
-    width: 100%;
+    
 }
 .login-form-pg-enter{
+    height: 100%;
+    top: 0;
     position: absolute;
     transform: translateX(-400px);
 }
@@ -237,6 +240,8 @@ $login-page-height: calc(100vh - #{$navbar-height});
 }
 .guest-form-pg-enter{
     position: absolute;
+    height: 100%;
+    top: 0;
     transform: translateX(400px)
 }
 .guest-form-pg-enter-active{

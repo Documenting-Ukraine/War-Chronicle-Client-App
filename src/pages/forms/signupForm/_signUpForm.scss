@@ -1,18 +1,3 @@
-$invite-page-height: calc(100vh - #{$navbar-height});
-.invite-page-bg{
-    min-width: 100%;
-    min-height: calc(max(#{$invite-page-height}, 600px));
-    background-color: $badge;
-    display: flex;
-    justify-content: center;
-}
-.signup-form-container{
-    margin: auto 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
 .invite-link-form{
     display: flex;
     flex-direction: column;
@@ -43,7 +28,6 @@ $invite-page-height: calc(100vh - #{$navbar-height});
     margin-bottom: 1.5rem;
 }
 .invite-link-input-container{
-    //width: 100%;
     width: 250px
 }
 .invite-link-input{

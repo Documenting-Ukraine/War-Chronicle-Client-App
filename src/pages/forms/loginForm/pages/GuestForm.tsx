@@ -3,7 +3,7 @@ import { User } from "realm-web";
 import useLoginError from "../../../../hooks/use-login-error";
 import { useRealmApp } from "../../../../realm/RealmApp";
 import guestLogin from "../../../../realm/auth/guestAuth";
-import FormLogo from "../FormLogo";
+import FormLogo from "../../FormLogo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { occupationData, Option } from "./data/OccupationList";
@@ -11,6 +11,8 @@ import Select, { ActionMeta } from "react-select";
 import { purposeList } from "./data/Purpose.List";
 import useValidateInput from "../../../../hooks/use-validate-inputs";
 import removeWhiteSpace from "../../../../helperFunctions/removeWhiteSpace";
+import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
+import LoginLoadingMessage from "../LoginLoadingMessage";
 interface GuestFormProps {
   setGuestLogin: (e: false) => void;
   onSignInSuccess: (e: User) => void;
@@ -66,6 +68,11 @@ const GuestForm = ({
 
   return (
     <div className="login-guest-form-container">
+      {app?.userLoading && (
+        <PopUpBg className="login-form-container-loading">
+          <LoginLoadingMessage />
+        </PopUpBg>
+      )}
       <button
         aria-label="return to first login page"
         onClick={() => setGuestLogin(false)}
