@@ -1,7 +1,7 @@
 
 import LoginForm from "../forms/loginForm/LoginForm"
 import RequestAccessForm from "../forms/requestAccessForm/RequestAccessForm";
-import InviteLinkForm from "../forms/signupForm/InviteLinkForm";
+import SignUpForm from "../forms/signupForm/SignupForm";
 const FormPageWrapper = ({ children }: { children: JSX.Element }) => {
     return (
       <div className="form-pg-container">
@@ -17,7 +17,8 @@ const FormPage = ({
     formType
 }: {
     formType: "login" | "invite-links" | "join"
-}): JSX.Element => {
+    }): JSX.Element => {
+    
     return (
       <>
         {formType === "login" ? (
@@ -25,7 +26,7 @@ const FormPage = ({
             <LoginForm />
           </FormPageWrapper>
         ) : formType === "invite-links" ? (
-          <FormPageWrapper><InviteLinkForm /></FormPageWrapper>
+          <FormPageWrapper><SignUpForm /></FormPageWrapper>
         ) : formType === "join" ? (
           <FormPageWrapper><RequestAccessForm /></FormPageWrapper>
         ) : null}

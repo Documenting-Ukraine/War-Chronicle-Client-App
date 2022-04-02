@@ -6,7 +6,11 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { User } from "realm-web";
 import ExitIcon from "../../utilityComponents/exitIcon/ExitIcon";
-const SignUpForm = ({ inviteId = "" }: { inviteId: string }): JSX.Element => {
+import { useParams } from "react-router-dom";
+
+const SignUpForm = (): JSX.Element => {
+  const params = useParams();
+  const inviteId = params.id;
   const [occupation, setOccupation] = useState("");
   const [phoneNum, setPhoneNum] = useState("");
   const [confirmCred, setConfirmCred] = useState(false);
@@ -21,7 +25,7 @@ const SignUpForm = ({ inviteId = "" }: { inviteId: string }): JSX.Element => {
   const customData = {
     occupation: occupation,
     phoneNumber: phoneNum,
-    inviteId: inviteId,
+    inviteId: inviteId ? inviteId : "",
   };
   const inviteLinkInputs = [
     {
