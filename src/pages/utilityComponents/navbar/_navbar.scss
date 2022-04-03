@@ -1,3 +1,66 @@
 #navbar{
     height: $navbar-height;   
+    background-color: $white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    box-shadow: -2px 1px 3px rgba(0,0,0,0.21)
+    
+}
+.navbar-links-container{
+    display: flex;
+    align-items: center;
+    .nav-link-divider{
+        width: 1.5px;
+        height: 2rem;
+        background-color: $dark-blue;
+        margin-right: 2rem;
+    }
+    .auth-link{
+        margin: 0; text-decoration: none;
+        font-family: "Poppins",'Segoe UI', Tahoma, 'Geneva', Verdana, sans-serif;
+        color: $white;
+        background-color: $dark-blue;
+        font-size: 0.9rem;
+        padding: 0.3rem 1rem;
+        border-radius: 0.3rem;
+        border: 1px solid $dark-blue;
+        transition: all 0.2s ease-out;
+        &:hover{
+            transform: scale(1.1);
+            background-color: $white;
+            color: $dark-blue;
+            border: 1px solid $dark-blue;
+        }
+    }
+}
+.navbar-links{
+    display: flex;
+    align-items: center;
+    a{
+        position: relative;
+        margin-right: 2rem;
+        font-family: "Poppins",'Segoe UI', Tahoma, 'Geneva', Verdana, sans-serif;
+        font-size: 0.9rem;
+        text-decoration: none;
+        color: $dark-blue;
+        transition: 0.3s all ease-in;
+        &::after{
+            content: "";
+            position: absolute;
+            height: 2px;
+            background-color: $dark-blue;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            transition: 150ms all ease-out;
+            border-radius: 2px;
+        }
+        &:hover{
+            &::after{
+                width: 100%;
+            }
+        }   
+    }
 }

@@ -23,7 +23,11 @@ export const googleAuth = async({
   const pastUsers = app.app.allUsers
   const pastUserKeys = Object.keys(pastUsers)
   if (pastUserKeys.length > 0) {
-    const userArray = pastUserKeys.map((key) => pastUsers[key].logOut()) 
+    const userArray = pastUserKeys.map((key) => {
+      const removeUser = pastUsers[key].logOut()
+      const userRemoved = app.app.removeUser(pastUsers[key])
+      return [removeUser, userRemoved]
+    }) 
     Promise.all(userArray)
   }
   const payload = {

@@ -4,11 +4,11 @@ import NavWrapper from "./pages/utilityComponents/navWrapper/NavWrapper";
 import LoadingIcon from "./pages/utilityComponents/loadingIcon/LoadingIcon";
 import { RealmAppProvider } from "./realm/RealmApp";
 import {
-  RequireStrictAuth,
-  RequireNonGuestAccount,
+  // RequireStrictAuth,
+  // RequireNonGuestAccount,
   RequireAuth,
   RequireNonGuestAndOwner,
-  RequireNoUser,
+  RequireNoUser
 } from "./pages/utilityComponents/protectedRoute/ProtectedRoute";
 const FormPage = React.lazy(() => import("./pages/formPage/FormPage"));
 const HomePage = React.lazy(() => import("./pages/homePage/HomePage"));
@@ -45,7 +45,7 @@ function App() {
                 }
               />
               <Route
-                path="/dashboard/:id"
+                path="/dashboard/:id/*"
                 element={
                   <RequireNonGuestAndOwner path="dashboard">
                     <NavWrapper>
@@ -66,7 +66,7 @@ function App() {
                 }
               ></Route>
 
-              <Route path="/forms/">
+              <Route path="/forms/*">
                 <Route
                   path="login"
                   element={

@@ -24,7 +24,6 @@ function RequireStrictAuth({
 }) {
   let app = useRealmApp();
   const params = useParams();
-  console.log(params);
   //this is if a logged in user tries to access another user's page
   if (app.currentUser && app.currentUser.id !== params.id) {
     return <Navigate to={`${path}/${app.currentUser.id}`} />;
