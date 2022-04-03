@@ -31,7 +31,6 @@ export const RealmAppProvider = ({
   const [app, setApp] = useState(
     appId ? new Realm.App(appId) : new Realm.App("")
   );
-    console.log(app)
   useEffect(() => {
     setApp(new Realm.App(appId ? appId : ""));
   }, [appId]);

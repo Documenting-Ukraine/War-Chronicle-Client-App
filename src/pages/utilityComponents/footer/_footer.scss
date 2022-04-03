@@ -1,0 +1,78 @@
+#footer-container{
+    background-color: $darkest-blue;   
+    color: $white;
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem 3rem;
+    h2{
+        font-size: 1.3rem;
+        font-weight: 500;
+        font-family:"Poppins",'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin-right: 9rem;
+        margin-bottom: 1.2rem;
+    }
+}
+.footer-columns-container{
+    display: flex;
+}
+.footer-column-link-container{
+    display: flex;
+    flex-direction: column;
+    a{
+        position: relative;
+        font-size: 0.85rem;
+        font-weight: 300;
+        margin-bottom: 0.5rem;
+        color: $white;
+        text-decoration: none;
+        font-family:"Poppins" ,'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        width: fit-content;
+        &::after{
+            content: '';
+            width: 0px;
+            height: 1px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            transition: all ease-out 0.15s;
+            background-color: $white;
+        }
+        &:hover{
+            color: $white;
+            &::after{
+                width: 100%;
+            }
+        }
+    }
+}
+.footer-contact-column{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.footer-contact-row{
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
+    svg{
+        width: 1.3rem;
+    }
+}
+.footer-contact-row-text{
+    margin-left: 0.6rem;
+    font-size: 0.86rem;
+
+}
+#footer-copyright{
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2.5rem;
+    font-family:"Poppins",'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    p{
+        margin: 0;
+        font-size: 0.75rem;
+    }
+}

@@ -1,5 +1,6 @@
 @import "./navbar/navbar";
-@import "../utilityComponents/googleAuthBtn/_googleBtn.scss";
-@import "../utilityComponents/popUpBg/popUpBg";
-@import "../utilityComponents/loadingIcon/loadingIcon";
-@import "../userDropdown/userDropdown"
+@import "./googleAuthBtn/googleBtn";
+@import "./popUpBg/popUpBg";
+@import "./loadingIcon/loadingIcon";
+@import "./userDropdown/userDropdown";
+@import "./footer/footer";

@@ -1,12 +1,15 @@
 import { Link } from "react-router-dom"
 import { useRealmApp } from "../../../realm/RealmApp";
-import UserDropdown from "../../userDropdown/UserDropdown";
+import UserDropdown from "../userDropdown/UserDropdown";
 const Navbar = (): JSX.Element => {
     const app = useRealmApp()
     const customData = app.currentUser?.customData
     const firstName = customData?.last_name
     const lastName = customData?.first_name
-    const userName = firstName + " " + lastName
+    let userName
+    if (!firstName || !lastName) userName = undefined;
+    else userName = firstName + " " + lastName
+
     const email = app.currentUser?.customData?.email
     return (
       <nav id="navbar">
