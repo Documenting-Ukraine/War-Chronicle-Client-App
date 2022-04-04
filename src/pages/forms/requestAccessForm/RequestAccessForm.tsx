@@ -20,7 +20,7 @@ const RequestAccessForm = (): JSX.Element => {
     message: "",
   });
   const [submitLoading, setSumbitLoading] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState<false | DataPayLoad>(false)
+  const [formSubmitted, setFormSubmitted] = useState<false | DataPayLoad>(false);
   //const naviagte = useNavigate()
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -64,18 +64,28 @@ const RequestAccessForm = (): JSX.Element => {
   };
   return (
     <form id="request-access-form" onSubmit={onSubmit}>
-      {formSubmitted && <FormSubmitted data={formSubmitted}/>}
-      {formErr.err && <FormErrBanner formErr={formErr} setFormErr={setFormErr}/>}
-      <h1>Become a Contributor</h1>
-      <RequestAccessInput name="First Name" />
-      <RequestAccessInput name="Last Name" />
-      <RequestAccessInput name="Gmail Account" customValidation={validEmail} />
-      <RequestAccessInput name="Occupation" />
-      <RequestAccessInput name="Why do you want to join?" textArea={true} />
-      <FormContact />
-      <button type="submit" className="request-access-form-submit-btn">
-        Submit
-      </button>
+      {formErr.err && (
+        <FormErrBanner formErr={formErr} setFormErr={setFormErr} />
+      )}
+      {formSubmitted ? (
+        <FormSubmitted data={formSubmitted} />
+      ) : (
+        <>
+          <h1>Become a Contributor</h1>
+          <RequestAccessInput name="First Name" />
+          <RequestAccessInput name="Last Name" />
+          <RequestAccessInput
+            name="Gmail Account"
+            customValidation={validEmail}
+          />
+          <RequestAccessInput name="Occupation" />
+          <RequestAccessInput name="Why do you want to join?" textArea={true} />
+          <FormContact />
+          <button type="submit" className="request-access-form-submit-btn">
+            Submit
+          </button>
+        </>
+      )}
     </form>
   );
 };
