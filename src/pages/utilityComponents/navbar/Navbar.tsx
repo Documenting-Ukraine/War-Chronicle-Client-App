@@ -1,41 +1,51 @@
-import { Link } from "react-router-dom"
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import useWindowWidth from "../../../hooks/use-window-width";
 import { useRealmApp } from "../../../realm/RealmApp";
 import UserDropdown from "../userDropdown/UserDropdown";
 const Navbar = (): JSX.Element => {
-    const app = useRealmApp()
-    const customData = app.currentUser?.customData
-    const firstName = customData?.last_name
-    const lastName = customData?.first_name
-    let userName
-    if (!firstName || !lastName) userName = undefined;
-    else userName = firstName + " " + lastName
-
-    const email = app.currentUser?.customData?.email
-    return (
-      <nav id="navbar">
-        <div>Navbar</div>
-        <div className="navbar-links-container">
-          <div className="navbar-links">
-            <Link to={"/categories"}>Categories</Link>
-            <Link to={"/search"}>Search</Link>
-            <Link to={"/about"}>About</Link>
-          </div>
-          <div className="nav-link-divider"></div>
-                {app.currentUser ? 
-                <UserDropdown 
-                    currentUser = {app.currentUser}
-                    logOut = {app.logOut}
-                    name = {typeof userName === "string"? userName : undefined}
-                    email = {typeof email === "string"? email : undefined}
-                />
-                
-                : <Link className="auth-link" to={"/forms/login"}>
-                    Login
-                </Link>
-                }
-          
+  const app = useRealmApp();
+  const smallWindowWidth = useWindowWidth(768);
+  const [dropdown, setDropdown] = useState(false);
+  const customData = app.currentUser?.customData;
+  const firstName = customData?.last_name;
+  const lastName = customData?.first_name;
+  let userName;
+  if (!firstName || !lastName) userName = undefined;
+  else userName = firstName + " " + lastName;
+  const email = app.currentUser?.customData?.email;
+  return (
+    <nav id="navbar">
+      <div>Navbar</div>
+      {!smallWindowWidth && (
+        <button id="navbar-toggler-btn" onClick={() => setDropdown((state) => !state)} aria-label = {"toggle navigation dropdown menu"}>
+          <FontAwesomeIcon icon={faBars} />
+        </button>
+      )}
+      <div className={`navbar-links-container ${!smallWindowWidth && dropdown ? "show": ''}`}>
+        <div className="navbar-links">
+          <Link to={"/categories"}>Categories</Link>
+          <Link to={"/search"}>Search</Link>
+          <Link to={"/about"}>About</Link>
         </div>
-      </nav>
-    );
-}
-export default Navbar
+        {smallWindowWidth && <div className="nav-link-divider"></div>}
+
+        {app.currentUser ? (
+          <UserDropdown
+            currentUser={app.currentUser}
+            logOut={app.logOut}
+            name={typeof userName === "string" ? userName : undefined}
+            email={typeof email === "string" ? email : undefined}
+          />
+        ) : (
+          <Link className="auth-link" to={"/forms/login"}>
+            Login
+          </Link>
+        )}
+      </div>
+    </nav>
+  );
+};
+export default Navbar;
