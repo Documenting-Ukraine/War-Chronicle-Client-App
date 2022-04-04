@@ -2,10 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+const RealmAppId = process.env["REACT_APP_REALM_APP_DEV"];
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+     
+          <App />
+        
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -46,11 +46,15 @@ const GoogleBtn = ({
   };
   useEffect(() => {
     const initializeGsi = (): any => {
+      /* istanbul ignore next */
+      //eslint ignore next-line
       google.accounts.id.initialize({
         context: btnType === "signup" ? "signup" : "signin",
         client_id: googleClientID,
         callback: googleCallBack,
       });
+      /* istanbul ignore next */
+      //eslint ignore next-line
       google.accounts.id.renderButton(
         document.getElementById("googleAuthBtn"),
         {

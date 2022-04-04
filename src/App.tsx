@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavWrapper from "./pages/utilityComponents/navWrapper/NavWrapper";
 import LoadingIcon from "./pages/utilityComponents/loadingIcon/LoadingIcon";
 import { RealmAppProvider } from "./realm/RealmApp";
@@ -24,7 +24,7 @@ const RealmAppId = process.env["REACT_APP_REALM_APP_DEV"];
 function App() {
   return (
     <RealmAppProvider appId={RealmAppId}>
-      <BrowserRouter>
+      <Router>
         <div className="App">
           <Suspense fallback={<LoadingIcon entireViewPort={true} />}>
             <Routes>
@@ -101,7 +101,7 @@ function App() {
             </Routes>
           </Suspense>
         </div>
-      </BrowserRouter>
+      </Router>
     </RealmAppProvider>
   );
 }
