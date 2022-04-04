@@ -1,9 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
-
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('Renders Navbar and Footer', () => {
+  const {container} = render(<App />);
+  const navbarId = container.querySelector('#navbar')
+  const footerId = container.querySelector('#footer')
+  expect(footerId).toBeInTheDocument();
+  expect(navbarId).toBeInTheDocument();
 });
