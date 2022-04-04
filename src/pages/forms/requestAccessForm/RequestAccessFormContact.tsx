@@ -34,7 +34,7 @@ const FormContact = () => {
             }
             checked={preferredContact.phoneNum}
           />
-          <label htmlFor="phone-number">Phone Number</label>
+          <label htmlFor="phone-number" >Phone Number</label>
         </div>
       </div>
       {preferredContact.phoneNum && (

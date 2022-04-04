@@ -28,7 +28,7 @@ const RequestAccessInput = ({
   return (
     <div className="request-access-form-input">
       <div className="d-flex flex-column w-100">
-        <label htmlFor={`${name}-input`}>
+        <label data-testid={name} htmlFor={`${name}-input`}>
           {name}
           <span>*</span>
         </label>
