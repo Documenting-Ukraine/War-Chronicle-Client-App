@@ -5,8 +5,8 @@ import onlyNumInput from "../../../helperFunctions/onlyNumInput";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { User } from "realm-web";
-import ExitIcon from "../../utilityComponents/exitIcon/ExitIcon";
 import { useParams } from "react-router-dom";
+import FormErrBanner from "../../utilityComponents/formErrBanner/FormErrBanner";
 
 const SignUpForm = (): JSX.Element => {
   const params = useParams();
@@ -60,17 +60,7 @@ const SignUpForm = (): JSX.Element => {
   };
   return (
     <form className="invite-link-form">
-      {signupErr.err && (
-        <div className="alert alert-danger invite-link-err-banner">
-          {signupErr.message}
-          <button
-            aria-label="close banner"
-            onClick={() => setSignupErr({ err: false, message: "" })}
-          >
-            <ExitIcon customStrokeWidth="0.5rem" />
-          </button>
-        </div>
-      )}
+      {signupErr.err && <FormErrBanner formErr={signupErr} setFormErr={setSignupErr}/>}
       <div className="invite-link-form-logo"></div>
       <h1 className="invite-link-form-title">Create your Account</h1>
       <div className="invite-link-input-container">

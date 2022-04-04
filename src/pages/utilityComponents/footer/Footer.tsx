@@ -1,5 +1,8 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { faEnvelope, faLocation, faLocationDot, faLocationPin } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEnvelope,
+  faLocationDot,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import useWindowWidth from "../../../hooks/use-window-width";
@@ -16,7 +19,7 @@ interface FooterColumnProps {
 }
 const FooterColumn = ({ data }: { data: FooterColumnProps }): JSX.Element => {
   return (
-    <div>
+    <div className="footer-column-container">
       <h2>{data.heading}</h2>
       <div className="footer-column-link-container">
         {data.links.map((linkData) => {
@@ -45,9 +48,9 @@ interface FooterContactRowProps {
   children: JSX.Element;
 }
 const FooterContactRow = ({
-    textContent,
-    icon,
-    children,
+  textContent,
+  icon,
+  children,
 }: FooterContactRowProps): JSX.Element => {
   return (
     <div className="footer-contact-row">
@@ -60,7 +63,7 @@ const FooterContactRow = ({
   );
 };
 const Footer = (): JSX.Element => {
-  const mediumWidth = useWindowWidth(992)
+  const mediumWidth = useWindowWidth(992);
   return (
     <footer id="footer">
       <div id="footer-container">
@@ -82,7 +85,7 @@ const Footer = (): JSX.Element => {
           </FooterContactRow>
         </div>
       </div>
-          <Copyright mediumWidth={mediumWidth}/>
+      <Copyright mediumWidth={mediumWidth} />
     </footer>
   );
 };

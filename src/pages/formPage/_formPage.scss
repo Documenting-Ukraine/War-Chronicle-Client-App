@@ -1,13 +1,14 @@
 @import "../forms/loginForm/loginForm";
 @import "../forms/signupForm/signUpForm";
+@import "../forms/requestAccessForm/requestAccessForm";
 $form-page-height: calc(100vh - #{$navbar-height});
 .form-pg-container{
     width: 100%;
     display: flex;
     justify-content: center;
     background-color: $badge;
-    height: $form-page-height;
-    min-height: 600px;
+    padding: 2rem;
+    min-height: $form-page-height;
 }
 .form-overall-container{
     margin: auto 0;
