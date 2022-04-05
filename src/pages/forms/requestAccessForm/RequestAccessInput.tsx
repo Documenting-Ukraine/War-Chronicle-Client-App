@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import removeAddedWhiteSpace from "../../../helperFunctions/removeWhiteSpace";
-
+import Select, {ActionMeta} from "react-select";
+import { GroupedOption, Option } from "../data/OccupationList";
 const RequestAccessInput = ({
   name,
   textArea,
   customValidation,
   inputType = "text",
+  dropDown
 }: {
   name: string;
-  textArea?: boolean;
-  customValidation?: (e: string) => { err: boolean; message: string };
-  inputType?: string;
+  textArea?: boolean,
+  customValidation?: (e: string) => { err: boolean; message: string },
+  inputType?: string,
+  dropDown?: GroupedOption[]
 }) => {
   const [value, setValue] = useState("");
   const [touched, setTouched] = useState(false);
@@ -40,6 +43,18 @@ const RequestAccessInput = ({
             onBlur={() => setTouched(true)}
             style={err.err ? { border: "1.5px solid darkred" } : undefined}
             required
+          />
+        ) : dropDown ? (
+          <Select
+            options={dropDown}
+            className={"request-form-dropdown"}
+            classNamePrefix={"dropdown-input"}
+            name={name}
+            id={`${name}-input`}
+            onChange={(option: Option | null, actionMeta: ActionMeta<Option>) =>
+              setValue(option ? option.value : "")
+            }
+            onBlur={() => setTouched(true)}
           />
         ) : (
           <input

@@ -89,6 +89,47 @@
     margin-bottom: 0.5rem;
   }
 }
+.request-form-dropdown{
+    width: 100%;
+    padding: 0;
+    border: 2px solid $lighter-gray;
+    border-radius: 0.4rem;
+    .dropdown-input__indicator{
+      padding: 0.2rem 0.4rem;
+    }
+    .dropdown-input__menu-list{
+        max-height: 13rem;
+    }
+    .dropdown-input__control{
+        min-height: 2rem;
+        border: none;
+    }
+    .dropdown-input__value-container{
+        font-size: 0.8rem;
+        input[type="text"]{
+            width: 100%;
+            border: 1px solid $dark-gray;
+            min-height: 0;
+        }
+    }
+    .dropdown-input__group{
+        padding-top: 0;
+    }
+    .dropdown-input__group-heading{
+        font-size: 1.1rem;
+        font-weight: 500;
+        font-family:"Poppins",'Segoe UI', Tahoma, "Geneva", Verdana, sans-serif;
+        background-color: $blue-gray;
+        padding: 0.5rem 1rem;
+        min-height: 2.7rem;
+        color: $white;
+        display: flex;
+        align-items: center;
+    }
+    .dropdown-input__option{
+        font-size: 0.85rem;
+    }
+}
 .contact-row-input {
   display: flex;
   align-items: center;

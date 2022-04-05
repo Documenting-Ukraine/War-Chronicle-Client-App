@@ -7,7 +7,9 @@ import FormSubmitted from "./RequestAccessFormSubmitted";
 import realmApiCalls from "../../../helperFunctions/realmApiCalls"
 import {unstable_batchedUpdates} from "react-dom"
 import PopUpBg from "../../utilityComponents/popUpBg/PopUpBg";
-import LoadingMessage from "../../utilityComponents/loadingMessage/LoadingMessage"
+import LoadingMessage from "../../utilityComponents/loadingMessage/LoadingMessage";
+import { occupationData } from "../data/OccupationList";
+
 interface DataPayLoad {
   first_name: string;
   last_name: string;
@@ -60,7 +62,7 @@ const RequestAccessForm = (): JSX.Element => {
     };
     if (typeof fieldValues["Phone Number"] === "string")
       dataPayload.phone_number = fieldValues["Phone Number"];
-
+    console.log(dataPayload)
     try {
       setSumbitLoading(true);
       //write async request here
@@ -78,7 +80,7 @@ const RequestAccessForm = (): JSX.Element => {
     <form id="request-access-form" onSubmit={onSubmit}>
       {submitLoading && (
         <PopUpBg className="request-form-container-loading">
-          <LoadingMessage text={"Sending Form..."}/>
+          <LoadingMessage text={"Sending Form..."} />
         </PopUpBg>
       )}
       {formErr.err && (
@@ -95,7 +97,10 @@ const RequestAccessForm = (): JSX.Element => {
             name="Gmail Account"
             customValidation={validEmail}
           />
-          <RequestAccessInput name="Occupation" />
+          <RequestAccessInput
+              name="Occupation"
+              dropDown={occupationData}
+          />
           <RequestAccessInput name="Why do you want to join?" textArea={true} />
           <FormContact />
           <button type="submit" className="request-access-form-submit-btn">
