@@ -1,11 +1,8 @@
 import React, { Suspense } from "react";
-import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {Routes, Route } from "react-router-dom";
 import NavWrapper from "./pages/utilityComponents/navWrapper/NavWrapper";
 import LoadingIcon from "./pages/utilityComponents/loadingIcon/LoadingIcon";
-import { RealmAppProvider } from "./realm/RealmApp";
 import {
-  // RequireStrictAuth,
-  // RequireNonGuestAccount,
   RequireAuth,
   RequireNonGuestAndOwner,
   RequireNoUser
@@ -19,7 +16,7 @@ const SearchRoutes = React.lazy(
 const DashboardRoutes = React.lazy(
   () => import("./routes/dashboardRoutes/DashboardRoutes")
 );
-const RealmAppId = process.env["REACT_APP_REALM_APP_DEV"];
+
 
 function App() {
   return (
