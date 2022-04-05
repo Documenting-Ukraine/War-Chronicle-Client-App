@@ -47,6 +47,7 @@ describe("Login Form Tests", () => {
     else throw new Error("could not find back to login btn");
     await waitFor(() => expect(guestLoginBtn).not.toBeInTheDocument);
     //main login btn
-    expect(guestBtn).toBeInTheDocument();
+    expect(screen.getByText(/Continue as Guest/i)).toBeInTheDocument();
   });
 });
+
