@@ -23,8 +23,6 @@ const RealmAppId = process.env["REACT_APP_REALM_APP_DEV"];
 
 function App() {
   return (
-    <RealmAppProvider appId={RealmAppId}>
-      <Router>
         <div className="App">
           <Suspense fallback={<LoadingIcon entireViewPort={true} />}>
             <Routes>
@@ -101,8 +99,6 @@ function App() {
             </Routes>
           </Suspense>
         </div>
-      </Router>
-    </RealmAppProvider>
   );
 }
 

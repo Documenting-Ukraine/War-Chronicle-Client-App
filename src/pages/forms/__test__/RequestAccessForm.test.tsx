@@ -1,21 +1,23 @@
 import App from "../../../App";
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import RequestAccessForm from "../requestAccessForm/RequestAccessForm";
+import { customRender } from "../../../test-utils";
 test("Navigate to Contributor Form", async () => {
-  render(<App />);
-  const authBtn = screen.getAllByText("Login")[0];
-  expect(authBtn).toBeInTheDocument();
-  userEvent.click(authBtn);
+  customRender(<App />);
+  const authBtn = await screen.findAllByText("Login");
+  expect(authBtn[0]).toBeInTheDocument();
+  userEvent.click(authBtn[0]);
   await waitFor(() => screen.findByText(/Log in to your account/i));
   const requestJoinLink = screen.getByText(/Request to join/i);
   expect(requestJoinLink).toBeInTheDocument();
   userEvent.click(requestJoinLink);
-  await waitFor(() => screen.findByText(/Become a Contributor/i));
+    await waitFor(() => screen.findByText(/Become a Contributor/i));
 });
 
+
 test("Access Form All Inputs Render", async () => {
-    render(<RequestAccessForm />);
+    customRender(<RequestAccessForm />);
     const defaultInputs = [
         /First Name/,
         /Last Name/,
