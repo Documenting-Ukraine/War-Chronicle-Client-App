@@ -1,5 +1,4 @@
 .user-dropdown-container{
-    position: relative;
     display: flex;
     align-items: center;
     .user-dropdown-btn{
@@ -16,12 +15,12 @@
 
 .user-dropdown-modal{
     position: absolute;
-    top: 3rem;
     display: flex;
     width: 13rem;
     padding: 0.5rem 0;
     background-color: $white;
-    left: -7rem;
+    top: 3.52rem;
+    right: 0;
     border: 1px solid rgb(199, 199, 199);
     border-top: none;
     flex-direction: column;

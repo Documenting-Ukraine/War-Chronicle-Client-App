@@ -15,7 +15,15 @@ interface UserDropdownItem {
   customIcon?: JSX.Element;
   onClick?: () => void;
 }
-const UserDropdownItem = ({
+interface UserDropdownProps {
+  logOut: () => void;
+  name?: string | undefined;
+  email?: string | undefined;
+  currentUser: Realm.User;
+  userDropdownClass?: string;
+  userModalClass?: string;
+}
+export const UserDropdownItem = ({
   children,
   icon,
   customIcon,
@@ -29,13 +37,14 @@ const UserDropdownItem = ({
       </div>
       <div className="user-dropdown-modal-content">{children}</div>
     </>
-    );
+  );
   return (
     <>
       {onClick ? (
-        <button className="user-dropdown-modal-item"
-            onMouseDown={() => onClick()}
-            onTouchStart= {() => onClick()}
+        <button
+          className="user-dropdown-modal-item"
+          onMouseDown={() => onClick()}
+          onTouchStart={() => onClick()}
         >
           {allContent}
         </button>
@@ -45,20 +54,18 @@ const UserDropdownItem = ({
     </>
   );
 };
-const UserDropdownModal = ({
+export const UserDropdownModal = ({
   email,
   name,
   logOut,
   currentUser,
-}: {
-  email: string;
-  name: string;
-  logOut: () => void;
-  currentUser: Realm.User;
-  }): JSX.Element => {
-  const navigate = useNavigate()
+  userModalClass,
+}: Omit<UserDropdownProps, "userDropdownClass">): JSX.Element => {
+  const navigate = useNavigate();
   return (
-    <div className="user-dropdown-modal">
+    <div
+      className={`user-dropdown-modal ${userModalClass ? userModalClass : ""}`}
+    >
       <UserDropdownItem
         customIcon={
           <Avatar
@@ -90,19 +97,20 @@ const UserDropdown = ({
   logOut,
   name,
   email,
-  currentUser
-}: {
-  logOut: () => void;
-  name?: string | undefined;
-  email?: string | undefined;
-  currentUser: Realm.User
-}): JSX.Element => {
+  currentUser,
+  userDropdownClass,
+  userModalClass,
+}: UserDropdownProps): JSX.Element => {
   const { ref, isClickOutside, setisClickOutside } = useIsClickOutside(false);
   return (
     <ConfigProvider
       colors={["#2C6BAC", "#0046A6", "#093552", "#000d74", "#41516C"]}
     >
-      <div className="user-dropdown-container">
+      <div
+        className={`user-dropdown-container ${
+          userDropdownClass ? userDropdownClass : ""
+        }`}
+      >
         <button
           className={"user-dropdown-btn"}
           ref={ref}
@@ -123,10 +131,11 @@ const UserDropdown = ({
         </button>
         {isClickOutside && (
           <UserDropdownModal
-            currentUser = {currentUser}
+            currentUser={currentUser}
             name={name ? name : "Guest"}
             email={email ? email : "Guest"}
             logOut={logOut}
+            userModalClass={userModalClass}
           />
         )}
       </div>

@@ -18,13 +18,29 @@ const Navbar = (): JSX.Element => {
   const email = app.currentUser?.customData?.email;
   return (
     <nav id="navbar">
-      <div>Navbar</div>
+      <div className="flex-grow-1">Navbar</div>
+      {!smallWindowWidth && app.currentUser && (
+        <UserDropdown
+          currentUser={app.currentUser}
+          logOut={app.logOut}
+          name={typeof userName === "string" ? userName : undefined}
+          email={typeof email === "string" ? email : undefined}
+        />
+      )}
       {!smallWindowWidth && (
-        <button id="navbar-toggler-btn" onClick={() => setDropdown((state) => !state)} aria-label = {"toggle navigation dropdown menu"}>
+        <button
+          id="navbar-toggler-btn"
+          onClick={() => setDropdown((state) => !state)}
+          aria-label={"toggle navigation dropdown menu"}
+        >
           <FontAwesomeIcon icon={faBars} />
         </button>
       )}
-      <div className={`navbar-links-container ${!smallWindowWidth && dropdown ? "show": ''}`}>
+      <div
+        className={`navbar-links-container ${
+          !smallWindowWidth && dropdown ? "show" : ""
+        }`}
+      >
         <div className="navbar-links">
           <Link to={"/categories"}>Categories</Link>
           <Link to={"/search"}>Search</Link>
@@ -32,18 +48,18 @@ const Navbar = (): JSX.Element => {
         </div>
         {smallWindowWidth && <div className="nav-link-divider"></div>}
 
-        {app.currentUser ? (
+        {app.currentUser && smallWindowWidth ? (
           <UserDropdown
             currentUser={app.currentUser}
             logOut={app.logOut}
             name={typeof userName === "string" ? userName : undefined}
             email={typeof email === "string" ? email : undefined}
           />
-        ) : (
+        ) : !app.currentUser ? (
           <Link className="auth-link" to={"/forms/login"}>
             Login
           </Link>
-        )}
+        ) : null}
       </div>
     </nav>
   );

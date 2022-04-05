@@ -1,4 +1,8 @@
 @mixin navbar-sm {
+    #navbar{
+        justify-content: space-between;
+        padding: 0 1.2rem;
+    }
     #navbar-toggler-btn{
         border-radius: 0.4rem;
         font-size: 1.3rem;
@@ -11,6 +15,7 @@
         border: 1px solid $dark-gray;
         color: $darkest-gray;
         margin: 0;
+        margin-left: 0.6rem;
     }
     .navbar-links-container{
         position: absolute;
