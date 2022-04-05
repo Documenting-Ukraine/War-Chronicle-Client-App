@@ -4,7 +4,7 @@ import FormLogo from "../../FormLogo"
 import { Link } from "react-router-dom"
 import { useRealmApp } from "../../../../realm/RealmApp";
 import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
-import LoginLoadingMessage from "../LoginLoadingMessage";
+import LoginLoadingMessage from "../../../utilityComponents/loadingMessage/LoadingMessage";
 //first page of login form
 interface MainLoginFormProps{
     signInErr: { err: boolean, message: JSX.Element }

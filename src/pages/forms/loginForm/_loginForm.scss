@@ -77,13 +77,6 @@
 .login-form-container-loading{
     background-color: $white;
     border-radius: 0.5rem;
-
-    .login-loading-text{
-        font-family: "Lato",'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        letter-spacing: 0.3px;
-        font-size: 1.2rem;
-        color: $dark-blue;
-    }
 }
 //2nd page of form
 .login-guest-form-container{

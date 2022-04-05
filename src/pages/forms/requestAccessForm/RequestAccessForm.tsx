@@ -1,9 +1,13 @@
 import { useState } from "react";
 import validEmail from "../../../helperFunctions/validateEmail";
 import FormErrBanner from "../../utilityComponents/formErrBanner/FormErrBanner";
-import RequestAccessInput from './RequestAccessInput'
-import FormContact from './RequestAccessFormContact'
-import FormSubmitted from "./RequestAccessFormSubmitted"
+import RequestAccessInput from "./RequestAccessInput";
+import FormContact from "./RequestAccessFormContact";
+import FormSubmitted from "./RequestAccessFormSubmitted";
+import realmApiCalls from "../../../helperFunctions/realmApiCalls"
+import {unstable_batchedUpdates} from "react-dom"
+import PopUpBg from "../../utilityComponents/popUpBg/PopUpBg";
+import LoadingMessage from "../../utilityComponents/loadingMessage/LoadingMessage"
 interface DataPayLoad {
   first_name: string;
   last_name: string;
@@ -11,17 +15,18 @@ interface DataPayLoad {
   occupation: string;
   purpose: string;
   phone_number?: string;
-  preferred_contact?: string;
+  preferred_contact: "E-mail" | "Phone Number";
 }
-export type{DataPayLoad}
+export type { DataPayLoad };
 const RequestAccessForm = (): JSX.Element => {
   const [formErr, setFormErr] = useState({
     err: false,
     message: "",
   });
   const [submitLoading, setSumbitLoading] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState<false | DataPayLoad>(false);
-  //const naviagte = useNavigate()
+  const [formSubmitted, setFormSubmitted] = useState<false | DataPayLoad>(
+    false
+  );
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -47,23 +52,35 @@ const RequestAccessForm = (): JSX.Element => {
         typeof fieldValues["Why do you want to join?"] === "string"
           ? fieldValues["Why do you want to join?"]
           : "",
-      preferred_contact: typeof fieldValues["Preferred Contact"] === 'string'
-      ? fieldValues["Preferred Contact"] : '',
+      preferred_contact:
+        typeof fieldValues["Preferred Contact"] === "string" &&
+        fieldValues["Preferred Contact"] === "Phone Number"
+          ? "Phone Number"
+          : "E-mail",
     };
     if (typeof fieldValues["Phone Number"] === "string")
       dataPayload.phone_number = fieldValues["Phone Number"];
-    console.log(dataPayload)
+
     try {
-      setSumbitLoading(true)
+      setSumbitLoading(true);
       //write async request here
-      setFormSubmitted(dataPayload)
+      await realmApiCalls(dataPayload, "put")
+      unstable_batchedUpdates(() => {
+          setFormSubmitted(dataPayload);
+          setSumbitLoading(false);
+      })
     } catch (e) {
-      console.error(e)
-      setFormErr({err: true, message:"Form could not be submitted"})
+      console.error(e);
+      setFormErr({ err: true, message: "Form could not be submitted" });
     }
   };
   return (
     <form id="request-access-form" onSubmit={onSubmit}>
+      {submitLoading && (
+        <PopUpBg className="request-form-container-loading">
+          <LoadingMessage text={"Sending Form..."}/>
+        </PopUpBg>
+      )}
       {formErr.err && (
         <FormErrBanner formErr={formErr} setFormErr={setFormErr} />
       )}

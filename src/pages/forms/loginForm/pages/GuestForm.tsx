@@ -12,7 +12,7 @@ import { purposeList } from "../../data/Purpose.List";
 import useValidateInput from "../../../../hooks/use-validate-inputs";
 import removeWhiteSpace from "../../../../helperFunctions/removeWhiteSpace";
 import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
-import LoginLoadingMessage from "../LoginLoadingMessage";
+import LoginLoadingMessage from "../../../utilityComponents/loadingMessage/LoadingMessage";
 interface GuestFormProps {
   setGuestLogin: (e: false) => void;
   onSignInSuccess: (e: User) => void;
@@ -70,7 +70,7 @@ const GuestForm = ({
     <div className="login-guest-form-container">
       {app?.userLoading && (
         <PopUpBg className="login-form-container-loading">
-          <LoginLoadingMessage />
+          <LoginLoadingMessage text="Loading..."/>
         </PopUpBg>
       )}
       <button

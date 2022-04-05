@@ -19,6 +19,11 @@
     margin-bottom: 1.2rem;
   }
 }
+.request-form-container-loading{
+  background-color: $white;
+  border-radius: 0.5rem;
+  color: $dark-blue;
+}
 #request-access-form-logo {
   margin-bottom: 1.5rem;
   background-color: $dark-gray;
