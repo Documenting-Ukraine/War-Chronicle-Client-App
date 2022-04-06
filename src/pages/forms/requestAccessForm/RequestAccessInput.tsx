@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
-import removeAddedWhiteSpace from "../../../helperFunctions/removeWhiteSpace";
-import Select, { ActionMeta } from "react-select";
-import { GroupedOption, Option } from "../data/OccupationList";
+import Select from "react-select";
+import { GroupedOption} from "../data/OccupationList";
 import useFormInputs from "../../../hooks/use-form-inputs";
 const RequestAccessInput = ({
   name,
@@ -18,6 +16,7 @@ const RequestAccessInput = ({
 }) => {
   const { err, onTouch, onDefaultChange, onDropdownChange } = useFormInputs({
     validateFunc: customValidation,
+    required: true
   });
   return (
     <div className="request-access-form-input">

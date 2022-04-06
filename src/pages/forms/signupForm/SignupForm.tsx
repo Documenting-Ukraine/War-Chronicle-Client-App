@@ -7,18 +7,9 @@ import { User } from "realm-web";
 import { useParams } from "react-router-dom";
 import FormErrBanner from "../../utilityComponents/formErrBanner/FormErrBanner";
 import { occupationData } from "../data/OccupationList";
-import Select, { ActionMeta } from "react-select";
-import { GroupedOption, Option } from "../data/OccupationList";
+import Select from "react-select";
 import validatePhoneNums from "../../../helperFunctions/validatePhoneNum";
 import useFormInputs from "../../../hooks/use-form-inputs";
-// interface DropdownOptions {
-//   type: "dropdown";
-//   heading: string;
-//   required: boolean;
-//   data: GroupedOption[];
-//   onChange: (option: Option | null, actionMeta: ActionMeta<Option>) => void;
-//   // err: {err: boolean, message: string}
-// }
 interface DefaultInputs {
   name: string;
   required: boolean;
@@ -52,7 +43,7 @@ const SignUpForm = (): JSX.Element => {
     err: occErr,
     onTouch: onOccTouch,
     onDropdownChange: onOccChange,
-  } = useFormInputs({});
+  } = useFormInputs({required: true});
   const {
     value: phoneNum,
     err: phoneErr,

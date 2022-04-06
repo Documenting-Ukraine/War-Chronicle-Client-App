@@ -3,9 +3,11 @@ import { ActionMeta } from "react-select";
 import { Option } from "../pages/forms/data/OccupationList";
 import removeAddedWhiteSpace from "../helperFunctions/removeWhiteSpace";
 const useFormInputs = ({
-    validateFunc
+    validateFunc,
+    required
 }: {
-        validateFunc?: (str: string) => {err: boolean, message: string}
+    validateFunc?: (str: string) => { err: boolean, message: string }
+    required?: boolean
 }) => {
   const [value, setValue] = useState("");
   const [err, setErr] = useState({ err: false, message: "" });
@@ -13,7 +15,7 @@ const useFormInputs = ({
   //run validating function
   useEffect(() => {
     if (touched) {
-      if (removeAddedWhiteSpace(value).length <= 0)
+      if (removeAddedWhiteSpace(value).length <= 0 && required)
         setErr({ err: true, message: "Field is required" });
       else if (validateFunc && validateFunc(value).err)
         setErr(validateFunc(value));
