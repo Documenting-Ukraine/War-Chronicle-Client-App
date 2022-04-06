@@ -10,7 +10,7 @@
     border-radius: 1rem;
     overflow: auto;
     overflow-x: hidden;
-    padding: calc(max(3%, 1.5rem));
+    padding: calc(max(4%, 2rem)) calc(max(3%, 1.5rem));
 }
 .invite-link-form-logo{
     margin-bottom: 1.5rem;
@@ -30,12 +30,13 @@
 .invite-link-input-container{
     width: 250px
 }
+
 .invite-link-input{
     margin-bottom: 1.5rem;
     display: flex;
     flex-direction: column;
     width: 100%;
-    div:first-child{
+    .input-heading{
         display: flex;
         align-items: center;
         margin-bottom: 0.6rem;
@@ -54,24 +55,77 @@
         margin-bottom: 0.7rem;
         font-family: "Poppins", "san-serif", "arial";
     }
-    input{
+    .default-inputs{
         font-size: 1rem;
         border: 1px solid $dark-gray;
         border-radius: 0.3rem;
         height: 1.9rem;
         padding-left: 0.5rem;
+        &.error{
+            border: 1px solid darkred;
+        }
     }
     //hide number pointers
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+    .default-inputs::-webkit-outer-spin-button,
+    .default-inputs::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
     }
-    input[type=number] {
+    .default-inputs[type=number] {
         -moz-appearance: textfield;
     }
     &:last-child{
         margin-bottom: 0;
+    };
+    .err-message{
+        font-size: 0.8rem;
+        color: darkred;
+        margin-top: 0.3rem;
+        font-family: "Poppins",'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+}
+.invite-link-form-dropdown{
+    width: 100%;
+    padding: 0;
+    border: 1px solid $darkest-gray;
+    border-radius: 0.4rem;
+    &.error{
+            border: 1px solid darkred;
+        }
+    .dropdown-input__indicator{
+      padding: 0.2rem 0.4rem;
+    }
+    .dropdown-input__menu-list{
+        max-height: 13rem;
+    }
+    .dropdown-input__control{
+        min-height: 2rem;
+        border: none;
+    }
+    .dropdown-input__value-container{
+        font-size: 0.8rem;
+        input[type="text"]{
+            width: 100%;
+            border: 1px solid $dark-gray;
+            min-height: 0;
+        }
+    }
+    .dropdown-input__group{
+        padding-top: 0;
+    }
+    .dropdown-input__group-heading{
+        font-size: 1.1rem;
+        font-weight: 500;
+        font-family:"Poppins",'Segoe UI', Tahoma, "Geneva", Verdana, sans-serif;
+        background-color: $blue-gray;
+        padding: 0.5rem 1rem;
+        min-height: 2.7rem;
+        color: $white;
+        display: flex;
+        align-items: center;
+    }
+    .dropdown-input__option{
+        font-size: 0.85rem;
     }
 }
 .invite-link-google-auth{

@@ -1,33 +1,24 @@
 import { useEffect, useState } from "react";
 import removeAddedWhiteSpace from "../../../helperFunctions/removeWhiteSpace";
-import Select, {ActionMeta} from "react-select";
+import Select, { ActionMeta } from "react-select";
 import { GroupedOption, Option } from "../data/OccupationList";
+import useFormInputs from "../../../hooks/use-form-inputs";
 const RequestAccessInput = ({
   name,
   textArea,
   customValidation,
   inputType = "text",
-  dropDown
+  dropDown,
 }: {
   name: string;
-  textArea?: boolean,
-  customValidation?: (e: string) => { err: boolean; message: string },
-  inputType?: string,
-  dropDown?: GroupedOption[]
+  textArea?: boolean;
+  customValidation?: (e: string) => { err: boolean; message: string };
+  inputType?: string;
+  dropDown?: GroupedOption[];
 }) => {
-  const [value, setValue] = useState("");
-  const [touched, setTouched] = useState(false);
-  const [err, setErr] = useState({ err: false, message: "" });
-  //run validating function
-  useEffect(() => {
-    if (touched) {
-      if (removeAddedWhiteSpace(value).length <= 0)
-        setErr({ err: true, message: "Field is required" });
-      else if (customValidation && customValidation(value).err)
-        setErr(customValidation(value));
-      else setErr({ err: false, message: "" });
-    }
-  }, [touched, value, customValidation]);
+  const { err, onTouch, onDefaultChange, onDropdownChange } = useFormInputs({
+    validateFunc: customValidation,
+  });
   return (
     <div className="request-access-form-input">
       <div className="d-flex flex-column w-100">
@@ -39,8 +30,8 @@ const RequestAccessInput = ({
           <textarea
             id={`${name}-input`}
             name={name}
-            onChange={(e) => setValue(e.currentTarget.value)}
-            onBlur={() => setTouched(true)}
+            onChange={onDefaultChange}
+            onBlur={onTouch}
             style={err.err ? { border: "1.5px solid darkred" } : undefined}
             required
           />
@@ -51,18 +42,16 @@ const RequestAccessInput = ({
             classNamePrefix={"dropdown-input"}
             name={name}
             id={`${name}-input`}
-            onChange={(option: Option | null, actionMeta: ActionMeta<Option>) =>
-              setValue(option ? option.value : "")
-            }
-            onBlur={() => setTouched(true)}
+            onChange={onDropdownChange}
+            onBlur={onTouch}
           />
         ) : (
           <input
             id={`${name}-input`}
             name={name}
             type={inputType}
-            onChange={(e) => setValue(e.currentTarget.value)}
-            onBlur={() => setTouched(true)}
+            onChange={onDefaultChange}
+            onBlur={onTouch}
             style={err.err ? { border: "1.5px solid darkred" } : undefined}
             required
           />

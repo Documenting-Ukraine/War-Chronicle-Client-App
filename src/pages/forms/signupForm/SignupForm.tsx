@@ -1,53 +1,71 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Children } from "react";
 import GoogleBtn from "../../utilityComponents/googleAuthBtn/GoogleAuthBtn";
 import PlaceHolderGoogle from "../../utilityComponents/googleAuthBtn/PlaceholderGoogle";
-import onlyNumInput from "../../../helperFunctions/onlyNumInput";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { User } from "realm-web";
 import { useParams } from "react-router-dom";
 import FormErrBanner from "../../utilityComponents/formErrBanner/FormErrBanner";
-
+import { occupationData } from "../data/OccupationList";
+import Select, { ActionMeta } from "react-select";
+import { GroupedOption, Option } from "../data/OccupationList";
+import validatePhoneNums from "../../../helperFunctions/validatePhoneNum";
+import useFormInputs from "../../../hooks/use-form-inputs";
+// interface DropdownOptions {
+//   type: "dropdown";
+//   heading: string;
+//   required: boolean;
+//   data: GroupedOption[];
+//   onChange: (option: Option | null, actionMeta: ActionMeta<Option>) => void;
+//   // err: {err: boolean, message: string}
+// }
+interface DefaultInputs {
+  name: string;
+  required: boolean;
+  err: {err: boolean, message: string}
+  children: JSX.Element
+}
+const SignUpFormInput = ({
+  name,
+  required,
+  err,
+  children
+}: DefaultInputs): JSX.Element => {
+  return (
+    <div className="invite-link-input">
+      <div className="input-heading">
+        <h2>{name}</h2>
+        <span>{required ? "*" : ""}</span>
+      </div>
+      {children}
+      {err.err && <div className="err-message">{err.message}</div>}
+    </div>
+  );
+}
 const SignUpForm = (): JSX.Element => {
   const params = useParams();
   const inviteId = params.id;
-  const [occupation, setOccupation] = useState("");
-  const [phoneNum, setPhoneNum] = useState("");
   const [confirmCred, setConfirmCred] = useState(false);
   const [signupErr, setSignupErr] = useState({ err: false, message: "" });
-  const naviagte = useNavigate();
-
+  const {
+    value: occupation,
+    err: occErr,
+    onTouch: onOccTouch,
+    onDropdownChange: onOccChange,
+  } = useFormInputs({});
+  const {
+    value: phoneNum,
+    err: phoneErr,
+    onDefaultChange: onPhoneChange,
+    onTouch: onPhoneTouch,
+  } = useFormInputs({ validateFunc: validatePhoneNums });
+  const navigate = useNavigate();
   //handle sign in with google button status
   useEffect(() => {
     if (occupation === "" && confirmCred) setConfirmCred(false);
     if (occupation !== "" && !confirmCred) setConfirmCred(true);
   }, [occupation, confirmCred]);
-  const customData = {
-    occupation: occupation,
-    phoneNumber: phoneNum,
-    inviteId: inviteId ? inviteId : "",
-  };
-  const inviteLinkInputs = [
-    {
-      type: "text",
-      inputVal: occupation,
-      heading: "Occupation",
-      required: true,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-        setOccupation(e.target.value);
-      },
-      onKeyDown: undefined,
-    },
-    {
-      type: "number",
-      inputVal: phoneNum,
-      heading: "Phone Number",
-      required: false,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setPhoneNum(e.target.value),
-      onKeyDown: onlyNumInput,
-    },
-  ];
+
   const onSignUpError = () => {
     setSignupErr({
       err: true,
@@ -56,35 +74,46 @@ const SignUpForm = (): JSX.Element => {
   };
   const onSignUpSuccess = (user: User) => {
     //navigate to user dashboard
-    naviagte(`/dashboard/${user.id}`);
+    navigate(`/dashboard/${user.id}`);
+  };
+  const customData = {
+    occupation: occupation,
+    phoneNumber: phoneNum,
+    inviteId: inviteId ? inviteId : "",
   };
   return (
     <form className="invite-link-form">
-      {signupErr.err && <FormErrBanner formErr={signupErr} setFormErr={setSignupErr}/>}
+      {signupErr.err && (
+        <FormErrBanner formErr={signupErr} setFormErr={setSignupErr} />
+      )}
       <div className="invite-link-form-logo"></div>
       <h1 className="invite-link-form-title">Create your Account</h1>
       <div className="invite-link-input-container">
-        {inviteLinkInputs.map((input) => {
-          return (
-            <div key={input.heading} className="invite-link-input">
-              <div>
-                <h2>{input.heading}</h2>
-                <span>{input.required ? "*" : ""}</span>
-              </div>
-              <input
-                type={input.type}
-                value={input.inputVal}
-                required={input.required}
-                onChange={input.onChange}
-                onKeyDown={input.onKeyDown}
-              />
-            </div>
-          );
-        })}
+        <SignUpFormInput name="Occupation" required={true} err={occErr}>
+          <Select
+            className={`invite-link-form-dropdown ${
+              occErr.err ? "error" : ""
+            }`}
+            classNamePrefix={"dropdown-input"}
+            options={occupationData}
+            onChange={onOccChange}
+            onBlur={onOccTouch}
+          />
+        </SignUpFormInput>
+        <SignUpFormInput name="Phone Number" required={false} err={phoneErr}>
+          <input
+            className={`default-inputs ${phoneErr.err ? "error" : ""}`}
+            type={"number"}
+            value={phoneNum}
+            required={false}
+            onChange={onPhoneChange}
+            onBlur={onPhoneTouch}
+          />
+        </SignUpFormInput>
       </div>
       <div className="invite-link-google-auth">
         {!confirmCred ? (
-          <PlaceHolderGoogle btnDisabled={confirmCred} />
+          <PlaceHolderGoogle btnDisabled={!confirmCred} />
         ) : (
           <GoogleBtn
             customData={customData}
