@@ -9,7 +9,7 @@ const LoadingText = ({ text }: {text?: string}): JSX.Element => {
 const LoadingMessage = ({ text }: { text?: string}): JSX.Element => {
     return (
       <div className="d-flex flex-column justify-content center">
-        <LoadingIcon width={"50%"} />
+        <LoadingIcon width={"60%"} />
         <LoadingText text={text}/>
       </div>
     );

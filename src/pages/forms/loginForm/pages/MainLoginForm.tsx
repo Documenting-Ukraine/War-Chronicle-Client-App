@@ -23,7 +23,7 @@ const MainLoginForm = ({
       <div className="login-form-container">
         {app?.userLoading && (
           <PopUpBg className="login-form-container-loading">
-            <LoginLoadingMessage />
+            <LoginLoadingMessage text="Loading..."/>
           </PopUpBg>
         )}
         {signInErr.err && (
