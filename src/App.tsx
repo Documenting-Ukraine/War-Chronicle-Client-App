@@ -10,92 +10,122 @@ import {
 const FormPage = React.lazy(() => import("./pages/formPage/FormPage"));
 const HomePage = React.lazy(() => import("./pages/homePage/HomePage"));
 const AboutPage = React.lazy(() => import("./pages/aboutPage/AboutPage"));
-const SearchRoutes = React.lazy(
-  () => import("./routes/searchRoutes/SearchRoutes")
-);
-const DashboardRoutes = React.lazy(
-  () => import("./routes/dashboardRoutes/DashboardRoutes")
-);
+// const SearchRoutes = React.lazy(
+//   () => import("./routes/searchRoutes/SearchRoutes")
+// );
+
+const Dashboard = React.lazy(() => import("./pages/dashboard/Dashboard"))
 
 
 function App() {
   return (
-        <div className="App">
-          <Suspense fallback={<LoadingIcon entireViewPort={true} />}>
-            <Routes>
-              <Route
-                path="/"
-                element={
+    <div className="App">
+      <Suspense fallback={<LoadingIcon entireViewPort={true} />}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <NavWrapper>
+                <HomePage />
+              </NavWrapper>
+            }
+          />
+          <Route
+            path="/about/*"
+            element={
+              <NavWrapper>
+                <AboutPage />
+              </NavWrapper>
+            }
+          />
+          <Route
+            path="/dashboard/:id/"
+            element={
+              <RequireNonGuestAndOwner path="dashboard">
+                <NavWrapper>
+                  <Dashboard type="overview" />
+                </NavWrapper>
+              </RequireNonGuestAndOwner>
+            }
+          >
+            <Route
+              path="overview"
+              element={
+                <RequireNonGuestAndOwner path="dashboard">
                   <NavWrapper>
-                    <HomePage />
+                    <Dashboard type="overview" />
                   </NavWrapper>
-                }
-              />
-              <Route
-                path="/about/*"
-                element={
+                </RequireNonGuestAndOwner>
+              }
+            ></Route>
+            <Route
+              path="contribute"
+              element={
+                <RequireNonGuestAndOwner path="dashboard">
                   <NavWrapper>
-                    <AboutPage />
+                    <Dashboard type="contribute" />
                   </NavWrapper>
-                }
-              />
-              <Route
-                path="/dashboard/:id/*"
-                element={
-                  <RequireNonGuestAndOwner path="dashboard">
-                    <NavWrapper>
-                      <DashboardRoutes />
-                    </NavWrapper>
-                  </RequireNonGuestAndOwner>
-                }
-              ></Route>
+                </RequireNonGuestAndOwner>
+              }
+            ></Route>
+            <Route
+              path="manage"
+              element={
+                <RequireNonGuestAndOwner path="dashboard">
+                  <NavWrapper>
+                    <Dashboard type="manage" />
+                  </NavWrapper>
+                </RequireNonGuestAndOwner>
+              }
+            ></Route>
+          </Route>
 
-              <Route
-                path="/search/*"
-                element={
-                  <RequireAuth>
-                    <NavWrapper>
-                      <SearchRoutes />
-                    </NavWrapper>
-                  </RequireAuth>
-                }
-              ></Route>
+          {/* <Route
+            path="/search/*"
+            element={
+              <RequireAuth>
+                <NavWrapper>
+                  <SearchRoutes />
+                </NavWrapper>
+              </RequireAuth>
+            }
+          ></Route> */}
 
-              <Route path="/forms/*">
-                <Route
-                  path="login"
-                  element={
-                    <RequireNoUser>
-                      <NavWrapper>
-                        <FormPage formType={"login"} />
-                      </NavWrapper>
-                    </RequireNoUser>
-                  }
-                />
-                <Route
-                  path="invite-links/:id"
-                  element={
-                    <RequireNoUser allowGuest={true}>
-                      <NavWrapper>
-                        <FormPage formType={"invite-links"} />
-                      </NavWrapper>
-                    </RequireNoUser>
-                  }
-                />
-                <Route
-                  path="join"
-                  element={
-                    <RequireNoUser allowGuest={true}>
-                      <NavWrapper>
-                        <FormPage formType={"join"} />
-                      </NavWrapper>
-                    </RequireNoUser>
-                  }
-                />
-              </Route>
-            </Routes>
-          </Suspense>
-        </div>
+          <Route path="/forms/*">
+            <Route
+              path="login"
+              element={
+                <RequireNoUser>
+                  <NavWrapper>
+                    <FormPage formType={"login"} />
+                  </NavWrapper>
+                </RequireNoUser>
+              }
+            />
+            <Route
+              path="invite-links/:id"
+              element={
+                <RequireNoUser allowGuest={true}>
+                  <NavWrapper>
+                    <FormPage formType={"invite-links"} />
+                  </NavWrapper>
+                </RequireNoUser>
+              }
+            />
+            <Route
+              path="join"
+              element={
+                <RequireNoUser allowGuest={true}>
+                  <NavWrapper>
+                    <FormPage formType={"join"} />
+                  </NavWrapper>
+                </RequireNoUser>
+              }
+            />
+          </Route>
+        </Routes>
+      </Suspense>
+    </div>
   );
 }
 
