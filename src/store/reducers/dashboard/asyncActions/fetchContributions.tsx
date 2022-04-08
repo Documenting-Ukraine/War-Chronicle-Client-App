@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RealmApp } from "../../../../realm/RealmApp";
 interface ContributionsData{
+    
     creation_date: "string",
-
 }
 export type {ContributionsData}
 function isContributionsData(arg: any): arg is ContributionsData {
@@ -17,7 +17,7 @@ export const fetchContributions = createAsyncThunk(
   "dashboard/fetchContributions",
   async (app: RealmApp): Promise<ContributionsData | null> => {
     const userData = await app.currentUser?.callFunction(
-      "read_contributions_activity"
+      "read_contributions"
     );
     if (isContributionsData(userData)) return userData;
     return null;
