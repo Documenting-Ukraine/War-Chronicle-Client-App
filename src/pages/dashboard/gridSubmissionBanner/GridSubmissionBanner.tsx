@@ -3,11 +3,10 @@ import calculateDays from "./helperFunc/calculateDays";
 import GridMonth from "./GridMonth";
 import { endOfMonth, differenceInCalendarWeeks } from "date-fns";
 import { memo } from "react";
-import { useRef } from "react";
 const yearlySubmissionData = async ({}) => {};
 
 const GridSumbissionBanner = (): JSX.Element => {
-  const svgRef = useRef();
+
   const { dataTemplate, startDate, endDate } = calculateDays();
   const monthNames = [
     "Jan",
@@ -27,6 +26,7 @@ const GridSumbissionBanner = (): JSX.Element => {
     endOfMonth(startDate),
     startDate
   );
+
   return (
     <div id="dashboard-grid-banner">
       <div id="dashboard-grid-header">
@@ -40,7 +40,7 @@ const GridSumbissionBanner = (): JSX.Element => {
             (differenceInCalendarWeeks(endDate, startDate) + 12) * 103
           } 920`}
         >
-          {dataTemplate.map((data) => {
+          {dataTemplate.map((data, index) => {
             const currMonthStart = new Date(
               data.year,
               data.month,
@@ -63,13 +63,14 @@ const GridSumbissionBanner = (): JSX.Element => {
               ) - 1;
             const alignTextX = (monthDiff / 2) * 103;
             weekAccumulator = calenderWeekDiff;
+            const last = index === dataTemplate.length - 1 ? endDate : null
             return (
               <g
                 transform={`translate(${overallX})`}
                 key={`${data.month}-${data.year}`}
                 className="grid-month"
               >
-                <GridMonth monthData={data} activityData={{}} />
+                <GridMonth monthData={data} activityData={{}} lastMonth={last}/>
                 <text y={880} x={alignTextX} className="month-name">
                   {monthNames[data.month]}
                 </text>

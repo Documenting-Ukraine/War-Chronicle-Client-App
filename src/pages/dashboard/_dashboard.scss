@@ -129,12 +129,12 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 1.5rem 2rem;
 }
 #dashboard-grid-header{
     display: flex;
     width: 100%;
-    padding: 1.5rem;
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.7rem;
     color: #555555;
     h1{
         font-size: 1.7rem;
@@ -151,9 +151,25 @@
 #dashboard-grid{
     display: flex;
     width: 100%;
-    padding: 0.5rem 2rem;
-    padding-bottom: 1.5rem;
+    position: relative;
     overflow: auto;
+    &::-webkit-scrollbar {
+        width: 0.5rem;
+        height: 0.5rem;
+    }
+    &::-webkit-scrollbar-track {
+        width: 0.5rem;
+        height: 0.5rem;
+        background-color: rgba(0, 0, 0, 0.07);
+        border-radius: 0.5rem;
+
+    }
+    &::-webkit-scrollbar-thumb {
+        width: 0.5rem;
+        height: 0.5rem;
+        background: rgba(153, 153, 153, 0.6);
+        border-radius: 0.5rem;
+    }
 }
 #dashboard-inner-grid{
     width: 100%;
@@ -162,7 +178,7 @@
     position: relative;
     .grid-day{
         position: relative;
-        //fill: black;        
+        cursor: pointer;      
     }
     .grid-day-text{
         position: absolute;
@@ -176,6 +192,25 @@
         fill: $blue;
         font-weight: 400;
     }
+    
+}
+.dashboard-day-activity-details{
+    font-size: 0.75rem;
+    line-height: 0.85rem;
+    display: flex;
+    align-items: center;
+    padding: 0.4rem 0.8rem;
+    background-color: $darkest-gray;
+    opacity: 0;  
+    color: $white;
+    border-radius: 1rem;
+    z-index: -1;
+    transition: opacity 0.15s ease-out;  
+    text-align: center;
+    &.show{
+        opacity: 0.85;
+        z-index: 1; 
+    }    
 }
 
 #dashboard-recent-header{

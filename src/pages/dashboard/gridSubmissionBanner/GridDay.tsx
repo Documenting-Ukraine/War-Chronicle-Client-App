@@ -1,20 +1,53 @@
 import getDay from "date-fns/getDay";
-import { useRef } from "react";
-import { createPortal } from 'react-dom'
+import { useRef, useState, useEffect } from "react";
+import { createPortal } from "react-dom";
+import { unstable_batchedUpdates } from "react-dom";
+
 const GridDay = ({
   dayData,
   activityNum = 1,
 }: {
   dayData: Date;
   activityNum: number;
-  }) => {
-  const ref = useRef(null)
+}) => {
+  const [offset, setOffset] = useState({ top: 0, left: 0 });
+  const [isOver, setIsOver] = useState(false);
+  const ref = useRef<SVGRectElement>(null);
   const currDay = getDay(dayData);
+
+  //this is both to measure the offset, but also to
+  //ensure the ref is attacted
+  useEffect(() => {
+    let onMount = true;
+    setOffset({ left: window.pageXOffset, top: window.pageYOffset });
+    return () => {
+      onMount = false;
+    };
+  }, []);
+  const onHover = () => {
+    unstable_batchedUpdates(() => {
+      //we want the most recent position
+      setOffset({ left: window.pageXOffset, top: window.pageYOffset });
+      setIsOver(true);
+    });
+  };
+  const rectBoundingRect = ref.current?.getBoundingClientRect();
+  const top = `calc(${rectBoundingRect ? rectBoundingRect.y : 0}px + ${
+    offset.top
+  }px + 1rem)`;
+  const left = `calc(${rectBoundingRect ? rectBoundingRect.x : 0}px + ${
+    offset.left
+  }px  - 5.3rem)`;
   return (
     <>
       <rect
         ref={ref}
         className="grid-day"
+        onMouseEnter={onHover}
+        onMouseLeave={() => setIsOver(false)}
+        onTouchStart={onHover}
+        onTouchEnd={() => setIsOver(false)}
+        onTouchCancel={() => setIsOver(false)}
         width="85"
         height="85"
         rx="19"
@@ -25,7 +58,24 @@ const GridDay = ({
             : `rgba(0, 69, 166, ${activityNum * 0.1})`
         }
       />
-      
+      {createPortal(
+        <div
+          style={{
+            position: "absolute",
+            top: top,
+            left: left,
+          }}
+          className={`dashboard-day-activity-details ${isOver ? "show" : ""}`}
+        >
+          {activityNum} submissions on{" "}
+          {dayData.toLocaleDateString("en-us", {
+            month: "short",
+            day: "2-digit",
+            year: "numeric",
+          })}
+        </div>,
+        document.body
+      )}
     </>
   );
 };

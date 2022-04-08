@@ -1,30 +1,33 @@
 import { MonthDataTemplate } from "./helperFunc/calculateDays";
 import GridDay from "./GridDay";
 import { add, isBefore, endOfMonth, endOfWeek } from "date-fns";
+import React from "react";
 interface ActivityDataTemplate {
   [key: string]: number;
 }
 const GridMonth = ({
   monthData,
   activityData,
+  lastMonth,
 }: {
-  monthData: MonthDataTemplate;
-  activityData: ActivityDataTemplate;
+  monthData: MonthDataTemplate,
+  activityData: ActivityDataTemplate,
+  lastMonth ?: Date | null
 }) => {
   const weekArr: React.SVGProps<SVGGElement>[] = [];
   let currDay = new Date(
     monthData.year,
     monthData.month,
-    monthData.daysLeft - monthData.totalDays + 1
+    1
   );
   const lastDay = endOfMonth(currDay);
   //generate svg groups according to day groups
   let weekCounter = 0;
-  while (isBefore(currDay, lastDay)) {
+  while (isBefore(currDay, lastDay) && (lastMonth ? isBefore(currDay, lastMonth) : true)) {
     const lastDayWeek = endOfWeek(currDay);
     const daysArr: JSX.Element[] = [];
     let dayCounter = 0;
-    while (isBefore(currDay, lastDayWeek) && isBefore(currDay, lastDay)) {
+    while (isBefore(currDay, lastDayWeek) && isBefore(currDay, (lastMonth ? lastMonth : lastDay))) {
       daysArr.push(
         <GridDay
           key={dayCounter}
