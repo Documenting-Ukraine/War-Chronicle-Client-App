@@ -18,10 +18,8 @@ const GridDay = ({
   //this is both to measure the offset, but also to
   //ensure the ref is attacted
   useEffect(() => {
-    let onMount = true;
     setOffset({ left: window.pageXOffset, top: window.pageYOffset });
     return () => {
-      onMount = false;
     };
   }, []);
   const onHover = () => {

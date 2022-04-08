@@ -21,7 +21,7 @@ const useFormInputs = ({
         setErr(validateFunc(value));
       else setErr({ err: false, message: "" });
     }
-  }, [touched, value, validateFunc]);
+  }, [touched, value, validateFunc, required]);
   const onDefaultChange = (e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>) => {
     setValue(e.target.value);
   };

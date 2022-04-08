@@ -1,20 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { RealmAppProvider } from './realm/RealmApp';
-import { BrowserRouter as Router } from 'react-router-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { RealmAppProvider } from "./realm/RealmApp";
+import { BrowserRouter as Router } from "react-router-dom";
+import { store } from "./store/store";
+import { Provider } from "react-redux";
 const RealmAppId = process.env["REACT_APP_REALM_APP_DEV"];
 ReactDOM.render(
   <React.StrictMode>
-         <RealmAppProvider appId={RealmAppId}>
-    <Router>
-      <App />
-    </Router>
-         </RealmAppProvider>
-        
+    <RealmAppProvider appId={RealmAppId}>
+      <Provider store={store}>
+        <Router>
+          <App />
+        </Router>
+      </Provider>
+    </RealmAppProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

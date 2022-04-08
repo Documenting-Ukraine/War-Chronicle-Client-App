@@ -9,7 +9,7 @@ import Avatar, { ConfigProvider } from "react-avatar";
 import { useNavigate } from "react-router-dom";
 import useIsClickOutside from "../../../hooks/use-click-outside";
 
-interface UserDropdownItem {
+interface UserDropdownItemType {
   children: JSX.Element;
   icon?: IconProp;
   customIcon?: JSX.Element;
@@ -28,7 +28,7 @@ export const UserDropdownItem = ({
   icon,
   customIcon,
   onClick,
-}: UserDropdownItem): JSX.Element => {
+}: UserDropdownItemType): JSX.Element => {
   const allContent = (
     <>
       <div className="user-dropdown-modal-item-icon">

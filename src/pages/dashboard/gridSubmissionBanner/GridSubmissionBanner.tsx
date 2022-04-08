@@ -2,11 +2,20 @@
 import calculateDays from "./helperFunc/calculateDays";
 import GridMonth from "./GridMonth";
 import { endOfMonth, differenceInCalendarWeeks } from "date-fns";
-import { memo } from "react";
-const yearlySubmissionData = async ({}) => {};
-
+import { memo, useEffect } from "react";
+import { fetchActivityData } from "../../../store/reducers/dashboard/userDashboard";
+import { RootState } from "../../../store/rootReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { useRealmApp } from "../../../realm/RealmApp";
 const GridSumbissionBanner = (): JSX.Element => {
+  const activityData = useSelector((state: RootState) => state.dashboard)
+  const pastYearData = activityData.pastYearActivityData.data;
+  const app = useRealmApp()
+  const dispatch = useDispatch()
 
+  useEffect(() => {
+    if(!pastYearData) dispatch(fetchActivityData(app))
+  }, [dispatch, pastYearData, app])
   const { dataTemplate, startDate, endDate } = calculateDays();
   const monthNames = [
     "Jan",

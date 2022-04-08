@@ -16,9 +16,8 @@ const GoogleBtn = ({
   const app = useRealmApp();
   const googleCallBack = async (res: GoogleCredientals) => {
     try {
-      let user;
       if (btnType === "signup")
-        user = await googleAuth({
+        await googleAuth({
           res: res,
           app: app,
           customErrorFunc: customErrorFunc,
@@ -29,7 +28,7 @@ const GoogleBtn = ({
           auth_type: "signup",
         });
       else
-        user = await googleAuth({
+        await googleAuth({
           res: res,
           app: app,
           customErrorFunc: customErrorFunc,
@@ -85,7 +84,7 @@ const GoogleBtn = ({
 
   return (
     <div>
-      <button id="googleAuthBtn" tabIndex={1} role="button" />
+      <button id="googleAuthBtn" tabIndex={1} />
     </div>
   );
 };
