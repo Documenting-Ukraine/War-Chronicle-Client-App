@@ -1,0 +1,1 @@
+import { GeneralRecordType } from "./GeneralRecordType";

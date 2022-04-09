@@ -1,4 +1,3 @@
-//import { useRealmApp } from "../../../realm/RealmApp";
 import calculateDays from "./helperFunc/calculateDays";
 import GridMonth from "./GridMonth";
 import { endOfMonth, differenceInCalendarWeeks } from "date-fns";
@@ -8,8 +7,8 @@ import { RootState } from "../../../store/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { useRealmApp } from "../../../realm/RealmApp";
 const GridSumbissionBanner = (): JSX.Element => {
-  const activityData = useSelector((state: RootState) => state.dashboard)
-  const pastYearData = activityData.pastYearActivityData.data;
+  const activityData = useSelector((state: RootState) => state.dashboard.pastYearActivityData)
+  const pastYearData = activityData.data;
   const app = useRealmApp()
   const dispatch = useDispatch()
 

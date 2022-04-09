@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { RealmApp } from "../../../../realm/RealmApp";
+import { RealmApp } from "../../../realm/RealmApp";
 export interface ActivityDataTemplate {
   [key: string]: number;
 }
 
 function isActivtyData(arg: any): arg is ActivityDataTemplate {
   if (!arg) return false;
-  const keys = Object.keys(arg);
+  const keys = Object.keys(arg[0]);
   const check = keys.every(
     (key) => typeof arg[key] === "number" && typeof key === "string"
   );

@@ -2,18 +2,18 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchContributions,
   ContributionsData,
-} from "./asyncActions/fetchContributions";
+} from "../asyncActions/fetchContributions";
 import {
   fetchActivityData,
   ActivityDataTemplate,
-} from "./asyncActions/fetchActivityData";
+} from "../asyncActions/fetchActivityData";
 interface DashboardSlice {
   pastYearActivityData: {
     data: ActivityDataTemplate | null;
     status: "success" | "loading" | "failed";
   };
   contributionsData: {
-    data: ContributionsData | null;
+    data: ContributionsData[] | null;
     status: "success" | "loading" | "failed";
   };
 }
@@ -46,18 +46,17 @@ const dashboardSlice = createSlice({
           data: action.payload,
         };
       state = { ...state, pastYearActivityData: success };
-      console.log(state, action);
       return state;
     });
     builder.addCase(fetchContributions.fulfilled, (state, action) => {
       const success: {
         status: "success";
-        data: ContributionsData | null;
+        data: ContributionsData[] | null;
       } = {
         status: "success",
         data:
           state.contributionsData.data && action.payload
-            ? { ...state.contributionsData.data, ...action.payload }
+            ? [...state.contributionsData.data, ...action.payload]
             : !action.payload ? state.contributionsData.data 
             : action.payload
       };
@@ -70,6 +69,7 @@ const dashboardSlice = createSlice({
     });
     builder.addCase(fetchContributions.rejected, (state, action) => {
       state.contributionsData.status = "failed";
+      console.error(state, action);
       return state;
     });
   },
