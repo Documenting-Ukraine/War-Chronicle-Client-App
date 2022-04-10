@@ -1,12 +1,7 @@
 import { GeneralRecordType } from "./GeneralRecordType";
-const Monument = [] as const;
-const KeyActor = [] as const;
-const Embassies = [] as const;
-const WarCrime = [] as const;
+import {WarCrime, Embassies, KeyActor, Monument} from "./DataLists"
 
   
-
-
 type GeneralWarCrimes = GeneralRecordType & {
   warCrime: typeof WarCrime[number];
   civilianCasualties?: number;

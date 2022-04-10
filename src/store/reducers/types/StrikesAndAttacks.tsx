@@ -1,10 +1,10 @@
 import { GeneralRecordType } from "./GeneralRecordType";
-const CivilianInfastructure = [] as const;
+import {CivilianInfastructure} from "./DataLists"
 type StrikesAndAttacksGeneral = GeneralRecordType & {
   civilianCasualties?: number;
   ukrCasualties?: number;
   rfCasualities?: number;
-  civilianInfastructure: typeof CivilianInfastructure[]
+  civilianInfastructure: Array<typeof CivilianInfastructure[]>
 };
 type Strikes = StrikesAndAttacksGeneral
 type Attacks = StrikesAndAttacksGeneral & {

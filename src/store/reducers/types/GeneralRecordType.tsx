@@ -1,15 +1,17 @@
-const Region = [] as const;
-const Oblast = [] as const;
-const City = [] as const;
-const Munition = [] as const;
+import {Region, Oblast, City, Munition} from "./DataLists"
 type ArrayOneOrMore<T> = {
   0: T;
 } & Array<T>;
 type MediaLink = {
   localURL: string;
-  thirdPartyURL: string;
+  thirdPartyURL?: string;
+  description?: string
 };
-
+type Media = {
+  images?: ArrayOneOrMore<MediaLink>;
+  videos?: ArrayOneOrMore<MediaLink>;
+  mainImage?: MediaLink;
+};
 interface GeneralRecordType {
   dateOfEvent: Date;
   recordCreationDate: Date;
@@ -20,14 +22,10 @@ interface GeneralRecordType {
     oblast: typeof Oblast[number];
     city: typeof City[number];
     munition: typeof Munition[number];
-    latitude: string;
-    longitude: string;
+    latitude?: string;
+    longitude?: string;
   };
-  media: {
-    images: ArrayOneOrMore<MediaLink>;
-    videos: MediaLink[];
-    mainImage?: MediaLink;
-  };
+  media?: Media
   description: string;
 }
-export type { GeneralRecordType };
+export type { GeneralRecordType, ArrayOneOrMore, MediaLink, Media };
