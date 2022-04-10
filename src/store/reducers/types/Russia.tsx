@@ -1,12 +1,11 @@
-import { Media } from "./GeneralRecordType";
+import { GeneralRecordType } from "./GeneralRecordType";
 import {
   ResponseType,
   Countries,
   CorporationIndustry,
   OrganizationType,
 } from "./DataLists";
-type RussiaGeneral = {
-  media: Media;
+type RussiaGeneral = GeneralRecordType & {
   notes: string;
 };
 type Sanctions = RussiaGeneral & {

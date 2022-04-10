@@ -3,11 +3,11 @@ const Region = [] as const;
 const Oblast = [] as const;
 const City = [] as const;
 const Munition = [] as const;
-//WarCrimes
+//War Crimes
 const Monument = [] as const;
 const KeyActor = [] as const;
 const Embassies = [] as const;
-const WarCrime = [] as const;
+const WarCrimeType = [] as const;
 
 //Strikes and Attacks
 const CivilianInfastructure = [] as const;
@@ -35,7 +35,7 @@ export type {
   Monument,
   KeyActor,
   Embassies,
-  WarCrime,
+  WarCrimeType,
   ResponseType,
   CorporationIndustry,
   OrganizationType

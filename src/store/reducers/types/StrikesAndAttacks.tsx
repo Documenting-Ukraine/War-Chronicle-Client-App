@@ -1,6 +1,6 @@
-import { GeneralRecordType } from "./GeneralRecordType";
+import { GeneralEventType } from "./GeneralRecordType";
 import {CivilianInfastructure} from "./DataLists"
-type StrikesAndAttacksGeneral = GeneralRecordType & {
+type StrikesAndAttacksGeneral = GeneralEventType & {
   civilianCasualties?: number;
   ukrCasualties?: number;
   rfCasualities?: number;

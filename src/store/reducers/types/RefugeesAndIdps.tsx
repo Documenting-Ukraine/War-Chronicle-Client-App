@@ -1,5 +1,5 @@
-import { GeneralRecordType } from "./GeneralRecordType";
-type RefugeesAndIdpsGeneral = Omit<GeneralRecordType, "address"> & {
+import { GeneralEventType } from "./GeneralRecordType";
+type RefugeesAndIdpsGeneral = Omit<GeneralEventType, "address"> & {
   datePublished: Date;
   source: string;
 };

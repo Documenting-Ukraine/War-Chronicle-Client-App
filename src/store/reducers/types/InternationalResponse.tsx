@@ -1,10 +1,10 @@
 import {
-  //GeneralRecordType,
+  GeneralRecordType,
   ArrayOneOrMore,
   MediaLink,
 } from "./GeneralRecordType";
 import {Countries, AidTypes} from "./DataLists"
-interface GeneralInternational {
+type GeneralInternational = GeneralRecordType & {
   countries: Array<typeof Countries[number]>;
   recordCreationDate: Date;
 }

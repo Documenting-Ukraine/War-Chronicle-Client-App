@@ -13,11 +13,16 @@ type Media = {
   mainImage?: MediaLink;
 };
 interface GeneralRecordType {
-  dateOfEvent: Date;
+  recordTitle: string;
   recordCreationDate: Date;
+  media?: Media;
+  description: string;
+}
+type GeneralEventType =  GeneralRecordType & {
   //dateRecorded?
   //timeRecorded?
-  address: {
+  dateOfEvent?: Date;
+  address?: {
     region: typeof Region[number];
     oblast: typeof Oblast[number];
     city: typeof City[number];
@@ -25,7 +30,5 @@ interface GeneralRecordType {
     latitude?: string;
     longitude?: string;
   };
-  media?: Media
-  description: string;
 }
-export type { GeneralRecordType, ArrayOneOrMore, MediaLink, Media };
+export type { GeneralRecordType, GeneralEventType, ArrayOneOrMore, MediaLink, Media };

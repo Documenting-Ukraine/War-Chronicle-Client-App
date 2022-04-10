@@ -1,8 +1,8 @@
-import { Media } from "./GeneralRecordType";
-import {Disinformation} from "./DataLists"
-//const MediaTypes = [] as const 
-interface MediaAndDisInfoGeneral {
-  title: string;
+import { GeneralRecordType } from "./GeneralRecordType";
+import { Disinformation } from "./DataLists";
+
+type MediaAndDisInfoGeneral =  GeneralRecordType  & {
+  articleTitle: string;
   primaryLanguage: string;
   hostingOutlet: string;
   originalOutlet?: string;
@@ -16,14 +16,16 @@ interface MediaAndDisInfoGeneral {
   };
   disinformation?: typeof Disinformation;
   notes: string;
-  media: Media;
 }
-type Russia = MediaAndDisInfoGeneral
-type China = MediaAndDisInfoGeneral
-type Western = MediaAndDisInfoGeneral
-type MediaAndDisInformation = Russia | China | Western
+
+type Russia = MediaAndDisInfoGeneral;
+type China = MediaAndDisInfoGeneral;
+type Western = MediaAndDisInfoGeneral;
+type MediaAndDisInformation = Russia | China | Western;
 export type {
-    MediaAndDisInfoGeneral,
-    Russia, China, Western,
-    MediaAndDisInformation
-}
+  MediaAndDisInfoGeneral,
+  Russia,
+  China,
+  Western,
+  MediaAndDisInformation,
+};

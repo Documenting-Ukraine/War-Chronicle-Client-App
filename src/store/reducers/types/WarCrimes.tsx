@@ -1,15 +1,16 @@
-import { GeneralRecordType } from "./GeneralRecordType";
-import {WarCrime, Embassies, KeyActor, Monument} from "./DataLists"
-
-  
-type GeneralWarCrimes = GeneralRecordType & {
-  warCrime: typeof WarCrime[number];
+import { GeneralEventType } from "./GeneralRecordType";
+import {WarCrimeType, Embassies, KeyActor, Monument} from "./DataLists"
+ 
+type GeneralWarCrimes = GeneralEventType & {
+  warCrime: typeof WarCrimeType[number];
   civilianCasualties?: number;
 };
 type AttacksOnCivilians = GeneralWarCrimes;
+
 type DestructionOfEmbassies = GeneralWarCrimes & {
   embassyAttacked: typeof Embassies[number];
 };
+
 type DestructionOfCulture = GeneralWarCrimes & {
   keyActor: typeof KeyActor[number];
   monument: typeof Monument[number];
