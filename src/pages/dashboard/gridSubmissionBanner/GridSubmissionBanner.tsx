@@ -1,20 +1,22 @@
 import calculateDays from "./helperFunc/calculateDays";
 import GridMonth from "./GridMonth";
-import { endOfMonth, differenceInCalendarWeeks } from "date-fns";
+import { endOfMonth, differenceInCalendarWeeks, startOfMonth } from "date-fns";
 import { memo, useEffect } from "react";
 import { fetchActivityData } from "../../../store/reducers/dashboard/userDashboard";
 import { RootState } from "../../../store/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { useRealmApp } from "../../../realm/RealmApp";
 const GridSumbissionBanner = (): JSX.Element => {
-  const activityData = useSelector((state: RootState) => state.dashboard.pastYearActivityData)
+  const activityData = useSelector(
+    (state: RootState) => state.dashboard.pastYearActivityData
+  );
   const pastYearData = activityData.data;
-  const app = useRealmApp()
-  const dispatch = useDispatch()
+  const app = useRealmApp();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if(!pastYearData) dispatch(fetchActivityData(app))
-  }, [dispatch, pastYearData, app])
+    if (!pastYearData) dispatch(fetchActivityData(app));
+  }, [dispatch, pastYearData, app]);
   const { dataTemplate, startDate, endDate } = calculateDays();
   const monthNames = [
     "Jan",
@@ -52,33 +54,45 @@ const GridSumbissionBanner = (): JSX.Element => {
             const currMonthStart = new Date(
               data.year,
               data.month,
-              data.daysLeft - data.totalDays + 1
+              1
             );
-            const lastMonthStart = new Date(
-              data.year,
-              data.month - 1,
-              data.daysLeft - data.totalDays + 1
-            );
+            const lastMonthStart = 
+              new Date(
+                data.year,
+                data.month - 1,
+              )
+            ;
             const calenderWeekDiff =
               differenceInCalendarWeeks(currMonthStart, lastMonthStart) +
               weekAccumulator +
               1;
             const overallX = calenderWeekDiff * 103;
+            const currDate = new Date(
+              data.year,
+              data.month,
+              data.totalDays - data.daysLeft === 0
+                ? data.totalDays
+                : data.totalDays - data.daysLeft
+            );
             const monthDiff =
               differenceInCalendarWeeks(
-                endOfMonth(currMonthStart),
-                currMonthStart
-              ) - 1;
+                currDate,
+                startOfMonth(currDate)
+              ) - 1.8;
             const alignTextX = (monthDiff / 2) * 103;
             weekAccumulator = calenderWeekDiff;
-            const last = index === dataTemplate.length - 1 ? endDate : null
+            const last = index === dataTemplate.length - 1 ? endDate : null;
             return (
               <g
                 transform={`translate(${overallX})`}
                 key={`${data.month}-${data.year}`}
                 className="grid-month"
               >
-                <GridMonth monthData={data} activityData={{}} lastMonth={last}/>
+                <GridMonth
+                  monthData={data}
+                  activityData={{}}
+                  lastMonth={last}
+                />
                 <text y={880} x={alignTextX} className="month-name">
                   {monthNames[data.month]}
                 </text>
