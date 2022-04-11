@@ -5,6 +5,7 @@ import {
 } from "./GeneralRecordType";
 import {Countries, AidTypes} from "./DataLists"
 type GeneralInternational = GeneralRecordType & {
+  recordType: "International Response"
   countries: Array<typeof Countries[number]>;
   recordCreationDate: Date;
 }
@@ -31,12 +32,12 @@ type MilitaryAid = GeneralInternational & {
 };
 type HumanitarianAid = MilitaryAid & { secondaryPackage: string }
 
-type InternationResponse = UNRecord | CombatPermission | MilitaryAid
+type InternationalResponse = UNRecord | CombatPermission | MilitaryAid
 export type {
   UNRecord,
   CombatPermission,
   MilitaryAid,
   HumanitarianAid,
   GeneralInternational,
-  InternationResponse
+  InternationalResponse
 };

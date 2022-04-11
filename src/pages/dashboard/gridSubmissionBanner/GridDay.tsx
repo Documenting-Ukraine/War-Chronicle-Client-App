@@ -2,6 +2,7 @@ import getDay from "date-fns/getDay";
 import { useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { unstable_batchedUpdates } from "react-dom";
+import useWindowResize from "../../../hooks/use-window-resize";
 
 const GridDay = ({
   dayData,
@@ -14,7 +15,7 @@ const GridDay = ({
   const [isOver, setIsOver] = useState(false);
   const ref = useRef<SVGRectElement>(null);
   const currDay = getDay(dayData);
-
+  const windowWidth = useWindowResize()
   //this is both to measure the offset, but also to
   //ensure the ref is attacted
   useEffect(() => {
@@ -22,6 +23,12 @@ const GridDay = ({
     return () => {
     };
   }, []);
+  
+  //adjust when the window is resizing so there is no overflow
+  useEffect(() => {
+    if(windowWidth !== offset.left) setOffset({ left: window.pageXOffset, top: window.pageYOffset });
+    return () => {};
+  }, [windowWidth]);
   const onHover = () => {
     unstable_batchedUpdates(() => {
       //we want the most recent position

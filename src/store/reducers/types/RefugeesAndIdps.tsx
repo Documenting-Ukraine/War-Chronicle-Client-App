@@ -1,5 +1,6 @@
 import { GeneralEventType } from "./GeneralRecordType";
 type RefugeesAndIdpsGeneral = Omit<GeneralEventType, "address"> & {
+  recordType: "Refugees And Idps";
   datePublished: Date;
   source: string;
 };

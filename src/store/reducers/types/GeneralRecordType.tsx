@@ -13,6 +13,7 @@ type Media = {
   mainImage?: MediaLink;
 };
 interface GeneralRecordType {
+  _id: string;
   recordTitle: string;
   recordCreationDate: Date;
   media?: Media;

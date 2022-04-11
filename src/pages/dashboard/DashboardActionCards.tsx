@@ -1,13 +1,15 @@
 import { faFileLines, faPlusSquare, faUserCircle } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { useRealmApp } from "../../realm/RealmApp";
+import {Link} from "react-router-dom"
 interface DashboardActionProps {
   accountType: string;
 }
-const DashboardActionCards = ({accountType}: DashboardActionProps): JSX.Element => {
+const DashboardActionCards = ({ accountType }: DashboardActionProps): JSX.Element => {
+  const app = useRealmApp()
   return (
     <div id="dashboard-action-cards">
-      <button className="action-card">
+      <Link to={`/dashboard/${app.currentUser?.id}/contribute`}className="action-card">
         <div className="action-card-header">
           <FontAwesomeIcon icon={faFileLines} />
           <h2>Submit New Record</h2>
@@ -17,8 +19,8 @@ const DashboardActionCards = ({accountType}: DashboardActionProps): JSX.Element 
             ? "Create a new record for any category scope"
             : "Create a new record for one of your assigned category scopes"}
         </p>
-      </button>
-      <button className="action-card">
+      </Link>
+      <Link to={`/dashboard/${app.currentUser?.id}/manage`}className="action-card">
         {accountType === "admin" ? (
           <>
             <div className="action-card-header">
@@ -41,7 +43,7 @@ const DashboardActionCards = ({accountType}: DashboardActionProps): JSX.Element 
             </p>
           </>
         )}
-      </button>
+      </Link>
     </div>
   );
 };

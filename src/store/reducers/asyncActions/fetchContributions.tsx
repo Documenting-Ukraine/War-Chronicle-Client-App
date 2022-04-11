@@ -1,25 +1,26 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RealmApp } from "../../../realm/RealmApp";
+import { RecordSubmissionType } from "../types";
 
-interface ContributionsData{
-    creation_date: "string",
-}
-export type {ContributionsData}
-function isContributionsData(arg: any): arg is ContributionsData[] {
+function isRecordSubmissionType(arg: any): arg is RecordSubmissionType[] {
   if (!arg) return false;
-  const keys = Object.keys(arg);
-  const check = keys.every(
-    (key) => typeof arg[key] === "string"
-  );
-  return check;
+  const map = { 
+    "War Crimes": true,
+    "Strikes And Attacks": true,
+    "Refugees And Idps": true,
+    "International Response": true,
+    "Media And Disinformation": true,
+    "Russia": true
+  }
+  return arg.recordType in map
 }
 export const fetchContributions = createAsyncThunk(
   "dashboard/fetchContributions",
-  async (app: RealmApp): Promise<ContributionsData[] | null> => {
+  async (app: RealmApp): Promise<RecordSubmissionType[] | null> => {
     const userData = await app.currentUser?.callFunction(
       "read_contributions"
     );
-    if (isContributionsData(userData)) return userData;
+    if (isRecordSubmissionType(userData)) return userData;
     return null;
   }
 );

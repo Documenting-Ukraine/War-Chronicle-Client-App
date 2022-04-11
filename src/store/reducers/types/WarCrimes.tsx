@@ -2,6 +2,7 @@ import { GeneralEventType } from "./GeneralRecordType";
 import {WarCrimeType, Embassies, KeyActor, Monument} from "./DataLists"
  
 type GeneralWarCrimes = GeneralEventType & {
+  recordType: "War Crimes";
   warCrime: typeof WarCrimeType[number];
   civilianCasualties?: number;
 };

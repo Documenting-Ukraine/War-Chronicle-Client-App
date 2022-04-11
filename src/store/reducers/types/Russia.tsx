@@ -6,6 +6,7 @@ import {
   OrganizationType,
 } from "./DataLists";
 type RussiaGeneral = GeneralRecordType & {
+  recordType: "Russia";
   notes: string;
 };
 type Sanctions = RussiaGeneral & {
@@ -23,14 +24,14 @@ type Corporations = RussiaGeneral & {
   dateMostRecentReponse: Date;
   donationValuation?: number;
 };
-type SportsAndCulture = {
+type SportsAndCulture = RussiaGeneral & {
   organization: string;
   dateOfAnnouncement: Date;
   organizationCategory: typeof OrganizationType;
   responseType: typeof ResponseType;
 };
 
-type ProtestsInRussia = {};
+type ProtestsInRussia = RussiaGeneral & {};
 type Russia = Corporations | SportsAndCulture | Sanctions | ProtestsInRussia;
 
 export type { RussiaGeneral, Russia };

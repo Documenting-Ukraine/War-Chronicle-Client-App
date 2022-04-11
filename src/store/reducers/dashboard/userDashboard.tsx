@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchContributions,
-  ContributionsData,
 } from "../asyncActions/fetchContributions";
+import { RecordSubmissionType } from "../types";
 import {
   fetchActivityData,
   ActivityDataTemplate,
@@ -13,7 +13,7 @@ interface DashboardSlice {
     status: "success" | "loading" | "failed";
   };
   contributionsData: {
-    data: ContributionsData[] | null;
+    data: RecordSubmissionType[] | null;
     status: "success" | "loading" | "failed";
   };
 }
@@ -51,17 +51,18 @@ const dashboardSlice = createSlice({
     builder.addCase(fetchContributions.fulfilled, (state, action) => {
       const success: {
         status: "success";
-        data: ContributionsData[] | null;
+        data: RecordSubmissionType[] | null;
       } = {
         status: "success",
         data:
           state.contributionsData.data && action.payload
             ? [...state.contributionsData.data, ...action.payload]
-            : !action.payload ? state.contributionsData.data 
-            : action.payload
+            : !action.payload
+            ? state.contributionsData.data
+            : action.payload,
       };
-      state = { ...state, contributionsData: success };
-      return state;
+      const newState = { ...state, contributionsData: success };
+      return newState;
     });
     builder.addCase(fetchContributions.pending, (state, action) => {
         state.contributionsData.status = "loading";
@@ -76,4 +77,4 @@ const dashboardSlice = createSlice({
 });
 export default dashboardSlice;
 export { fetchActivityData, fetchContributions };
-export type { ActivityDataTemplate, ContributionsData };
+export type { ActivityDataTemplate, RecordSubmissionType };
