@@ -2,7 +2,7 @@ import getDay from "date-fns/getDay";
 import { useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { unstable_batchedUpdates } from "react-dom";
-import useWindowResize from "../../../hooks/use-window-resize";
+import useWindowResize from "../../../../hooks/use-window-resize";
 
 const GridDay = ({
   dayData,

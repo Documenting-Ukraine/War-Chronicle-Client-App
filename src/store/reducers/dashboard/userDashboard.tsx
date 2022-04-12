@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchContributions,
 } from "../asyncActions/fetchContributions";
-import { RecordSubmissionType } from "../types";
+import { RecordSubmissionType, UserDocument } from "../types";
 import {
   fetchActivityData,
   ActivityDataTemplate,
@@ -16,6 +16,10 @@ interface DashboardSlice {
     data: RecordSubmissionType[] | null;
     status: "success" | "loading" | "failed";
   };
+  userListData: {
+    data: UserDocument[] | null;
+    status: "success" | "loading" | "failed";
+  }
 }
 const dashboardSlice = createSlice({
   name: "dashboard",
@@ -28,6 +32,10 @@ const dashboardSlice = createSlice({
       data: null,
       status: "success",
     },
+    userListData: {
+      data: null,
+      status:"success"
+    }
   } as DashboardSlice,
   reducers: {},
   extraReducers: (builder) => {

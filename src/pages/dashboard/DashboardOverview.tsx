@@ -1,6 +1,6 @@
-import DashboardActionCards from "./utilities/DashboardActionCards";
-import GridSumbissionBanner from "./gridSubmissionBanner/GridSubmissionBanner";
-import DashboardRecent from "./utilities/DashboardRecent";
+import DashboardActionCards from "./utilities/actionCards/DashboardActionCards";
+import GridSumbissionBanner from "./utilities/gridSubmissionBanner/GridSubmissionBanner";
+import DashboardRecent from "./utilities/recentBanner/DashboardRecent";
 import overviewActionCardData from "./staticData/OverviewActionCardData";
 
 const DashboardOverview = ({

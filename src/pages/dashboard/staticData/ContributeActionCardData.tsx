@@ -1,12 +1,19 @@
-import { faFileLines } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { faFileLines, faFolder } from "@fortawesome/free-solid-svg-icons";
 import categoryIconMap from "./CategoryIconMap";
 
 const contributeActionCardData = (user: Realm.User) => {
   const accountType = user.customData?.account_type;
-  //const categories = user.customData?.categories;
-  const categories = ["Strikes and Attacks", "War Crimes"];
-  if (!Array.isArray(categories) || typeof accountType !== "string") return [];
-  const cardData = categories.map((category) => {
+  const userCategories = user.customData?.categories;
+  const allCategories = Object.keys(categoryIconMap);
+  if (!Array.isArray(userCategories) && accountType !== "admin") return [];
+  const categoryList =
+    accountType === "admin"
+      ? allCategories
+      : Array.isArray(userCategories)
+      ? userCategories
+      : [];
+  const categoryCardData = categoryList.map((category) => {
     return {
       additionalRoute: `forms/create-new-${category}`,
       cardIcon: categoryIconMap[category]
@@ -16,7 +23,24 @@ const contributeActionCardData = (user: Realm.User) => {
       cardDescription: `Create a new record for ${category}`,
     };
   });
-  return cardData;
+  const userContributions = {
+    additionalRoute: `all-contributions`,
+    cardIcon: faPenToSquare,
+    cardHeading: `Your Contributors`,
+    cardDescription: `Delete or update your existing contributions`,
+  };
+  const findContributions =
+    accountType === "admin"
+      ? [
+          {
+            additionalRoute: `search-contributions`,
+            cardIcon: faFolder,
+            cardHeading: `Find Contributions`,
+            cardDescription: `Search through the contributions of others, to update or delete them.`,
+          },
+        ]
+      : [];
+  return [userContributions, ...findContributions, ...categoryCardData];
 };
 
 export default contributeActionCardData;

@@ -1,4 +1,4 @@
-import DashboardHeader from "./DashboardHeader";
+import DashboardHeader from "./header/DashboardHeader";
 import { useRealmApp } from "../../../realm/RealmApp";
 const DashboardWrapper = ({children}: {children: JSX.Element}): JSX.Element => {
     const app = useRealmApp();

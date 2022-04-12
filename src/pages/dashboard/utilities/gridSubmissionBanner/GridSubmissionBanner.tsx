@@ -2,10 +2,10 @@ import calculateDays from "./helperFunc/calculateDays";
 import GridMonth from "./GridMonth";
 import { endOfMonth, differenceInCalendarWeeks, startOfMonth } from "date-fns";
 import { memo, useEffect } from "react";
-import { fetchActivityData } from "../../../store/reducers/dashboard/userDashboard";
-import { RootState } from "../../../store/rootReducer";
+import { fetchActivityData } from "../../../../store/reducers/dashboard/userDashboard";
+import { RootState } from "../../../../store/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { useRealmApp } from "../../../realm/RealmApp";
+import { useRealmApp } from "../../../../realm/RealmApp";
 const GridSumbissionBanner = (): JSX.Element => {
   const activityData = useSelector(
     (state: RootState) => state.dashboard.pastYearActivityData

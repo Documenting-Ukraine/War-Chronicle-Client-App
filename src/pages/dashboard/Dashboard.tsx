@@ -28,7 +28,7 @@ const Dashboard = ({
     <DashboardWrapper>
       <>
         {type === "manage" && accountType === "admin" ? (
-          <div></div>
+          <DashboardManage />
         ) : type === "contribute" ? (
           <DashboardContribute />
         ) : (

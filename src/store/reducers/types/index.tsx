@@ -11,7 +11,19 @@ type RecordSubmissionType =
   | Russia
   | StrikesAndAttacks
   | WarCrimes;
-
+type UserDocument = {
+  _id: string;
+  occupation: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  email_verified: boolean;
+  creation_date: Date;
+  account_type: "admin" | "contributor";
+  external_id: string;
+  user_id: string;
+  category_scopes?: string[]
+};
 export type {
   RecordSubmissionType,
   InternationalResponse,
@@ -20,4 +32,5 @@ export type {
   Russia,
   StrikesAndAttacks,
   WarCrimes,
+  UserDocument
 };
