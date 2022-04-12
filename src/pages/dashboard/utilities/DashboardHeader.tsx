@@ -11,14 +11,14 @@ const DashboardHeader = ({ accountType}: DashboardHeaderProps): JSX.Element => {
   const manage = selected === "manage"
   return (
     <div id="dashboard-header">
-      <Link to="overview" className={!contribute && !manage ? "selected" : ""}>
+      <Link to="../overview" className={!contribute && !manage ? "selected" : ""}>
         Overview
       </Link>
-      <Link to="contribute" className={contribute ? "selected" : ""}>
+      <Link to="../contribute" className={contribute ? "selected" : ""}>
         Contribute
       </Link>
       {accountType === "admin" && (
-        <Link to="manage" className={manage ? "selected" : ""}>
+        <Link to="../manage" className={manage ? "selected" : ""}>
           Manage
         </Link>
       )}

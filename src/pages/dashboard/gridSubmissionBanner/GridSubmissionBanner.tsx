@@ -78,7 +78,7 @@ const GridSumbissionBanner = (): JSX.Element => {
               differenceInCalendarWeeks(
                 currDate,
                 startOfMonth(currDate)
-              ) - 1.8;
+              ) - 1.6;
             const alignTextX = (monthDiff / 2) * 103;
             weekAccumulator = calenderWeekDiff;
             const last = index === dataTemplate.length - 1 ? endDate : null;

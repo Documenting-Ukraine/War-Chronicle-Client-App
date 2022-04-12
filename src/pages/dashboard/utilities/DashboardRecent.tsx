@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useRealmApp } from "../../realm/RealmApp";
-import { RootState } from "../../store/rootReducer";
+import { useRealmApp } from "../../../realm/RealmApp";
+import { RootState } from "../../../store/rootReducer";
 import { useDispatch } from "react-redux";
-import { fetchContributions } from "../../store/reducers/dashboard/userDashboard";
-import { MediaLink } from "../../store/reducers/types/GeneralRecordType";
+import { fetchContributions } from "../../../store/reducers/dashboard/userDashboard";
+import { MediaLink } from "../../../store/reducers/types/GeneralRecordType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 const RecentRow = ({
@@ -60,42 +60,42 @@ const DashboardRecent = (): JSX.Element => {
   const contributions = useSelector(
     (state: RootState) => state.dashboard.contributionsData
   );
-  //const contributionsData = contributions.data;
-  const contributionsData = [
-    {
-      _id: "unique",
-      recordTitle: "hello",
-      recordCreationDate: new Date(),
-      media: {
-        mainImage: undefined,
-      },
-      description: "hello",
-      recordType: "War Crimes",
-      warCrime: [],
-    },
-    {
-      _id: "unique1",
-      recordTitle: "hello",
-      recordCreationDate: new Date(),
-      media: {
-        mainImage: undefined,
-      },
-      description: "hello",
-      recordType: "War Crimes",
-      warCrime: [],
-    },
-    {
-      _id: "unique2",
-      recordTitle: "hello",
-      recordCreationDate: new Date(),
-      media: {
-        mainImage: undefined,
-      },
-      description: "hello",
-      recordType: "War Crimes",
-      warCrime: [],
-    },
-  ];
+  const contributionsData = contributions.data;
+  // const contributionsData = [
+  //   {
+  //     _id: "unique",
+  //     recordTitle: "hello",
+  //     recordCreationDate: new Date(),
+  //     media: {
+  //       mainImage: undefined,
+  //     },
+  //     description: "hello",
+  //     recordType: "War Crimes",
+  //     warCrime: [],
+  //   },
+  //   {
+  //     _id: "unique1",
+  //     recordTitle: "hello",
+  //     recordCreationDate: new Date(),
+  //     media: {
+  //       mainImage: undefined,
+  //     },
+  //     description: "hello",
+  //     recordType: "War Crimes",
+  //     warCrime: [],
+  //   },
+  //   {
+  //     _id: "unique2",
+  //     recordTitle: "hello",
+  //     recordCreationDate: new Date(),
+  //     media: {
+  //       mainImage: undefined,
+  //     },
+  //     description: "hello",
+  //     recordType: "War Crimes",
+  //     warCrime: [],
+  //   },
+  // ];
   const app = useRealmApp();
   const dispatch = useDispatch();
   useEffect(() => {

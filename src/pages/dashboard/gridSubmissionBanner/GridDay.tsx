@@ -28,7 +28,7 @@ const GridDay = ({
   useEffect(() => {
     if(windowWidth !== offset.left) setOffset({ left: window.pageXOffset, top: window.pageYOffset });
     return () => {};
-  }, [windowWidth]);
+  }, [windowWidth, offset.left]);
   const onHover = () => {
     unstable_batchedUpdates(() => {
       //we want the most recent position
@@ -42,7 +42,8 @@ const GridDay = ({
   }px + 1rem)`;
   const left = `calc(${rectBoundingRect ? rectBoundingRect.x : 0}px + ${
     offset.left
-  }px  - 5.3rem)`;
+    }px  - 5.3rem)`;
+  const appRoot = document.body.querySelector("#root")
   return (
     <>
       <rect
@@ -79,7 +80,7 @@ const GridDay = ({
             year: "numeric",
           })}
         </div>,
-        document.body
+         appRoot ? appRoot : document.body 
       )}
     </>
   );

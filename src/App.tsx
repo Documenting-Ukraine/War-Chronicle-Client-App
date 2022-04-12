@@ -38,16 +38,17 @@ function App() {
               </NavWrapper>
             }
           />
-          <Route
-            path="/dashboard/:id/"
-            element={
-              <RequireNonGuestAndOwner path="dashboard">
-                <NavWrapper>
-                  <Dashboard type="overview" />
-                </NavWrapper>
-              </RequireNonGuestAndOwner>
-            }
-          >
+          <Route path="/dashboard/:id">
+            <Route
+              index={true}
+              element={
+                <RequireNonGuestAndOwner path="dashboard">
+                  <NavWrapper>
+                    <Dashboard type="overview" />
+                  </NavWrapper>
+                </RequireNonGuestAndOwner>
+              }
+            ></Route>
             <Route
               path="overview"
               element={

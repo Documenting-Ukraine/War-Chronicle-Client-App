@@ -1,5 +1,5 @@
 import DashboardHeader from "./DashboardHeader";
-import { useRealmApp } from "../../realm/RealmApp";
+import { useRealmApp } from "../../../realm/RealmApp";
 const DashboardWrapper = ({children}: {children: JSX.Element}): JSX.Element => {
     const app = useRealmApp();
     const accountType = app.currentUser?.customData?.account_type;
