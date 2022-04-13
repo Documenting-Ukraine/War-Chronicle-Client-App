@@ -1,17 +1,24 @@
 @mixin dashboard-sm {
-    
+  .dashboard-user-column {
+    &.Name {
+      flex-grow: 1;
+      .user-list-row-item {
+        justify-content: start;
+      }
+    }
+  }
 }
 @mixin dashboard-md {
-    .dashboard-action-cards{
-        flex-direction: column;
-        justify-content: start;
-        align-items: center;
-        flex-wrap: nowrap;
-        .action-card{
-            width: 100%;
-        }
+  .dashboard-action-cards {
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    flex-wrap: nowrap;
+    .action-card {
+      width: 100%;
     }
-    #dashboard-user-search{
-        width: 100%;
-    }
+  }
+  #dashboard-user-search {
+    width: 100%;
+  }
 }

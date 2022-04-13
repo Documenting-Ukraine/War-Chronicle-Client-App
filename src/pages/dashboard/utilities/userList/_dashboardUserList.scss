@@ -12,13 +12,13 @@
   input {
     display: flex;
     align-items: center;
-    height: 3rem;
+    height: 2.8rem;
     width: 100%;
     margin-left: 0.5rem;
     border: none;
     outline: none;
     pointer-events: auto;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     &::placeholder {
       margin: 0;
       color: $gray;
@@ -92,22 +92,50 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
-  align-items: center;
   height: 100%;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid $light-gray;
+}
+.dashboard-user-column {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  &.Email, &.Joined {
+    .dashboard-user-column-title {
+      justify-content: center;
+    }
+  }
+  &.Email{
+    justify-content: center;
+    flex-grow: 1;
+  }
+  &.Joined{
+    min-width: 8rem;
+  }
+  .user-list-row-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3.5rem;
+    font-size: 0.85rem;
+    font-family: "Lato", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    font-weight: 500;
+    color: #575757;
+  }
+  .user-list-name{
+    margin-left: 0.5rem;
+  }
+  .more-user-actions{
+    @include remove-btn-default();
+    font-size: 1.5rem;
+  }
 }
 .dashboard-user-column-title {
   display: flex;
   align-items: center;
-  height: 100%;
-  &:nth-child(2) {
-    justify-content: center;
-    flex-grow: 1;
-  }
-  &:nth-child(3) {
-    margin-right: 5%;
-  }
+  height: 2rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid $light-gray;
+
   h5 {
     margin: 0;
     font-size: 0.9rem;
@@ -133,9 +161,4 @@
       }
     }
   }
-}
-.dashboard-users {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
 }
