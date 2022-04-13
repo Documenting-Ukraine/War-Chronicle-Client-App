@@ -23,7 +23,7 @@ type CombatPermission = GeneralInternational & {
 type MilitaryAid = GeneralInternational & {
   aidSent: boolean;
   recipient: string;
-  aidTypes: Array<typeof AidTypes>;
+  aidTypes: typeof AidTypes;
   dateAidIsAnnounced: Date;
   dateAidIsSent: Date;
   aidValuation: number;

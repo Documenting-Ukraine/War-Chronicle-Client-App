@@ -1,0 +1,17 @@
+@mixin dashboard-sm {
+    
+}
+@mixin dashboard-md {
+    .dashboard-action-cards{
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        flex-wrap: nowrap;
+        .action-card{
+            width: 100%;
+        }
+    }
+    #dashboard-user-search{
+        width: 100%;
+    }
+}

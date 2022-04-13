@@ -1,17 +1,56 @@
 //color
-$badge: #D2D2C0;
-$blue: #2C6BAC;
+$badge: #d2d2c0;
+$light-blue: #3277F7;
+$blue: #2c6bac;
 $dark-blue: #0045a6;
 $darkest-blue: #093552;
 $purple-blue: #000d74;
-$blue-gray: #41516C;
+$blue-gray: #41516c;
 $lighter-gray: rgb(221, 221, 221);
 $light-gray: rgb(199, 199, 199);
 $gray: rgb(165, 165, 165);
 $dark-gray: rgb(129, 129, 129);
 $darker-gray: rgb(114, 114, 114);
 $darkest-gray: rgb(83, 83, 83);
-$white: #F9F9F9;
-$green: #00B307;
+$white: #f9f9f9;
+$green: #00b307;
 //utilities
 $navbar-height: 3.5rem;
+
+@mixin remove-btn-default {
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+@mixin link-underline-styles(
+  $height: 2px,
+  $defaultColor: transparent,
+  $selectedColor: transparent
+) {
+  &::after {
+    position: absolute;
+    content: "";
+    left: 0;
+    bottom: -1px;
+    height: $height;
+    width: 0;
+    border-radius: 1rem;
+    transition: all 0.2s ease-out;
+    background-color: $defaultColor;
+  }
+  &:hover {
+    color: $defaultColor;
+    &::after {
+      background-color: $defaultColor;
+      width: 100%;
+    }
+  }
+  &.selected {
+    color: $selectedColor;
+    &::after {
+      background-color: $selectedColor;
+      width: 100%;
+    }
+  }
+}

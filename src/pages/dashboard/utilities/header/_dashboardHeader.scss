@@ -7,39 +7,15 @@
     a{
         position: relative;
         margin-left: 1.7rem;
-        font-size: 0.95rem;
+        font-size: 1.05rem;
         font-weight: 600;
         font-family: "Poppins",'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         color: $purple-blue;
         text-decoration: none;
+        @include link-underline-styles(2.5px, $purple-blue, $dark-gray);
         &:first-child{
             margin: 0;
         }
-        &::after{
-            position: absolute;
-            content: "";
-            left: 0;
-            bottom: -1px;
-            height: 2.5px;
-            width: 0;
-            border-radius: 1rem;
-            transition: all 0.2s ease-out;
-            background-color: $purple-blue;
-        }
-        &:hover{
-            &::after{
-                background-color: $purple-blue;
-                width: 100%;
-            }
-        }
-        &.selected{
-            color: $dark-gray;
-            &::after{
-                background-color: $dark-gray !important;
-                width: 100%;
-            }
-        }
-        
     }
     
 }

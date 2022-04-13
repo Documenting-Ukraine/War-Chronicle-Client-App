@@ -18,8 +18,8 @@ type Sanctions = RussiaGeneral & {
 };
 type Corporations = RussiaGeneral & {
   corporation: string;
-  responseType: typeof ResponseType;
-  corporationIndustry: typeof CorporationIndustry;
+  responseType: typeof ResponseType[number];
+  corporationIndustry: typeof CorporationIndustry[number];
   dateOfFirstResponse: Date;
   dateMostRecentReponse: Date;
   donationValuation?: number;
@@ -27,8 +27,8 @@ type Corporations = RussiaGeneral & {
 type SportsAndCulture = RussiaGeneral & {
   organization: string;
   dateOfAnnouncement: Date;
-  organizationCategory: typeof OrganizationType;
-  responseType: typeof ResponseType;
+  organizationCategory: typeof OrganizationType[number];
+  responseType: typeof ResponseType[number];
 };
 
 type ProtestsInRussia = RussiaGeneral & {};

@@ -15,7 +15,7 @@ type MediaAndDisInfoGeneral = GeneralRecordType & {
     stance: string;
     quote: string;
   };
-  disinformation?: typeof Disinformation;
+  disinformation?: typeof Disinformation[number];
   notes: string;
 };
 

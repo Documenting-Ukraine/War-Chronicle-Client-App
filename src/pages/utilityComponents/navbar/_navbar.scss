@@ -47,22 +47,7 @@
         font-size: 0.9rem;
         text-decoration: none;
         color: $dark-blue;
-        transition: 0.3s all ease-in;
-        &::after{
-            content: "";
-            position: absolute;
-            height: 2px;
-            background-color: $dark-blue;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            transition: 150ms all ease-out;
-            border-radius: 2px;
-        }
-        &:hover{
-            &::after{
-                width: 100%;
-            }
-        }   
+        transition: 0.3s all ease-in; 
+        @include link-underline-styles(2px, $blue);
     }
 }

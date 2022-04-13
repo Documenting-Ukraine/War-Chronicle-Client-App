@@ -38,22 +38,7 @@
         text-decoration: none;
         font-family:"Poppins" ,'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         width: fit-content;
-        &::after{
-            content: '';
-            width: 0px;
-            height: 1px;
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            transition: all ease-out 0.15s;
-            background-color: $white;
-        }
-        &:hover{
-            color: $white;
-            &::after{
-                width: 100%;
-            }
-        }
+        @include link-underline-styles(1px, $white, $white);
     }
 }
 .footer-contact-column{
