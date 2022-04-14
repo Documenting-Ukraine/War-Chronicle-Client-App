@@ -19,9 +19,10 @@ export const CategoriesList = [
   "Media and Disinformation",
   "Russia"
 ] as const;
-export type CategoryIconProps = {
-  [key in typeof CategoriesList[number]]: IconProp;
-}
+export type GenericCategoryMap<T> = {
+  [key in typeof CategoriesList[number]]: T;
+};
+export type CategoryIconProps = GenericCategoryMap<IconProp>;
 export function isCategoryScope(
   arg: any
 ): arg is typeof CategoriesList[number] {
@@ -38,4 +39,14 @@ const categoryIconMap: CategoryIconProps = {
   "Media and Disinformation": faNewspaper,
   "Russia": faFlag,
 };
+export const categoryPermissions: GenericCategoryMap<boolean> = {
+  "War Crimes": false,
+  "Strikes and Attacks": false,
+  "Refugees And IDPs": false,
+  "Protest Abroad": false,
+  "Environmental Terrorism": false,
+  "International Response": false,
+  "Media and Disinformation": false,
+  "Russia": false
+}
 export default categoryIconMap;

@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RealmApp } from "../../../realm/RealmApp";
 import { UserDocument } from "../../../types/dataTypes";
+import {isCategoryScope} from "../../../types/dataTypes/CategoryIconMap"
 interface FetchDataProps {
   app: RealmApp;
   input:
@@ -18,7 +19,9 @@ function isUserData(arg: any): arg is UserDocument[] {
   if (!arg) return false;
   const isArray = Array.isArray(arg);
   if (isArray) {
-    if (arg[0]._id && arg[0].account_type) return true;
+    if (!(arg[0]._id && arg[0].account_type)) return false;
+    if (!arg[0].category_scopes.every((scope: string) => isCategoryScope(scope)))
+      return true;
   }
   return false;
 }

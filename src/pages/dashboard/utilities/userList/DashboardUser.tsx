@@ -8,7 +8,12 @@ import UserActionsDropdown from "./DashboardUserDropdown";
 import { useState } from "react";
 import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
 import { UserScopePopUp, RevokeAccessPopUp } from "./PopUpModals";
-import {CategoriesList} from "../../../../types/dataTypes/CategoryIconMap"
+import {
+  CategoriesList,
+  isCategoryScope,
+  GenericCategoryMap,
+  categoryPermissions,
+} from "../../../../types/dataTypes/CategoryIconMap";
 const DashboardUser = ({
   user,
   elementType,
@@ -22,11 +27,33 @@ const DashboardUser = ({
   const name = `${user.first_name} ${user.last_name}`;
   const [revokeAccess, setRevokeAccess] = useState(false);
   const [userScopeModal, setUserScopeModal] = useState(false);
-  const [newCategories, setNewCategories] = useState<typeof CategoriesList[number][]>([]);
+  const userCategoryScopesMap: GenericCategoryMap<boolean> = {
+    ...categoryPermissions,
+  };
+  if (user.category_scopes) {
+    for (let scope of user.category_scopes) {
+      userCategoryScopesMap[scope] = true;
+    }
+  }
+  const [categories, setCategories] = useState(userCategoryScopesMap);
   const { ref, isClickOutside, setisClickOutside } = useIsClickOutside(false);
-  const onEditUserScope = (
+  const onCategoryUpdate = (
+    e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>
+  ) => {
+    const data = e.currentTarget.dataset;
+    const category = typeof data.category === "string" ? data.category : "";
+    if (!isCategoryScope(category)) return;
+
+    const categoryPermission = data.categoryPermission;
+    const newData = {
+      ...categories,
+      [category]: categoryPermission === "true",
+    };
+    setCategories(newData);
+  };
+  const onSaveUserScope = (
     e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>,
-    newCategories?: typeof CategoriesList[number][]
+    newCategories?: GenericCategoryMap<boolean>
   ) => {
     const data = e.currentTarget.dataset;
     const actionType = data.actionType;
@@ -34,7 +61,7 @@ const DashboardUser = ({
       case "close-modal":
         setUserScopeModal(false);
         break;
-      case "edit-scope":
+      case "save-scope":
         const userId = data.userId;
         const index = data.index;
         batch(() => {
@@ -48,23 +75,22 @@ const DashboardUser = ({
   const onRevokeAccess = (
     e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>
   ) => {
-      const data = e.currentTarget.dataset;
-      const actionType = data.actionType;
-      switch (actionType) {
-        case "close-modal":
+    const data = e.currentTarget.dataset;
+    const actionType = data.actionType;
+    switch (actionType) {
+      case "close-modal":
+        setRevokeAccess(false);
+        break;
+      case "revoke-access":
+        const userId = data.userId;
+        const index = data.index;
+        batch(() => {
           setRevokeAccess(false);
-          break;
-        case "revoke-access":
-          const userId = data.userId;
-          const index = data.index;
-          batch(() => {
-            setRevokeAccess(false);
-          });
-          break;
-        default:
-          break;
-        }
-
+        });
+        break;
+      default:
+        break;
+    }
   };
   const map = {
     avatar: (
@@ -114,11 +140,17 @@ const DashboardUser = ({
       {!userScopeModal && (
         <PopUpBg
           fullViewport={true}
-          onClick={(e) => onEditUserScope(e, newCategories)}
+          onClick={(e) => {
+            onSaveUserScope(e, categories);
+          }}
+
         >
           <UserScopePopUp
             user={user}
-            onClick={(e) => onEditUserScope(e, newCategories)}
+            onClick={(e) => {
+              onSaveUserScope(e, categories);
+            }}
+            onCategoryUpdate = {onCategoryUpdate}
             index={index}
           />
         </PopUpBg>
