@@ -1,6 +1,7 @@
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faFileLines, faFolder } from "@fortawesome/free-solid-svg-icons";
 import categoryIconMap from "./CategoryIconMap";
+import { CategoriesList, isCategoryScope} from "./CategoryIconMap";
 
 const contributeActionCardData = (user: Realm.User) => {
   const accountType = user.customData?.account_type;
@@ -16,9 +17,8 @@ const contributeActionCardData = (user: Realm.User) => {
   const categoryCardData = categoryList.map((category) => {
     return {
       additionalRoute: `forms/create-new-${category}`,
-      cardIcon: categoryIconMap[category]
-        ? categoryIconMap[category]
-        : faFileLines,
+      cardIcon:
+        isCategoryScope(category) ? categoryIconMap[category] : faFileLines,
       cardHeading: `New ${category}`,
       cardDescription: `Create a new record for ${category}`,
     };

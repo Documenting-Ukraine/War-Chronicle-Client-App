@@ -6,7 +6,7 @@
     justify-content: center;
     height: 100vh;
     width: 100%;
-    z-index: 2;
+    z-index: 10;
     background-color: rgba(0, 0, 0, 0.335);
 }
 .pop-up-full-viewport{
@@ -19,4 +19,5 @@
 };
 .pop-up-inner-container{
     margin: auto;
+    z-index: 1;
 }

@@ -1,24 +1,25 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/rootReducer";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChevronLeft,
-  faChevronRight,
-
-} from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { UserDocument } from "../../../../store/reducers/types";
 import useWindowWidth from "../../../../hooks/use-window-width";
 import DashboardUserColumn from "./DashboardUserColumn";
 import DashboardUserSearch from "./DashboardUserSearch";
+import LoadingIcon from "../../../utilityComponents/loadingIcon/LoadingIcon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 const DashboardUserList = () => {
   const userListData = useSelector(
     (state: RootState) => state.dashboard.userListData
   );
   const smallWidth = useWindowWidth(575)
   //const userList = userListData.data;
+  const userListLoading= userListData.status
   let userList: UserDocument[] = []
-  for (let i = 0; i < 10; i++){
+  for (let i = 0; i < 1; i++){
     const userDoc:UserDocument = {
       _id: i.toString(),
       occupation: "teacher",
@@ -27,7 +28,8 @@ const DashboardUserList = () => {
       email: "arkyasmal@gmail.com",
       email_verified: true,
       creation_date: new Date(),
-      account_type: "admin",
+      account_type: "contributor",
+      category_scopes: ["War Crimes", "Strikes And Attacks"],
       external_id: i.toString(),
       user_id: i.toString(),
     }
@@ -110,6 +112,9 @@ const DashboardUserList = () => {
           </div>
         </div>
         <div className="dashboard-user-columns">
+          {userListLoading === "loading" && <div className="dashboard-user-column-loading">
+            <LoadingIcon width={"3.5rem"}/>
+          </div>}
           {columnTitlesData.map((title) => {
             return (
               <DashboardUserColumn

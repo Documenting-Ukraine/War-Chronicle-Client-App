@@ -5,7 +5,7 @@ import {
   faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Avatar, { ConfigProvider } from "react-avatar";
+import Avatar from "react-avatar";
 import { useNavigate } from "react-router-dom";
 import useIsClickOutside from "../../../hooks/use-click-outside";
 
@@ -103,9 +103,6 @@ const UserDropdown = ({
 }: UserDropdownProps): JSX.Element => {
   const { ref, isClickOutside, setisClickOutside } = useIsClickOutside(false);
   return (
-    <ConfigProvider
-      colors={["#2C6BAC", "#0046A6", "#093552", "#000d74", "#41516C"]}
-    >
       <div
         className={`user-dropdown-container ${
           userDropdownClass ? userDropdownClass : ""
@@ -139,7 +136,6 @@ const UserDropdown = ({
           />
         )}
       </div>
-    </ConfigProvider>
   );
 };
 export default UserDropdown;

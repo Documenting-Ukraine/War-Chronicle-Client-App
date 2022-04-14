@@ -39,8 +39,9 @@ const DashboardUserColumn = ({
         {userList &&
           userList
             .slice(userListStart, userListEnd)
-            .map((user) => (
+            .map((user, index) => (
               <DashboardUser
+                index= {index}
                 key={user._id}
                 user={user}
                 elementType={columnType}

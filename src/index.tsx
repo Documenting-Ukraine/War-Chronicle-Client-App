@@ -6,14 +6,19 @@ import { RealmAppProvider } from "./realm/RealmApp";
 import { BrowserRouter as Router } from "react-router-dom";
 import { store } from "./store/store";
 import { Provider } from "react-redux";
+import { ConfigProvider } from "react-avatar";
 const RealmAppId = process.env["REACT_APP_REALM_APP_DEV"];
 ReactDOM.render(
   <React.StrictMode>
     <RealmAppProvider appId={RealmAppId}>
       <Provider store={store}>
-        <Router>
-          <App />
-        </Router>
+        <ConfigProvider
+          colors={["#2C6BAC", "#0046A6", "#093552", "#000d74", "#41516C"]}
+        >
+          <Router>
+            <App />
+          </Router>
+        </ConfigProvider>
       </Provider>
     </RealmAppProvider>
   </React.StrictMode>,

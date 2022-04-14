@@ -2,7 +2,7 @@ import calculateDays from "./helperFunc/calculateDays";
 import GridMonth from "./GridMonth";
 import { endOfMonth, differenceInCalendarWeeks, startOfMonth } from "date-fns";
 import { memo, useEffect } from "react";
-import { fetchActivityData } from "../../../../store/reducers/dashboard/userDashboard";
+import { fetchActivityData } from "../../../../store/reducers/dashboard/dashboardReducer";
 import { RootState } from "../../../../store/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { useRealmApp } from "../../../../realm/RealmApp";

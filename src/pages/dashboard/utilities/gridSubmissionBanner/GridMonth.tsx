@@ -2,7 +2,7 @@ import { MonthDataTemplate } from "./helperFunc/calculateDays";
 import GridDay from "./GridDay";
 import { add, isBefore, endOfMonth, endOfWeek } from "date-fns";
 import React from "react";
-import { ActivityDataTemplate } from "../../../../store/reducers/dashboard/userDashboard";
+import { ActivityDataTemplate } from "../../../../store/reducers/dashboard/dashboardReducer";
 const GridMonth = ({
   monthData,
   activityData,

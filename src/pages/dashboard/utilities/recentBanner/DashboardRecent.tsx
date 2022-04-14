@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useRealmApp } from "../../../../realm/RealmApp";
 import { RootState } from "../../../../store/rootReducer";
 import { useDispatch } from "react-redux";
-import { fetchContributions } from "../../../../store/reducers/dashboard/userDashboard";
+import { fetchContributions } from "../../../../store/reducers/dashboard/dashboardReducer";
 import { MediaLink } from "../../../../store/reducers/types/GeneralRecordType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";

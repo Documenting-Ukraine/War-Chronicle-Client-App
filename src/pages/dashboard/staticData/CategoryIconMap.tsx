@@ -9,9 +9,24 @@ import {
   faPeopleGroup,
   faTents,
 } from "@fortawesome/free-solid-svg-icons";
-
-interface CategoryIconProps {
-  [key: string]: IconProp;
+export const CategoriesList = [
+  "War Crimes",
+  "Strikes and Attacks",
+  "Refugees And IDPs",
+  "Protest Abroad",
+  "Environmental Terrorism",
+  "International Response",
+  "Media and Disinformation",
+  "Russia"
+] as const;
+export type CategoryIconProps = {
+  [key in typeof CategoriesList[number]]: IconProp;
+}
+export function isCategoryScope(
+  arg: any
+): arg is typeof CategoriesList[number] {
+  if (!arg) return false;
+  return arg in categoryIconMap;
 }
 const categoryIconMap: CategoryIconProps = {
   "War Crimes": faHandcuffs,
