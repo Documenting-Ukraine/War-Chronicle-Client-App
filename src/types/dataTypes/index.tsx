@@ -4,6 +4,7 @@ import { RefugeesAndIdps } from "./RefugeesAndIdps";
 import { Russia } from "./Russia";
 import { StrikesAndAttacks } from "./StrikesAndAttacks";
 import { WarCrimes } from "./WarCrimes";
+import {CategoriesList} from "./CategoryIconMap"
 type RecordSubmissionType =
   | InternationalResponse
   | MediaAndDisInformation
@@ -22,7 +23,7 @@ type UserDocument = {
   account_type: "admin" | "contributor";
   external_id: string;
   user_id: string;
-  category_scopes?: string[]
+  category_scopes?: typeof CategoriesList[number][]
 };
 export type {
   RecordSubmissionType,

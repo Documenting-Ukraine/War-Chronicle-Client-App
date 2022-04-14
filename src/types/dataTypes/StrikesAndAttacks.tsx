@@ -5,7 +5,7 @@ type StrikesAndAttacksGeneral = GeneralEventType & {
   civilianCasualties?: number;
   ukrCasualties?: number;
   rfCasualities?: number;
-  civilianInfastructure: typeof CivilianInfastructure
+  civilianInfastructure: typeof CivilianInfastructure[number][]
 };
 type Strikes = StrikesAndAttacksGeneral
 type Attacks = StrikesAndAttacksGeneral & {

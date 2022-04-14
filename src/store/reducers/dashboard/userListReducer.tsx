@@ -1,5 +1,5 @@
 import { fetchUserData } from "../asyncActions/fetchUsers";
-import { UserDocument } from "../types";
+import { UserDocument } from "../../../types/dataTypes";
 import { createSlice } from "@reduxjs/toolkit";
 import { GenericDashboardData } from "./types";
 const userListSlice = createSlice({

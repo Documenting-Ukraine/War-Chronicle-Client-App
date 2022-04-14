@@ -10,7 +10,7 @@ type RussiaGeneral = GeneralRecordType & {
   notes: string;
 };
 type Sanctions = RussiaGeneral & {
-  countries: typeof Countries;
+  countries: typeof Countries[number][];
   sanctions: boolean;
   swift: boolean;
   russianCB: boolean;

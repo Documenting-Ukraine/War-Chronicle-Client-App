@@ -1,4 +1,4 @@
-import { UserDocument } from "../../../../store/reducers/types";
+import { UserDocument } from "../../../../types/dataTypes";
 import ExitIcon from "../../../utilityComponents/exitIcon/ExitIcon"
 interface PopUpProps {
     onClick: (e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>) => void;

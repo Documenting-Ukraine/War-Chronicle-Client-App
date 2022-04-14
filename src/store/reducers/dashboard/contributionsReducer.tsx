@@ -1,4 +1,4 @@
-import { RecordSubmissionType } from "../types";
+import { RecordSubmissionType } from "../../../types/dataTypes";
 import { createSlice } from "@reduxjs/toolkit";
 import { GenericDashboardData } from "./types";
 import { fetchContributions } from "./dashboardReducer";

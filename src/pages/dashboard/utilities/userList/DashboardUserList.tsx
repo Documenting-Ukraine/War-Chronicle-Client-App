@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/rootReducer";
 import { useState } from "react";
-import { UserDocument } from "../../../../store/reducers/types";
+import { UserDocument } from "../../../../types/dataTypes";
 import useWindowWidth from "../../../../hooks/use-window-width";
 import DashboardUserColumn from "./DashboardUserColumn";
 import DashboardUserSearch from "./DashboardUserSearch";
@@ -29,7 +29,7 @@ const DashboardUserList = () => {
       email_verified: true,
       creation_date: new Date(),
       account_type: "contributor",
-      category_scopes: ["War Crimes", "Strikes And Attacks"],
+      category_scopes: ["War Crimes", "Strikes and Attacks"],
       external_id: i.toString(),
       user_id: i.toString(),
     }

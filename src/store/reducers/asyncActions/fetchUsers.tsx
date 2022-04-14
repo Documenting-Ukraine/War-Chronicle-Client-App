@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RealmApp } from "../../../realm/RealmApp";
-import { UserDocument } from "../types";
+import { UserDocument } from "../../../types/dataTypes";
 interface FetchDataProps {
   app: RealmApp;
   input:

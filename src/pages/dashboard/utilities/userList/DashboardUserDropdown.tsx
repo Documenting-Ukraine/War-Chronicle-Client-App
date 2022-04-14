@@ -1,4 +1,4 @@
-import { UserDocument } from "../../../../store/reducers/types";
+import { UserDocument } from "../../../../types/dataTypes";
 const UserActionsDropdown = ({
   user,
   setUserScopeModal,

@@ -3,12 +3,12 @@ import Avatar from "react-avatar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, batch } from "react-redux";
 import useIsClickOutside from "../../../../hooks/use-click-outside";
-import { UserDocument } from "../../../../store/reducers/types";
+import { UserDocument } from "../../../../types/dataTypes";
 import UserActionsDropdown from "./DashboardUserDropdown";
 import { useState } from "react";
 import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
 import { UserScopePopUp, RevokeAccessPopUp } from "./PopUpModals";
-import {CategoriesList} from "../../staticData/CategoryIconMap"
+import {CategoriesList} from "../../../../types/dataTypes/CategoryIconMap"
 const DashboardUser = ({
   user,
   elementType,
@@ -112,13 +112,24 @@ const DashboardUser = ({
     <>
       {map[elementType]}
       {!userScopeModal && (
-        <PopUpBg fullViewport={true} onClick={(e) => onEditUserScope(e, newCategories)}>
-          <UserScopePopUp user={user} onClick={onEditUserScope} index={index}/>
+        <PopUpBg
+          fullViewport={true}
+          onClick={(e) => onEditUserScope(e, newCategories)}
+        >
+          <UserScopePopUp
+            user={user}
+            onClick={(e) => onEditUserScope(e, newCategories)}
+            index={index}
+          />
         </PopUpBg>
       )}
       {revokeAccess && (
         <PopUpBg fullViewport={true} onClick={onRevokeAccess}>
-          <RevokeAccessPopUp user={user} onClick={onRevokeAccess} index={index}/>
+          <RevokeAccessPopUp
+            user={user}
+            onClick={onRevokeAccess}
+            index={index}
+          />
         </PopUpBg>
       )}
     </>

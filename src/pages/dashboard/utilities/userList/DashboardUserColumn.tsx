@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { UserDocument } from "../../../../store/reducers/types";
+import { UserDocument } from "../../../../types/dataTypes";
 import DashboardUser from "./DashboardUser"
 interface DashboardUserColumnProps {
   title: string;

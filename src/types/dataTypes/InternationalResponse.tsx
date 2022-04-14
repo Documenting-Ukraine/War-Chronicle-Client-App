@@ -6,7 +6,7 @@ import {
 import {Countries, AidTypes} from "./DataLists"
 type GeneralInternational = GeneralRecordType & {
   recordType: "International Response"
-  countries: Array<typeof Countries[number]>;
+  countries: typeof Countries[number][];
   recordCreationDate: Date;
 }
 type UNRecord = GeneralInternational & {
@@ -23,7 +23,7 @@ type CombatPermission = GeneralInternational & {
 type MilitaryAid = GeneralInternational & {
   aidSent: boolean;
   recipient: string;
-  aidTypes: typeof AidTypes;
+  aidTypes: typeof AidTypes[number][];
   dateAidIsAnnounced: Date;
   dateAidIsSent: Date;
   aidValuation: number;

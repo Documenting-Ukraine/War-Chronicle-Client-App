@@ -5,7 +5,7 @@ import { useRealmApp } from "../../../../realm/RealmApp";
 import { RootState } from "../../../../store/rootReducer";
 import { useDispatch } from "react-redux";
 import { fetchContributions } from "../../../../store/reducers/dashboard/dashboardReducer";
-import { MediaLink } from "../../../../store/reducers/types/GeneralRecordType";
+import { MediaLink } from "../../../../types/dataTypes/GeneralRecordType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 const RecentRow = ({

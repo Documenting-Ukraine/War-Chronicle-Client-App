@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RealmApp } from "../../../realm/RealmApp";
-import { RecordSubmissionType } from "../types";
+import { RecordSubmissionType } from "../../../types/dataTypes";
 
 function isRecordSubmissionType(arg: any): arg is RecordSubmissionType[] {
   if (!arg) return false;
