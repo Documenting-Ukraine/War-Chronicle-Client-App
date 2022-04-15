@@ -1,16 +1,21 @@
 import { useDispatch, batch } from "react-redux";
-
+import useWindowWidth from "../../../../../hooks/use-window-width"
 import PopUpBg from "../../../../utilityComponents/popUpBg/PopUpBg";
 import { PopUpProps, GeneralDashboardPopUp } from "./general";
 export const RevokeAccessPopUp = ({ user, index, closePopUp }: PopUpProps) => {
+      const mediumWidth = useWindowWidth(992);
   const onRevokeAccess = (
     e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>
   ) => {
     const data = e.currentTarget.dataset;
     const actionType = data.actionType;
     switch (actionType) {
-      case "close-modal":
-        if (e.target === e.currentTarget) closePopUp(false);
+      case "close-pop-up":
+        if (
+          (e.target instanceof HTMLElement || e.target instanceof SVGElement) &&
+          e.target.closest("button")?.dataset.actionType
+        )
+          closePopUp(false);
         break;
       case "revoke-access":
         const userId = data.userId;
@@ -48,7 +53,25 @@ export const RevokeAccessPopUp = ({ user, index, closePopUp }: PopUpProps) => {
         alertClass="revoke-access-alert"
         alertContent={alertContent}
       >
-        <div></div>
+        <>
+          <h3 className="revoke-user-title">Remove the following contributor?</h3>
+          <div className="revoke-user-list-heading">
+            <h4>Name</h4>
+            <h4>Email</h4>
+            {mediumWidth && <h4>Joined</h4>}
+          </div>
+          <div className="revoke-user-list-item">
+            <p>{user.first_name + " " + user.last_name}</p>
+            <p>{user.email}</p>
+            {mediumWidth && <p>
+              {user.creation_date.toLocaleDateString("en-us", {
+                month: "short",
+                day: "2-digit",
+                year: "numeric",
+              })}
+            </p>}
+          </div>
+        </>
       </GeneralDashboardPopUp>
     </PopUpBg>
   );

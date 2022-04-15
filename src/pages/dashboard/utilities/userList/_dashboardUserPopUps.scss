@@ -7,8 +7,7 @@
   width: 40vw;
   padding-bottom: 0.5rem;
 }
-.revoke-access-pop-up {
-}
+
 .dashboard-popup-modal-header {
   display: flex;
   border-radius: 0.8rem 0.8rem 0 0;
@@ -159,4 +158,45 @@
       opacity: 0.9;
     }
   }
+}
+.revoke-access-pop-up {
+  .revoke-user-title {
+    display: flex;
+    font-size: 1.1rem;
+    width: 100%;
+    justify-content: center;
+    padding: 1.5rem 0;
+    margin-bottom: 0;
+  }
+  .revoke-user-list-heading {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-family: 'Lato','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: $darkest-gray;
+    padding-bottom: 0.3rem;
+    h4 {
+      font-size: 0.95rem;
+    }
+    &::after{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        content: "";
+        background-color: $lighter-gray;
+    }
+  }
+  .revoke-user-list-item {
+    margin: 1rem 0;
+    color: $darkest-gray;
+    font-family: 'Lato','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    
+    }
 }

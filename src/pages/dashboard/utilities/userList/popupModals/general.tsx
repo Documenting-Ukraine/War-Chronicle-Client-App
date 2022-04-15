@@ -37,7 +37,7 @@ export const GeneralDashboardPopUp = ({
     >
       <div className="dashboard-popup-modal-header">
         <h2>{heading ? heading : ""}</h2>
-        <button data-action-type="close-modal" onClick={onClick}>
+        <button data-action-type="close-pop-up" onClick={onClick}>
           {<ExitIcon customStrokeWidth={"0.4rem"} />}
         </button>
       </div>
