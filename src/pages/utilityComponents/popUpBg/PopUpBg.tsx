@@ -16,6 +16,7 @@ const PopUpBg = ({
       {fullViewport &&
         createPortal(
           <div
+            style={{cursor: "auto"}}
             aria-label={onClick ? "close pop up" : undefined}
             data-action-type={"close-pop-up"}
             role={onClick ? "button" : undefined}

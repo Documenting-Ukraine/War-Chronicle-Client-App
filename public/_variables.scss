@@ -1,6 +1,6 @@
 //color
 $badge: #d2d2c0;
-$light-blue: #3277F7;
+$light-blue: #3277f7;
 $blue: #2c6bac;
 $dark-blue: #0045a6;
 $darkest-blue: #093552;
@@ -13,9 +13,14 @@ $gray: rgb(165, 165, 165);
 $dark-gray: rgb(129, 129, 129);
 $darker-gray: rgb(114, 114, 114);
 $darkest-gray: rgb(83, 83, 83);
+//$dark-gray: #787878
 $white: #f9f9f9;
 $green: #00b307;
 $red: #dc3545;
+$dark-red: #721c24;
+$light-red: #f8d7da;
+$dark-yellow: #86681d;
+$light-yellow: #fefee3;
 //utilities
 $navbar-height: 3.5rem;
 
@@ -54,5 +59,29 @@ $navbar-height: 3.5rem;
       background-color: $selectedColor;
       width: 100%;
     }
+  }
+}
+@mixin scroll-bar-styles(
+  $width: 0.5rem,
+  $height: 0.5rem,
+  $track-color: rgba(0, 0, 0, 0.07),
+  $thumb-color: rgba(153, 153, 153, 0.6),
+  $border-radius: 0.5rem
+) {
+  &::-webkit-scrollbar {
+    width: $width;
+    height: $height;
+  }
+  &::-webkit-scrollbar-track {
+    width: $width;
+    height: $height;
+    background-color: $track-color;
+    border-radius: $border-radius;
+  }
+  &::-webkit-scrollbar-thumb {
+    width: $width;
+    height: $height;
+    background: $thumb-color;
+    border-radius: $border-radius;
   }
 }

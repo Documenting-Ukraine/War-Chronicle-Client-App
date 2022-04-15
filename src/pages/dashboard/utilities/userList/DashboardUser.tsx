@@ -1,19 +1,12 @@
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import Avatar from "react-avatar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useDispatch, batch } from "react-redux";
 import useIsClickOutside from "../../../../hooks/use-click-outside";
 import { UserDocument } from "../../../../types/dataTypes";
 import UserActionsDropdown from "./DashboardUserDropdown";
 import { useState } from "react";
-import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
-import { UserScopePopUp, RevokeAccessPopUp } from "./PopUpModals";
-import {
-  CategoriesList,
-  isCategoryScope,
-  GenericCategoryMap,
-  categoryPermissions,
-} from "../../../../types/dataTypes/CategoryIconMap";
+import { RevokeAccessPopUp } from "./popupModals/RevokeAccessModal";
+import { UserScopePopUp } from "./popupModals/UserCategoryModal";
 const DashboardUser = ({
   user,
   elementType,
@@ -23,75 +16,10 @@ const DashboardUser = ({
   elementType: "avatar" | "email" | "date" | "actionBtn";
   index: number;
 }) => {
-  const dispatch = useDispatch();
   const name = `${user.first_name} ${user.last_name}`;
   const [revokeAccess, setRevokeAccess] = useState(false);
   const [userScopeModal, setUserScopeModal] = useState(false);
-  const userCategoryScopesMap: GenericCategoryMap<boolean> = {
-    ...categoryPermissions,
-  };
-  if (user.category_scopes) {
-    for (let scope of user.category_scopes) {
-      userCategoryScopesMap[scope] = true;
-    }
-  }
-  const [categories, setCategories] = useState(userCategoryScopesMap);
   const { ref, isClickOutside, setisClickOutside } = useIsClickOutside(false);
-  const onCategoryUpdate = (
-    e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>
-  ) => {
-    const data = e.currentTarget.dataset;
-    const category = typeof data.category === "string" ? data.category : "";
-    if (!isCategoryScope(category)) return;
-
-    const categoryPermission = data.categoryPermission;
-    const newData = {
-      ...categories,
-      [category]: categoryPermission === "true",
-    };
-    setCategories(newData);
-  };
-  const onSaveUserScope = (
-    e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>,
-    newCategories?: GenericCategoryMap<boolean>
-  ) => {
-    const data = e.currentTarget.dataset;
-    const actionType = data.actionType;
-    switch (actionType) {
-      case "close-modal":
-        setUserScopeModal(false);
-        break;
-      case "save-scope":
-        const userId = data.userId;
-        const index = data.index;
-        batch(() => {
-          setUserScopeModal(false);
-        });
-        break;
-      default:
-        break;
-    }
-  };
-  const onRevokeAccess = (
-    e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>
-  ) => {
-    const data = e.currentTarget.dataset;
-    const actionType = data.actionType;
-    switch (actionType) {
-      case "close-modal":
-        setRevokeAccess(false);
-        break;
-      case "revoke-access":
-        const userId = data.userId;
-        const index = data.index;
-        batch(() => {
-          setRevokeAccess(false);
-        });
-        break;
-      default:
-        break;
-    }
-  };
   const map = {
     avatar: (
       <div className="user-list-row-item">
@@ -137,32 +65,19 @@ const DashboardUser = ({
   return (
     <>
       {map[elementType]}
-      {!userScopeModal && (
-        <PopUpBg
-          fullViewport={true}
-          onClick={(e) => {
-            onSaveUserScope(e, categories);
-          }}
-
-        >
+      {userScopeModal && (
           <UserScopePopUp
             user={user}
-            onClick={(e) => {
-              onSaveUserScope(e, categories);
-            }}
-            onCategoryUpdate = {onCategoryUpdate}
-            index={index}
+          index={index}
+          closePopUp={setUserScopeModal}
           />
-        </PopUpBg>
       )}
       {revokeAccess && (
-        <PopUpBg fullViewport={true} onClick={onRevokeAccess}>
           <RevokeAccessPopUp
             user={user}
-            onClick={onRevokeAccess}
-            index={index}
+           index={index}
+            closePopUp={setRevokeAccess}
           />
-        </PopUpBg>
       )}
     </>
   );
