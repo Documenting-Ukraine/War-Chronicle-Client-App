@@ -65,7 +65,7 @@ export const RevokeAccessPopUp = ({ user, index, closePopUp }: PopUpProps) => {
             <p>{user.first_name + " " + user.last_name}</p>
             <p>{user.email}</p>
             {mediumWidth && <p>
-              {user.creation_date.toLocaleDateString("en-us", {
+              {new Date(user.creation_date).toLocaleDateString("en-us", {
                 month: "short",
                 day: "2-digit",
                 year: "numeric",

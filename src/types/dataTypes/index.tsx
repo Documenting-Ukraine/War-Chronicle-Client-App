@@ -19,7 +19,7 @@ type UserDocument = {
   last_name: string;
   email: string;
   email_verified: boolean;
-  creation_date: Date;
+  creation_date: string ;
   account_type: "admin" | "contributor";
   external_id: string;
   user_id: string;

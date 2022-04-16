@@ -3,7 +3,8 @@ import { UserDocument } from "../../../types/dataTypes";
 import { createSlice } from "@reduxjs/toolkit";
 import { GenericDashboardData } from "./types";
   let userList: UserDocument[] = [];
-  for (let i = 0; i < 1; i++) {
+for (let i = 0; i < 1; i++) {
+      const newDate = new Date()
     const userDoc: UserDocument = {
       _id: i.toString(),
       occupation: "teacher",
@@ -11,7 +12,7 @@ import { GenericDashboardData } from "./types";
       last_name: "Asmal",
       email: "arkyasmal@gmail.com",
       email_verified: true,
-      creation_date: new Date(),
+      creation_date: new Date().toString(),
       account_type: "contributor",
       category_scopes: ["War Crimes", "Strikes and Attacks"],
       external_id: i.toString(),

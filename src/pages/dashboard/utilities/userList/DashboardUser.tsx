@@ -36,7 +36,7 @@ const DashboardUser = ({
     email: <div className="user-list-row-item">{`${user.email}`}</div>,
     date: (
       <div className="user-list-row-item">
-        {user.creation_date.toLocaleDateString("en-us", {
+        {new Date(user.creation_date).toLocaleDateString("en-us", {
           month: "short",
           day: "2-digit",
           year: "numeric",
