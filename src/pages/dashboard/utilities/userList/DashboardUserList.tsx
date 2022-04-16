@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/rootReducer";
 import { useState } from "react";
-import { UserDocument } from "../../../../types/dataTypes";
 import useWindowWidth from "../../../../hooks/use-window-width";
 import DashboardUserColumn from "./DashboardUserColumn";
 import DashboardUserSearch from "./DashboardUserSearch";
@@ -13,31 +12,17 @@ import {
   faFaceFrownOpen,
 } from "@fortawesome/free-solid-svg-icons";
 import { isName, isJoin, UserSortProps } from "./types";
+import { fetchUserData } from "../../../../store/reducers/asyncActions/fetchUsers";
+import { useRealmApp } from "../../../../realm/RealmApp";
 
 const DashboardUserList = () => {
   const userListData = useSelector(
     (state: RootState) => state.dashboard.userListData
   );
   const smallWidth = useWindowWidth(575);
-  //const userList = userListData.data;
+  const userList = userListData.data ? userListData.data : [];
   const userListLoading = userListData.status;
-  let userList: UserDocument[] = [];
-  for (let i = 0; i < 1; i++) {
-    const userDoc: UserDocument = {
-      _id: i.toString(),
-      occupation: "teacher",
-      first_name: "Arky",
-      last_name: "Asmal",
-      email: "arkyasmal@gmail.com",
-      email_verified: true,
-      creation_date: new Date(),
-      account_type: "contributor",
-      category_scopes: ["War Crimes", "Strikes and Attacks"],
-      external_id: i.toString(),
-      user_id: i.toString(),
-    };
-    userList.push(userDoc);
-  }
+const app = useRealmApp()
   const dispatch = useDispatch();
   const [userType, setUserType] = useState<"admins" | "contributors">("admins");
   const [userSort, setUserSort] = useState<UserSortProps>({
@@ -57,6 +42,36 @@ const DashboardUserList = () => {
     const newState = { [column]: direction };
     if (isName(newState) || isJoin(newState)) setUserSort(newState);
   };
+  const onUserPagination = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const data = e.currentTarget.dataset
+    switch (data.actionType) {
+      case "prev-pg":
+        setUserListPage((state) => (state - 1 >= 0 ? state - 1 : 0));      
+        break
+      case "next-pg":
+        setUserListPage((state) =>
+          !userListData.paginationEnd ? state + 1 : state
+        );
+        if (!userListData.paginationEnd) {
+          dispatch(
+            fetchUserData({
+              app: app,
+              input: {
+                value: userListData.prevSearch,
+                order: {
+                  key: isName(userSort) ? "name" : "join_date",
+                  direction: isName(userSort) ? userSort.name : userSort.joined
+                },
+                idIdx: userList[userList.length]._id
+              }
+            })
+          )
+        }
+        break
+      default:
+        break
+    }
+  }
   const columnTitlesData: {
     title: string;
     sort?: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -108,18 +123,14 @@ const DashboardUserList = () => {
               }`}
             </p>
             <button
-              onClick={() =>
-                setUserListPage((state) => (state - 1 >= 0 ? state - 1 : 0))
-              }
+              data-action-type = "prev-pg"
+              onClick={onUserPagination}
             >
               <FontAwesomeIcon icon={faChevronLeft} />
             </button>
             <button
-              onClick={() =>
-                setUserListPage((state) =>
-                  (state + 1) * 50 < userList.length ? state + 1 : state
-                )
-              }
+              data-action-type = "next-pg"
+              onClick={onUserPagination}
             >
               <FontAwesomeIcon icon={faChevronRight} />
             </button>

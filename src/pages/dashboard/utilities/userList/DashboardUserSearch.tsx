@@ -12,8 +12,8 @@ const DashboardUserSearch = ({
   userType,
   userSort
 }: {
-  userType: "admins" | "contributors",
-  userSort: UserSortProps
+    userType: "admins" | "contributors",
+    userSort: UserSortProps,
   }) => {
   const dispatch = useDispatch()
   const app = useRealmApp()
@@ -28,7 +28,6 @@ const DashboardUserSearch = ({
     reduxUpdateFunc: fetchUserData,
   });
   useEffect(() => {
-    console.log(userType)
     const newPayload: Omit<FetchUserDataProps["input"], "value"> = {
       userType: userType,
       order: {

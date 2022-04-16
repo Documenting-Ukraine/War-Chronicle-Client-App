@@ -2,12 +2,31 @@ import { fetchUserData } from "../asyncActions/fetchUsers";
 import { UserDocument } from "../../../types/dataTypes";
 import { createSlice } from "@reduxjs/toolkit";
 import { GenericDashboardData } from "./types";
+  let userList: UserDocument[] = [];
+  for (let i = 0; i < 1; i++) {
+    const userDoc: UserDocument = {
+      _id: i.toString(),
+      occupation: "teacher",
+      first_name: "Arky",
+      last_name: "Asmal",
+      email: "arkyasmal@gmail.com",
+      email_verified: true,
+      creation_date: new Date(),
+      account_type: "contributor",
+      category_scopes: ["War Crimes", "Strikes and Attacks"],
+      external_id: i.toString(),
+      user_id: i.toString(),
+    };
+    userList.push(userDoc);
+  }
 const userListSlice = createSlice({
   name: "userListSlice",
   initialState: {
-    data: null,
+    data: userList,
     status: "success",
-  } as GenericDashboardData<UserDocument[]>,
+    paginationEnd: true,
+    prevSearch: ""
+  } as GenericDashboardData<UserDocument[]> & {paginationEnd: boolean, prevSearch: string},
   reducers: {},
     extraReducers: (builder) => {
 
@@ -21,17 +40,19 @@ const userListSlice = createSlice({
             return state;
         });
             builder.addCase(fetchUserData.fulfilled, (state, action) => {
-            const success: {
-                status: "success";
-                data: UserDocument[] | null;
+            const success: GenericDashboardData<UserDocument[]> & {
+                paginationEnd: boolean;
+                prevSearch: string;
             } = {
-                status: "success",
-                data:
-                    state.data && action.payload
-                        ? [...state.data, ...action.payload]
-                        : !action.payload
-                            ? state.data
-                            : action.payload,
+              status: "success",
+              paginationEnd: action.payload?.pagination_end?true:false,
+              prevSearch: action.payload?.prev_search? action.payload.prev_search: "",
+              data:
+                state.data && action.payload
+                  ? [...state.data, ...action.payload.results]
+                  : !action.payload
+                  ? state.data
+                  : action.payload.results,
             };
               return success;
             });
