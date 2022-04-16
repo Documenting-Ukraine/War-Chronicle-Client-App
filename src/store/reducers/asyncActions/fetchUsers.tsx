@@ -2,20 +2,19 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RealmApp } from "../../../realm/RealmApp";
 import { UserDocument } from "../../../types/dataTypes";
 import {isCategoryScope} from "../../../types/dataTypes/CategoryIconMap"
-interface FetchDataProps {
+interface FetchUserDataProps {
   app: RealmApp;
-  input:
-    | string
-    | (Object & {
-        value: string;
-        userType?: "admin" | "contributor";
-        order?: {
-          key: "joinDate" | "name";
-          direction: "descending" | "ascending";
-        };
-      });
+  input: {
+      value: string;
+      userType?: "admins" | "contributors";
+      order?: {
+        key: "join_date" | "name";
+        direction: "descending" | "ascending";
+      };
+    };
 }
-function isUserData(arg: any): arg is UserDocument[] {
+export type {FetchUserDataProps}
+export function isUserData(arg: any): arg is UserDocument[] {
   if (!arg) return false;
   const isArray = Array.isArray(arg);
   if (isArray) {
@@ -27,9 +26,10 @@ function isUserData(arg: any): arg is UserDocument[] {
 }
 export const fetchUserData = createAsyncThunk(
   "dashboard/fetchUserData",
-  async ({ app, input }: FetchDataProps): Promise<UserDocument[] | null> => {
+  async ({ app, input }: FetchUserDataProps): Promise<UserDocument[] | null> => {
+    console.log(input)
     let userData;
-    if (typeof input !== "string" && input.userType === "admin" )
+    if (typeof input !== "string" && input.userType === "admins" )
       userData = await app.currentUser?.callFunction("read_admin_users", input);
     else
       userData = await app.currentUser?.callFunction(
@@ -37,7 +37,7 @@ export const fetchUserData = createAsyncThunk(
         input
       );
 
-    if (isUserData(userData)) return userData;
+    // if (isUserData(userData)) return userData;
     return null;
   }
 );

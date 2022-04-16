@@ -82,7 +82,7 @@ export const UserDropdownModal = ({
       {currentUser.providerType !== "anon-user" && (
         <UserDropdownItem
           icon={faBlackboard}
-          onClick={() => navigate(`dashboard/${currentUser.id}`)}
+          onClick={() => navigate(`/dashboard/${currentUser.id}`)}
         >
           <span>Dashboard</span>
         </UserDropdownItem>

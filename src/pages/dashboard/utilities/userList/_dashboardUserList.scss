@@ -94,6 +94,7 @@
   width: 100%;
   justify-content: space-between;
   height: 100%;
+  min-height: 10rem
 }
 .dashboard-user-column-loading {
   position: absolute;
@@ -106,16 +107,40 @@
   background-color: #f9f9f9ca;
   height: 100%;
 }
+.dashboard-user-column-placeholder {
+  content: "";
+  top: 0;
+  left: 0;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 3.5rem;
+  color: $darkest-blue;
+  width: 100%;
+  height: 100%;
+  background-color: $white;
+  h4 {
+    display: flex;
+    justify-content: center;
+    color: $blue-gray;
+    font-weight: 600;
+    word-spacing: 0.15rem;
+    font-size: 1.1rem;
+    width: 100%;
+  }
+  p{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: $darker-gray;
+  }
+}
 .dashboard-user-column {
   display: flex;
   flex-direction: column;
   height: 100%;
-  &.Email,
-  &.Joined {
-    .dashboard-user-column-title {
-      justify-content: center;
-    }
-  }
   &.Email {
     justify-content: center;
     flex-grow: 1;
@@ -217,4 +242,11 @@
     }
   }
 }
-
+.dashboard-user-column {
+  &.Email,
+  &.Joined {
+    .dashboard-user-column-title {
+      justify-content: center;
+    }
+  }
+}

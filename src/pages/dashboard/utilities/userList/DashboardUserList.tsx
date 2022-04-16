@@ -10,17 +10,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
   faChevronRight,
+  faFaceFrownOpen,
 } from "@fortawesome/free-solid-svg-icons";
+import { isName, isJoin, UserSortProps } from "./types";
+
 const DashboardUserList = () => {
   const userListData = useSelector(
     (state: RootState) => state.dashboard.userListData
   );
-  const smallWidth = useWindowWidth(575)
+  const smallWidth = useWindowWidth(575);
   //const userList = userListData.data;
-  const userListLoading= userListData.status
-  let userList: UserDocument[] = []
-  for (let i = 0; i < 1; i++){
-    const userDoc:UserDocument = {
+  const userListLoading = userListData.status;
+  let userList: UserDocument[] = [];
+  for (let i = 0; i < 1; i++) {
+    const userDoc: UserDocument = {
       _id: i.toString(),
       occupation: "teacher",
       first_name: "Arky",
@@ -32,33 +35,44 @@ const DashboardUserList = () => {
       category_scopes: ["War Crimes", "Strikes and Attacks"],
       external_id: i.toString(),
       user_id: i.toString(),
-    }
-    userList.push(userDoc)
+    };
+    userList.push(userDoc);
   }
   const dispatch = useDispatch();
-  const [userType, setUserType] = useState<"admins" | "contributors">("admins")
-  const [userListPage, setUserListPage] = useState(0)
+  const [userType, setUserType] = useState<"admins" | "contributors">("admins");
+  const [userSort, setUserSort] = useState<UserSortProps>({
+    joined: "ascending",
+  });
+  const [userListPage, setUserListPage] = useState(0);
   const onUserType = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const target = e.currentTarget.dataset.userType
-    const map = ["admins", "contributors"] as const
-    if(target && (target === map[0] || target === map[1])) setUserType(target)
+    const target = e.currentTarget.dataset.userType;
+    const map = ["admins", "contributors"] as const;
+    if (target && (target === map[0] || target === map[1])) setUserType(target)
+  };
+  const onSortOrder = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const data = e.currentTarget.dataset;
+    const direction = data.direction;
+    const column = data.column;
+    if (typeof column !== "string") return;
+    const newState = { [column]: direction };
+    if (isName(newState) || isJoin(newState)) setUserSort(newState);
   };
   const columnTitlesData: {
     title: string;
-    sort?: () => null;
+    sort?: (e: React.MouseEvent<HTMLButtonElement>) => void;
     columnType: "avatar" | "email" | "date" | "actionBtn";
   }[] = [
-    { title: "Name", sort: () => null, columnType: "avatar" },
+    { title: "Name", sort: onSortOrder, columnType: "avatar" },
     { title: "Email", columnType: "email" },
-    { title: "Joined", sort: () => null, columnType: "date" },
+    { title: "Joined", sort: onSortOrder, columnType: "date" },
     { title: "Actions", columnType: "actionBtn" },
-    ];
-  if(!smallWidth) columnTitlesData.splice(1,2)
+  ];
+  if (!smallWidth) columnTitlesData.splice(1, 2);
   const userListStart = userListPage * 50;
-  const userListEnd = (userListPage + 1) * 50
+  const userListEnd = (userListPage + 1) * 50;
   return (
     <>
-      <DashboardUserSearch />
+      <DashboardUserSearch userType={userType} userSort={userSort} />
       <div id="dashboard-user-list">
         <div className="dashboard-user-nav">
           <div className="dashboard-user-type">
@@ -80,7 +94,7 @@ const DashboardUserList = () => {
           <div className="dashboard-user-count">
             <p className="user-count">
               {`${
-                userList
+                userList && userList.length > 0
                   ? (userListPage + 1) * 50 <= userList.length
                     ? `${userListStart + 1}-${userListEnd}`
                     : `${userListStart + 1}-${userList.length}`
@@ -112,9 +126,11 @@ const DashboardUserList = () => {
           </div>
         </div>
         <div className="dashboard-user-columns">
-          {userListLoading === "loading" && <div className="dashboard-user-column-loading">
-            <LoadingIcon width={"3.5rem"}/>
-          </div>}
+          {userListLoading === "loading" && (
+            <div className="dashboard-user-column-loading">
+              <LoadingIcon width={"3.5rem"} />
+            </div>
+          )}
           {columnTitlesData.map((title) => {
             return (
               <DashboardUserColumn
@@ -125,9 +141,17 @@ const DashboardUserList = () => {
                 userListStart={userListStart}
                 userList={userList}
                 columnType={title.columnType}
+                userSort={userSort}
               />
             );
           })}
+          {(!userList || userList.length === 0) && (
+            <div className="dashboard-user-column-placeholder">
+              <div><FontAwesomeIcon icon={faFaceFrownOpen}/></div>
+              <h4>No users found</h4>
+              <p>We can't find any items matching your search, or there are no users in the project</p>
+            </div>
+          )}
         </div>
       </div>
     </>

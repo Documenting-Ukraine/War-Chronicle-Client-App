@@ -11,6 +11,7 @@ export const RevokeAccessPopUp = ({ user, index, closePopUp }: PopUpProps) => {
     const actionType = data.actionType;
     switch (actionType) {
       case "close-pop-up":
+        if (e.target === e.currentTarget) closePopUp(false);
         if (
           (e.target instanceof HTMLElement || e.target instanceof SVGElement) &&
           e.target.closest("button")?.dataset.actionType
