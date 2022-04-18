@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/rootReducer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useWindowWidth from "../../../../hooks/use-window-width";
 import DashboardUserColumn from "./DashboardUserColumn";
 import DashboardUserSearch from "./DashboardUserSearch";
@@ -11,7 +11,7 @@ import {
   faChevronRight,
   faFaceFrownOpen,
 } from "@fortawesome/free-solid-svg-icons";
-import { isName, isJoin, UserSortProps } from "./types";
+import { isUserSortOrder, UserSortProps } from "./types";
 import { fetchUserData } from "../../../../store/reducers/asyncActions/fetchUsers";
 import { useRealmApp } from "../../../../realm/RealmApp";
 
@@ -21,53 +21,78 @@ const DashboardUserList = () => {
   );
   const smallWidth = useWindowWidth(575);
   const userList = userListData.data ? userListData.data : [];
-  const userListLoading = userListData.status;
-const app = useRealmApp()
+  const userListStatus = userListData.status;
+  const app = useRealmApp()
   const dispatch = useDispatch();
-  const [userType, setUserType] = useState<"admins" | "contributors">("admins");
-  const [userSort, setUserSort] = useState<UserSortProps>({
-    joined: "ascending",
-  });
+  const [userType, setUserType] = useState<"admin" | "contributor">("admin");
+  const [userSort, setUserSort] = useState<UserSortProps | undefined>(undefined);
   const [userListPage, setUserListPage] = useState(0);
+  const userListStart = userListPage * 50;
+  const userListEnd = (userListPage + 1) * 50;
+  //on mount
+  useEffect(() => {
+    dispatch(fetchUserData({
+      app: app,
+      input: {
+        user_type: userType,
+        value: "",
+        order: undefined,
+      }
+    }
+    ))
+  }, [dispatch, app])
+  //if previous search, or sorting/user type categories change
+  // pagination number should reset
+  useEffect(() => {
+    setUserListPage(0)    
+  }, [userType, userSort, userListData.prev_search]);
   const onUserType = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (userListStatus === "loading") return;
     const target = e.currentTarget.dataset.userType;
-    const map = ["admins", "contributors"] as const;
+    const map = ["admin", "contributor"] as const;
     if (target && (target === map[0] || target === map[1])) setUserType(target)
   };
   const onSortOrder = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (userListStatus === "loading") return;
     const data = e.currentTarget.dataset;
     const direction = data.direction;
     const column = data.column;
     if (typeof column !== "string") return;
-    const newState = { [column]: direction };
-    if (isName(newState) || isJoin(newState)) setUserSort(newState);
+    const newState = {
+      key: column,
+      direction: direction
+    };
+    //same btn, that is already set in state
+    if (userSort && userSort.key === newState.key && userSort.direction === newState.direction) {
+      return setUserSort(undefined)
+    }
+    if (isUserSortOrder(newState)) return setUserSort(newState);
   };
   const onUserPagination = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (userListStatus === "loading") return;
     const data = e.currentTarget.dataset
     switch (data.actionType) {
       case "prev-pg":
-        setUserListPage((state) => (state - 1 >= 0 ? state - 1 : 0));      
-        break
+        setUserListPage((state) => (state - 1 >= 0 ? state - 1 : 0));
+        break;
       case "next-pg":
         setUserListPage((state) =>
-          !userListData.paginationEnd ? state + 1 : state
+          (!userListData.pagination_end ? state + 1 : state)
         );
-        if (!userListData.paginationEnd) {
+        if (!userListData.pagination_end && userList.length === userListEnd) {
           dispatch(
             fetchUserData({
               app: app,
               input: {
-                value: userListData.prevSearch,
-                order: {
-                  key: isName(userSort) ? "name" : "join_date",
-                  direction: isName(userSort) ? userSort.name : userSort.joined
-                },
-                idIdx: userList[userList.length]._id
-              }
+                user_type: userType,
+                value: userListData.prev_search,
+                order: userSort,
+                idx_counter: userListPage + 1,
+              },
             })
-          )
+          );
         }
-        break
+        break;
       default:
         break
     }
@@ -83,25 +108,29 @@ const app = useRealmApp()
     { title: "Actions", columnType: "actionBtn" },
   ];
   if (!smallWidth) columnTitlesData.splice(1, 2);
-  const userListStart = userListPage * 50;
-  const userListEnd = (userListPage + 1) * 50;
   return (
     <>
       <DashboardUserSearch userType={userType} userSort={userSort} />
+      {userListStatus === "failed" && (
+        <div className={`dashboard-user-search-alert`}>
+          Something went wrong. Please try again later, or contact
+          {" " + process.env.REACT_APP_SUPPORT_EMAIL}
+        </div>
+      )}
       <div id="dashboard-user-list">
         <div className="dashboard-user-nav">
           <div className="dashboard-user-type">
             <button
-              className={`${userType === "admins" ? "selected" : ""}`}
+              className={`${userType === "admin" ? "selected" : ""}`}
               onClick={onUserType}
-              data-user-type="admins"
+              data-user-type="admin"
             >
               Admins
             </button>
             <button
-              className={`${userType === "contributors" ? "selected" : ""}`}
+              className={`${userType === "contributor" ? "selected" : ""}`}
               onClick={onUserType}
-              data-user-type="contributors"
+              data-user-type="contributor"
             >
               Contributors
             </button>
@@ -116,28 +145,22 @@ const app = useRealmApp()
                   : "0"
               } of ${
                 userList
-                  ? userList.length >= 500
-                    ? `500 or more`
+                  ? userList.length - userListStart >= 50
+                    ? "many"
                     : userList.length
                   : "0"
               }`}
             </p>
-            <button
-              data-action-type = "prev-pg"
-              onClick={onUserPagination}
-            >
+            <button data-action-type="prev-pg" onClick={onUserPagination}>
               <FontAwesomeIcon icon={faChevronLeft} />
             </button>
-            <button
-              data-action-type = "next-pg"
-              onClick={onUserPagination}
-            >
+            <button data-action-type="next-pg" onClick={onUserPagination}>
               <FontAwesomeIcon icon={faChevronRight} />
             </button>
           </div>
         </div>
         <div className="dashboard-user-columns">
-          {userListLoading === "loading" && (
+          {userListStatus === "loading" && (
             <div className="dashboard-user-column-loading">
               <LoadingIcon width={"3.5rem"} />
             </div>
@@ -158,9 +181,14 @@ const app = useRealmApp()
           })}
           {(!userList || userList.length === 0) && (
             <div className="dashboard-user-column-placeholder">
-              <div><FontAwesomeIcon icon={faFaceFrownOpen}/></div>
+              <div>
+                <FontAwesomeIcon icon={faFaceFrownOpen} />
+              </div>
               <h4>No users found</h4>
-              <p>We can't find any items matching your search, or there are no users in the project</p>
+              <p>
+                We can't find any items matching your search, or there are no
+                users in the project
+              </p>
             </div>
           )}
         </div>

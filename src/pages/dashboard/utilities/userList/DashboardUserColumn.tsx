@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { UserDocument } from "../../../../types/dataTypes";
 import DashboardUser from "./DashboardUser"
-import {isName,UserSortProps} from "./types";
+import {UserSortProps} from "./types";
 
 interface DashboardUserColumnProps {
   userSort: UserSortProps;
@@ -22,9 +22,9 @@ const DashboardUserColumn = ({
     userSort,
     columnType
 }: DashboardUserColumnProps) => {
-    const lowerTitle = title.toLowerCase()
-    const userSortColumn = Object.keys(userSort)[0] === lowerTitle
-    const direction = isName(userSort) ? userSort.name : userSort.joined
+    const lowerTitle = title === "Joined" ? "join_date": title.toLowerCase()
+    const userSortColumn = userSort?.key
+    const direction = userSort?.direction
     return (
       <div className={`dashboard-user-column ${title}`}>
         <div className={"dashboard-user-column-title"}>
@@ -36,7 +36,7 @@ const DashboardUserColumn = ({
                 data-column={lowerTitle}
                 data-direction={"ascending"}
                 style={
-                  userSortColumn && direction === "ascending"
+                  userSortColumn === lowerTitle && direction === "ascending"
                     ? undefined
                     : lightBtnStyles
                 }
@@ -50,9 +50,9 @@ const DashboardUserColumn = ({
                 data-column={lowerTitle}
                 data-direction={"descending"}
                 style={
-                  userSortColumn && direction === "descending"
+                  userSortColumn === lowerTitle && direction === "descending"
                     ? undefined
-                    : lightBtnStyles 
+                    : lightBtnStyles
                 }
               >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 192">
@@ -67,7 +67,7 @@ const DashboardUserColumn = ({
             .slice(userListStart, userListEnd)
             .map((user, index) => (
               <DashboardUser
-                index={index}
+                index={userListStart + index}
                 key={user._id}
                 user={user}
                 elementType={columnType}

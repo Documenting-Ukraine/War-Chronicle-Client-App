@@ -6,11 +6,13 @@ import { fetchActivityData } from "../../../../store/reducers/dashboard/dashboar
 import { RootState } from "../../../../store/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { useRealmApp } from "../../../../realm/RealmApp";
+import LoadingIcon from "../../../utilityComponents/loadingIcon/LoadingIcon";
 const GridSumbissionBanner = (): JSX.Element => {
   const activityData = useSelector(
     (state: RootState) => state.dashboard.pastYearActivityData
   );
   const pastYearData = activityData.data;
+  const status = activityData.status
   const app = useRealmApp();
   const dispatch = useDispatch();
 
@@ -39,67 +41,71 @@ const GridSumbissionBanner = (): JSX.Element => {
 
   return (
     <div id="dashboard-grid-banner">
+      {status === "loading" && (
+        <div className="dashboard-grid-loading">
+          <LoadingIcon width={"3.5rem"} />
+        </div>
+      )}
       <div id="dashboard-grid-header">
         <h1>{0}</h1>
         <h6>submissions in the past year</h6>
       </div>
+      {status === "failed" && (
+        <div className="dashboard-grid-err-alert">
+          <div>
+            Something went wrong. Please try again later or contact{" "}
+            {" " + process.env.REACT_APP_SUPPORT_EMAIL}
+          </div>
+        </div>
+      )}
       <div id="dashboard-grid">
-        <svg
-          id="dashboard-inner-grid"
-          viewBox={`0 0 ${
-            (differenceInCalendarWeeks(endDate, startDate) + 12) * 103
-          } 920`}
-        >
-          {dataTemplate.map((data, index) => {
-            const currMonthStart = new Date(
-              data.year,
-              data.month,
-              1
-            );
-            const lastMonthStart = 
-              new Date(
+        {pastYearData && status === "success" && (
+          <svg
+            id="dashboard-inner-grid"
+            viewBox={`0 0 ${
+              (differenceInCalendarWeeks(endDate, startDate) + 12) * 103
+            } 920`}
+          >
+            {dataTemplate.map((data, index) => {
+              const currMonthStart = new Date(data.year, data.month, 1);
+              const lastMonthStart = new Date(data.year, data.month - 1);
+              const calenderWeekDiff =
+                differenceInCalendarWeeks(currMonthStart, lastMonthStart) +
+                weekAccumulator +
+                1;
+              const overallX = calenderWeekDiff * 103;
+              const currDate = new Date(
                 data.year,
-                data.month - 1,
-              )
-            ;
-            const calenderWeekDiff =
-              differenceInCalendarWeeks(currMonthStart, lastMonthStart) +
-              weekAccumulator +
-              1;
-            const overallX = calenderWeekDiff * 103;
-            const currDate = new Date(
-              data.year,
-              data.month,
-              data.totalDays - data.daysLeft === 0
-                ? data.totalDays
-                : data.totalDays - data.daysLeft
-            );
-            const monthDiff =
-              differenceInCalendarWeeks(
-                currDate,
-                startOfMonth(currDate)
-              ) - 1.6;
-            const alignTextX = (monthDiff / 2) * 103;
-            weekAccumulator = calenderWeekDiff;
-            const last = index === dataTemplate.length - 1 ? endDate : null;
-            return (
-              <g
-                transform={`translate(${overallX})`}
-                key={`${data.month}-${data.year}`}
-                className="grid-month"
-              >
-                <GridMonth
-                  monthData={data}
-                  activityData={{}}
-                  lastMonth={last}
-                />
-                <text y={880} x={alignTextX} className="month-name">
-                  {monthNames[data.month]}
-                </text>
-              </g>
-            );
-          })}
-        </svg>
+                data.month,
+                data.totalDays - data.daysLeft === 0
+                  ? data.totalDays
+                  : data.totalDays - data.daysLeft
+              );
+              const monthDiff =
+                differenceInCalendarWeeks(currDate, startOfMonth(currDate)) -
+                1.6;
+              const alignTextX = (monthDiff / 2) * 103;
+              weekAccumulator = calenderWeekDiff;
+              const last = index === dataTemplate.length - 1 ? endDate : null;
+              return (
+                <g
+                  transform={`translate(${overallX})`}
+                  key={`${data.month}-${data.year}`}
+                  className="grid-month"
+                >
+                  <GridMonth
+                    monthData={data}
+                    activityData={{}}
+                    lastMonth={last}
+                  />
+                  <text y={880} x={alignTextX} className="month-name">
+                    {monthNames[data.month]}
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
+        )}
       </div>
     </div>
   );

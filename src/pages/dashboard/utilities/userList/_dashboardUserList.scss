@@ -249,4 +249,19 @@
       justify-content: center;
     }
   }
+  &.Name{
+    .user-list-row-item{
+      justify-content: start;
+    }
+  }
+}
+.dashboard-user-search-alert{
+  padding: 1rem;
+  font-size: 0.87rem;
+  background-color: $light-red;
+  border: 1px solid $dark-red;
+  color: $dark-red;
+  border-radius: 0.4rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }

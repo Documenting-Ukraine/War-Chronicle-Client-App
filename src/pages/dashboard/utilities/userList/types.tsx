@@ -1,20 +1,17 @@
-interface NameOrder {
-  name: "ascending" | "descending";
+interface UserSortOrder {
+  key: "name" | "join_date";
+  direction: "ascending" | "descending";
 }
-interface JoinOrder {
-  joined: "ascending" | "descending";
-}
-export function generalIsOrder(arg: any, key: string) {
-  try {
-    const argkey = Object.keys(arg)[0];
-    return argkey === key && (arg[key] === "ascending" || arg[key] === "descending");
-  } catch (e) {
-    return false;
-  }
-}
-export const isName = (arg: any): arg is NameOrder =>
-  generalIsOrder(arg, "name");
-export const isJoin = (arg: any): arg is JoinOrder =>
-  generalIsOrder(arg, "joined");
 
-export type UserSortProps = NameOrder | JoinOrder;
+export const isUserSortOrder = (arg: any): arg is UserSortOrder => {
+    try {
+      const direction = arg.direction; ;
+      const validDirection = (direction === "ascending" || direction === "descending");
+      const validKey = arg.key === "name" || arg.key === "join_date"
+      return validDirection && validKey
+    } catch (e) {
+      return false;
+    }
+}
+
+export type UserSortProps = UserSortOrder | undefined;
