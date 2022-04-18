@@ -1,3 +1,10 @@
+#dashboard-user-search-row{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 2rem;
+}
 #dashboard-user-search {
   background-color: white;
   padding: 0 1rem;
@@ -6,9 +13,8 @@
   display: flex;
   align-items: center;
   pointer-events: none;
-  width: 50%;
+  width: 48%;
   color: $gray;
-  margin-bottom: 2rem;
   input {
     display: flex;
     align-items: center;
@@ -29,6 +35,20 @@
   &:active,
   &:focus-within {
     outline: $darkest-gray 2px solid;
+  }
+}
+.dashboard-user-add-user-btn{
+  @include remove-btn-default();
+  color: $light-blue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 100%;
+  font-size: 0.9rem;
+  min-width: fit-content;
+  margin-left: 0.5rem;
+  span{
+    margin-left: 0.4rem;
   }
 }
 #dashboard-user-list {

@@ -10,11 +10,12 @@ import {
   faChevronLeft,
   faChevronRight,
   faFaceFrownOpen,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { isUserSortOrder, UserSortProps } from "./types";
 import { fetchUserData } from "../../../../store/reducers/asyncActions/fetchUsers";
 import { useRealmApp } from "../../../../realm/RealmApp";
-
+import { memo } from "react";
 const DashboardUserList = () => {
   const userListData = useSelector(
     (state: RootState) => state.dashboard.userListData
@@ -27,8 +28,8 @@ const DashboardUserList = () => {
   const [userType, setUserType] = useState<"admin" | "contributor">("admin");
   const [userSort, setUserSort] = useState<UserSortProps | undefined>(undefined);
   const [userListPage, setUserListPage] = useState(0);
-  const userListStart = userListPage * 50;
-  const userListEnd = (userListPage + 1) * 50;
+  const userListStart = userListPage * 10;
+  const userListEnd = (userListPage + 1) * 10;
   //on mount
   useEffect(() => {
     dispatch(fetchUserData({
@@ -87,7 +88,7 @@ const DashboardUserList = () => {
                 user_type: userType,
                 value: userListData.prev_search,
                 order: userSort,
-                idx_counter: userListPage + 1,
+                idx_counter: (userListPage/5) + 1,
               },
             })
           );
@@ -110,7 +111,14 @@ const DashboardUserList = () => {
   if (!smallWidth) columnTitlesData.splice(1, 2);
   return (
     <>
-      <DashboardUserSearch userType={userType} userSort={userSort} />
+      <div id="dashboard-user-search-row">
+        <DashboardUserSearch userType={userType} userSort={userSort} />
+        <button className="dashboard-user-add-user-btn"
+        >
+          <FontAwesomeIcon icon={faPlus} />
+          <span>Add User</span>
+        </button>
+      </div>
       {userListStatus === "failed" && (
         <div className={`dashboard-user-search-alert`}>
           Something went wrong. Please try again later, or contact
@@ -136,21 +144,28 @@ const DashboardUserList = () => {
             </button>
           </div>
           <div className="dashboard-user-count">
-            <p className="user-count">
-              {`${
-                userList && userList.length > 0
-                  ? (userListPage + 1) * 50 <= userList.length
-                    ? `${userListStart + 1}-${userListEnd}`
-                    : `${userListStart + 1}-${userList.length}`
-                  : "0"
-              } of ${
-                userList
-                  ? userList.length - userListStart >= 50
-                    ? "many"
-                    : userList.length
-                  : "0"
-              }`}
-            </p>
+            {smallWidth && (
+              <p className="user-count">
+                {userListStatus !== "loading" ? 
+                  `${
+                    userList && userList.length > 0
+                      ? (userListPage + 1) * 10 <= userList.length
+                        ? `${userListStart + 1}-${userListEnd}`
+                        : `${userListStart + 1}-${userList.length}`
+                      : "0"
+                  } of ${
+                    userList
+                      ? userList.length - userListStart >= 10
+                        ? "many"
+                        : userList.length
+                      : "0"
+                  }`
+                : `${userListStart + 1}-${userListEnd} of many`
+                }
+                
+              </p>
+            )}
+
             <button data-action-type="prev-pg" onClick={onUserPagination}>
               <FontAwesomeIcon icon={faChevronLeft} />
             </button>
@@ -179,21 +194,22 @@ const DashboardUserList = () => {
               />
             );
           })}
-          {(!userList || userList.length === 0) && userListStatus!=="loading" &&(
-            <div className="dashboard-user-column-placeholder">
-              <div>
-                <FontAwesomeIcon icon={faFaceFrownOpen} />
+          {(!userList || userList.length === 0) &&
+            userListStatus !== "loading" && (
+              <div className="dashboard-user-column-placeholder">
+                <div>
+                  <FontAwesomeIcon icon={faFaceFrownOpen} />
+                </div>
+                <h4>No users found</h4>
+                <p>
+                  We can't find any items matching your search, or there are no
+                  users in the project
+                </p>
               </div>
-              <h4>No users found</h4>
-              <p>
-                We can't find any items matching your search, or there are no
-                users in the project
-              </p>
-            </div>
-          )}
+            )}
         </div>
       </div>
     </>
   );
 };
-export default DashboardUserList;
+export default memo(DashboardUserList);
