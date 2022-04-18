@@ -57,7 +57,7 @@ const useReduxDebouncedTextInputs = ({
   //expensive calls to local storage AND,
   //to maintain a more accurate history stack
   const debouncedUpdateTextInput = useMemo(
-    () => debounce(updateTextInput, 1200),
+    () => debounce(updateTextInput, 1300),
     []
   );
   const onTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
