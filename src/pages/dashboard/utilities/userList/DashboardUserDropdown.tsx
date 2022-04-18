@@ -4,11 +4,10 @@ const UserActionsDropdown = ({
   setUserScopeModal,
   setRevokeAccess,
 }: {
-  user: UserDocument;
+  user: Omit<UserDocument, "external_id" | "user_id">;
   setUserScopeModal: React.Dispatch<React.SetStateAction<boolean>>;
   setRevokeAccess: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-
   return (
     <>
       <div className="user-actions-dropdown">

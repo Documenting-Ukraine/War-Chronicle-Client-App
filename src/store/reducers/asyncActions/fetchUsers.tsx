@@ -27,12 +27,12 @@ export function isUserData(arg: any): arg is UserDocument[] {
   return false;
 }
 interface FetchUserDataResults {
-  error: null,
+  error: null;
   pagination_end: boolean;
-  results: UserDocument[];
-  prev_search: string,
-  prev_order:  UserSortProps | undefined,
-  idx_counter: number
+  results: Omit<UserDocument, "external_id" | "user_id">[];
+  prev_search: string;
+  prev_order: UserSortProps | undefined;
+  idx_counter: number;
 }
 export function isUserResults(arg: any): arg is FetchUserDataResults {
   const isObj = isObject(arg);

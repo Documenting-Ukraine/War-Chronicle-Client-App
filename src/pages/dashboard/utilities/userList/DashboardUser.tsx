@@ -12,7 +12,7 @@ const DashboardUser = ({
   elementType,
   index,
 }: {
-  user: UserDocument;
+  user: Omit<UserDocument, "external_id" | "user_id">;
   elementType: "avatar" | "email" | "date" | "actionBtn";
   index: number;
 }) => {
@@ -66,18 +66,18 @@ const DashboardUser = ({
     <>
       {map[elementType]}
       {userScopeModal && (
-          <UserScopePopUp
-            user={user}
+        <UserScopePopUp
+          user={user}
           index={index}
           closePopUp={setUserScopeModal}
-          />
+        />
       )}
       {revokeAccess && (
-          <RevokeAccessPopUp
-            user={user}
-           index={index}
-            closePopUp={setRevokeAccess}
-          />
+        <RevokeAccessPopUp
+          user={user}
+          index={index}
+          closePopUp={setRevokeAccess}
+        />
       )}
     </>
   );

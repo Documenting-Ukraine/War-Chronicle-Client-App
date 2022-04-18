@@ -3,7 +3,7 @@ import ExitIcon from "../../../../utilityComponents/exitIcon/ExitIcon";
 
 export interface PopUpProps {
   closePopUp: React.Dispatch<React.SetStateAction<boolean>>;
-  user: UserDocument;
+  user: Omit<UserDocument, "external_id" | "user_id">;
   index: number;
 }
 export type GeneralPopUpProps = Omit<PopUpProps, "user" | "closePopUp"> & {

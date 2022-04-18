@@ -7,7 +7,7 @@ interface DashboardUserColumnProps {
   userSort: UserSortProps;
   title: string;
   sort?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  userList: UserDocument[];
+  userList: Omit<UserDocument, "external_id" | "user_id">[];
   userListStart: number;
   userListEnd: number;
   columnType: "avatar" | "email" | "date" | "actionBtn";

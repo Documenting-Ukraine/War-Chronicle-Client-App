@@ -4,7 +4,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import { GenericDashboardData } from "./types";
 import { UserSortProps } from "../../../pages/dashboard/utilities/userList/types";
 
-type UserListProps = GenericDashboardData<UserDocument[]> & {
+type UserListProps = GenericDashboardData<
+  Omit<UserDocument, "external_id" | "user_id">[]
+> & {
   pagination_end: boolean;
   prev_search: string;
   idx_counter?: number;
