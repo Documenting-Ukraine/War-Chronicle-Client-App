@@ -17,13 +17,13 @@ export type { FetchUserDataProps };
 export function isUserData(arg: any): arg is UserDocument[] {
   if (!arg) return false;
   const isArray = Array.isArray(arg);
-  if (isArray) {
+  if (isArray && arg.length > 0) {
     if (!(arg[0]._id && arg[0].account_type)) return false;
     if (
       !arg[0].category_scopes?.every((scope: string) => isCategoryScope(scope))
     )
       return true;
-  }
+  } else if (isArray) return true;
   return false;
 }
 interface FetchUserDataResults {
@@ -47,19 +47,19 @@ export const fetchUserData = createAsyncThunk(
     app,
     input,
   }: FetchUserDataProps): Promise<FetchUserDataResults | null> => {
-    // let userData;
-    // if (typeof input !== "string")
-    //   userData = await app.currentUser?.callFunction("search_users", input);
-    // if (isUserResults(userData) && isUserData(userData.results)) {
-    //   const modifiedData = userData.results.map((doc) => {
-    //     //this step is need to make the data serializable by redux
-    //     doc._id = doc._id.toString();
-    //     doc.creation_date = doc.creation_date.toString();
-    //     return doc
-    //   });
-    //   userData.results = modifiedData
-    //   return userData;
-    // }
+    let userData;
+    if (typeof input !== "string")
+      userData = await app.currentUser?.callFunction("search_users", input);
+    if (isUserResults(userData) && isUserData(userData.results)) {
+      const modifiedData = userData.results.map((doc) => {
+        //this step is need to make the data serializable by redux
+        doc._id = doc._id.toString();
+        doc.creation_date = doc.creation_date.toString();
+        return doc
+      });
+      userData.results = modifiedData
+      return userData;
+    }
     return null;
   }
 );

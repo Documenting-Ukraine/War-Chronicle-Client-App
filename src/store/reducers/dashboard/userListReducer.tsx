@@ -14,7 +14,7 @@ const userListSlice = createSlice({
   name: "userListSlice",
   initialState: {
     data: [],
-    status: "success",
+    status: "loading",
     pagination_end: false,
     prev_search: "",
     prev_order: undefined,

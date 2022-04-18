@@ -47,7 +47,7 @@ const GridSumbissionBanner = (): JSX.Element => {
         </div>
       )}
       <div id="dashboard-grid-header">
-        <h1>{0}</h1>
+        <h1>{pastYearData ? pastYearData.length : 0}</h1>
         <h6>submissions in the past year</h6>
       </div>
       {status === "failed" && (

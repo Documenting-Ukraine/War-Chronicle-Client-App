@@ -179,7 +179,7 @@ const DashboardUserList = () => {
               />
             );
           })}
-          {(!userList || userList.length === 0) && (
+          {(!userList || userList.length === 0) && userListStatus!=="loading" &&(
             <div className="dashboard-user-column-placeholder">
               <div>
                 <FontAwesomeIcon icon={faFaceFrownOpen} />
