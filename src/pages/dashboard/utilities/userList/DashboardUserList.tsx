@@ -78,7 +78,9 @@ const DashboardUserList = () => {
         break;
       case "next-pg":
         setUserListPage((state) =>
-          (!userListData.pagination_end ? state + 1 : state)
+          userListData.pagination_end && userList.length <= userListEnd
+            ? state 
+            : state + 1
         );
         if (!userListData.pagination_end && userList.length === userListEnd) {
           dispatch(
@@ -113,8 +115,7 @@ const DashboardUserList = () => {
     <>
       <div id="dashboard-user-search-row">
         <DashboardUserSearch userType={userType} userSort={userSort} />
-        <button className="dashboard-user-add-user-btn"
-        >
+        <button className="dashboard-user-add-user-btn">
           <FontAwesomeIcon icon={faPlus} />
           <span>Add User</span>
         </button>
@@ -146,23 +147,22 @@ const DashboardUserList = () => {
           <div className="dashboard-user-count">
             {smallWidth && (
               <p className="user-count">
-                {userListStatus !== "loading" ? 
-                  `${
-                    userList && userList.length > 0
-                      ? (userListPage + 1) * 10 <= userList.length
-                        ? `${userListStart + 1}-${userListEnd}`
-                        : `${userListStart + 1}-${userList.length}`
-                      : "0"
-                  } of ${
-                    userList
-                      ? userList.length - userListStart >= 10
-                        ? "many"
-                        : userList.length
-                      : "0"
-                  }`
-                : `${userListStart + 1}-${userListEnd} of many`
-                }
-                
+                {userListStatus !== "loading"
+                  ? `${
+                      userList && userList.length > 0
+                        ? (userListPage + 1) * 10 <= userList.length
+                          ? `${userListStart + 1}-${userListEnd}`
+                          : `${userListStart + 1}-${userList.length}`
+                        : "0"
+                    } of ${
+                      userList
+                        ? userList.length - userListStart >= 10 &&
+                          !userListData.pagination_end
+                          ? "many"
+                          : userList.length
+                        : "0"
+                    }`
+                  : `${userListStart + 1}-${userListEnd} of many`}
               </p>
             )}
 
