@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { isObject, has } from "lodash";
-import { RealmApp } from "../../../realm/RealmApp";
-import { UserDocument } from "../../../types/dataTypes";
-import { isCategoryScope } from "../../../types/dataTypes/CategoryIconMap";
-import { UserSortProps } from "../../../pages/dashboard/utilities/userList/types";
+import { RealmApp } from "../../../../realm/RealmApp";
+import { UserDocument } from "../../../../types/dataTypes";
+import { isCategoryScope } from "../../../../types/dataTypes/CategoryIconMap";
+import { UserSortProps } from "../../../../pages/dashboard/utilities/userList/types";
 interface FetchUserDataProps {
   app: RealmApp;
   input: {
@@ -47,19 +47,19 @@ export const fetchUserData = createAsyncThunk(
     app,
     input,
   }: FetchUserDataProps): Promise<FetchUserDataResults | null> => {
-    let userData;
-    if (typeof input !== "string")
-      userData = await app.currentUser?.callFunction("search_users", input);
-    if (isUserResults(userData) && isUserData(userData.results)) {
-      const modifiedData = userData.results.map((doc) => {
-        //this step is need to make the data serializable by redux
-        doc._id = doc._id.toString();
-        doc.creation_date = doc.creation_date.toString();
-        return doc
-      });
-      userData.results = modifiedData
-      return userData;
-    }
+    // let userData;
+    // if (typeof input !== "string")
+    //   userData = await app.currentUser?.callFunction("search_users", input);
+    // if (isUserResults(userData) && isUserData(userData.results)) {
+    //   const modifiedData = userData.results.map((doc) => {
+    //     //this step is need to make the data serializable by redux
+    //     doc._id = doc._id.toString();
+    //     doc.creation_date = doc.creation_date.toString();
+    //     return doc
+    //   });
+    //   userData.results = modifiedData
+    //   return userData;
+    // }
     return null;
   }
 );

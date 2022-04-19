@@ -13,7 +13,7 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { isUserSortOrder, UserSortProps } from "./types";
-import { fetchUserData } from "../../../../store/reducers/asyncActions/fetchUsers";
+import { fetchUserData } from "../../../../store/reducers/asyncActions/userActions/fetchUsers";
 import { useRealmApp } from "../../../../realm/RealmApp";
 import { memo } from "react";
 const DashboardUserList = () => {
@@ -88,7 +88,7 @@ const DashboardUserList = () => {
                 user_type: userType,
                 value: userListData.prev_search,
                 order: userSort,
-                idx_counter: (userListPage/5) + 1,
+                idx_counter: ((userListPage+1)/5),
               },
             })
           );

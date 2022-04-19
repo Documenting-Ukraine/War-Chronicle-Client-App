@@ -1,13 +1,13 @@
 import { isEqual } from "lodash";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { fetchUserData } from "../../../../store/reducers/asyncActions/fetchUsers";
+import { fetchUserData } from "../../../../store/reducers/asyncActions/userActions/fetchUsers";
 import useReduxDebouncedSearchInputs from "../../../../hooks/use-redux-debounced-search-inputs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { UserSortProps } from "./types";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useRealmApp } from "../../../../realm/RealmApp";
-import { FetchUserDataProps } from "../../../../store/reducers/asyncActions/fetchUsers";
+import { FetchUserDataProps } from "../../../../store/reducers/asyncActions/userActions/fetchUsers";
 const DashboardUserSearch = ({
   userType,
   userSort

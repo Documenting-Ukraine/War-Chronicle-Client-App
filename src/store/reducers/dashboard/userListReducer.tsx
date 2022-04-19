@@ -1,16 +1,43 @@
-import { fetchUserData } from "../asyncActions/fetchUsers";
-import { UserDocument } from "../../../types/dataTypes";
+import { fetchUserData } from "../asyncActions/userActions/fetchUsers";
 import { createSlice } from "@reduxjs/toolkit";
-import { GenericDashboardData } from "./types";
-import { UserSortProps } from "../../../pages/dashboard/utilities/userList/types";
-
-type UserListProps = GenericDashboardData<
-  Omit<UserDocument, "external_id" | "user_id">[]
-> & {
-  pagination_end: boolean;
-  prev_search: string;
-  idx_counter?: number;
-  prev_order: UserSortProps;
+import { updateUserScope } from "../asyncActions/userActions/updateUserScope";
+import { deleteUser } from "../asyncActions/userActions/deleteUser";
+import {
+  UserListReducerState,
+  UserListActionPayload,
+  UserListProps,
+  UserListUpdateProps,
+  UserListDeleteProps,
+} from "./types";
+const userListUpdateTemplate = (
+  state: UserListReducerState,
+  payload: UserListActionPayload
+) => {
+  if (!payload) return state;
+  const userData = state.data ? [...state.data] : [];
+  const userListIdx = payload.user_list_idx;
+  if (userListIdx >= userData.length) return state;
+  let removedArr;
+  //for updating user categories
+  if (!("categories_update" in payload))
+    removedArr = userData.splice(userListIdx, 1);
+  //for updating deletion of users
+  else {
+    const userToUpdate = userData[userListIdx];
+    const newUserDoc = {
+      ...userToUpdate,
+      category_scopes: payload.categories_update,
+    };
+    removedArr = userData.splice(userListIdx, 1, newUserDoc);
+  }
+  const removed = removedArr.length > 0 ? removedArr[0] : null;
+  const result: UserListUpdateProps["recently_updated_user"] = {
+    document: removed,
+    status: "success",
+  };
+  state.recently_updated_user = result;
+  state.data = userData;
+  return state;
 };
 const userListSlice = createSlice({
   name: "userListSlice",
@@ -21,7 +48,15 @@ const userListSlice = createSlice({
     prev_search: "",
     prev_order: undefined,
     idx_counter: 0,
-  } as UserListProps,
+    recently_deleted_user: {
+      document: null,
+      status: "success",
+    },
+    recently_updated_user: {
+      document: null,
+      status: "success",
+    },
+  } as UserListProps & UserListDeleteProps & UserListUpdateProps,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchUserData.pending, (state, action) => {
@@ -57,7 +92,29 @@ const userListSlice = createSlice({
         else success.data = [...state.data, ...action.payload.results];
       } else if (!action.payload) success.data = state.data;
       else success.data = action.payload.results;
-      return success;
+      return { ...state, ...success };
+    });
+    builder.addCase(updateUserScope.pending, (state, action) => {
+      state.recently_updated_user.status = "loading";
+      return state;
+    });
+    builder.addCase(updateUserScope.rejected, (state, action) => {
+      state.recently_updated_user.status = "failed";
+      console.error(action, "An error occured");
+    });
+    builder.addCase(updateUserScope.fulfilled, (state, action) => {
+      return userListUpdateTemplate(state, action.payload);
+    });
+    builder.addCase(deleteUser.pending, (state, action) => {
+      state.recently_deleted_user.status = "loading";
+      return state;
+    });
+    builder.addCase(deleteUser.rejected, (state, action) => {
+      state.recently_deleted_user.status = "failed";
+      return state;
+    });
+    builder.addCase(deleteUser.fulfilled, (state, action) => {
+      return userListUpdateTemplate(state, action.payload);
     });
   },
 });
