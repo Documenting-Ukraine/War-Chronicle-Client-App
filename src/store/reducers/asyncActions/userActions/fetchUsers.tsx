@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { isObject, has } from "lodash";
 import { RealmApp } from "../../../../realm/RealmApp";
-import { UserDocument } from "../../../../types/dataTypes";
+import { UserDocument, isUserDocument } from "../../../../types/dataTypes";
 import { isCategoryScope } from "../../../../types/dataTypes/CategoryIconMap";
 import { UserSortProps } from "../../../../pages/dashboard/utilities/userList/types";
 interface FetchUserDataProps {
@@ -18,11 +18,10 @@ export function isUserData(arg: any): arg is UserDocument[] {
   if (!arg) return false;
   const isArray = Array.isArray(arg);
   if (isArray && arg.length > 0) {
-    if (!(arg[0]._id && arg[0].account_type)) return false;
-    if (
-      !arg[0].category_scopes?.every((scope: string) => isCategoryScope(scope))
-    )
-      return true;
+    const doc = arg[0]
+    doc._id = doc._id.toString();
+    doc.creation_date = doc.creation_date.toString();
+    if (isUserDocument(arg[0])) return true
   } else if (isArray) return true;
   return false;
 }

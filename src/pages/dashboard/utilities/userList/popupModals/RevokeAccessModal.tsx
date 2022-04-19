@@ -9,11 +9,9 @@ export const RevokeAccessPopUp = ({ user, index, closePopUp }: PopUpProps) => {
   const mediumWidth = useWindowWidth(992);
   const app = useRealmApp();
   const dispatch = useDispatch();
-  console.log(user._id)
   const onRevokeAccess = (
     e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>
   ) => {
-console.log(user._id)
     const data = e.currentTarget.dataset;
     const actionType = data.actionType;
     switch (actionType) {
