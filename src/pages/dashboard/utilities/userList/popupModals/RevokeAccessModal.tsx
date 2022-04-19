@@ -2,11 +2,18 @@ import { useDispatch, batch } from "react-redux";
 import useWindowWidth from "../../../../../hooks/use-window-width"
 import PopUpBg from "../../../../utilityComponents/popUpBg/PopUpBg";
 import { PopUpProps, GeneralDashboardPopUp } from "./general";
+import { deleteUser } from "../../../../../store/reducers/asyncActions/userActions/deleteUser";
+import { useRealmApp } from "../../../../../realm/RealmApp";
+
 export const RevokeAccessPopUp = ({ user, index, closePopUp }: PopUpProps) => {
-      const mediumWidth = useWindowWidth(992);
+  const mediumWidth = useWindowWidth(992);
+  const app = useRealmApp();
+  const dispatch = useDispatch();
+  console.log(user._id)
   const onRevokeAccess = (
     e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>
   ) => {
+console.log(user._id)
     const data = e.currentTarget.dataset;
     const actionType = data.actionType;
     switch (actionType) {
@@ -19,9 +26,18 @@ export const RevokeAccessPopUp = ({ user, index, closePopUp }: PopUpProps) => {
           closePopUp(false);
         break;
       case "revoke-access":
-        const userId = data.userId;
-        const index = data.index;
+        const userId = user._id;
+        const userIdx = index;
         batch(() => {
+           dispatch(
+             deleteUser({
+               app: app,
+               input: {
+                 user_id: userId,
+                 user_list_idx: userIdx,
+               },
+             })
+           );
           closePopUp(false);
         });
         break;

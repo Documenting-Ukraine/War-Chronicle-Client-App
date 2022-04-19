@@ -1,16 +1,18 @@
 import { PopUpProps, GeneralDashboardPopUp } from "./general";
 import PopUpBg from "../../../../utilityComponents/popUpBg/PopUpBg";
 import { useDispatch, batch } from "react-redux";
+import { updateUserScope } from "../../../../../store/reducers/asyncActions/userActions/updateUserScope";
 import categoryIconMap, {
   isCategoryScope,
   categoryPermissions,
 } from "../../../../../types/dataTypes/CategoryIconMap";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRealmApp } from "../../../../../realm/RealmApp";
 const CategoryListItem = ({
   category,
-    listType,
-  onReassignCategory
+  listType,
+  onReassignCategory,
 }: {
   category: string;
   listType: "assigned" | "unassigned";
@@ -30,7 +32,7 @@ const CategoryListItem = ({
         <div>{category}</div>
       </div>
       <button
-        onClick = {onReassignCategory}
+        onClick={onReassignCategory}
         className="user-scope-category-action-btn"
         data-category={category}
         data-action-type={listType === "assigned" ? "unassign" : "assign"}
@@ -41,6 +43,8 @@ const CategoryListItem = ({
   );
 };
 export const UserScopePopUp = ({ user, index, closePopUp }: PopUpProps) => {
+  const dispatch = useDispatch();
+  const app = useRealmApp()
   const permissions = { ...categoryPermissions };
   if (user.category_scopes) {
     for (let scope of user.category_scopes) {
@@ -54,18 +58,26 @@ export const UserScopePopUp = ({ user, index, closePopUp }: PopUpProps) => {
     const data = e.currentTarget.dataset;
     const actionType = data.actionType;
     switch (actionType) {
-        case "close-pop-up":
+      case "close-pop-up":
         if (e.target === e.currentTarget) closePopUp(false);
-         if (
-                (e.target instanceof HTMLElement ||
-                e.target instanceof SVGElement) && 
-                e.target.closest("button")?.dataset.actionType === "close-pop-up"
-            ) closePopUp(false)
+        if (
+          (e.target instanceof HTMLElement || e.target instanceof SVGElement) &&
+          e.target.closest("button")?.dataset.actionType === "close-pop-up"
+        )
+          closePopUp(false);
         break;
       case "save-scope":
-        const userId = data.userId;
-        const index = data.index;
+        const userId = user._id;
+        const userIdx = index;
         batch(() => {
+          dispatch(updateUserScope({
+            app: app,
+            input: {
+              user_id: userId,
+              categories: categories,
+              user_list_idx: userIdx
+            }
+          }))
           closePopUp(false);
         });
         break;
@@ -94,7 +106,7 @@ export const UserScopePopUp = ({ user, index, closePopUp }: PopUpProps) => {
         break;
       default:
         break;
-      }
+    }
   };
 
   const categoriesArr = Object.keys(categories);
@@ -103,7 +115,7 @@ export const UserScopePopUp = ({ user, index, closePopUp }: PopUpProps) => {
   );
   const unassignedCategoryArr = categoriesArr.filter(
     (category) => isCategoryScope(category) && !categories[category]
-    );
+  );
 
   const alertContent = (
     <>

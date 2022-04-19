@@ -19,7 +19,6 @@ export type GeneralPopUpProps = Omit<PopUpProps, "user" | "closePopUp"> & {
 };
 export const GeneralDashboardPopUp = ({
   onClick,
-  index,
   overallClassName,
   heading,
   btnClass,
@@ -46,7 +45,6 @@ export const GeneralDashboardPopUp = ({
         {children}
         <button
           data-action-type={btnActionType}
-          data-index={index}
           onClick={onClick}
           className={btnClass}
         >

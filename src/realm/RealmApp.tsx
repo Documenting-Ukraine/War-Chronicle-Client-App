@@ -53,10 +53,14 @@ export const RealmAppProvider = ({
       });
       return app.currentUser;
     } catch (e) {
-      //setCurrentUser(null);
+      setCurrentUser(null);
       if (e instanceof Realm.MongoDBRealmError) {
         console.error(e);
         if (errorCallBack) errorCallBack(e);
+        unstable_batchedUpdates(() => {
+            setCurrentUser(null);
+            setUserLoading(false);
+        });
       }
       return null
     }
