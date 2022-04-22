@@ -35,7 +35,7 @@ const DashboardUserList = () => {
     dispatch(fetchUserData({
       app: app,
       input: {
-        user_type: userType,
+        user_type: "admin",
         value: "",
         order: undefined,
       }

@@ -1,9 +1,9 @@
 import { useDispatch, batch } from "react-redux";
-import useWindowWidth from "../../../../../hooks/use-window-width"
-import PopUpBg from "../../../../utilityComponents/popUpBg/PopUpBg";
+import useWindowWidth from "../../../../hooks/use-window-width"
+import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
 import { PopUpProps, GeneralDashboardPopUp } from "./general";
-import { deleteUser } from "../../../../../store/reducers/asyncActions/userActions/deleteUser";
-import { useRealmApp } from "../../../../../realm/RealmApp";
+import { deleteUser } from "../../../../store/reducers/asyncActions/userActions/deleteUser";
+import { useRealmApp } from "../../../../realm/RealmApp";
 
 export const RevokeAccessPopUp = ({ user, index, closePopUp }: PopUpProps) => {
   const mediumWidth = useWindowWidth(992);

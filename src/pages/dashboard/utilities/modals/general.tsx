@@ -1,5 +1,5 @@
-import { UserDocument } from "../../../../../types/dataTypes";
-import ExitIcon from "../../../../utilityComponents/exitIcon/ExitIcon";
+import { UserDocument } from "../../../../types/dataTypes";
+import ExitIcon from "../../../utilityComponents/exitIcon/ExitIcon";
 
 export interface PopUpProps {
   closePopUp: React.Dispatch<React.SetStateAction<boolean>>;

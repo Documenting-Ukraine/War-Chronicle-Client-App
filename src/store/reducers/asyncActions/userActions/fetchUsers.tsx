@@ -2,7 +2,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { isObject, has } from "lodash";
 import { RealmApp } from "../../../../realm/RealmApp";
 import { UserDocument, isUserDocument } from "../../../../types/dataTypes";
-import { isCategoryScope } from "../../../../types/dataTypes/CategoryIconMap";
 import { UserSortProps } from "../../../../pages/dashboard/utilities/userList/types";
 interface FetchUserDataProps {
   app: RealmApp;

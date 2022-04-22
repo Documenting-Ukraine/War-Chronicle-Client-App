@@ -60,42 +60,42 @@ const DashboardRecent = (): JSX.Element => {
   const contributions = useSelector(
     (state: RootState) => state.dashboard.contributionsData
   );
-  //const contributionsData = contributions.data;
-  const contributionsData = [
-    {
-      _id: "unique",
-      recordTitle: "hello",
-      recordCreationDate: new Date(),
-      media: {
-        mainImage: undefined,
-      },
-      description: "hello",
-      recordType: "War Crimes",
-      warCrime: [],
-    },
-    {
-      _id: "unique1",
-      recordTitle: "hello",
-      recordCreationDate: new Date(),
-      media: {
-        mainImage: undefined,
-      },
-      description: "hello",
-      recordType: "War Crimes",
-      warCrime: [],
-    },
-    {
-      _id: "unique2",
-      recordTitle: "hello",
-      recordCreationDate: new Date(),
-      media: {
-        mainImage: undefined,
-      },
-      description: "hello",
-      recordType: "War Crimes",
-      warCrime: [],
-    },
-  ];
+  const contributionsData = contributions.data;
+  // const contributionsData = [
+  //   {
+  //     _id: "unique",
+  //     recordTitle: "hello",
+  //     recordCreationDate: new Date(),
+  //     media: {
+  //       mainImage: undefined,
+  //     },
+  //     description: "hello",
+  //     recordType: "War Crimes",
+  //     warCrime: [],
+  //   },
+  //   {
+  //     _id: "unique1",
+  //     recordTitle: "hello",
+  //     recordCreationDate: new Date(),
+  //     media: {
+  //       mainImage: undefined,
+  //     },
+  //     description: "hello",
+  //     recordType: "War Crimes",
+  //     warCrime: [],
+  //   },
+  //   {
+  //     _id: "unique2",
+  //     recordTitle: "hello",
+  //     recordCreationDate: new Date(),
+  //     media: {
+  //       mainImage: undefined,
+  //     },
+  //     description: "hello",
+  //     recordType: "War Crimes",
+  //     warCrime: [],
+  //   },
+  // ];
   const app = useRealmApp();
   const dispatch = useDispatch();
   useEffect(() => {

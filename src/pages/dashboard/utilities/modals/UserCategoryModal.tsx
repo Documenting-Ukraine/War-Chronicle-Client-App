@@ -1,14 +1,14 @@
 import { PopUpProps, GeneralDashboardPopUp } from "./general";
-import PopUpBg from "../../../../utilityComponents/popUpBg/PopUpBg";
+import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
 import { useDispatch, batch } from "react-redux";
-import { updateUserScope } from "../../../../../store/reducers/asyncActions/userActions/updateUserScope";
+import { updateUserScope } from "../../../../store/reducers/asyncActions/userActions/updateUserScope";
 import categoryIconMap, {
   isCategoryScope,
   categoryPermissions,
-} from "../../../../../types/dataTypes/CategoryIconMap";
+} from "../../../../types/dataTypes/CategoryIconMap";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRealmApp } from "../../../../../realm/RealmApp";
+import { useRealmApp } from "../../../../realm/RealmApp";
 const CategoryListItem = ({
   category,
   listType,

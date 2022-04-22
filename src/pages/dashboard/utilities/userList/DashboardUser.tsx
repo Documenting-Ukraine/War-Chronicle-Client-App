@@ -5,8 +5,8 @@ import useIsClickOutside from "../../../../hooks/use-click-outside";
 import { UserDocument } from "../../../../types/dataTypes";
 import UserActionsDropdown from "./DashboardUserDropdown";
 import { useState } from "react";
-import { RevokeAccessPopUp } from "./popupModals/RevokeAccessModal";
-import { UserScopePopUp } from "./popupModals/UserCategoryModal";
+import { RevokeAccessPopUp } from "../modals/RevokeAccessModal";
+import { UserScopePopUp } from "../modals/UserCategoryModal";
 const DashboardUser = ({
   user,
   elementType,
