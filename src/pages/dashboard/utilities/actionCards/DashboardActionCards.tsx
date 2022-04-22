@@ -6,7 +6,8 @@ interface CardProps {
   additionalRoute: string, 
   cardIcon: IconProp,
   cardHeading: string, 
-  cardDescription: string
+  cardDescription: string,
+  isBtn?: () => void
 }
 interface DashboardActionProps {
   cardData: CardProps[]
@@ -15,27 +16,43 @@ const DashboardActionCard = ({
   linkRoute, 
   cardIcon, 
   cardHeading,
-  cardDescription
-}:Omit<CardProps, "additionalRoute"> & {linkRoute: string}) => (
-  <Link
-    to={linkRoute}
-    className="action-card"
-  >
-    <div className="action-card-header">
+  cardDescription, 
+  isBtn
+}:Omit<CardProps, "additionalRoute"> & {linkRoute: string}) => {
+  const cardContent = <>
+  <div className="action-card-header">
       <FontAwesomeIcon icon={cardIcon} />
       <h2>{cardHeading}</h2>
     </div>
     <p className="action-card-description">
       {cardDescription}
     </p>
-  </Link>
-);
+  </>
+  return (
+    <>
+    {isBtn ? 
+    <button className="action-card" onClick = {isBtn}>
+      {cardContent}
+    </button>
+    :
+      <Link
+      to={linkRoute}
+      className="action-card"
+    >
+      {cardContent}
+    </Link>
+    }
+    </>
+
+)
+};
 const DashboardActionCards = ({ cardData }: DashboardActionProps): JSX.Element => {
   const app = useRealmApp()
   return (
     <div className="dashboard-action-cards">
       {cardData.map((card) => (
         <DashboardActionCard
+          isBtn={card?.isBtn}
           key={card.cardHeading}
           linkRoute={`/dashboard/${app.currentUser?.id}/${card.additionalRoute}`}
           cardIcon={card.cardIcon}

@@ -1,19 +1,29 @@
 import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
-import { GeneralDashboardPopUp } from "./general";
+import { GeneralDashboardPopUp, PopUpProps } from "./general";
 import RequestAccessInput from "../../../forms/requestAccessForm/RequestAccessInput";
 import { CategoriesList } from "../../../../types/dataTypes/CategoryIconMap";
-// import { Option } from "../../../forms/data/OccupationList";
-const RequestNewScopesModal = () => {
+import { useRealmApp } from "../../../../realm/RealmApp";
+import { isUserCustomData } from "../../../../types/dataTypes";
+
+const RequestNewScopesModal = ({closePopUp}:Omit<PopUpProps, "user" | "index">) => {
+    const app = useRealmApp();
+    const userData = {...app.currentUser?.customData}
     const onRequestAccess = (e: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) =>{
-        e.preventDefault()
         const data = e.currentTarget.dataset
         const actionType = data.actionType
         switch(actionType){
+            case "close-pop-up":
+                if (e.target === e.currentTarget) closePopUp(false);
+                if (
+                  (e.target instanceof HTMLElement || e.target instanceof SVGElement) &&
+                  e.target.closest("button")?.dataset.actionType === "close-pop-up"
+                )
+                  closePopUp(false);
+                break;
             case "request-access":
                 break;
-            case "close-pop-up":
-                break;
-            
+            default:
+                return
         }
     }
     const alertContent =
@@ -27,9 +37,27 @@ const RequestNewScopesModal = () => {
             label: category
         })   
     })
+    const onRequestAccessSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const fieldValues = Object.fromEntries(formData.entries());
+        const purpose = fieldValues["Why do you want to access this category?"]
+        const category = fieldValues["Select Category Scope"]
+
+        if(!isUserCustomData(userData)) return
+        const payload = {
+            user_id: userData._id.toString(),
+            first_name: userData.first_name,
+            last_name: userData.last_name,
+            purpose: purpose,
+            category: category
+        };
+
+        closePopUp(false);
+    }
     return (
         <PopUpBg fullViewport={true} onClick={onRequestAccess}>
-            <form>
+            <form onSubmit={onRequestAccessSubmit}>
                 <GeneralDashboardPopUp
                     onClick={onRequestAccess}
                     overallClassName={"request-new-scope-pop-up"}

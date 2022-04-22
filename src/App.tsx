@@ -125,8 +125,6 @@ function App() {
               }
             />
           </Route>
-          <Route path="request-access-modal" element={<RequestNewScopesModal />}/>
-
         </Routes>
       </Suspense>
     </div>

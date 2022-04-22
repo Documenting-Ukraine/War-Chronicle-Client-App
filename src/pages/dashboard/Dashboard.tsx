@@ -32,7 +32,7 @@ const Dashboard = ({
         ) : type === "contribute" ? (
           <DashboardContribute />
         ) : (
-          <DashboardOverview user={app.currentUser} />
+          <DashboardOverview user={app.currentUser} accountType={"contributor"} />
         )}
       </>
     </DashboardWrapper>

@@ -20,7 +20,7 @@ export const RevokeAccessPopUp = ({ user, index, closePopUp }: PopUpProps) => {
         if (e.target === e.currentTarget) closePopUp(false);
         if (
           (e.target instanceof HTMLElement || e.target instanceof SVGElement) &&
-          e.target.closest("button")?.dataset.actionType
+          e.target.closest("button")?.dataset.actionType === "close-pop-up"
         )
           closePopUp(false);
         break;

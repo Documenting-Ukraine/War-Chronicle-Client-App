@@ -5,6 +5,7 @@ import { Russia } from "./Russia";
 import { StrikesAndAttacks } from "./StrikesAndAttacks";
 import { WarCrimes } from "./WarCrimes";
 import { CategoriesList, isCategoryScope } from "./CategoryIconMap";
+import {ObjectId} from "mongodb"
 type RecordSubmissionType =
   | InternationalResponse
   | MediaAndDisInformation
@@ -25,6 +26,13 @@ type UserDocument = {
   user_id?: string;
   category_scopes?: typeof CategoriesList[number][];
 };
+type UserCustomData = Omit<UserDocument, "creation_date"|"_id"> & {creation_date: Date, _id: ObjectId}
+export function isUserCustomData(arg:any): arg is UserCustomData{
+  const copyArg = {...arg}
+  copyArg._id = copyArg._id.toString()
+  copyArg.creation_date = copyArg.creation_date.toString();
+  return isUserDocument(copyArg)
+}
 export function isUserDocument(arg: any): arg is UserDocument {
   try {
     const string_keys = [
