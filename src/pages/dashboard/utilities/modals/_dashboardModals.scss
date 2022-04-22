@@ -200,3 +200,21 @@ button {
       }
   }
   
+.request-new-scope-pop-up{
+    .request-scope-alert{
+        color: $purple-blue;
+        background-color: $lighter-blue;
+        border: 1px solid $purple-blue;
+    }
+    .request-scope-btn{
+        background-color: $dark-blue;
+        color: $white;
+    }
+    .top-spacing{
+        margin-top: 1rem;
+    }
+    .request-access-form-input label{
+        font-size: 0.95rem;
+        font-weight: 400;
+    }
+}

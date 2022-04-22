@@ -1,5 +1,5 @@
 import Select from "react-select";
-import { GroupedOption} from "../data/OccupationList";
+import { GroupedOption, Option} from "../data/OccupationList";
 import useFormInputs from "../../../hooks/use-form-inputs";
 const RequestAccessInput = ({
   name,
@@ -7,12 +7,14 @@ const RequestAccessInput = ({
   customValidation,
   inputType = "text",
   dropDown,
+  required = true,
 }: {
   name: string;
   textArea?: boolean;
   customValidation?: (e: string) => { err: boolean; message: string };
   inputType?: string;
-  dropDown?: GroupedOption[];
+  dropDown?: GroupedOption[] | Option[];
+  required?: boolean
 }) => {
   const { err, onTouch, onDefaultChange, onDropdownChange } = useFormInputs({
     validateFunc: customValidation,
@@ -31,8 +33,8 @@ const RequestAccessInput = ({
             name={name}
             onChange={onDefaultChange}
             onBlur={onTouch}
-            style={err.err ? { border: "1.5px solid darkred" } : undefined}
-            required
+            style={required && err.err ? { border: "1.5px solid darkred" } : undefined}
+            required ={required}
           />
         ) : dropDown ? (
           <Select
@@ -51,12 +53,12 @@ const RequestAccessInput = ({
             type={inputType}
             onChange={onDefaultChange}
             onBlur={onTouch}
-            style={err.err ? { border: "1.5px solid darkred" } : undefined}
-            required
+            style={required && err.err ? { border: "1.5px solid darkred" } : undefined}
+            required ={required}
           />
         )}
       </div>
-      {err.err && <div className="row-input-error">{err.message}</div>}
+      {required && err.err && <div className="row-input-error">{err.message}</div>}
     </div>
   );
 };

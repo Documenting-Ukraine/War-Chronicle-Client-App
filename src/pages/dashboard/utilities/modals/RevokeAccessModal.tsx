@@ -12,6 +12,7 @@ export const RevokeAccessPopUp = ({ user, index, closePopUp }: PopUpProps) => {
   const onRevokeAccess = (
     e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>
   ) => {
+    e.preventDefault()
     const data = e.currentTarget.dataset;
     const actionType = data.actionType;
     switch (actionType) {

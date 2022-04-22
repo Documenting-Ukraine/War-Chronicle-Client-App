@@ -10,8 +10,8 @@ export type GeneralPopUpProps = Omit<PopUpProps, "user" | "closePopUp"> & {
   onClick: (e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>) => void;
   overallClassName?: string;
   heading?: string;
-  btnActionType: "save-scope" | "revoke-access";
-  btnText: "Save Changes" | "Remove User";
+  btnActionType: "save-scope" | "revoke-access" | "request-access";
+  btnText: "Save Changes" | "Remove User" | "Submit";
   children?: JSX.Element;
   btnClass: string;
   alertClass: string;
@@ -47,6 +47,7 @@ export const GeneralDashboardPopUp = ({
           data-action-type={btnActionType}
           onClick={onClick}
           className={btnClass}
+          type="submit"
         >
           {btnText}
         </button>

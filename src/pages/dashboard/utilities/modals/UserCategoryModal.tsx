@@ -55,6 +55,7 @@ export const UserScopePopUp = ({ user, index, closePopUp }: PopUpProps) => {
   const onSaveCategories = (
     e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>
   ) => {
+    e.preventDefault()
     const data = e.currentTarget.dataset;
     const actionType = data.actionType;
     switch (actionType) {

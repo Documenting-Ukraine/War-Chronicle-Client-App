@@ -125,7 +125,7 @@ function App() {
               }
             />
           </Route>
-          <Route path="revoke-access-modal" element={<RequestNewScopesModal />}/>
+          <Route path="request-access-modal" element={<RequestNewScopesModal />}/>
 
         </Routes>
       </Suspense>
