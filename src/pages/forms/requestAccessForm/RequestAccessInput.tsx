@@ -1,6 +1,11 @@
 import Select from "react-select";
 import { GroupedOption, Option} from "../data/OccupationList";
 import useFormInputs from "../../../hooks/use-form-inputs";
+import { CSSObjectWithLabel } from "react-select";
+const customStylesErr = {container:(provided: CSSObjectWithLabel) =>({
+  ...provided,
+  border: "1px solid darkred"
+})} 
 const RequestAccessInput = ({
   name,
   textArea,
@@ -45,6 +50,7 @@ const RequestAccessInput = ({
             id={`${name}-input`}
             onChange={onDropdownChange}
             onBlur={onTouch}
+            styles={required && err.err ? customStylesErr : undefined}
           />
         ) : (
           <input
