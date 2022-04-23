@@ -17,6 +17,8 @@ function isRequestScopeResult(arg: any):arg is RequestScopeResult{
     return !arg.error && arg.form_id
 }
 const RequestNewScopesModal = ({closePopUp}:RequestNewScopesProps) => {
+    const app = useRealmApp();
+    const userData = {...app.currentUser?.customData}
     const [isSubmitted, setIsSubmitted] = useState({
         submitted: false, 
         message: ""
@@ -26,8 +28,6 @@ const RequestNewScopesModal = ({closePopUp}:RequestNewScopesProps) => {
         err: false, 
         message: ''
     })
-    const app = useRealmApp();
-    const userData = {...app.currentUser?.customData}
     const onRequestAccess = (e: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) =>{
         const data = e.currentTarget.dataset
         const actionType = data.actionType

@@ -10,13 +10,11 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 const DashboardOverview = ({
   user,
-  accountType
 }: {
   user: Realm.User | null;
-  accountType: "admin" | "contributor"
 }): JSX.Element => {
   const [requestScope, setRequestScope] = useState(false)
-  //const accountType = user?.customData?.account_type;
+  const accountType = user?.customData?.account_type;
   const firstName = user?.customData?.first_name;
   const cardData = [
     {
