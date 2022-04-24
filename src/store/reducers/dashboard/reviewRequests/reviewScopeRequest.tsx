@@ -41,7 +41,7 @@ const reviewNewScopeRequestSlice = createSlice({
       return state;
     });
     builder.addCase(deleteScopeRequest.fulfilled, (state, action) => {
-      const scopeListIdx = action.payload ? action.payload.scope_list_idx : 0;
+      const scopeListIdx = action.payload ? action.payload.scope_review_list_idx : 0;
       const newState = deleteFulfilledReviewRequests(state, action.payload, scopeListIdx)
       if(newState.key === "reviewNewScopeRequestSlice") return newState
       else return state
