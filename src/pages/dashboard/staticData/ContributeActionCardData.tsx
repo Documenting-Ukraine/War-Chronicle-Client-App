@@ -1,7 +1,7 @@
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faFileLines, faFolder } from "@fortawesome/free-solid-svg-icons";
 import categoryIconMap from "../../../types/dataTypes/CategoryIconMap";
-import { CategoriesList, isCategoryScope} from "../../../types/dataTypes/CategoryIconMap";
+import {isCategoryScope} from "../../../types/dataTypes/CategoryIconMap";
 
 const contributeActionCardData = (user: Realm.User) => {
   const accountType = user.customData?.account_type;

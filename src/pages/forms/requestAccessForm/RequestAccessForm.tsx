@@ -9,31 +9,21 @@ import {unstable_batchedUpdates} from "react-dom"
 import PopUpBg from "../../utilityComponents/popUpBg/PopUpBg";
 import LoadingMessage from "../../utilityComponents/loadingMessage/LoadingMessage";
 import { occupationData } from "../data/OccupationList";
-
-interface DataPayLoad {
-  first_name: string;
-  last_name: string;
-  email: string;
-  occupation: string;
-  purpose: string;
-  phone_number?: string;
-  preferred_contact: "E-mail" | "Phone Number";
-}
-export type { DataPayLoad };
+import { NewUserRequest } from "../../../store/reducers/dashboard/reviewRequests/types";
 const RequestAccessForm = (): JSX.Element => {
   const [formErr, setFormErr] = useState({
     err: false,
     message: "",
   });
   const [submitLoading, setSumbitLoading] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState<false | DataPayLoad>(
+  const [formSubmitted, setFormSubmitted] = useState<false | NewUserRequest>(
     false
   );
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const fieldValues = Object.fromEntries(formData.entries());
-    const dataPayload: DataPayLoad = {
+    const dataPayload: NewUserRequest = {
       first_name:
         typeof fieldValues["First Name"] === "string"
           ? fieldValues["First Name"]
@@ -62,7 +52,6 @@ const RequestAccessForm = (): JSX.Element => {
     };
     if (typeof fieldValues["Phone Number"] === "string")
       dataPayload.phone_number = fieldValues["Phone Number"];
-    console.log(dataPayload)
     try {
       setSumbitLoading(true);
       //write async request here

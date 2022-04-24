@@ -1,7 +1,7 @@
-import { RecordSubmissionType } from "../../../types/dataTypes";
+import { RecordSubmissionType } from "../../../../types/dataTypes";
 import { createSlice } from "@reduxjs/toolkit";
-import { GenericDashboardData } from "./types";
-import { fetchContributions } from "./dashboardReducer";
+import { GenericDashboardData } from "../types";
+import { fetchContributions } from "../dashboardReducer";
 const contributionsSlice = createSlice({
   name: "contributionsSlice",
   initialState: {

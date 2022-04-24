@@ -7,7 +7,6 @@ import {
   RequireNonGuestAndOwner,
   RequireNoUser
 } from "./pages/utilityComponents/protectedRoute/ProtectedRoute";
-import RequestNewScopesModal from "./pages/dashboard/utilities/modals/RequestUserScope";
 const FormPage = React.lazy(() => import("./pages/formPage/FormPage"));
 const HomePage = React.lazy(() => import("./pages/homePage/HomePage"));
 const AboutPage = React.lazy(() => import("./pages/aboutPage/AboutPage"));

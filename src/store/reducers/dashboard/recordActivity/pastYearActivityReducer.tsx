@@ -1,7 +1,7 @@
-import { fetchActivityData } from "./dashboardReducer";
+import { fetchActivityData } from "../dashboardReducer";
 import { createSlice } from "@reduxjs/toolkit";
-import { GenericDashboardData } from "./types";
-import { ActivityDataTemplate } from "./dashboardReducer";
+import { GenericDashboardData } from "../types";
+import { ActivityDataTemplate } from "../dashboardReducer";
 const pastYearActivitySlice = createSlice({
   name: "pastYearActivitySlice",
   initialState: {

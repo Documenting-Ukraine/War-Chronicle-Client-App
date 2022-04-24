@@ -3,7 +3,7 @@ import { useRealmApp } from "../../../realm/RealmApp";
 import { googleAuth } from "../../../realm/auth/googleAuth";
 import { GoogleSignUp, GoogleLogin } from "../../../types/index";
 import { GoogleCredientals } from "../../../types/auth/GoogleAuth";
-/*global google*/
+//eslint ignore next-line
 declare const google: any;
 const googleClientID = process.env.REACT_APP_GOOGLE_CLIENT_ID_DEV;
 

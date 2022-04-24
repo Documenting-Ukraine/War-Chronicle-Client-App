@@ -1,14 +1,14 @@
-import { fetchUserData } from "../asyncActions/userActions/fetchUsers";
+import { fetchUserData } from "../../asyncActions/userActions/fetchUsers";
 import { createSlice } from "@reduxjs/toolkit";
-import { updateUserScope } from "../asyncActions/userActions/updateUserScope";
-import { deleteUser } from "../asyncActions/userActions/deleteUser";
+import { updateUserScope } from "../../asyncActions/userActions/updateUserScope";
+import { deleteUser } from "../../asyncActions/userActions/deleteUser";
 import {
   UserListReducerState,
   UserListActionPayload,
   UserListProps,
   UserListUpdateProps,
   UserListDeleteProps,
-} from "./types";
+} from "../types";
 const userListUpdateTemplate = (
   state: UserListReducerState,
   payload: UserListActionPayload
@@ -18,10 +18,10 @@ const userListUpdateTemplate = (
   const userListIdx = payload.user_list_idx;
   if (userListIdx >= userData.length) return state;
   let removedArr;
-  //for updating user categories
+  //for deletion of users
   if (!("categories_update" in payload))
     removedArr = userData.splice(userListIdx, 1);
-  //for updating deletion of users
+  //for updating categories of users
   else {
     const userToUpdate = userData[userListIdx];
     const newUserDoc = {
