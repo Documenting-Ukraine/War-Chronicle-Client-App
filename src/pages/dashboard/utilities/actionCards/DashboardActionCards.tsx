@@ -52,7 +52,7 @@ const DashboardActionCards = ({ cardData }: DashboardActionProps): JSX.Element =
     <div className="dashboard-action-cards">
       {cardData.map((card) => (
         <DashboardActionCard
-          isBtn={card?.isBtn}
+          isBtn={card.isBtn}
           key={card.cardHeading}
           linkRoute={`/dashboard/${app.currentUser?.id}/${card.additionalRoute}`}
           cardIcon={card.cardIcon}

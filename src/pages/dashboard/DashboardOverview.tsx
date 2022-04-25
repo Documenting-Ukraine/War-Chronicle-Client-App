@@ -13,7 +13,7 @@ const DashboardOverview = ({
 }: {
   user: Realm.User | null;
 }): JSX.Element => {
-  const [requestScope, setRequestScope] = useState(false)
+  const [requestScope, setRequestScope] = useState(false);
   const accountType = user?.customData?.account_type;
   const firstName = user?.customData?.first_name;
   const cardData = [
@@ -28,18 +28,20 @@ const DashboardOverview = ({
     },
     {
       additionalRoute: accountType === "admin" ? "manage" : "",
-      isBtn: () => setRequestScope(true),
+      isBtn:  accountType ==="admin" ? undefined : () => setRequestScope(true),
       cardIcon: accountType === "admin" ? faUserCircle : faPlusSquare,
-      cardHeading: accountType === "admin" ? "Manage Users" : "Request New Scope",
+      cardHeading:
+        accountType === "admin" ? "Manage Users" : "Request New Scope",
       cardDescription:
         accountType === "admin"
           ? "Assign contributors new scopes or add new users to management"
           : "Request access to a new category scope. This will allow you to add records to a new category scope of this archive",
     },
   ];
+  
   return (
     <>
-      {requestScope && <RequestNewScopesModal closePopUp={setRequestScope}/> }
+      {requestScope && <RequestNewScopesModal closePopUp={setRequestScope} />}
       <div id={"dashboard-greeting"}>
         <h1>{`Hello ${firstName} !`}</h1>
         <p>Welcome back !</p>

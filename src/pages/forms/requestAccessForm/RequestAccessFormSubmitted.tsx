@@ -1,5 +1,5 @@
-import { DataPayLoad } from "./RequestAccessForm";
 import { Link } from "react-router-dom";
+import { NewUserRequest } from "../../../store/reducers/dashboard/reviewRequests/types";
 const FieldRow = ({
   heading,
   value,
@@ -22,7 +22,7 @@ const FieldRow = ({
   );
 };
 
-const FormSubmitted = ({ data }: { data: DataPayLoad }): JSX.Element => {
+const FormSubmitted = ({ data }: { data: Omit<NewUserRequest, "creation_date"| '_id'> }): JSX.Element => {
   const dataKeys = Object.keys(data);
   return (
     <div className="request-form-submitted">
@@ -34,7 +34,7 @@ const FormSubmitted = ({ data }: { data: DataPayLoad }): JSX.Element => {
           <FieldRow
             key={heading}
             heading={heading}
-            value={data[heading as keyof DataPayLoad]}
+            value={data[heading as keyof Omit<NewUserRequest, "creation_date"| '_id'>]}
           />
         ))}
       </div>

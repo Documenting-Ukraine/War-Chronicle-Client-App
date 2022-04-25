@@ -16,14 +16,14 @@ const RequestAccessForm = (): JSX.Element => {
     message: "",
   });
   const [submitLoading, setSumbitLoading] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState<false | NewUserRequest>(
+  const [formSubmitted, setFormSubmitted] = useState<false | Omit<NewUserRequest, "creation_date"| '_id'>>(
     false
   );
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const fieldValues = Object.fromEntries(formData.entries());
-    const dataPayload: NewUserRequest = {
+    const dataPayload: Omit<NewUserRequest, "creation_date"| '_id'> = {
       first_name:
         typeof fieldValues["First Name"] === "string"
           ? fieldValues["First Name"]
