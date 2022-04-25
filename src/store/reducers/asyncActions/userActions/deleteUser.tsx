@@ -22,7 +22,6 @@ export function isDeleteUserResults(arg: any): arg is DeleteUserResults {
     has(arg, "user_list_idx") && typeof arg.user_list_idx === "number"  && 
     has(arg, "error") && 
     has(arg, "number_removed") && typeof arg.number_removed === "number"
-  console.log(isObj, hasKeys, arg)
   return isObj && hasKeys;
 }
 export type { DeleteUserResults };
@@ -34,9 +33,7 @@ export const deleteUser = createAsyncThunk(
     input,
   }: DeleteUserProps): Promise<DeleteUserResults | null> => {
     const userData = await app.currentUser?.callFunction("delete_user", input);
-    
     if (isDeleteUserResults(userData)) return userData;
-    console.log(isDeleteUserResults(userData))
     return null;
   }
 );

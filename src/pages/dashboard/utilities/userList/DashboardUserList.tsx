@@ -23,35 +23,38 @@ const DashboardUserList = () => {
   const smallWidth = useWindowWidth(575);
   const userList = userListData.data ? userListData.data : [];
   const userListStatus = userListData.status;
-  const app = useRealmApp()
+  const app = useRealmApp();
   const dispatch = useDispatch();
   const [userType, setUserType] = useState<"admin" | "contributor">("admin");
-  const [userSort, setUserSort] = useState<UserSortProps | undefined>(undefined);
+  const [userSort, setUserSort] = useState<UserSortProps | undefined>(
+    undefined
+  );
   const [userListPage, setUserListPage] = useState(0);
   const userListStart = userListPage * 10;
   const userListEnd = (userListPage + 1) * 10;
   //on mount
   useEffect(() => {
-    dispatch(fetchUserData({
-      app: app,
-      input: {
-        user_type: "admin",
-        value: "",
-        order: undefined,
-      }
-    }
-    ))
-  }, [dispatch, app])
+    dispatch(
+      fetchUserData({
+        app: app,
+        input: {
+          user_type: "admin",
+          value: "",
+          order: undefined,
+        },
+      })
+    );
+  }, [dispatch, app]);
   //if previous search, or sorting/user type categories change
   // pagination number should reset
   useEffect(() => {
-    setUserListPage(0)    
+    setUserListPage(0);
   }, [userType, userSort, userListData.prev_search]);
   const onUserType = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (userListStatus === "loading") return;
     const target = e.currentTarget.dataset.userType;
     const map = ["admin", "contributor"] as const;
-    if (target && (target === map[0] || target === map[1])) setUserType(target)
+    if (target && (target === map[0] || target === map[1])) setUserType(target);
   };
   const onSortOrder = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (userListStatus === "loading") return;
@@ -61,17 +64,21 @@ const DashboardUserList = () => {
     if (typeof column !== "string") return;
     const newState = {
       key: column,
-      direction: direction
+      direction: direction,
     };
     //same btn, that is already set in state
-    if (userSort && userSort.key === newState.key && userSort.direction === newState.direction) {
-      return setUserSort(undefined)
+    if (
+      userSort &&
+      userSort.key === newState.key &&
+      userSort.direction === newState.direction
+    ) {
+      return setUserSort(undefined);
     }
     if (isUserSortOrder(newState)) return setUserSort(newState);
   };
   const onUserPagination = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (userListStatus === "loading") return;
-    const data = e.currentTarget.dataset
+    const data = e.currentTarget.dataset;
     switch (data.actionType) {
       case "prev-pg":
         setUserListPage((state) => (state - 1 >= 0 ? state - 1 : 0));
@@ -79,7 +86,7 @@ const DashboardUserList = () => {
       case "next-pg":
         setUserListPage((state) =>
           userListData.pagination_end && userList.length <= userListEnd
-            ? state 
+            ? state
             : state + 1
         );
         if (!userListData.pagination_end && userList.length === userListEnd) {
@@ -90,16 +97,16 @@ const DashboardUserList = () => {
                 user_type: userType,
                 value: userListData.prev_search,
                 order: userSort,
-                idx_counter: ((userListPage+1)/5),
+                idx_counter: (userListPage + 1) / 5,
               },
             })
           );
         }
         break;
       default:
-        break
+        break;
     }
-  }
+  };
   const columnTitlesData: {
     title: string;
     sort?: (e: React.MouseEvent<HTMLButtonElement>) => void;

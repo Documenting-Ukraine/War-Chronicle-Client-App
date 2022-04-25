@@ -59,7 +59,7 @@ const GridSumbissionBanner = (): JSX.Element => {
         </div>
       )}
       <div id="dashboard-grid">
-        {pastYearData && status === "success" && (
+        {!pastYearData && status === "success" && (
           <svg
             id="dashboard-inner-grid"
             viewBox={`0 0 ${

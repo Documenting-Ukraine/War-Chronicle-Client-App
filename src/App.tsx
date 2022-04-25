@@ -40,57 +40,74 @@ function App() {
           />
           <Route path="/dashboard/:id">
             <Route
-              index={true}
+              index
               element={
-                <RequireNonGuestAndOwner path="dashboard">
+                <RequireNonGuestAndOwner path="/dashboard">
                   <NavWrapper>
-                    <Dashboard type="overview" />
+                    <Dashboard type="overview"/>
                   </NavWrapper>
                 </RequireNonGuestAndOwner>
               }
-            ></Route>
+            />
             <Route
               path="overview"
               element={
-                <RequireNonGuestAndOwner path="dashboard">
+                <RequireNonGuestAndOwner path="/dashboard">
                   <NavWrapper>
                     <Dashboard type="overview" />
                   </NavWrapper>
                 </RequireNonGuestAndOwner>
               }
-            ></Route>
+            />
             <Route
               path="contribute"
               element={
-                <RequireNonGuestAndOwner path="dashboard">
+                <RequireNonGuestAndOwner path="/dashboard">
                   <NavWrapper>
                     <Dashboard type="contribute" />
                   </NavWrapper>
                 </RequireNonGuestAndOwner>
               }
-            ></Route>
-            <Route
-              path="manage"
-              element={
-                <RequireNonGuestAndOwner path="dashboard">
-                  <NavWrapper>
-                    <Dashboard type="manage" />
-                  </NavWrapper>
-                </RequireNonGuestAndOwner>
-              }
-            ></Route>
+            />
+            <Route path="manage">
+              <Route
+                index
+                element={
+                  <RequireNonGuestAndOwner path="/dashboard">
+                    <NavWrapper>
+                      <Dashboard type="manage" />
+                    </NavWrapper>
+                  </RequireNonGuestAndOwner>
+                }
+              />
+              <Route path="review-requests">
+                <Route
+                  index
+                  element={
+                    <NavWrapper>
+                      <div></div>
+                    </NavWrapper>
+                  }
+                />
+                <Route
+                  path="new-scopes"
+                  element={
+                    <NavWrapper>
+                      <div></div>
+                    </NavWrapper>
+                  }
+                />
+                <Route
+                  path="new-users"
+                  element={
+                    <NavWrapper>
+                      <div></div>
+                    </NavWrapper>
+                  }
+                />
+              </Route>
+            </Route>
           </Route>
-
-          {/* <Route
-            path="/search/*"
-            element={
-              <RequireAuth>
-                <NavWrapper>
-                  <SearchRoutes />
-                </NavWrapper>
-              </RequireAuth>
-            }
-          ></Route> */}
 
           <Route path="/forms/*">
             <Route

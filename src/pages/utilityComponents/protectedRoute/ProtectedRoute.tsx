@@ -1,3 +1,4 @@
+import { indexOf } from "lodash";
 import { Navigate, useLocation, useParams } from "react-router-dom";
 import { useRealmApp } from "../../../realm/RealmApp";
 
@@ -24,9 +25,14 @@ function RequireStrictAuth({
 }) {
   let app = useRealmApp();
   const params = useParams();
+  const location = useLocation();
+  const pathNameArr = location.pathname.split("/")
   //this is if a logged in user tries to access another user's page
   if (app.currentUser && app.currentUser.id !== params.id) {
-    return <Navigate to={`${path}/${app.currentUser.id}`} />;
+    const paramsIdIdx = pathNameArr.indexOf(typeof params.id === "string"? params.id: '') 
+    pathNameArr.splice(paramsIdIdx,1,app.currentUser.id)
+    const newPath = pathNameArr.reduce((first, end) => first + "/" + end)
+    return <Navigate to={newPath} state={{ from: location }} replace />;
   }
   return <RequireAuth>{children}</RequireAuth>;
 }
@@ -45,14 +51,13 @@ function RequireNonGuestAndOwner({
   path: string;
 }) {
   let app = useRealmApp();
-  let location = useLocation();
-  const pathName = location.pathname.split("/");
+  const location = useLocation();
   if (app.currentUser && app.currentUser.providerType === "anon-user") {
     return <Navigate to="/forms/join" state={{ from: location }} replace />;
   }
 
   return (
-    <RequireStrictAuth path={pathName[pathName.length - 1]}>
+    <RequireStrictAuth path={location.pathname}>
       {children}
     </RequireStrictAuth>
   );
