@@ -1,5 +1,5 @@
 import DashboardUserContributions from "./DashboardUserContributions";
-import DashboardReviewRequests from "./DashboardReviewRequests";
+import DashboardReviewRequests from "./reviewRequests/DashboardReviewRequests";
 const DashboardSubPages = ({
   subPageType,
 }: {

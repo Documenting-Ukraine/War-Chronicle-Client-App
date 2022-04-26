@@ -34,13 +34,14 @@ $navbar-height: 3.5rem;
 @mixin link-underline-styles(
   $height: 2px,
   $defaultColor: transparent,
-  $selectedColor: transparent
+  $selectedColor: transparent,
+  $bottom: -1px
 ) {
   &::after {
     position: absolute;
     content: "";
     left: 0;
-    bottom: -1px;
+    bottom: $bottom;
     height: $height;
     width: 0;
     border-radius: 1rem;

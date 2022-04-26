@@ -5,8 +5,8 @@ import useWindowWidth from "../../../../hooks/use-window-width";
 import DashboardUserColumn from "./DashboardUserColumn";
 import DashboardUserSearch from "./DashboardUserSearch";
 import LoadingIcon from "../../../utilityComponents/loadingIcon/LoadingIcon";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PaginationNav from "../paginationNav/PaginationNav";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFaceFrownOpen,
   faPlus,

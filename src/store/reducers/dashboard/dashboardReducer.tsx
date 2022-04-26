@@ -10,8 +10,14 @@ import {
   ActivityDataTemplate,
 } from "../asyncActions/fetchActivityData";
 import { fetchContributions } from "../asyncActions/fetchContributions";
-import { fetchNewUserRequest } from "../asyncActions/requestActions/fetchNewUserRequest";
-import { fetchScopeRequest } from "../asyncActions/requestActions/fetchScopeRequest";
+import {
+  fetchNewUserRequest,
+  FetchNewUserRequestProps,
+} from "../asyncActions/requestActions/fetchNewUserRequest";
+import {
+  fetchScopeRequest,
+  FetchScopeRequestProps,
+} from "../asyncActions/requestActions/fetchScopeRequest";
 import { deleteNewUserRequest } from "../asyncActions/requestActions/deleteNewUserRequest";
 import { deleteScopeRequest } from "../asyncActions/requestActions/deleteScopeRequest";
 //general data types
@@ -33,4 +39,10 @@ export {
   deleteNewUserRequest,
   deleteScopeRequest,
 };
-export type { ActivityDataTemplate, RecordSubmissionType, UserDocument };
+export type {
+  ActivityDataTemplate,
+  RecordSubmissionType,
+  UserDocument,
+  FetchNewUserRequestProps,
+  FetchScopeRequestProps,
+};
