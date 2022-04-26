@@ -6,9 +6,8 @@ import DashboardUserColumn from "./DashboardUserColumn";
 import DashboardUserSearch from "./DashboardUserSearch";
 import LoadingIcon from "../../../utilityComponents/loadingIcon/LoadingIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PaginationNav from "../paginationNav/PaginationNav";
 import {
-  faChevronLeft,
-  faChevronRight,
   faFaceFrownOpen,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
@@ -134,8 +133,17 @@ const DashboardUserList = () => {
         </div>
       )}
       <div id="dashboard-user-list">
-        <div className="dashboard-user-nav">
-          <div className="dashboard-user-type">
+        <PaginationNav
+          listStatus = {userListStatus}
+          listStart ={userListStart}
+          listEnd = {userListEnd}
+          listPage = {userListPage}
+          listInterval = {10}
+          paginationEnd = {userListData.pagination_end}
+          onPagination = {onUserPagination}
+          list ={userList}
+        >
+          <>
             <button
               className={`${userType === "admin" ? "selected" : ""}`}
               onClick={onUserType}
@@ -150,37 +158,8 @@ const DashboardUserList = () => {
             >
               Contributors
             </button>
-          </div>
-          <div className="dashboard-user-count">
-            {smallWidth && (
-              <p className="user-count">
-                {userListStatus !== "loading"
-                  ? `${
-                      userList && userList.length > 0
-                        ? (userListPage + 1) * 10 <= userList.length
-                          ? `${userListStart + 1}-${userListEnd}`
-                          : `${userListStart + 1}-${userList.length}`
-                        : "0"
-                    } of ${
-                      userList
-                        ? userList.length - userListStart >= 10 &&
-                          !userListData.pagination_end
-                          ? "many"
-                          : userList.length
-                        : "0"
-                    }`
-                  : `${userListStart + 1}-${userListEnd} of many`}
-              </p>
-            )}
-
-            <button data-action-type="prev-pg" onClick={onUserPagination}>
-              <FontAwesomeIcon icon={faChevronLeft} />
-            </button>
-            <button data-action-type="next-pg" onClick={onUserPagination}>
-              <FontAwesomeIcon icon={faChevronRight} />
-            </button>
-          </div>
-        </div>
+          </>
+        </PaginationNav>
         <div className="dashboard-user-columns">
           {userListStatus === "loading" && (
             <div className="dashboard-user-column-loading">

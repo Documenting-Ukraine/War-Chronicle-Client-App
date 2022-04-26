@@ -10,12 +10,8 @@ import {
 const FormPage = React.lazy(() => import("./pages/formPage/FormPage"));
 const HomePage = React.lazy(() => import("./pages/homePage/HomePage"));
 const AboutPage = React.lazy(() => import("./pages/aboutPage/AboutPage"));
-// const SearchRoutes = React.lazy(
-//   () => import("./routes/searchRoutes/SearchRoutes")
-// );
-
 const Dashboard = React.lazy(() => import("./pages/dashboard/Dashboard"))
-
+const DashboardSubpages = React.lazy(() => import("./pages/dashboard/subPages/DashboardSubPages"))
 
 function App() {
   return (
@@ -44,7 +40,7 @@ function App() {
               element={
                 <RequireNonGuestAndOwner path="/dashboard">
                   <NavWrapper>
-                    <Dashboard type="overview"/>
+                    <Dashboard type="overview" />
                   </NavWrapper>
                 </RequireNonGuestAndOwner>
               }
@@ -85,7 +81,7 @@ function App() {
                   index
                   element={
                     <NavWrapper>
-                      <div></div>
+                      <DashboardSubpages subPageType="review-users" />
                     </NavWrapper>
                   }
                 />
@@ -93,7 +89,7 @@ function App() {
                   path="new-scopes"
                   element={
                     <NavWrapper>
-                      <div></div>
+                      <DashboardSubpages subPageType="review-scopes" />
                     </NavWrapper>
                   }
                 />
@@ -101,7 +97,7 @@ function App() {
                   path="new-users"
                   element={
                     <NavWrapper>
-                      <div></div>
+                      <DashboardSubpages subPageType="review-users" />
                     </NavWrapper>
                   }
                 />
