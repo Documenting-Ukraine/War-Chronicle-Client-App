@@ -8,6 +8,7 @@ import { isObject, has } from "lodash";
 export type ScopeRequest = {
   _id: ObjectId | string;
   user_id: string;
+  first_name: string;
   last_name: string;
   email: string;
   purpose: string;
@@ -32,7 +33,7 @@ export type NewUserRequest = {
   purpose: string;
   phone_number?: string;
   preferred_contact: "E-mail" | "Phone Number";
-  creation_date: string | Date
+  creation_date: string | Date;
 };
 export type NewUserRequestSlice = GenericDashboardData<NewUserRequest[]> & {
   key: "reviewNewUserRequestSlice";

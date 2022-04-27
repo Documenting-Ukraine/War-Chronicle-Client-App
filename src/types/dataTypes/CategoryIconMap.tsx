@@ -1,9 +1,7 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faNewspaper } from "@fortawesome/free-regular-svg-icons";
 import {
-  faRocket,
   faEarthAmericas,
-  faFireFlameCurved,
   faFlag,
   faHandcuffs,
   faPeopleGroup,
@@ -11,10 +9,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 export const CategoriesList = [
   "War Crimes",
-  "Strikes and Attacks",
   "Refugees And IDPs",
   "Protest Abroad",
-  "Environmental Terrorism",
   "International Response",
   "Media and Disinformation",
   "Russia"
@@ -31,20 +27,16 @@ export function isCategoryScope(
 }
 const categoryIconMap: CategoryIconProps = {
   "War Crimes": faHandcuffs,
-  "Strikes and Attacks": faRocket,
   "Refugees And IDPs": faTents,
   "Protest Abroad": faPeopleGroup,
-  "Environmental Terrorism": faFireFlameCurved,
   "International Response": faEarthAmericas,
   "Media and Disinformation": faNewspaper,
   "Russia": faFlag,
 };
 export const categoryPermissions: GenericCategoryMap<boolean> = {
   "War Crimes": false,
-  "Strikes and Attacks": false,
   "Refugees And IDPs": false,
   "Protest Abroad": false,
-  "Environmental Terrorism": false,
   "International Response": false,
   "Media and Disinformation": false,
   "Russia": false

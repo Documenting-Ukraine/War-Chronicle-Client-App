@@ -1,16 +1,11 @@
 import { useRealmApp } from "../../../../realm/RealmApp";
 import { ScopeRequest } from "../../../../store/reducers/dashboard/reviewRequests/types";
 
-const DashboardScopeRequest = ({
-    data
-}: {
-    data: ScopeRequest
-}) => {
-    const app = useRealmApp()
-    const user = app.currentUser
-    return(
-        <div>
-        </div>
-    )
+const dashboardScopeRequest = (data: ScopeRequest) => {
+  return [
+    { key: "Name", content: data.first_name + " " + data.last_name },
+    { key: "Email", content: data.email },
+    { key: "Requested Category", content: data.category },
+  ];
 };
-export default DashboardScopeRequest;
+export default dashboardScopeRequest;
