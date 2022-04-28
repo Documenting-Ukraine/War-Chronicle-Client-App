@@ -109,6 +109,7 @@ const DashboardReviewRequests = ({
             <h1>Review Requests</h1>
           </div>
           <PaginationNav
+            list={list}
             listStatus={listStatus}
             listStart={listStart}
             listEnd={listEnd}
@@ -116,7 +117,6 @@ const DashboardReviewRequests = ({
             listInterval={listInterval}
             paginationEnd={paginationEnd}
             onPagination={isUsers ? onUsersPagination : onScopesPagination}
-            list={list}
           >
             <>
               <Link
@@ -146,7 +146,7 @@ const DashboardReviewRequests = ({
         </div>
         {
           list?.map((request) => {
-            const generalInfoArr = isNewUserRequest(request)? dashboardNewUserRequest(request) : 
+            const generalInfoArr = isNewUserRequest(request) ? dashboardNewUserRequest(request) : 
                                    isScopeRequest(request) ? dashboardScopeRequest(request): null
             if(!generalInfoArr) return null
             else return <DashboardRequestCard key = {request._id.toString()} data={request} generalInfoArr={generalInfoArr}/>;

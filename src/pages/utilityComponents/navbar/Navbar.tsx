@@ -7,7 +7,7 @@ import { useRealmApp } from "../../../realm/RealmApp";
 import UserDropdown from "../userDropdown/UserDropdown";
 const Navbar = (): JSX.Element => {
   const app = useRealmApp();
-  const smallWindowWidth = useWindowWidth(768);
+  const smallWindowWidth = useWindowWidth(769);
   const [dropdown, setDropdown] = useState(false);
   const customData = app.currentUser?.customData;
   const firstName = customData?.last_name;

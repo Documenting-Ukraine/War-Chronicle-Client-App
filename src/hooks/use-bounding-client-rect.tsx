@@ -11,7 +11,7 @@ export const useBoundingClient = () => {
 
   useEffect(() => {
     let isMount = true;
-    const debouncedHandleResize = debounce(set, 50);
+    const debouncedHandleResize = debounce(set, 100);
     const cleanup = () => {
       window.removeEventListener("resize", debouncedHandleResize);
       isMount = false;
@@ -20,5 +20,5 @@ export const useBoundingClient = () => {
     return () => cleanup()
   }, []);
 
-  return {box: bbox, ref: ref, set: set};
+  return {box: bbox, ref, set};
 };

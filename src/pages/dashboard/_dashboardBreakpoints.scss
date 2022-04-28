@@ -6,6 +6,17 @@
         justify-content: start;
       }
     }
+  };
+  .dashboard-request-card-action-btns {
+    width: 100%;
+    button{
+      width: 100%;
+      font-size: 0.85rem;
+    }
+  }
+  .dashboard-request-card-header {
+    padding: 1rem 1rem;
+    font-size: 1rem;
   }
 }
 @mixin dashboard-md {
@@ -20,5 +31,25 @@
   }
   #dashboard-user-search {
     width: 100%;
+  };
+  #dashboard-review-requests-inner {
+    padding: 0 1rem;
+  }
+
+  .dashboard-request-card-content{
+    flex-direction: column;
+  }
+  .dashboard-request-card-general-info{
+    width: 100%;
+  }
+  .dashboard-request-card-purpose{
+    width: 100%;
+    .purpose-expand-btn {
+      justify-content: center;
+    }
+  }
+  .dashboard-request-card-footer{
+    justify-content: center;
+    padding-bottom: 1rem;
   }
 }
