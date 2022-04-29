@@ -6,9 +6,11 @@ export const useBoundingClient = () => {
   const ref = useRef<HTMLDivElement| HTMLParagraphElement>(null);
   const [bbox, setBbox] = useState<DOMRect| null>(null);
 
-  const set = () =>
-    setBbox(ref && ref.current ? ref.current.getBoundingClientRect() : null);
-
+  const set = () =>{
+    const bBox = ref && ref.current ? ref.current.getBoundingClientRect(): null
+    setBbox(bBox);
+    return bBox
+  }
   useEffect(() => {
     let isMount = true;
     const debouncedHandleResize = debounce(set, 100);

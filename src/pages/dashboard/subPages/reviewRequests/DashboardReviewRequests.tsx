@@ -16,19 +16,7 @@ import { useParams } from "react-router";
 import { NewUserRequest, ScopeRequest } from "../../../../store/reducers/dashboard/reviewRequests/types";
 import { isNewUserRequest, isScopeRequest } from "../../../../store/reducers/dashboard/reviewRequests/types";
 import dashboardScopeRequest from "./DashboardScopeRequest";
-const list: NewUserRequest[] | ScopeRequest[] = [
-  {
-    _id: "342148fwef29fwfe4158dw91f4w3242",
-    first_name: "Arky",
-    last_name: "Asmal",
-    email: "arkyasmal@gmail.com",
-    occupation: "Teacher",
-    purpose: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years.It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like thbruweiifbfiuw ",
-    phone_number: "12345678910",
-    preferred_contact: "E-mail",
-    creation_date: new Date().toString(),
-  }
-]
+
 const DashboardReviewRequests = ({
   pageType,
 }: {
@@ -46,6 +34,33 @@ const DashboardReviewRequests = ({
   const app = useRealmApp();
   const [listPage, setListPage] = useState(0);
   const isUsers = pageType === "review-users";
+  const list: NewUserRequest[] | ScopeRequest[] = pageType === "review-users" ? 
+  [
+    {
+      _id: "342148fwef29fwfe4158dw91f4w3242",
+      first_name: "Arky",
+      last_name: "Asmal",
+      email: "arkyasmal@gmail.com",
+      occupation: "Teacher",
+      purpose: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years.It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like thbruweiifbfiuw ",
+      //purpose: "I need it",
+      phone_number: "12345678910",
+      preferred_contact: "E-mail",
+      creation_date: new Date().toString(),
+    }
+  ]: [
+    {
+      _id: "342148fwef29fwfe4158dw91f4w3242",
+      user_id: "342148fwef29fwfe4158dw91f4w3242j",
+      first_name: "Arky",
+      last_name: "Asmal",
+      email: "arkyasmal@gmail.com",
+      //purpose: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years.It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like thbruweiifbfiuw ",
+      purpose: "I need it",
+      category: "War Crimes",
+      creation_date: new Date().toString(),
+    }
+  ]
   const listInterval = 5;
   const listStart = listPage * listInterval;
   const listEnd = (listPage + 1) * listInterval;
@@ -99,7 +114,7 @@ const DashboardReviewRequests = ({
     };
     return onPagination(e, asyncAction);
   };
-
+  
   return (
     <div id="dashboard-review-requests">
       <div id="dashboard-review-requests-inner">
@@ -145,11 +160,11 @@ const DashboardReviewRequests = ({
           </PaginationNav>
         </div>
         {
-          list?.map((request) => {
+          list?.map((request, index) => {
             const generalInfoArr = isNewUserRequest(request) ? dashboardNewUserRequest(request) : 
                                    isScopeRequest(request) ? dashboardScopeRequest(request): null
             if(!generalInfoArr) return null
-            else return <DashboardRequestCard key = {request._id.toString()} data={request} generalInfoArr={generalInfoArr}/>;
+            else return <DashboardRequestCard key = {request._id.toString()} data={request} generalInfoArr={generalInfoArr} idx={index}/>;
           })}
       </div>
     </div>

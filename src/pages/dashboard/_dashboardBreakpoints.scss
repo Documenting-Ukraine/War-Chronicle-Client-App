@@ -7,6 +7,19 @@
       }
     }
   };
+  #dashboard-review-requests-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.6rem;
+    height: 2rem;
+    h1 {
+      margin-left: 0.5rem;
+      font-size: 1.6rem;
+      line-height: 1.8rem;
+    }
+  }
+  .dashboard-review-requests-types {
+    font-size: 0.95rem;
+  }
   .dashboard-request-card-action-btns {
     width: 100%;
     button{
@@ -35,14 +48,16 @@
   #dashboard-review-requests-inner {
     padding: 0 1rem;
   }
-
+  #dashboard-review-requests-header {
+    padding-bottom: 1rem;
+  }
   .dashboard-request-card-content{
     flex-direction: column;
   }
   .dashboard-request-card-general-info{
     width: 100%;
   }
-  .dashboard-request-card-purpose{
+  .dashboard-request-card-purpose-container{
     width: 100%;
     .purpose-expand-btn {
       justify-content: center;
