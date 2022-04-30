@@ -125,7 +125,7 @@
     span{margin-left: 0.5rem;};
     &.hidden::after {
       content: "";
-      height: 4rem;
+      height: 9rem;
       position: absolute;
       bottom: 100%;
       left: 0;
@@ -135,7 +135,7 @@
         rgba(255, 255, 255, 0),
         rgba(255, 255, 255, 1)
       );
-    }
+    
   }
 }
 .dashboard-request-card-purpose {

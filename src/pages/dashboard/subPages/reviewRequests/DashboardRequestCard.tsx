@@ -16,11 +16,13 @@ const purposeTransition = 300;
 const DashboardRequestCard = ({
   data,
   generalInfoArr,
-  idx
+  idx,
+  last_id
 }: {
   data: NewUserRequest | ScopeRequest;
   generalInfoArr: { key: string; content: string }[];
-  idx: number
+  idx: number,
+  last_id: string,
 }) => {
   const mediumWindowWidth = useWindowWidth(769);
   const [expandPurpose, setExpandPurpose] = useState(false);
@@ -63,7 +65,7 @@ const DashboardRequestCard = ({
         const p = paragraphSet();
         const overflow = p?.bottom && pContainer?.bottom ? p?.bottom - pContainer?.bottom  > 0 : true
         setOverflow(overflow)
-      }, purposeTransition + 100)
+      }, purposeTransition + 50)
     }
   }, [expandPurpose, overflow]);
   const onAcceptRequest = (e: React.MouseEvent<HTMLButtonElement>) =>{
@@ -74,7 +76,7 @@ const DashboardRequestCard = ({
               user_request_id: data._id.toString(),
               user_review_list_idx: idx,
               accepted: true,
-              last_el_id: string;
+              last_el_id: last_id
             }
         }))
       }else{
@@ -84,7 +86,7 @@ const DashboardRequestCard = ({
             user_request_id: data._id.toString(),
             scope_review_list_idx: idx,
             accepted: true,
-            last_el_id: string;
+            last_el_id: last_id
           }
         }))
       }
