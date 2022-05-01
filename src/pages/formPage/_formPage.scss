@@ -7,7 +7,7 @@ $form-page-height: calc(100vh - #{$navbar-height});
     display: flex;
     justify-content: center;
     background-color: $badge;
-    padding: 2rem;
+    padding: 1.5rem;
     min-height: $form-page-height;
 }
 .form-overall-container{
