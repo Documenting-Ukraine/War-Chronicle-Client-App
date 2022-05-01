@@ -4,8 +4,8 @@ import FormErrBanner from "../../utilityComponents/formErrBanner/FormErrBanner";
 import RequestAccessInput from "./RequestAccessInput";
 import FormContact from "./RequestAccessFormContact";
 import FormSubmitted from "./RequestAccessFormSubmitted";
-import realmApiCalls from "../../../helperFunctions/realmApiCalls"
-import {unstable_batchedUpdates} from "react-dom"
+import realmApiCalls from "../../../helperFunctions/realmApiCalls";
+import { unstable_batchedUpdates } from "react-dom";
 import PopUpBg from "../../utilityComponents/popUpBg/PopUpBg";
 import LoadingMessage from "../../utilityComponents/loadingMessage/LoadingMessage";
 import { occupationData } from "../data/OccupationList";
@@ -16,14 +16,14 @@ const RequestAccessForm = (): JSX.Element => {
     message: "",
   });
   const [submitLoading, setSumbitLoading] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState<false | Omit<NewUserRequest, "creation_date"| '_id'>>(
-    false
-  );
+  const [formSubmitted, setFormSubmitted] = useState<
+    false | Omit<NewUserRequest, "creation_date" | "_id">
+  >(false);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const fieldValues = Object.fromEntries(formData.entries());
-    const dataPayload: Omit<NewUserRequest, "creation_date"| '_id'> = {
+    const dataPayload: Omit<NewUserRequest, "creation_date" | "_id"> = {
       first_name:
         typeof fieldValues["First Name"] === "string"
           ? fieldValues["First Name"]
@@ -55,18 +55,31 @@ const RequestAccessForm = (): JSX.Element => {
     try {
       setSumbitLoading(true);
       //write async request here
-      await realmApiCalls(dataPayload, "put")
+      const result = await realmApiCalls(dataPayload, "put");
+      const exists = result.data.result?.upsertedId;
+      console.log(result, exists);
       unstable_batchedUpdates(() => {
+        if (!exists)
+          setFormErr({
+            err: true,
+            message:
+              "A request has already been submitted. Please wait for approval",
+          });
+        else {
+          setFormErr({
+            err: false,
+            message: "",
+          });
           setFormSubmitted(dataPayload);
-          setSumbitLoading(false);
-      })
+        }
+        setSumbitLoading(false);
+      });
     } catch (e) {
-      console.error(e);
-      unstable_batchedUpdates(() =>{
+      console.error(e, dataPayload);
+      unstable_batchedUpdates(() => {
         setSumbitLoading(false);
         setFormErr({ err: true, message: "Form could not be submitted" });
-      })
-      
+      });
     }
   };
   return (
@@ -90,10 +103,7 @@ const RequestAccessForm = (): JSX.Element => {
             name="Gmail Account"
             customValidation={validEmail}
           />
-          <RequestAccessInput
-              name="Occupation"
-              dropDown={occupationData}
-          />
+          <RequestAccessInput name="Occupation" dropDown={occupationData} />
           <RequestAccessInput name="Why do you want to join?" textArea={true} />
           <FormContact />
           <button type="submit" className="request-access-form-submit-btn">
