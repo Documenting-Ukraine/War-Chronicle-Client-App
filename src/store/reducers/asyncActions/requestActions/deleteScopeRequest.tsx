@@ -47,8 +47,8 @@ export const deleteScopeRequest = createAsyncThunk(
     input,
   }: DeleteScopeProps): Promise<DeleteScopeRequestResults | null> => {
     const scopeRequestData = await app.currentUser?.callFunction(
-      "delete_scope_request",
-      input
+      "delete_requests",
+      {...input, request_type: 'scope'}
     );
     if (isDeleteScopeRequestResults(scopeRequestData)) {
       const document = scopeRequestData.new_last_document;

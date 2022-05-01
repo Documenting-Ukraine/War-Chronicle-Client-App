@@ -47,8 +47,8 @@ export const deleteNewUserRequest = createAsyncThunk(
     input,
   }: DeleteNewUserRequestProps): Promise<DeleteNewUserRequestResults | null> => {
     const newUserRequestData = await app.currentUser?.callFunction(
-      "delete_new_user_request",
-      input
+      "delete_requests",
+      {...input, request_type: 'new_user'}
     );
 
     if (isDeleteNewUserRequestResults(newUserRequestData)) {

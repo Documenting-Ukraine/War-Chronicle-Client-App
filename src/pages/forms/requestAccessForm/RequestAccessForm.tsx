@@ -56,15 +56,22 @@ const RequestAccessForm = (): JSX.Element => {
       setSumbitLoading(true);
       //write async request here
       const result = await realmApiCalls(dataPayload, "put");
-      const exists = result.data.result?.upsertedId;
-      console.log(result, exists);
+      const user_exists = result.data.user_exists
+      const request_exists = result.data.result?.upsertedId;
       unstable_batchedUpdates(() => {
-        if (!exists)
+        if (!user_exists && !request_exists)
           setFormErr({
             err: true,
             message:
               "A request has already been submitted. Please wait for approval",
           });
+        else if(user_exists){
+          setFormErr({
+            err: true,
+            message:
+              "This email is already taken. Please Log in",
+          });
+        }
         else {
           setFormErr({
             err: false,
