@@ -1,4 +1,3 @@
-import { useRealmApp } from "../../../../realm/RealmApp";
 import { ScopeRequest } from "../../../../store/reducers/dashboard/reviewRequests/types";
 
 const dashboardScopeRequest = (data: ScopeRequest) => {

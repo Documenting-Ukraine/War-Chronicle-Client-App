@@ -55,6 +55,7 @@ const DashboardReviewRequests = ({
             phone_number: "12345678910",
             preferred_contact: "E-mail",
             creation_date: new Date().toString(),
+            category: "War Crimes"
           },
         ]
       : [

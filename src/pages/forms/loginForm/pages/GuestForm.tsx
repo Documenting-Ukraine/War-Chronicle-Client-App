@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { occupationData, Option } from "../../data/OccupationList";
 import Select, { ActionMeta } from "react-select";
-import { purposeList } from "../../data/Purpose.List";
+import { purposeList } from "../../data/PurposeList";
 import useValidateInput from "../../../../hooks/use-validate-inputs";
 import removeWhiteSpace from "../../../../helperFunctions/removeWhiteSpace";
 import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";

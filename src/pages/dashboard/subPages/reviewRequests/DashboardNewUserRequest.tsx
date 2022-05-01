@@ -14,6 +14,10 @@ const dashboardNewUserRequest = ( data: NewUserRequest ) => {
             content: data.phone_number ? data.phone_number : "N/A",
         },
         {
+            key: "Category Requested",
+            content: data.category
+        },
+        {
             key: "Preferred Contact",
             content: data.preferred_contact,
         },

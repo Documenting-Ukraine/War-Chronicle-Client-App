@@ -33,6 +33,7 @@ export type NewUserRequest = {
   purpose: string;
   phone_number?: string;
   preferred_contact: "E-mail" | "Phone Number";
+  category: typeof CategoriesList[number];
   creation_date: string | Date;
 };
 export type NewUserRequestSlice = GenericDashboardData<NewUserRequest[]> & {
@@ -85,7 +86,7 @@ export function isNewUserRequest(arg: any): arg is NewUserRequest {
 }
 export function isScopeRequest(arg: any): arg is ScopeRequest {
   try {
-    return arg.category;
+    return arg.category && arg.user_id;
   } catch (e) {
     return false;
   }
