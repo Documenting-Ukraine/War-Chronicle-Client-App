@@ -21,13 +21,11 @@ const DashboardRequestCard = ({
   generalInfoArr,
   idx,
   lastId,
-  listIdxCounter
 }: {
   data: NewUserRequest | ScopeRequest;
   generalInfoArr: { key: string; content: string }[];
   idx: number;
   lastId: string;
-  listIdxCounter: number
 }) => {
   const mediumWindowWidth = useWindowWidth(769);
   const [expandPurpose, setExpandPurpose] = useState(false);
@@ -83,7 +81,6 @@ const DashboardRequestCard = ({
       user_request_id: data._id.toString(),
       accepted: true,
       last_el_id: lastId,
-      idx_counter: listIdxCounter,
     },
   }
   const onAcceptRequest = (e: React.MouseEvent<HTMLButtonElement>) => {

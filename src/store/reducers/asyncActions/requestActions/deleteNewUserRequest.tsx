@@ -13,7 +13,6 @@ interface DeleteNewUserRequestProps {
     user_review_list_idx: number;
     accepted: boolean;
     last_el_id: string;
-    idx_counter: number;
   };
 }
 export type { DeleteNewUserRequestProps };

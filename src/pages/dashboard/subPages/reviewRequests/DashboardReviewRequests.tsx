@@ -185,7 +185,6 @@ const DashboardReviewRequests = ({
                 generalInfoArr={generalInfoArr}
                 idx={index}
                 lastId = {list[list.length - 1]._id.toString()}
-                listIdxCounter ={listIdxCounter}
               />
             );
         })}
