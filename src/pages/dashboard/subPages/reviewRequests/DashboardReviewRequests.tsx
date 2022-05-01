@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/rootReducer";
 import PaginationNav from "../../utilities/paginationNav/PaginationNav";
 import DashboardRequestCard from "./DashboardRequestCard";
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import {
   fetchNewUserRequest,
   fetchScopeRequest,
@@ -74,6 +74,7 @@ const DashboardReviewRequests = ({
   const listStart = listPage * listInterval;
   const listEnd = (listPage + 1) * listInterval;
   const listStatus = isUsers ? reviewUsers.status : reviewScopes.status;
+  const listIdxCounter =   isUsers ? reviewUsers.idx_counter : reviewScopes.idx_counter; 
   const paginationEnd = isUsers
     ? reviewUsers.pagination_end
     : reviewScopes.pagination_end;
@@ -182,7 +183,8 @@ const DashboardReviewRequests = ({
                 data={request}
                 generalInfoArr={generalInfoArr}
                 idx={index}
-                last_id = {list[list.length - 1]._id.toString()}
+                lastId = {list[list.length - 1]._id.toString()}
+                listIdxCounter ={listIdxCounter}
               />
             );
         })}
@@ -190,4 +192,4 @@ const DashboardReviewRequests = ({
     </div>
   );
 };
-export default DashboardReviewRequests;
+export default memo(DashboardReviewRequests);

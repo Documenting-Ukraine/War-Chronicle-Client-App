@@ -6,7 +6,10 @@ import {
 import { useDispatch } from "react-redux";
 import { useRealmApp } from "../../../../realm/RealmApp";
 import { useBoundingClient } from "../../../../hooks/use-bounding-client-rect";
-import { deleteScopeRequest, deleteNewUserRequest } from "../../../../store/reducers/dashboard/dashboardReducer";
+import {
+  deleteScopeRequest,
+  deleteNewUserRequest,
+} from "../../../../store/reducers/dashboard/dashboardReducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { useLayoutEffect, useState, useEffect } from "react";
@@ -17,17 +20,19 @@ const DashboardRequestCard = ({
   data,
   generalInfoArr,
   idx,
-  last_id
+  lastId,
+  listIdxCounter
 }: {
   data: NewUserRequest | ScopeRequest;
   generalInfoArr: { key: string; content: string }[];
-  idx: number,
-  last_id: string,
+  idx: number;
+  lastId: string;
+  listIdxCounter: number
 }) => {
   const mediumWindowWidth = useWindowWidth(769);
   const [expandPurpose, setExpandPurpose] = useState(false);
-  const dispatch = useDispatch()
-  const app = useRealmApp()
+  const dispatch = useDispatch();
+  const app = useRealmApp();
   const {
     box: paragraphContainerBox,
     ref: paragraphContainerRef,
@@ -45,55 +50,92 @@ const DashboardRequestCard = ({
   const pHeight = paragraphBox?.height;
   const headerHeight = pTop && pContainerTop ? pTop - pContainerTop : 0;
   const expandedPurposeHeight = pHeight ? headerHeight + pHeight : headerHeight;
-  const overflow = pBottom && pConatinerBottom ? pBottom - pConatinerBottom > 0 : true
-  const [isOverflowing, setOverflow] = useState(
-    overflow
-  );
+  const overflow =
+    pBottom && pConatinerBottom ? pBottom - pConatinerBottom > 0 : true;
+  const [isOverflowing, setOverflow] = useState(overflow);
   useLayoutEffect(() => {
     paragraphContainerSet();
     paragraphSet();
-    unstable_batchedUpdates(()=>{
-      setExpandPurpose(false)
-      setOverflow(overflow)
-    })
+    unstable_batchedUpdates(() => {
+      setExpandPurpose(false);
+      setOverflow(overflow);
+    });
+  //eslint-disable-next-line
   }, [data]);
   useEffect(() => {
     //only update if not expanded
-    if (!expandPurpose){
-      setTimeout(()=>{
+    if (!expandPurpose) {
+      setTimeout(() => {
         const pContainer = paragraphContainerSet();
         const p = paragraphSet();
-        const overflow = p?.bottom && pContainer?.bottom ? p?.bottom - pContainer?.bottom  > 0 : true
-        setOverflow(overflow)
-      }, purposeTransition + 50)
+        const overflow =
+          p?.bottom && pContainer?.bottom
+            ? p?.bottom - pContainer?.bottom > 0
+            : true;
+        setOverflow(overflow);
+      }, purposeTransition + 50);
     }
+    //eslint-disable-next-line
   }, [expandPurpose, overflow]);
-  const onAcceptRequest = (e: React.MouseEvent<HTMLButtonElement>) =>{
-      if(isNewUserRequest(data)){
-        dispatch(deleteNewUserRequest({
-            app: app,
-            input: {
-              user_request_id: data._id.toString(),
-              user_review_list_idx: idx,
-              accepted: true,
-              last_el_id: last_id
-            }
-        }))
-      }else{
-        dispatch(deleteScopeRequest({
-          app: app,
-          input: {
-            user_request_id: data._id.toString(),
-            scope_review_list_idx: idx,
+  const requestParams= {
+    app: app,
+    input: {
+      user_request_id: data._id.toString(),
+      accepted: true,
+      last_el_id: lastId,
+      idx_counter: listIdxCounter,
+    },
+  }
+  const onAcceptRequest = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (isNewUserRequest(data)) {
+      dispatch(
+        deleteNewUserRequest({
+          ...requestParams,
+          input:{
+            ...requestParams.input,
             accepted: true,
-            last_el_id: last_id
+            user_review_list_idx: idx,
           }
-        }))
-      }
-  }
-  const onDeleteRequest = (e: React.MouseEvent<HTMLButtonElement>) =>{
-
-  }
+        })
+      );
+    } else {
+      dispatch(
+        deleteScopeRequest({
+          ...requestParams,
+          input:{
+            ...requestParams.input,
+            accepted: true,
+            scope_review_list_idx: idx,
+          }
+        })
+      );
+    }
+  };
+  const onRejectRequest = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (isNewUserRequest(data)) {
+      dispatch(
+        deleteNewUserRequest({
+          ...requestParams,
+          input:{
+            ...requestParams.input,
+            accepted: false,
+            user_review_list_idx: idx,
+          }
+        })
+      );
+    } else {
+      dispatch(
+        deleteScopeRequest({
+          ...requestParams,
+          input:{
+            ...requestParams.input,
+            accepted: false,
+            scope_review_list_idx: idx,
+          }
+        })
+      );
+    }
+  };
   return (
     <div className="dashboard-request-card-container">
       <h2 className="dashboard-request-card-header">{`Request Id: ${data._id}`}</h2>
@@ -119,16 +161,15 @@ const DashboardRequestCard = ({
                       maxHeight: `calc(4.5rem + ${expandedPurposeHeight}px)`,
                       transition: `${purposeTransition}ms all ease-out`,
                     }
-                  : { 
-                    transition: `${purposeTransition}ms all ease-out`,
-                    
-                  }
+                  : {
+                      transition: `${purposeTransition}ms all ease-out`,
+                    }
               }
             >
               <h3>Purpose</h3>
               <p ref={paragraphRef}>{data.purpose}</p>
             </div>
-            {(isOverflowing) && (
+            {isOverflowing && (
               <div
                 className={`purpose-expand-btn ${
                   !expandPurpose ? "hidden" : ""
@@ -146,12 +187,12 @@ const DashboardRequestCard = ({
                 </button>
               </div>
             )}
-            </div>
+          </div>
         </div>
         <div className="dashboard-request-card-footer">
           <div className="dashboard-request-card-action-btns">
-            <button>Accept</button>
-            <button>Reject</button>
+            <button onClick={onAcceptRequest} aria-label="accept-request">Accept</button>
+            <button onClick={onRejectRequest} aria-label="reject-request">Reject</button>
           </div>
           {mediumWindowWidth && (
             <div className="dashboard-request-creation-date">

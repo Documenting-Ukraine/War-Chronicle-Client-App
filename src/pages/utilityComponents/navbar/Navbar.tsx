@@ -1,12 +1,13 @@
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useWindowWidth from "../../../hooks/use-window-width";
 import { useRealmApp } from "../../../realm/RealmApp";
 import UserDropdown from "../userDropdown/UserDropdown";
 const Navbar = (): JSX.Element => {
   const app = useRealmApp();
+  const navigate = useNavigate();
   const smallWindowWidth = useWindowWidth(769);
   const [dropdown, setDropdown] = useState(false);
   const customData = app.currentUser?.customData;
@@ -16,13 +17,17 @@ const Navbar = (): JSX.Element => {
   if (!firstName || !lastName) userName = undefined;
   else userName = firstName + " " + lastName;
   const email = app.currentUser?.customData?.email;
+  const logUserOut = () =>{
+    app.logOut()
+    navigate("/forms/login")
+  }
   return (
     <nav id="navbar">
       <div className="flex-grow-1">Navbar</div>
       {!smallWindowWidth && app.currentUser && (
         <UserDropdown
           currentUser={app.currentUser}
-          logOut={app.logOut}
+          logOut={logUserOut}
           name={typeof userName === "string" ? userName : undefined}
           email={typeof email === "string" ? email : undefined}
         />
@@ -51,7 +56,7 @@ const Navbar = (): JSX.Element => {
         {app.currentUser && smallWindowWidth ? (
           <UserDropdown
             currentUser={app.currentUser}
-            logOut={app.logOut}
+            logOut={logUserOut}
             name={typeof userName === "string" ? userName : undefined}
             email={typeof email === "string" ? email : undefined}
           />
