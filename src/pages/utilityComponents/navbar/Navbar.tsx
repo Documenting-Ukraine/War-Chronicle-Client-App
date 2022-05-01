@@ -17,8 +17,8 @@ const Navbar = (): JSX.Element => {
   if (!firstName || !lastName) userName = undefined;
   else userName = firstName + " " + lastName;
   const email = app.currentUser?.customData?.email;
-  const logUserOut = () =>{
-    app.logOut()
+  const logUserOut = async() =>{
+    await app.logOut()
     navigate("/forms/login")
   }
   return (

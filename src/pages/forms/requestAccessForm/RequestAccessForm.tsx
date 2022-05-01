@@ -62,7 +62,11 @@ const RequestAccessForm = (): JSX.Element => {
       })
     } catch (e) {
       console.error(e);
-      setFormErr({ err: true, message: "Form could not be submitted" });
+      unstable_batchedUpdates(() =>{
+        setSumbitLoading(false);
+        setFormErr({ err: true, message: "Form could not be submitted" });
+      })
+      
     }
   };
   return (
