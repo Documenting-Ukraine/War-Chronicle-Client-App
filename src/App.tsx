@@ -34,6 +34,22 @@ function App() {
               </NavWrapper>
             }
           />
+          <Route
+            path="/search/*"
+            element={
+              <NavWrapper>
+                <AboutPage />
+              </NavWrapper>
+            }
+          />
+          <Route
+            path="/categories/*"
+            element={
+              <NavWrapper>
+                <AboutPage />
+              </NavWrapper>
+            }
+          />
           <Route path="/dashboard/:id">
             <Route
               index
