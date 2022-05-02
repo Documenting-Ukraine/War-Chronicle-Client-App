@@ -80,25 +80,31 @@ function App() {
                 <Route
                   index
                   element={
-                    <NavWrapper>
-                      <DashboardSubpages subPageType="review-users" />
-                    </NavWrapper>
+                    <RequireNonGuestAndOwner path="/dashboard">
+                      <NavWrapper>
+                        <DashboardSubpages subPageType="review-users" />
+                      </NavWrapper>
+                    </RequireNonGuestAndOwner>
                   }
                 />
                 <Route
                   path="new-scopes"
                   element={
-                    <NavWrapper>
-                      <DashboardSubpages subPageType="review-scopes" />
-                    </NavWrapper>
+                    <RequireNonGuestAndOwner path="/dashboard">
+                      <NavWrapper>
+                        <DashboardSubpages subPageType="review-scopes" />
+                      </NavWrapper>
+                    </RequireNonGuestAndOwner>
                   }
                 />
                 <Route
                   path="new-users"
                   element={
-                    <NavWrapper>
-                      <DashboardSubpages subPageType="review-users" />
-                    </NavWrapper>
+                    <RequireNonGuestAndOwner path="/dashboard">
+                      <NavWrapper>
+                        <DashboardSubpages subPageType="review-users" />
+                      </NavWrapper>
+                    </RequireNonGuestAndOwner>
                   }
                 />
               </Route>

@@ -11,10 +11,17 @@ import LoadingIcon from "../../../../pages/utilityComponents/loadingIcon/Loading
 type RequestNewScopesProps = Omit<PopUpProps, "user" | "index">;
 interface RequestScopeResult {
   error: null;
-  form_id: ObjectId;
+  upsertedId: ObjectId | string;
+}
+interface RequestScopeErr {
+  error: true;
+  message: "Request Already Exists" | "Category Present";
 }
 function isRequestScopeResult(arg: any): arg is RequestScopeResult {
-  return !arg.error && arg.form_id;
+  return !arg.error && arg.upsertedId;
+}
+function isRequestScopeError(arg: any): arg is RequestScopeErr {
+  return arg.error && arg.message;
 }
 const RequestNewScopesModal = ({ closePopUp }: RequestNewScopesProps) => {
   const app = useRealmApp();
@@ -69,8 +76,8 @@ const RequestNewScopesModal = ({ closePopUp }: RequestNewScopesProps) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const fieldValues = Object.fromEntries(formData.entries());
-    const purpose = fieldValues["Why do you want to access this category?"];
-    const category = fieldValues["Select Category Scope"];
+    const purpose = fieldValues["Why do you want to access this category?"].toString();
+    const category = fieldValues["Select Category Scope"].toString();
 
     if (!isUserCustomData(userData)) return;
     const payload = {
@@ -84,22 +91,36 @@ const RequestNewScopesModal = ({ closePopUp }: RequestNewScopesProps) => {
     try {
       setIsLoading(true);
       const result = await app.currentUser?.callFunction(
-        "request_new_scope",
+        "create_scope_request",
         payload
       );
-      if (!isRequestScopeResult(result))
+      if (isRequestScopeError(result)) {
+        unstable_batchedUpdates(() => {
+          setIsLoading(false);
+          setErr({
+            err: true,
+            message:
+              result.message === "Request Already Exists"
+                ? "You have already submitted a request for this category. Please wait for approval"
+                : "You already have access to this category",
+          });
+        });
+      } else if (!isRequestScopeResult(result))
         throw new Error("Something went wrong");
-      unstable_batchedUpdates(() => {
-        setIsLoading(false);
-        setIsSubmitted({
-          submitted: true,
-          message: `Your request to add '${category}' to your list of categories has been recieved. Please wait for an admin to contact you, about your approval.`,
+      else {
+        //only if successfull
+        unstable_batchedUpdates(() => {
+          setIsLoading(false);
+          setIsSubmitted({
+            submitted: true,
+            message: `Your request to add '${category}' to your list of categories has been recieved. Please wait for an admin to contact you, about your approval.`,
+          });
+          setErr({
+            err: false,
+            message: "",
+          });
         });
-        setErr({
-          err: false,
-          message: "",
-        });
-      });
+      }
     } catch (e) {
       unstable_batchedUpdates(() => {
         setIsLoading(false);
