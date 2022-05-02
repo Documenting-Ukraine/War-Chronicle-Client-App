@@ -19,8 +19,8 @@ export const fetchScopeRequest = createAsyncThunk(
     input,
   }: FetchScopeRequestProps): Promise<ScopeRequestPayload | null> => {
     const scopeRequestData = await app.currentUser?.callFunction(
-      "search_scope_request",
-      input
+      "search_requests",
+      {...input, request_type: "new_scope"}
     );
     if (
       isScopeRequestPayload(scopeRequestData) &&

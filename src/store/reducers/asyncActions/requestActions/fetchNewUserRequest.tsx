@@ -20,8 +20,8 @@ export const fetchNewUserRequest = createAsyncThunk(
     input,
   }: FetchNewUserRequestProps): Promise<NewUserRequestPayload | null> => {
     const newUserRequestData = await app.currentUser?.callFunction(
-      "search_new_user_request",
-      input
+      "search_requests",
+      { ...input, request_type: "new_user" }
     );
     if (
       isNewUserRequestPayload(newUserRequestData) &&
@@ -29,8 +29,11 @@ export const fetchNewUserRequest = createAsyncThunk(
     ) {
       const modifiedData = newUserRequestData.results.map((doc) => {
         //this step is need to make the data serializable by redux
-        doc._id = doc._id.toString();
-        doc.creation_date = doc.creation_date.toString();
+        doc._id = typeof doc._id === "string" ? doc._id : doc._id.toString();
+        doc.creation_date =
+          typeof doc.creation_date === "string"
+            ? doc.creation_date
+            : doc.creation_date.toString();
         return doc;
       });
       newUserRequestData.results = modifiedData;
