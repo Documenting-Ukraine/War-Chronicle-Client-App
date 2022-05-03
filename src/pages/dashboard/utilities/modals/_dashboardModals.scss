@@ -1,26 +1,26 @@
 //user popup modals
 .dashboard-popup-modal {
-    background-color: $white;
-    border-radius: 0.8rem;
-    min-width: 300px;
-    max-width: 600px;
-    width: 40vw;
-    padding-bottom: 0.5rem;
-  }
+  background-color: $white;
+  border-radius: 0.8rem;
+  min-width: 300px;
+  max-width: 600px;
+  width: 40vw;
+  padding-bottom: 0.5rem;
+}
 .dashboard-popup-modal-header {
-display: flex;
-border-radius: 0.8rem 0.8rem 0 0;
-padding: 1rem 1rem;
-background-color: $lightest-gray;
-justify-content: space-between;
-align-items: center;
-h2 {
+  display: flex;
+  border-radius: 0.8rem 0.8rem 0 0;
+  padding: 1rem 1rem;
+  background-color: $lightest-gray;
+  justify-content: space-between;
+  align-items: center;
+  h2 {
     font-family: "Lato", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     font-weight: 500;
     font-size: 1.2rem;
     margin-bottom: 0;
-}
-button {
+  }
+  button {
     @include remove-btn-default();
     display: flex;
     justify-content: center;
@@ -30,40 +30,42 @@ button {
     padding: 0.3rem;
     border-radius: 0.3rem;
     svg {
-    stroke: $darkest-gray;
-    width: 100%;
-    height: 100%;
+      stroke: $darkest-gray;
+      width: 100%;
+      height: 100%;
     }
     &:hover {
-    background-color: $red;
-    svg {
+      background-color: $red;
+      svg {
         stroke: $white;
+      }
     }
-    }
-}
+  }
 }
 .dashboard-popup-modal-body {
-position: relative;
-display: flex;
-flex-direction: column;
-padding: 1.3rem;
-max-height: 75vh;
-overflow-x: hidden;
-overflow: auto;
-overflow-y: overlay;
-@include scroll-bar-styles($track-color: rgba(0, 0, 0, 0));
-.popup-modal-alert {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.3rem;
+  padding-bottom: 0.8rem;
+  max-height: 75vh;
+  overflow-x: hidden;
+  overflow: auto;
+  overflow-y: overlay;
+  @include scroll-bar-styles($track-color: rgba(0, 0, 0, 0));
+  .popup-modal-alert {
     border-radius: 0.5rem;
     padding: 0.8rem;
     p {
-    font-size: 0.87rem;
-    margin-bottom: 1rem;
-    &:last-child {
+      font-size: 0.87rem;
+      margin-bottom: 1rem;
+      &:last-child {
         margin-bottom: 0;
+      }
     }
-    }
-}
-button {
+  }
+  button {
     @include remove-btn-default();
     display: flex;
     justify-content: center;
@@ -71,185 +73,210 @@ button {
     width: 100%;
     padding: 0.5rem 0;
     border-radius: 0.3rem;
-}
+  }
 }
 //respective popup styles
 .edit-user-scope-popup {
-    .edit-user-scope-alert {
-      background-color: $light-yellow;
-      border: 1px solid $dark-yellow;
-    }
-    .save-scope-changes-btn {
-      margin-top: 1rem;
-      background-color: $dark-blue;
-      color: $white;
-      &:hover {
-        opacity: 0.9;
-      }
-    }
-    .user-scope-category-list-header {
-      display: flex;
-      position: relative;
-      font-size: 0.9rem;
-      font-weight: 400;
-      font-family: "Lato", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      color: $darker-gray;
-      padding-bottom: 0.5rem;
-      width: 100%;
-      margin-top: 1.5rem;
-      &::after {
-        position: absolute;
-        content: "";
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        background-color: $light-gray;
-        height: 1px;
-      }
-    }
-    .user-scope-category-row {
-      display: flex;
-      width: 100%;
-      align-items: center;
-      justify-content: space-between;
-      color: $dark-blue;
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-      font-size: 0.86rem;
-    }
-    .user-scope-category-name {
-      display: flex;
-      align-items: center;
-      .user-scope-category-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 2rem;
-        margin-right: 0.7rem;
-        font-size: 1.3rem;
-      }
-    }
-    .user-scope-category-action-btn {
-      width: auto;
-      font-weight: 400;
-      font-family: "Lato", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      font-size: 0.85rem;
-    }
-    .assigned-category-list {
-      .user-scope-category-action-btn {
-        color: $red;
-      }
-    }
-    .unassigned-category-list {
-      .user-scope-category-action-btn {
-        color: $light-blue;
-      }
+  .edit-user-scope-alert {
+    background-color: $light-yellow;
+    border: 1px solid $dark-yellow;
+  }
+  .save-scope-changes-btn {
+    margin-top: 1rem;
+    background-color: $dark-blue;
+    color: $white;
+    &:hover {
+      opacity: 0.9;
     }
   }
-  .revoke-access-pop-up {
-    .revoke-access-alert {
-      background-color: $light-red;
-      border: 1px solid $dark-red;
-    }
-    .revoke-user-access-btn {
-      background-color: $red;
-      color: $white;
-      &:hover {
-        opacity: 0.9;
-      }
+  .user-scope-category-list-header {
+    display: flex;
+    position: relative;
+    font-size: 0.9rem;
+    font-weight: 400;
+    font-family: "Lato", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: $darker-gray;
+    padding-bottom: 0.5rem;
+    width: 100%;
+    margin-top: 1.5rem;
+    &::after {
+      position: absolute;
+      content: "";
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      background-color: $light-gray;
+      height: 1px;
     }
   }
-  .revoke-access-pop-up {
-    .revoke-user-title {
+  .user-scope-category-row {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    color: $dark-blue;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 0.86rem;
+  }
+  .user-scope-category-name {
+    display: flex;
+    align-items: center;
+    .user-scope-category-icon {
       display: flex;
-      font-size: 1.1rem;
-      width: 100%;
+      align-items: center;
       justify-content: center;
-      padding: 1.5rem 0;
-      margin-bottom: 0;
+      width: 2rem;
+      margin-right: 0.7rem;
+      font-size: 1.3rem;
     }
-    .revoke-user-list-heading {
-      position: relative;
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      font-family: 'Lato','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: $darkest-gray;
-      padding-bottom: 0.3rem;
-      h4 {
-        font-size: 0.95rem;
-      }
-      &::after{
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          height: 1px;
-          content: "";
-          background-color: $lighter-gray;
-      }
-    }
-    .revoke-user-list-item {
-      margin: 1rem 0;
-      color: $darkest-gray;
-      font-family: 'Lato','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
-      font-size: 0.8rem;
-      
-      }
   }
-  
-.request-new-scope-pop-up{
-    .request-scope-alert{
-        color: $purple-blue;
-        background-color: $lighter-blue;
-        border: 1px solid $purple-blue;
+  .user-scope-category-action-btn {
+    width: auto;
+    font-weight: 400;
+    font-family: "Lato", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.85rem;
+  }
+  .assigned-category-list {
+    .user-scope-category-action-btn {
+      color: $red;
     }
-    .request-scope-btn{
-        margin-top: 0.7rem;
-        background-color: $dark-blue;
-        color: $white;
+  }
+  .unassigned-category-list {
+    .user-scope-category-action-btn {
+      color: $light-blue;
     }
-    .top-spacing{
-        margin-top: 1rem;
-    }
-    .request-access-form-input label{
-        font-size: 0.95rem;
-        font-weight: 400;
-    }
-    .request-scope-pop-up-err{
-        margin-top: 1.5rem;
-        border: 1px solid $dark-red;
-        color: $dark-red;
-        background-color: $light-red;
-        padding: 1rem;
-        border-radius: 0.5rem;
-    }
-    .request-scope-pop-up-loading{
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: $white;
-        z-index: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        border-radius: 0.5rem;
-    }
+  }
 }
-.request-scope-pop-up-submitted{
-    padding: 1.7rem;
-    min-width: 300px;
-    max-width: 600px;
-    width: 40vw;
+.revoke-access-pop-up {
+  .revoke-access-alert {
+    background-color: $light-red;
+    border: 1px solid $dark-red;
+  }
+  .revoke-user-access-btn {
+    background-color: $red;
+    color: $white;
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}
+.revoke-access-pop-up {
+  .revoke-user-title {
+    display: flex;
+    font-size: 1.1rem;
+    width: 100%;
+    justify-content: center;
+    padding: 1.5rem 0;
+    margin-bottom: 0;
+  }
+  .revoke-user-list-heading {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-family: "Lato", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: $darkest-gray;
+    padding-bottom: 0.3rem;
+    h4 {
+      font-size: 0.95rem;
+    }
+    &::after {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      content: "";
+      background-color: $lighter-gray;
+    }
+  }
+  .revoke-user-list-item {
+    margin: 1rem 0;
+    color: $darkest-gray;
+    font-family: "Lato", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    font-size: 0.8rem;
+  }
+}
+
+.request-new-scope-pop-up {
+  .request-scope-alert {
+    color: $purple-blue;
+    background-color: $lighter-blue;
+    border: 1px solid $purple-blue;
+  }
+  .request-scope-btn {
+    margin-top: 0.7rem;
+    background-color: $dark-blue;
+    color: $white;
+  }
+  .top-spacing {
+    margin-top: 1rem;
+  }
+  .request-access-form-input label {
+    font-size: 0.95rem;
+    font-weight: 400;
+  }
+  .request-scope-pop-up-err {
+    margin-top: 1.5rem;
+    border: 1px solid $dark-red;
+    color: $dark-red;
+    background-color: $light-red;
+    padding: 1rem;
+    border-radius: 0.5rem;
+  }
+  .request-scope-pop-up-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: $white;
+    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    line-height: 1.7rem;
-    background-color: $white;
+    width: 100%;
+    height: 100%;
     border-radius: 0.5rem;
+  }
+}
+.request-scope-pop-up-submitted {
+  padding: 1.7rem;
+  min-width: 300px;
+  max-width: 600px;
+  width: 40vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.7rem;
+  background-color: $white;
+  border-radius: 0.5rem;
+}
+.add-user-pop-up {
+  .top-spacing {
+    margin-top: 2.2rem;
+  }
+  .add-user-alert {
+    color: $purple-blue;
+    background-color: $lighter-blue;
+    border: 1px solid $purple-blue;
+  }
+  .send-user-invite-access-btn {
+    margin-top: 2.2rem;
+    background-color: $dark-blue;
+    color: $white;
+  }
+  .request-form-dropdown{
+    .dropdown-input__menu-list{
+        max-height: 6rem;
+    }
+  }
+  .request-access-form-input{position: relative;}
+  .row-input-error.assign-scopes{
+    position: absolute;
+    left: 0;
+    top: 100%;
+  }
 }

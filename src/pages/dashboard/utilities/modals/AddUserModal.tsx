@@ -96,7 +96,7 @@ const AddUserModal = ({
   const alertContent = (
     <>
       <p>
-        The e-mail address the invite is sent to, must be used to register the user. Any
+        The e-mail address this invite is sent to, must be used to register the user. Any
         other e-mail addresses will be rejected. This allows only authorized e-mails to use
         the invite link.
       </p>
@@ -135,7 +135,6 @@ const AddUserModal = ({
                 )}
                 <div className="top-spacing"></div>
                 <RequestAccessInput name="New User Gmail" />
-                {/* <RequestAccessInput name="Account Type"/> */}
                 <CustomRequestAccessInput 
                     name="Account Type"
                 >
@@ -172,7 +171,7 @@ const AddUserModal = ({
                         styles={categoryScopeErr.err ? customStylesErr : undefined}
                         isMulti= {true}
                     />
-                    {categoryScopeErr.err && <div className="row-input-error">{categoryScopeErr.message}</div>}
+                    {categoryScopeErr.err && <div className="row-input-error assign-scopes">{categoryScopeErr.message}</div>}
                     </>
                 </CustomRequestAccessInput>
                 }
