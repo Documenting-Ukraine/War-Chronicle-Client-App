@@ -61,6 +61,7 @@ const useFormInputs = ({
     onDropdownChange,
     onTouch,
     onDropdownMultiChange,
+    setMultiValue
   };
 };
 export default useFormInputs;
