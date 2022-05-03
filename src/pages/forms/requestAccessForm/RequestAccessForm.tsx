@@ -10,7 +10,7 @@ import PopUpBg from "../../utilityComponents/popUpBg/PopUpBg";
 import LoadingMessage from "../../utilityComponents/loadingMessage/LoadingMessage";
 import { occupationData } from "../data/OccupationList";
 import { NewUserRequest } from "../../../store/reducers/dashboard/reviewRequests/types";
-import { CategoriesList, isCategoryScope } from "../../../types/dataTypes/CategoryIconMap";
+import { categoryDropdownOptions, isCategoryScope } from "../../../types/dataTypes/CategoryIconMap";
 const RequestAccessForm = (): JSX.Element => {
   const [formErr, setFormErr] = useState({
     err: false,
@@ -92,12 +92,7 @@ const RequestAccessForm = (): JSX.Element => {
       });
     }
   };
-  const categoriesListOptions = CategoriesList.map((category) => {
-    return {
-      value: category,
-      label: category,
-    };
-  });
+  const categoriesListOptions = categoryDropdownOptions(null)
   return (
     <form id="request-access-form" onSubmit={onSubmit}>
       {submitLoading && (

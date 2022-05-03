@@ -15,7 +15,9 @@ import { isUserSortOrder, UserSortProps } from "./types";
 import { fetchUserData } from "../../../../store/reducers/asyncActions/userActions/fetchUsers";
 import { useRealmApp } from "../../../../realm/RealmApp";
 import { memo } from "react";
+import AddUserModal from "../modals/AddUserModal";
 const DashboardUserList = () => {
+  const [addUserPopUp, setAddUserPopUp] = useState(false)
   const userListData = useSelector(
     (state: RootState) => state.dashboard.userListData
   );
@@ -119,9 +121,15 @@ const DashboardUserList = () => {
   if (!smallWidth) columnTitlesData.splice(1, 2);
   return (
     <>
+      {
+      addUserPopUp && <AddUserModal closePopUp={setAddUserPopUp}/>
+      }
       <div id="dashboard-user-search-row">
         <DashboardUserSearch userType={userType} userSort={userSort} />
-        <button className="dashboard-user-add-user-btn">
+        <button
+           className="dashboard-user-add-user-btn"
+           onClick={() => setAddUserPopUp(true)}
+        >
           <FontAwesomeIcon icon={faPlus} />
           <span>Add User</span>
         </button>

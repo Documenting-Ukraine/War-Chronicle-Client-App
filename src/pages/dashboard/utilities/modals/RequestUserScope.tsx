@@ -1,7 +1,7 @@
 import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
 import { GeneralDashboardPopUp, PopUpProps } from "./general";
 import RequestAccessInput from "../../../forms/requestAccessForm/RequestAccessInput";
-import { CategoriesList } from "../../../../types/dataTypes/CategoryIconMap";
+import { categoryDropdownOptions } from "../../../../types/dataTypes/CategoryIconMap";
 import { useRealmApp } from "../../../../realm/RealmApp";
 import { isUserCustomData } from "../../../../types/dataTypes";
 import { ObjectId } from "mongodb";
@@ -66,12 +66,7 @@ const RequestNewScopesModal = ({ closePopUp }: RequestNewScopesProps) => {
       </p>
     </>
   );
-  const categoriesListOptions = CategoriesList.map((category) => {
-    return {
-      value: category,
-      label: category,
-    };
-  });
+  const categoriesListOptions = categoryDropdownOptions(app.currentUser)
   const onRequestAccessSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
-import { ActionMeta } from "react-select";
+import { ActionMeta, MultiValue } from "react-select";
 import { Option } from "../pages/forms/data/OccupationList";
 import removeAddedWhiteSpace from "../helperFunctions/removeWhiteSpace";
 const useFormInputs = ({
-    validateFunc,
-    required
+  validateFunc,
+  required,
+  isMulti,
 }: {
-    validateFunc?: (str: string) => { err: boolean, message: string }
-    required?: boolean
+  validateFunc?: (str: string) => { err: boolean; message: string };
+  required?: boolean;
+  isMulti?: boolean;
 }) => {
   const [value, setValue] = useState("");
   const [err, setErr] = useState({ err: false, message: "" });
   const [touched, setTouched] = useState(false);
+  const [multiValue, setMultiValue] = useState<Option[]>([]);
   //run validating function
   useEffect(() => {
     if (touched) {
@@ -22,21 +25,42 @@ const useFormInputs = ({
       else setErr({ err: false, message: "" });
     }
   }, [touched, value, validateFunc, required]);
-  const onDefaultChange = (e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>) => {
+  useEffect(() => {
+    if (touched && isMulti && multiValue.length <= 0) {
+      setErr({ err: true, message: "Field is required" });
+    } else setErr({ err: false, message: "" });
+  }, [touched, multiValue, isMulti]);
+  const onDefaultChange = (
+    e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
+  ) => {
     setValue(e.target.value);
   };
   const onDropdownChange = (
     option: Option | null,
     actionMeta: ActionMeta<Option>
   ) => {
-    
     setValue(option ? option.value : "");
-
   };
 
   const onTouch = () => {
-      setTouched(true);
+    setTouched(true);
   };
-  return { value, err, touched, onDefaultChange, onDropdownChange, onTouch };
-}
-export default useFormInputs
+  const onDropdownMultiChange = (
+    options: MultiValue<Option>,
+    actionMeta: ActionMeta<Option>
+  ) => {
+    const copied = [...options];
+    setMultiValue(copied);
+  };
+  return {
+    value,
+    err,
+    touched,
+    multiValue,
+    onDefaultChange,
+    onDropdownChange,
+    onTouch,
+    onDropdownMultiChange,
+  };
+};
+export default useFormInputs;

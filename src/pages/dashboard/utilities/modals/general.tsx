@@ -10,8 +10,8 @@ export type GeneralPopUpProps = Omit<PopUpProps, "user" | "closePopUp"> & {
   onClick: (e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>) => void;
   overallClassName?: string;
   heading?: string;
-  btnActionType: "save-scope" | "revoke-access" | "request-access";
-  btnText: "Save Changes" | "Remove User" | "Submit";
+  btnActionType: "save-scope" | "revoke-access" | "request-access" | "add-user";
+  btnText: "Save Changes" | "Remove User" | "Submit" | "Send Invite";
   children?: JSX.Element;
   btnClass: string;
   alertClass: string;

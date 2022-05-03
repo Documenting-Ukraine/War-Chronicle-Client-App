@@ -15,6 +15,20 @@ export const CategoriesList = [
   "Media and Disinformation",
   "Russia"
 ] as const;
+export function categoryDropdownOptions(user: Realm.User | null){
+  const categoriesListOptions = CategoriesList.map((category) => {
+    return {
+      value: category,
+      label: category,
+    };
+  });
+  const userCategories = user && user.customData.category_scopes? user.customData.category_scopes : []
+  const userCategoryMap: {[key: string]: boolean}= {}
+  if(Array.isArray(userCategories)) 
+    for(let i of userCategories) userCategoryMap[i] = true
+  const userCategoriesListOptions = categoriesListOptions.filter((category) => !(category.value in userCategoryMap))
+  return userCategoriesListOptions
+}
 export type GenericCategoryMap<T> = {
   [key in typeof CategoriesList[number]]: T;
 };
