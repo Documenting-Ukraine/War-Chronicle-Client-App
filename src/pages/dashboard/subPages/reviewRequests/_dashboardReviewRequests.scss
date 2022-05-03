@@ -46,6 +46,43 @@
   letter-spacing: 0.15px;
   @include link-underline-styles(1.9px, $darker-gray, $light-blue, -2px);
 }
+.dashboard-review-requests-list{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+.dashboard-review-requests-placeholder {
+  content: "";
+  top: 0;
+  left: 0;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 3.5rem;
+  color: $darkest-blue;
+  width: 100%;
+  height: 100%;
+  background-color: $white;
+  h4 {
+    display: flex;
+    justify-content: center;
+    color: $blue-gray;
+    font-weight: 600;
+    word-spacing: 0.15rem;
+    font-size: 1.1rem;
+    width: 100%;
+  }
+  p{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: $darker-gray;
+  }
+}
 .dashboard-request-card-container {
   @include banner-container-styles();
 }

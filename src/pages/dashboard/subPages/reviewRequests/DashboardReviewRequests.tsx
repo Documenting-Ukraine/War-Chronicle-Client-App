@@ -1,6 +1,6 @@
 import { useRealmApp } from "../../../../realm/RealmApp";
 import { Link } from "react-router-dom";
-import { faCheckCircle } from "@fortawesome/free-regular-svg-icons";
+import { faCheckCircle, faFaceSmile } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/rootReducer";
@@ -13,10 +13,7 @@ import {
 } from "../../../../store/reducers/dashboard/dashboardReducer";
 import dashboardNewUserRequest from "./DashboardNewUserRequest";
 import { useParams } from "react-router";
-// import {
-//   NewUserRequest,
-//   ScopeRequest,
-// } from "../../../../store/reducers/dashboard/reviewRequests/types";
+
 import {
   isNewUserRequest,
   isScopeRequest,
@@ -93,8 +90,8 @@ const DashboardReviewRequests = ({
   //           creation_date: new Date().toString(),
   //         },
   //       ];
-  const listInterval = 5;
   const list = isUsers ? reviewUsers.data : reviewScopes.data
+  const listInterval = 5;
   const listStart = listPage * listInterval;
   const listEnd = (listPage + 1) * listInterval;
   const listStatus = isUsers ? reviewUsers.status : reviewScopes.status;
@@ -192,24 +189,38 @@ const DashboardReviewRequests = ({
             </>
           </PaginationNav>
         </div>
-        {list?.slice(listStart, listEnd).map((request, index) => {
-          const generalInfoArr = isNewUserRequest(request)
-            ? dashboardNewUserRequest(request)
-            : isScopeRequest(request)
-            ? dashboardScopeRequest(request)
-            : null;
-          if (!generalInfoArr) return null;
-          else
-            return (
-              <DashboardRequestCard
-                key={request._id.toString()}
-                data={request}
-                generalInfoArr={generalInfoArr}
-                idx={index}
-                lastId = {list[list.length - 1]._id.toString()}
-              />
-            );
-        })}
+        <div className="dashboard-review-requests-list">
+          {(!list || list.length <= 0) &&
+              <div className="dashboard-review-requests-placeholder">
+                <div>
+                  <FontAwesomeIcon icon={faFaceSmile} />
+                </div>
+                <h4>No {pageType === "review-users"? "User" : "Scope"} requests were found</h4>
+                <p>
+                  When a new {pageType === "review-users"? "User" : "Scope"} request is made, they will appear here.
+                </p>
+            </div>
+          } 
+          {list?.slice(listStart, listEnd).map((request, index) => {
+            const generalInfoArr = isNewUserRequest(request)
+              ? dashboardNewUserRequest(request)
+              : isScopeRequest(request)
+              ? dashboardScopeRequest(request)
+              : null;
+            if (!generalInfoArr) return null;
+            else
+              return (
+                <DashboardRequestCard
+                  key={request._id.toString()}
+                  data={request}
+                  generalInfoArr={generalInfoArr}
+                  idx={index}
+                  lastId = {list[list.length - 1]._id.toString()}
+                />
+              );
+          })}
+        </div>
+
       </div>
     </div>
   );

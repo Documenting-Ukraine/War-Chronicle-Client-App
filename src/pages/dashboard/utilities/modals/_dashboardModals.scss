@@ -268,13 +268,15 @@
     background-color: $dark-blue;
     color: $white;
   }
-  .request-form-dropdown{
-    .dropdown-input__menu-list{
-        max-height: 6rem;
+  .request-form-dropdown {
+    .dropdown-input__menu-list {
+      max-height: 6rem;
     }
   }
-  .request-access-form-input{position: relative;}
-  .row-input-error.assign-scopes{
+  .request-access-form-input {
+    position: relative;
+  }
+  .row-input-error.assign-scopes {
     position: absolute;
     left: 0;
     top: 100%;

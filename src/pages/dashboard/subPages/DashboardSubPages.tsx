@@ -1,4 +1,4 @@
-import DashboardUserContributions from "./DashboardUserContributions";
+import DashboardUserContributions from "./userContributions/DashboardUserContributions";
 import DashboardReviewRequests from "./reviewRequests/DashboardReviewRequests";
 const DashboardSubPages = ({
   subPageType,
