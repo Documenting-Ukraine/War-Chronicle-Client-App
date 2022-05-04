@@ -15,6 +15,7 @@ import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { useLayoutEffect, useState, useEffect } from "react";
 import useWindowWidth from "../../../../hooks/use-window-width";
 import { unstable_batchedUpdates } from "react-dom";
+import LoadingIcon from "../../../utilityComponents/loadingIcon/LoadingIcon";
 const purposeTransition = 300;
 const DashboardRequestCard = ({
   data,
@@ -29,6 +30,8 @@ const DashboardRequestCard = ({
 }) => {
   const mediumWindowWidth = useWindowWidth(769);
   const [expandPurpose, setExpandPurpose] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const dispatch = useDispatch();
   const app = useRealmApp();
   const {
@@ -58,7 +61,7 @@ const DashboardRequestCard = ({
       setExpandPurpose(false);
       setOverflow(overflow);
     });
-  //eslint-disable-next-line
+    //eslint-disable-next-line
   }, [data]);
   useEffect(() => {
     //only update if not expanded
@@ -75,66 +78,71 @@ const DashboardRequestCard = ({
     }
     //eslint-disable-next-line
   }, [expandPurpose, overflow]);
-  const requestParams= {
+  const requestParams = {
     app: app,
     input: {
       user_request_id: data._id.toString(),
       accepted: true,
       last_el_id: lastId,
     },
-  }
+  };
   const onAcceptRequest = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (isNewUserRequest(data)) {
+      setIsLoading(true)
       dispatch(
         deleteNewUserRequest({
           ...requestParams,
-          input:{
+          input: {
             ...requestParams.input,
             accepted: true,
             user_review_list_idx: idx,
-          }
+          },
         })
       );
     } else {
-      dispatch(
+      setIsLoading(true)
+      dispatch(        
         deleteScopeRequest({
           ...requestParams,
-          input:{
+          input: {
             ...requestParams.input,
             accepted: true,
             scope_review_list_idx: idx,
-          }
+          },
         })
       );
     }
   };
   const onRejectRequest = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (isNewUserRequest(data)) {
+      setIsLoading(true)
       dispatch(
         deleteNewUserRequest({
           ...requestParams,
-          input:{
+          input: {
             ...requestParams.input,
             accepted: false,
             user_review_list_idx: idx,
-          }
+          },
         })
       );
     } else {
+      setIsLoading(true)
       dispatch(
         deleteScopeRequest({
           ...requestParams,
-          input:{
+          input: {
             ...requestParams.input,
             accepted: false,
             scope_review_list_idx: idx,
-          }
+          },
         })
       );
     }
   };
   return (
     <div className="dashboard-request-card-container">
+      {isLoading && <div className= "dashboard-request-card-loading"><LoadingIcon strokeWidth={"0.2rem"}/></div>}
       <h2 className="dashboard-request-card-header">{`Request Id: ${data._id}`}</h2>
       <div className="dashboard-request-card-body">
         <div className="dashboard-request-card-content">
@@ -188,8 +196,20 @@ const DashboardRequestCard = ({
         </div>
         <div className="dashboard-request-card-footer">
           <div className="dashboard-request-card-action-btns">
-            <button onClick={onAcceptRequest} aria-label="accept-request">Accept</button>
-            <button onClick={onRejectRequest} aria-label="reject-request">Reject</button>
+            <button
+              onClick={onAcceptRequest}
+              aria-label="accept-request"
+              disabled={isLoading}
+            >
+              Accept
+            </button>
+            <button
+              onClick={onRejectRequest}
+              aria-label="reject-request"
+              disabled={isLoading}
+            >
+              Reject
+            </button>
           </div>
           {mediumWindowWidth && (
             <div className="dashboard-request-creation-date">

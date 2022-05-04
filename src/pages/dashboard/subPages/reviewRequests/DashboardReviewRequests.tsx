@@ -19,6 +19,7 @@ import {
   isScopeRequest,
 } from "../../../../store/reducers/dashboard/reviewRequests/types";
 import dashboardScopeRequest from "./DashboardScopeRequest";
+import LoadingIcon from "../../../utilityComponents/loadingIcon/LoadingIcon";
 
 const DashboardReviewRequests = ({
   pageType,
@@ -59,37 +60,6 @@ const DashboardReviewRequests = ({
       )
     }
   }, [dispatch, app, isUsers]);
-  // const list: NewUserRequest[] | ScopeRequest[] =
-  //   pageType === "review-users"
-  //     ? [
-  //         {
-  //           _id: "342148fwef29fwfe4158dw91f4w3242",
-  //           first_name: "Arky",
-  //           last_name: "Asmal",
-  //           email: "arkyasmal@gmail.com",
-  //           occupation: "Teacher",
-  //           purpose:
-  //             "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years.It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like thbruweiifbfiuw ",
-  //           //purpose: "I need it",
-  //           phone_number: "12345678910",
-  //           preferred_contact: "E-mail",
-  //           creation_date: new Date().toString(),
-  //           category: "War Crimes"
-  //         },
-  //       ]
-  //     : [
-  //         {
-  //           _id: "342148fwef29fwfe4158dw91f4w3242",
-  //           user_id: "342148fwef29fwfe4158dw91f4w3242j",
-  //           first_name: "Arky",
-  //           last_name: "Asmal",
-  //           email: "arkyasmal@gmail.com",
-  //           //purpose: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years.It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like thbruweiifbfiuw ",
-  //           purpose: "I need it",
-  //           category: "War Crimes",
-  //           creation_date: new Date().toString(),
-  //         },
-  //       ];
   const list = isUsers ? reviewUsers.data : reviewScopes.data
   const listInterval = 5;
   const listStart = listPage * listInterval;
@@ -190,7 +160,19 @@ const DashboardReviewRequests = ({
           </PaginationNav>
         </div>
         <div className="dashboard-review-requests-list">
-          {(!list || list.length <= 0) &&
+          {listStatus === "failed" && 
+            <div>
+
+            </div>
+          }
+          {listStatus === "loading" && 
+            <div 
+            className="d-flex justify-content-center"
+            style={{position: "absolute", width: "100%"}}>
+                <LoadingIcon strokeWidth={"0.2rem"}/>
+            </div>
+          }
+          {listStatus!=="loading" && (!list || list.length <= 0) &&
               <div className="dashboard-review-requests-placeholder">
                 <div>
                   <FontAwesomeIcon icon={faFaceSmile} />
