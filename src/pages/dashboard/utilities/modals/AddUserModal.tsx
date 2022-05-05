@@ -52,8 +52,7 @@ const AddUserModal = ({
   useEffect(() =>{
     //reset multi values
     if(accountType === "admin") setAssginedScopes([])
-  }, [accountType])
-  console.log(assignedScopes);
+  }, [accountType, setAssginedScopes])
   const onClosePopUp = (
     e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>
   ) => {

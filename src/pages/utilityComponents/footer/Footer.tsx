@@ -78,7 +78,7 @@ const Footer = (): JSX.Element => {
               {process.env.REACT_APP_LOCATION}
             </a>
           </FooterContactRow>
-          <FooterContactRow textContent="Contact Us:" icon={faEnvelope}>
+          <FooterContactRow textContent="Contact Us: " icon={faEnvelope}>
             <a href={`mailto:${process.env.REACT_APP_SUPPORT_EMAIL}`}>
               {process.env.REACT_APP_SUPPORT_EMAIL}
             </a>
