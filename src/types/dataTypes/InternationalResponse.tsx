@@ -5,9 +5,9 @@ import {
 } from "./GeneralRecordType";
 import {Countries, AidTypes} from "./DataLists"
 type GeneralInternational = GeneralRecordType & {
-  recordType: "International Response"
+  record_type: "International Response"
   countries: typeof Countries[number][];
-  recordCreationDate: Date;
+  record_creation_date: Date | string;
 }
 type UNRecord = GeneralInternational & {
   resolution: {

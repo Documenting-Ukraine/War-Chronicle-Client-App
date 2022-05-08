@@ -12,7 +12,7 @@ function isRecordSubmissionType(arg: any): arg is RecordSubmissionType[] {
     "Media And Disinformation": true,
     "Russia": true
   }
-  return arg.recordType in map
+  return arg.record_type in map
 }
 export const fetchContributions = createAsyncThunk(
   "dashboard/fetchContributions",

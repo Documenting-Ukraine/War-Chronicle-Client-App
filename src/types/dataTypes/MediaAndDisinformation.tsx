@@ -2,7 +2,7 @@ import { GeneralRecordType } from "./GeneralRecordType";
 import { Disinformation } from "./DataLists";
 
 type MediaAndDisInfoGeneral = GeneralRecordType & {
-  recordType: "Media And Disinformation";
+  record_type: "Media And Disinformation";
   articleTitle: string;
   primaryLanguage: string;
   hostingOutlet: string;

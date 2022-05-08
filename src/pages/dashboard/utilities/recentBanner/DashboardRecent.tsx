@@ -34,9 +34,9 @@ const RecentRow = ({
             ) : (
               <img
                 src={
-                  mainImage?.thirdPartyURL
-                    ? mainImage.thirdPartyURL
-                    : mainImage?.localURL
+                  mainImage?.third_party_url
+                    ? mainImage.third_party_url
+                    : mainImage?.local_url
                 }
                 alt={mainImage?.description}
               />
@@ -110,10 +110,10 @@ const DashboardRecent = (): JSX.Element => {
       <div id="dashboard-recent-banner">
         {contributionsData && contributionsData.length>0 ?
           contributionsData.map((record) => {
-            const title = record.recordTitle;
-            const type = record.recordType;
-            const submitted = record.recordCreationDate;
-            const mainImage = record.media?.mainImage;
+            const title = record.record_title;
+            const type = record.record_type;
+            const submitted = record.record_creation_date;
+            const mainImage = record.media?.main_image;
             return (
               <RecentRow
                 key={record._id}

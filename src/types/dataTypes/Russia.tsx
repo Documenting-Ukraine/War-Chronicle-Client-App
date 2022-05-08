@@ -6,7 +6,7 @@ import {
   OrganizationType,
 } from "./DataLists";
 type RussiaGeneral = GeneralRecordType & {
-  recordType: "Russia";
+  record_type: "Russia";
   notes: string;
 };
 type Sanctions = RussiaGeneral & {
