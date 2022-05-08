@@ -1,12 +1,5 @@
-//Address
-const Region = [] as const;
-const Oblast = [] as const;
-const City = [] as const;
-const Munition = [] as const;
-//War Crimes
-const Monument = [] as const;
-const KeyActor = [] as const;
-const Embassies = [] as const;
+
+//missing lists
 const WarCrimeType = [] as const;
 
 //Strikes and Attacks
@@ -24,19 +17,12 @@ const ResponseType = [] as const;
 const CorporationIndustry = [] as const;
 const OrganizationType = [] as const;
 export type {
-  Region,
-  Oblast,
-  City,
-  Munition,
   Countries,
   AidTypes,
   Disinformation,
   CivilianInfastructure,
-  Monument,
-  KeyActor,
-  Embassies,
   WarCrimeType,
   ResponseType,
   CorporationIndustry,
-  OrganizationType
+  OrganizationType,
 };

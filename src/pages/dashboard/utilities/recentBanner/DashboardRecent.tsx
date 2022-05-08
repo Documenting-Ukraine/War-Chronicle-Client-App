@@ -119,7 +119,7 @@ const DashboardRecent = (): JSX.Element => {
                 key={record._id}
                 title={title}
                 recordType={type}
-                dateSubmitted={submitted}
+                dateSubmitted={new Date(submitted)}
                 mainImage={mainImage}
               />
             );

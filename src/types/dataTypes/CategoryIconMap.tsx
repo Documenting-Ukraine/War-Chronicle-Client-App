@@ -13,21 +13,26 @@ export const CategoriesList = [
   "Protest Abroad",
   "International Response",
   "Media and Disinformation",
-  "Russia"
+  "Russia",
 ] as const;
-export function categoryDropdownOptions(user: Realm.User | null){
+export function categoryDropdownOptions(user: Realm.User | null) {
   const categoriesListOptions = CategoriesList.map((category) => {
     return {
       value: category,
       label: category,
     };
   });
-  const userCategories = user && user.customData.category_scopes? user.customData.category_scopes : []
-  const userCategoryMap: {[key: string]: boolean}= {}
-  if(Array.isArray(userCategories)) 
-    for(let i of userCategories) userCategoryMap[i] = true
-  const userCategoriesListOptions = categoriesListOptions.filter((category) => !(category.value in userCategoryMap))
-  return userCategoriesListOptions
+  const userCategories =
+    user && user.customData.category_scopes
+      ? user.customData.category_scopes
+      : [];
+  const userCategoryMap: { [key: string]: boolean } = {};
+  if (Array.isArray(userCategories))
+    for (let i of userCategories) userCategoryMap[i] = true;
+  const userCategoriesListOptions = categoriesListOptions.filter(
+    (category) => !(category.value in userCategoryMap)
+  );
+  return userCategoriesListOptions;
 }
 export type GenericCategoryMap<T> = {
   [key in typeof CategoriesList[number]]: T;
@@ -45,7 +50,7 @@ const categoryIconMap: CategoryIconProps = {
   "Protest Abroad": faPeopleGroup,
   "International Response": faEarthAmericas,
   "Media and Disinformation": faNewspaper,
-  "Russia": faFlag,
+  Russia: faFlag,
 };
 export const categoryPermissions: GenericCategoryMap<boolean> = {
   "War Crimes": false,
@@ -53,6 +58,6 @@ export const categoryPermissions: GenericCategoryMap<boolean> = {
   "Protest Abroad": false,
   "International Response": false,
   "Media and Disinformation": false,
-  "Russia": false
-}
+  Russia: false,
+};
 export default categoryIconMap;
