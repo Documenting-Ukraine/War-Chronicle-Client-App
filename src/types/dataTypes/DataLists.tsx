@@ -2,9 +2,6 @@
 //missing lists
 const WarCrimeType = [] as const;
 
-//Strikes and Attacks
-const CivilianInfastructure = [] as const;
-
 //International Response
 const Countries = [] as const;
 const AidTypes = [] as const;
@@ -20,7 +17,6 @@ export type {
   Countries,
   AidTypes,
   Disinformation,
-  CivilianInfastructure,
   WarCrimeType,
   ResponseType,
   CorporationIndustry,

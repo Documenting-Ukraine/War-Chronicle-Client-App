@@ -78,8 +78,8 @@ const ObjectsOfCulture = [
   "Building",
   "Monument",
   "Landscape",
-  "Work of Art"
-] as const
+  "Work of Art",
+] as const;
 type GeneralWarCrimes = GeneralEventType & {
   record_type: "War Crimes";
   war_crime: typeof WarCrimeType[number];
@@ -92,15 +92,9 @@ type AttacksOnCivilians = GeneralWarCrimes & {
 type DestructionOfCulture = GeneralWarCrimes & {
   key_actor: typeof KeyActor[number];
   landmarks?: typeof Landmarks[number] | undefined;
-  objects_of_culture: typeof ObjectsOfCulture[number]
+  objects_of_culture: typeof ObjectsOfCulture[number];
 };
 
-type WarCrimes =
-  | AttacksOnCivilians
-  | DestructionOfCulture
+type WarCrimes = AttacksOnCivilians | DestructionOfCulture;
 
-export type {
-  WarCrimes,
-  AttacksOnCivilians,
-  DestructionOfCulture
-};
+export type { WarCrimes, AttacksOnCivilians, DestructionOfCulture };

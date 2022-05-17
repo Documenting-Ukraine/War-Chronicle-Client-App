@@ -1,6 +1,8 @@
-
 import { User } from "realm-web";
-import { ErrorResponseData, SuccessResponseData } from "../generics/CustomHTTPTypes";
+import {
+  ErrorResponseData,
+  SuccessResponseData,
+} from "../generics/CustomHTTPTypes";
 import { UserSignUpData } from "./UserAuthData";
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 export default UserSignUpData;
@@ -20,13 +22,17 @@ interface GoogleCredientals {
 }
 
 interface CustomMongoHTTPSError {
-  data: ErrorResponseData,
-  status: number
-  headers: Object,
-  config: Object,
-  request: Object
+  data: ErrorResponseData;
+  status: number;
+  headers: Object;
+  config: Object;
+  request: Object;
 }
-type GoogleSignUpPostResponse = Optional<CustomMongoHTTPSError, "request"> | Exclude<keyof CustomMongoHTTPSError, "data"> & { data: SuccessResponseData }
+type GoogleSignUpPostResponse =
+  | Optional<CustomMongoHTTPSError, "request">
+  | (Exclude<keyof CustomMongoHTTPSError, "data"> & {
+      data: SuccessResponseData;
+    });
 export type {
   GoogleSignUp,
   GoogleLogin,

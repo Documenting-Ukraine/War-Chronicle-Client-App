@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-, "createCityRegion.js"  ]
+, "createCityRegion.js", "tsParser.tsx"  ]
 }
