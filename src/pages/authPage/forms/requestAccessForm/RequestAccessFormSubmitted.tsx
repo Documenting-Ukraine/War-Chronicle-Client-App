@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { NewUserRequest } from "../../../store/reducers/dashboard/reviewRequests/types";
+import { NewUserRequest } from "../../../../store/reducers/dashboard/reviewRequests/types";
 const FieldRow = ({
   heading,
   value,

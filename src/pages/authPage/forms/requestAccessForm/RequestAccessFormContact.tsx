@@ -1,6 +1,6 @@
 import { useState } from "react";
 import RequestAccessInput from "./RequestAccessInput";
-import validPhoneNum from "../../../helperFunctions/validatePhoneNum";
+import validPhoneNum from "../../../../helperFunctions/validatePhoneNum";
 const FormContact = () => {
       const [preferredContact, setPreferredContact] = useState({
         gmail: true,

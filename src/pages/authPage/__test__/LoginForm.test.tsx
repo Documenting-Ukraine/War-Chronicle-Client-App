@@ -1,7 +1,7 @@
 import { screen, waitFor, cleanup } from "@testing-library/react";
 import App from "../../../App";
 import userEvent from "@testing-library/user-event";
-import FormPage from "../../formPage/FormPage";
+import FormPage from "../FormPage";
 import { customRender } from "../../../test-utils";
 describe("Login Form Tests", () => {
   afterEach(cleanup);

@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { User } from "realm-web";
-import useLoginError from "../../../../hooks/use-login-error";
-import { useRealmApp } from "../../../../realm/RealmApp";
-import guestLogin from "../../../../realm/auth/guestAuth";
-import FormLogo from "../../FormLogo";
+import useLoginError from "../../../../../hooks/use-login-error";
+import { useRealmApp } from "../../../../../realm/RealmApp";
+import guestLogin from "../../../../../realm/auth/guestAuth";
+import FormLogo from "../../../FormLogo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { occupationData, Option } from "../../data/OccupationList";
+import { occupationData, Option } from "../../../data/OccupationList";
 import Select, { ActionMeta } from "react-select";
-import { purposeList } from "../../data/PurposeList";
-import useValidateInput from "../../../../hooks/use-validate-inputs";
-import removeWhiteSpace from "../../../../helperFunctions/removeWhiteSpace";
-import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
-import LoginLoadingMessage from "../../../utilityComponents/loadingMessage/LoadingMessage";
+import { purposeList } from "../../../data/PurposeList";
+import useValidateInput from "../../../../../hooks/use-validate-inputs";
+import removeWhiteSpace from "../../../../../helperFunctions/removeWhiteSpace";
+import PopUpBg from "../../../../utilityComponents/popUpBg/PopUpBg";
+import LoginLoadingMessage from "../../../../utilityComponents/loadingMessage/LoadingMessage";
 interface GuestFormProps {
   setGuestLogin: (e: false) => void;
   onSignInSuccess: (e: User) => void;

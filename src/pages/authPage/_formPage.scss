@@ -1,6 +1,6 @@
-@import "../forms/loginForm/loginForm";
-@import "../forms/signupForm/signUpForm";
-@import "../forms/requestAccessForm/requestAccessForm";
+@import "./forms/loginForm/loginForm";
+@import "./forms/signupForm/signUpForm";
+@import "./forms/requestAccessForm/requestAccessForm";
 $form-page-height: calc(100vh - #{$navbar-height});
 .form-pg-container{
     width: 100%;

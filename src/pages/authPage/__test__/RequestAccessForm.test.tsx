@@ -1,7 +1,7 @@
 import App from "../../../App";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import RequestAccessForm from "../requestAccessForm/RequestAccessForm";
+import RequestAccessForm from "../forms/requestAccessForm/RequestAccessForm";
 import { customRender } from "../../../test-utils";
 test("Navigate to Contributor Form", async () => {
   customRender(<App />);

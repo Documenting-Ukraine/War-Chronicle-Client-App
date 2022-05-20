@@ -9,11 +9,11 @@ import LoadingIcon from "../../../../pages/utilityComponents/loadingIcon/Loading
 import RequestAccessInput, {
   CustomRequestAccessInput,
   customStylesErr,
-} from "../../../forms/requestAccessForm/RequestAccessInput";
+} from "../../../authPage/forms/requestAccessForm/RequestAccessInput";
 import { categoryDropdownOptions } from "../../../../types/dataTypes/CategoryIconMap";
 import Select from "react-select";
 import useFormInputs from "../../../../hooks/use-form-inputs";
-import { Option } from "../../../forms/data/OccupationList";
+import { Option } from "../../../authPage/data/OccupationList";
 
 interface NewInviteLinkPayload {
   category_scopes: string[];

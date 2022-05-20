@@ -7,7 +7,7 @@ import {
   RequireNonGuestAndOwner,
   RequireNoUser
 } from "./pages/utilityComponents/protectedRoute/ProtectedRoute";
-const FormPage = React.lazy(() => import("./pages/formPage/FormPage"));
+const FormPage = React.lazy(() => import("./pages/authPage/FormPage"));
 const HomePage = React.lazy(() => import("./pages/homePage/HomePage"));
 const AboutPage = React.lazy(() => import("./pages/aboutPage/AboutPage"));
 const Dashboard = React.lazy(() => import("./pages/dashboard/Dashboard"))
@@ -124,6 +124,9 @@ function App() {
                   }
                 />
               </Route>
+            </Route>
+            <Route path="forms/*">
+              
             </Route>
           </Route>
 

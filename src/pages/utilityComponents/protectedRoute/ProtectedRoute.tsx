@@ -1,4 +1,3 @@
-import { indexOf } from "lodash";
 import { Navigate, useLocation, useParams } from "react-router-dom";
 import { useRealmApp } from "../../../realm/RealmApp";
 

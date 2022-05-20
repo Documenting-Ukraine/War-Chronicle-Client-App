@@ -1,15 +1,15 @@
 import { useState, useEffect} from "react";
-import GoogleBtn from "../../utilityComponents/googleAuthBtn/GoogleAuthBtn";
-import PlaceHolderGoogle from "../../utilityComponents/googleAuthBtn/PlaceholderGoogle";
+import GoogleBtn from "../../../utilityComponents/googleAuthBtn/GoogleAuthBtn";
+import PlaceHolderGoogle from "../../../utilityComponents/googleAuthBtn/PlaceholderGoogle";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { User } from "realm-web";
 import { useParams } from "react-router-dom";
-import FormErrBanner from "../../utilityComponents/formErrBanner/FormErrBanner";
-import { occupationData } from "../data/OccupationList";
+import FormErrBanner from "../../../utilityComponents/formErrBanner/FormErrBanner";
+import { occupationData } from "../../data/OccupationList";
 import Select from "react-select";
-import validatePhoneNums from "../../../helperFunctions/validatePhoneNum";
-import useFormInputs from "../../../hooks/use-form-inputs";
+import validatePhoneNums from "../../../../helperFunctions/validatePhoneNum";
+import useFormInputs from "../../../../hooks/use-form-inputs";
 interface DefaultInputs {
   name: string;
   required: boolean;

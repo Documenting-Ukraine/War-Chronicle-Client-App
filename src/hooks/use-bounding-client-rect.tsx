@@ -19,7 +19,7 @@ export const useBoundingClient = () => {
       isMount = false;
     };
     window.addEventListener("resize", debouncedHandleResize);
-    return () => cleanup()
+    return () => { if(isMount) cleanup() }
   }, []);
 
   return {box: bbox, ref, set};

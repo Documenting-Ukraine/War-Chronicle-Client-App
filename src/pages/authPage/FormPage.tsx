@@ -1,7 +1,7 @@
 
-import LoginForm from "../forms/loginForm/LoginForm"
-import RequestAccessForm from "../forms/requestAccessForm/RequestAccessForm";
-import SignUpForm from "../forms/signupForm/SignupForm";
+import LoginForm from "./forms/loginForm/LoginForm"
+import RequestAccessForm from "./forms/requestAccessForm/RequestAccessForm";
+import SignUpForm from "./forms/signupForm/SignupForm";
 const FormPageWrapper = ({ children }: { children: JSX.Element }) => {
     return (
       <div className="form-pg-container">

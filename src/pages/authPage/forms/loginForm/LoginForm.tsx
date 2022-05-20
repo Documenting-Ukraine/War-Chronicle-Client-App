@@ -1,10 +1,10 @@
-import GuestForm from "./pages/GuestForm"
-import MainLoginForm from "./pages/MainLoginForm";
+import GuestForm from "./subPages/GuestForm";
+import MainLoginForm from "./subPages/MainLoginForm";
 import { useNavigate } from "react-router-dom"
 import { CSSTransition } from "react-transition-group";
 import { User } from "realm-web"
 import { useState } from "react"
-import useLoginError from "../../../hooks/use-login-error";
+import useLoginError from "../../../../hooks/use-login-error";
 const timeout = 300
 const LoginForm = (): JSX.Element => {
     const navigate = useNavigate()

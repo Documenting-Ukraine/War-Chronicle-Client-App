@@ -1,6 +1,6 @@
 import Select from "react-select";
-import { GroupedOption, Option } from "../data/OccupationList";
-import useFormInputs from "../../../hooks/use-form-inputs";
+import { GroupedOption, Option } from "../../data/OccupationList";
+import useFormInputs from "../../../../hooks/use-form-inputs";
 import { CSSObjectWithLabel } from "react-select";
 export const customStylesErr = {
   container: (provided: CSSObjectWithLabel) => ({

@@ -1,12 +1,16 @@
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faFileLines, faFolder } from "@fortawesome/free-solid-svg-icons";
+import { isUserCustomData } from "../../../types/dataTypes";
 import categoryIconMap from "../../../types/dataTypes/CategoryIconMap";
 import {isCategoryScope} from "../../../types/dataTypes/CategoryIconMap";
 
 const contributeActionCardData = (user: Realm.User) => {
-  const accountType = user.customData?.account_type;
-  const userCategories = user.customData?.categories;
+  const customData = user.customData
+  if (!isUserCustomData(customData)) return [];
+  const accountType = customData?.account_type;
+  const userCategories = customData?.category_scopes;
   const allCategories = Object.keys(categoryIconMap);
+  
   if (!Array.isArray(userCategories) && accountType !== "admin") return [];
   const categoryList =
     accountType === "admin"
@@ -15,8 +19,10 @@ const contributeActionCardData = (user: Realm.User) => {
       ? userCategories
       : [];
   const categoryCardData = categoryList.map((category) => {
+    //this is for routing, as urls cannot have spaces
+    const newCategory = category.replace(/ /g, "-").toLowerCase()
     return {
-      additionalRoute: `forms/create-new-${category}`,
+      additionalRoute: `forms/create-new-${newCategory}`,
       cardIcon:
         isCategoryScope(category) ? categoryIconMap[category] : faFileLines,
       cardHeading: `New ${category}`,

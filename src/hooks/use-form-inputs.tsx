@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ActionMeta, MultiValue } from "react-select";
-import { Option } from "../pages/forms/data/OccupationList";
+import { Option } from "../pages/authPage/data/OccupationList";
 import removeAddedWhiteSpace from "../helperFunctions/removeWhiteSpace";
 const useFormInputs = ({
   validateFunc,

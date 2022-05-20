@@ -1,16 +1,16 @@
 import { useState } from "react";
-import validEmail from "../../../helperFunctions/validateEmail";
-import FormErrBanner from "../../utilityComponents/formErrBanner/FormErrBanner";
+import validEmail from "../../../../helperFunctions/validateEmail";
+import FormErrBanner from "../../../utilityComponents/formErrBanner/FormErrBanner";
 import RequestAccessInput from "./RequestAccessInput";
 import FormContact from "./RequestAccessFormContact";
 import FormSubmitted from "./RequestAccessFormSubmitted";
-import realmApiCalls from "../../../helperFunctions/realmApiCalls";
+import realmApiCalls from "../../../../helperFunctions/realmApiCalls";
 import { unstable_batchedUpdates } from "react-dom";
-import PopUpBg from "../../utilityComponents/popUpBg/PopUpBg";
-import LoadingMessage from "../../utilityComponents/loadingMessage/LoadingMessage";
-import { occupationData } from "../data/OccupationList";
-import { NewUserRequest } from "../../../store/reducers/dashboard/reviewRequests/types";
-import { categoryDropdownOptions, isCategoryScope } from "../../../types/dataTypes/CategoryIconMap";
+import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
+import LoadingMessage from "../../../utilityComponents/loadingMessage/LoadingMessage";
+import { occupationData } from "../../data/OccupationList";
+import { NewUserRequest } from "../../../../store/reducers/dashboard/reviewRequests/types";
+import { categoryDropdownOptions, isCategoryScope } from "../../../../types/dataTypes/CategoryIconMap";
 const RequestAccessForm = (): JSX.Element => {
   const [formErr, setFormErr] = useState({
     err: false,
