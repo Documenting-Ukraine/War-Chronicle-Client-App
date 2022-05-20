@@ -1,5 +1,5 @@
-import { GeneralRecordType } from "./GeneralRecordType";
-import { Disinformation } from "./DataLists";
+import { GeneralRecordType } from "../GeneralRecordType";
+import { Disinformation } from "../DataLists";
 
 type MediaAndDisInfoGeneral = GeneralRecordType & {
   record_type: "Media And Disinformation";

@@ -1,5 +1,5 @@
-import { GeneralEventType } from "./GeneralRecordType";
-import { WarCrimeType } from "./DataLists";
+import { GeneralEventType } from "../GeneralRecordType";
+import { WarCrimeType } from "../DataLists";
 //lists
 //War Crimes
 const munitionTypeList = [
@@ -91,7 +91,7 @@ type AttacksOnCivilians = GeneralWarCrimes & {
 
 type DestructionOfCulture = GeneralWarCrimes & {
   key_actor: typeof KeyActor[number];
-  landmarks?: typeof Landmarks[number] | undefined;
+  landmarks?: typeof Landmarks[number];
   objects_of_culture: typeof ObjectsOfCulture[number];
 };
 

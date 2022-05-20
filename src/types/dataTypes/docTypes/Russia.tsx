@@ -1,10 +1,10 @@
-import { GeneralRecordType } from "./GeneralRecordType";
+import { GeneralRecordType } from "../GeneralRecordType";
 import {
   ResponseType,
   Countries,
   CorporationIndustry,
   OrganizationType,
-} from "./DataLists";
+} from "../DataLists";
 type RussiaGeneral = GeneralRecordType & {
   record_type: "Russia";
   notes: string;

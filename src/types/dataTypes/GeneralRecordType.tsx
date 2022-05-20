@@ -36,7 +36,6 @@ interface GeneralRecordType {
 } 
 type GeneralEventType = GeneralRecordType & {
   date_first_published: Date | string;
-  //timeRecorded?
   date_event_occured: Date | string;
   address?: address;
 };
@@ -47,71 +46,3 @@ export type {
   MediaLink,
   Media,
 };
-/*
-{
-  "bsonType": "object",
-  "properties": {
-    "date_first_published": { "bsonType": "date" },
-    "date_event_occured": { "bsonType": "date" },
-    "address": {
-      "bsonType": "object",
-      "properties": {
-        "oblast": { "bsonType": "string" },
-        "city": { "bsonType": "string" },
-        "latitude": { "bsonType": "string" },
-        "longitude": { "bsonType": "string" }
-      },
-      "required": ["oblast", "city"]
-    },
-    "_id": {"bsonType": "string"},
-    "record_title": {"bsonType": "string"},
-    "record_creation_date": {"bsonType": "date"},
-    "media": {
-        "bsonType": "object", 
-        "properties": {
-          "images": ArrayOneOrMore<MediaLink>;
-          "videos": ArrayOneOrMore<MediaLink>;
-          "main_image": MediaLink;
-        }
-    }
-    Media},
-  "description": {"bsonType": "string"},
-  "evidence": {
-    "bsonType": "array", 
-    "minItems": 1, 
-    "items":{
-        "bsonType": "object",
-        "properties": {
-            "description":{"bsonType": "string"},
-            "url": {"bsonType": "string"}
-        },
-        "required":["url"]
-    }
-  },
- "additional_evidence": {
-    "bsonType": "array", 
-    "minItems": 1, 
-    "items":{
-        "bsonType": "object",
-        "properties": {
-            "description":{"bsonType": "string"},
-            "url": {"bsonType": "string"}
-        },
-        "required":["url"]
-    }
-  }
-
-}
-    "record_type": "War Crimes",
-    "war_crime": { "bsonType": "string" },
-    "civilian_casualties": { "bsonType": "double" }
-  },
-  }
-  "required": [
-    "record_type",
-    "war_crime",
-    "date_event_occured",
-    "date_first_published"
-  ]
-}
-*/

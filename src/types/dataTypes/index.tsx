@@ -1,8 +1,8 @@
-import { InternationalResponse } from "./InternationalResponse";
-import { MediaAndDisInformation } from "./MediaAndDisinformation";
-import { RefugeesAndIdps } from "./RefugeesAndIdps";
-import { Russia } from "./Russia";
-import { WarCrimes } from "./WarCrimes";
+import { InternationalResponse } from "./docTypes/InternationalResponse";
+import { MediaAndDisInformation } from "./docTypes/MediaAndDisinformation";
+import { RefugeesAndIdps } from "./docTypes/RefugeesAndIdps";
+import { Russia } from "./docTypes/Russia";
+import { WarCrimes } from "./docTypes/WarCrimes";
 import { CategoriesList, isCategoryScope } from "./CategoryIconMap";
 import { ObjectId } from "mongodb";
 type RecordSubmissionType =
