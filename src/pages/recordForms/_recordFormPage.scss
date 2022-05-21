@@ -1,0 +1,12 @@
+//utilities
+@import "./utilities/recordFormNav/recordFormNav";
+@import "./utilities/recordFormWrapper/recordFormWrapper";
+//forms
+
+//record-form styles
+.record-form-pg-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}

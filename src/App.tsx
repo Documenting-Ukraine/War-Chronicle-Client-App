@@ -5,6 +5,7 @@ import LoadingIcon from "./pages/utilityComponents/loadingIcon/LoadingIcon";
 import {
   RequireAuth,
   RequireNonGuestAndOwner,
+  RequireNonGuestAccount,
   RequireNoUser
 } from "./pages/utilityComponents/protectedRoute/ProtectedRoute";
 const FormPage = React.lazy(() => import("./pages/authPage/FormPage"));
@@ -12,7 +13,8 @@ const HomePage = React.lazy(() => import("./pages/homePage/HomePage"));
 const AboutPage = React.lazy(() => import("./pages/aboutPage/AboutPage"));
 const Dashboard = React.lazy(() => import("./pages/dashboard/Dashboard"))
 const DashboardSubpages = React.lazy(() => import("./pages/dashboard/subPages/DashboardSubPages"))
-
+const RecordFormPage = React.lazy(() => import("./pages/recordForms/RecordFormPage")
+);
 function App() {
   return (
     <div className="App">
@@ -125,8 +127,15 @@ function App() {
                 />
               </Route>
             </Route>
-            <Route path="forms/*">
-              
+            <Route path="forms">
+              <Route
+                index
+                element={<RequireNonGuestAccount><RecordFormPage overview /></RequireNonGuestAccount>}
+              ></Route>
+              <Route
+                path=":formid"
+                element={<RequireNonGuestAccount><RecordFormPage /></RequireNonGuestAccount>}
+              />
             </Route>
           </Route>
 
