@@ -9,30 +9,15 @@ import recordFormRoutes, {
   grabRecordFormType,
 } from "../../data/recordFormRoutes";
 import { Link } from "react-router-dom";
-const ButtonGroup = ({ next, previous, goToSlide, ...rest }: any) => {
-  const {
-    carouselState: { currentSlide },
-  } = rest;
-  return (
-    <div className="record-form-nav-btns">
-      <button
-        className={currentSlide === 0 ? "disable" : ""}
-        onClick={() => previous()}
-      >
-        Hello
-      </button>
-      <button onClick={() => next()}>Next</button>
-    </div>
-  );
-};
+import { useParams } from "react-router";
 
 const RecordFormNav = () => {
+  const params = useParams();
   return (
-    // <div className="record-form-carousel">
     <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y]}
       navigation
-      spaceBetween={50}
+      spaceBetween={40}
       slidesPerView={"auto"}
       onSlideChange={() => console.log("slide change")}
       onSwiper={(swiper) => console.log(swiper)}
@@ -41,13 +26,22 @@ const RecordFormNav = () => {
       {recordFormRoutes.map((route) => {
         const formType = grabRecordFormType(route);
         return (
-          <SwiperSlide key={formType} style={{width: 'auto'}}>
-            <Link to={`../${route}`}>{formType}</Link>
+          <SwiperSlide
+            key={formType}
+            style={{ width: "auto", maxWidth: "900px" }}
+          >
+            <Link
+              to={`../${route}`}
+              className={`record-form-nav-link ${
+                route === params.formid ? "selected" : ""
+              }`}
+            >
+              {formType}
+            </Link>
           </SwiperSlide>
         );
       })}
     </Swiper>
-    // </div>
   );
 };
 export default RecordFormNav;

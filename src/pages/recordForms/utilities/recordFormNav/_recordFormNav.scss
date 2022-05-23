@@ -1,20 +1,33 @@
 .record-form-carousel{
-  max-width: 1000px;  
-  width: 100%;
+  position: relative;
+  max-width: 900px;  
   display: flex;
   justify-content: center;
-}
-.record-form-nav-btns{
-    button:first-child{
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
+  padding: 0 2rem !important;
+  .swiper-button-prev, .swiper-button-next{
+    color: $darkest-gray;
+    height: 100%;
+    top: 0;
+    margin: 0;
+    width: 1rem;
+    &::after{
+        margin: 0;
+        font-size: 1.2rem;
+        font-weight: 600;
     }
-    button:nth-child(2){
-        position: absolute;
-        right: 0;
-        top: 0;
-        height: 100%;
-    }   
+  }
+   .swiper-button-prev{
+    left: 0rem;
+  }
+  .swiper-button-next{
+    right: 0;
+  }
+}
+.record-form-nav-link{
+    font-size: 1rem;
+    text-decoration: none;
+    color: $dark-gray;
+    font-weight: 600;
+    font-family: 'Poppins','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    @include link-underline-styles(2.5px, $dark-gray, $light-blue);
 }
