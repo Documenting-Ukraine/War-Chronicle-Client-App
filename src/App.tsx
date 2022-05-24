@@ -130,11 +130,23 @@ function App() {
             <Route path="forms">
               <Route
                 index
-                element={<RequireNonGuestAccount><RecordFormPage overview /></RequireNonGuestAccount>}
+                element={
+                  <RequireNonGuestAccount>
+                    <NavWrapper>
+                      <RecordFormPage overview />
+                    </NavWrapper>
+                  </RequireNonGuestAccount>
+                }
               ></Route>
               <Route
                 path=":formid"
-                element={<RequireNonGuestAccount><RecordFormPage /></RequireNonGuestAccount>}
+                element={
+                  <RequireNonGuestAccount>
+                    <NavWrapper>
+                      <RecordFormPage />
+                    </NavWrapper>
+                  </RequireNonGuestAccount>
+                }
               />
             </Route>
           </Route>

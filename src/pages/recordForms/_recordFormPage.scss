@@ -4,9 +4,29 @@
 //forms
 
 //record-form styles
-.record-form-pg-container{
+.record-form-pg{
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
+    padding: 2rem 10%;
+}
+.record-form-pg-container{
+    width: 100%;
+    max-width: 1200px;
+}
+.record-form-pg-header{
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    color: $dark-blue;
+    font-size: 1.9rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    h1{
+        margin-left: 0.7rem;
+        line-height: 2rem;
+    }
+
 }

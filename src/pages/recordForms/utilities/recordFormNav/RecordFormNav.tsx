@@ -26,10 +26,7 @@ const RecordFormNav = () => {
       {recordFormRoutes.map((route) => {
         const formType = grabRecordFormType(route);
         return (
-          <SwiperSlide
-            key={formType}
-            style={{ width: "auto", maxWidth: "900px" }}
-          >
+          <SwiperSlide key={formType} style={{ width: "auto" }}>
             <Link
               to={`../${route}`}
               className={`record-form-nav-link ${

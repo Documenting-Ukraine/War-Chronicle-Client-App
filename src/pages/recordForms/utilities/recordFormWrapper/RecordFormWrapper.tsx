@@ -4,6 +4,11 @@ interface RecordFormWrapperProps {
 const RecordFormWrapper = ({
   children,
 }: RecordFormWrapperProps): JSX.Element => {
-    return <div>{ children }</div>;
+  return <div className="record-form-pg-wrapper">
+    {children}
+  </div>;
+  <div>
+    
+  </div>
 };
 export default RecordFormWrapper;
