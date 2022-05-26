@@ -1,6 +1,6 @@
 import Select from "react-select";
-import { GroupedOption, Option } from "../../data/OccupationList";
-import useFormInputs from "../../../../hooks/use-form-inputs";
+import { GroupedOption, Option } from "../../authPage/data/OccupationList";
+import useFormInputs from "../../../hooks/use-form-inputs";
 import { CSSObjectWithLabel } from "react-select";
 export const customStylesErr = {
   container: (provided: CSSObjectWithLabel) => ({
@@ -8,15 +8,17 @@ export const customStylesErr = {
     border: "1px solid darkred",
   }),
 };
-export const CustomRequestAccessInput = ({
+export const CustomFormInputs = ({
   children,
   name,
+  className,
 }: {
   children: JSX.Element;
   name: string;
+  className?: string;
 }) => {
   return (
-    <div className="request-access-form-input">
+    <div className={`form-inputs ${className ? className : ""}`}>
       <div className="d-flex flex-column w-100">
         <label data-testid={name} htmlFor={`${name}-input`}>
           {name}
@@ -27,7 +29,7 @@ export const CustomRequestAccessInput = ({
     </div>
   );
 };
-const RequestAccessInput = ({
+const FormInputs = ({
   name,
   textArea,
   customValidation,
@@ -35,8 +37,10 @@ const RequestAccessInput = ({
   dropDown,
   required = true,
   isDropdownMulti = false,
+  className,
 }: {
   name: string;
+  className?: string;
   textArea?: boolean;
   customValidation?: (e: string) => { err: boolean; message: string };
   inputType?: string;
@@ -56,7 +60,7 @@ const RequestAccessInput = ({
     isMulti: isDropdownMulti,
   });
   return (
-    <div className="request-access-form-input">
+    <div className={`form-inputs ${className ? className : ""}`}>
       <div className="d-flex flex-column w-100">
         <label data-testid={name} htmlFor={`${name}-input`}>
           {name}
@@ -79,7 +83,7 @@ const RequestAccessInput = ({
           isDropdownMulti ? (
             <Select
               options={dropDown}
-              className={"request-form-dropdown"}
+              className={"form-inputs-dropdown"}
               classNamePrefix={"dropdown-input"}
               name={name}
               id={`${name}-input`}
@@ -91,7 +95,7 @@ const RequestAccessInput = ({
           ) : (
             <Select
               options={dropDown}
-              className={"request-form-dropdown"}
+              className={"form-inputs-dropdown"}
               classNamePrefix={"dropdown-input"}
               name={name}
               id={`${name}-input`}
@@ -122,4 +126,4 @@ const RequestAccessInput = ({
     </div>
   );
 };
-export default RequestAccessInput;
+export default FormInputs;

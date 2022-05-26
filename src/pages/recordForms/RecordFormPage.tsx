@@ -1,34 +1,52 @@
 import { faFileLines } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useLayoutEffect, useState } from "react";
-import { useParams } from "react-router";
-import { useLocation } from "react-router";
+import { Routes, Route } from "react-router";
+import InternationalResponseForm from "./forms/InternationalResponseForm";
+import MediaAndDisInformationForm from "./forms/MediaAndDisinformationForm";
+import ProtestsAbroad from "./forms/ProtestsAbroadForm";
+import RefugeesAndIdpsForm from "./forms/RefugeesAndIdpsForm";
+import RussiaForm from "./forms/RussiaForm";
+import WarCrimesForm from "./forms/WarCrimesForm";
 import RecordFormNav from "./utilities/recordFormNav/RecordFormNav";
 import RecordFormWrapper from "./utilities/recordFormWrapper/RecordFormWrapper";
-const RecordFormPage = ({ overview }: { overview?: boolean }): JSX.Element => {
-  const [invalidPage, setInvalidPage] = useState(false);
-  const location = useLocation();
-  const params = useParams();
-  const formType = !params["formid"];
-
-  useLayoutEffect(() => {
-    if (formType) setInvalidPage(true);
-  }, [params]);
-    return (
-      <>
-        <div className="record-form-pg">
-          <div className="record-form-pg-container">
-            <div className="record-form-pg-header">
-              <FontAwesomeIcon icon={faFileLines} />
-              <h1>New Record Form</h1>
-            </div>
-            <RecordFormNav />
-            <RecordFormWrapper>
-              <div>Hello</div>
-            </RecordFormWrapper>
+const RecordFormPage = (): JSX.Element => {
+  return (
+    <>
+      <div className="record-form-pg">
+        <div className="record-form-pg-container">
+          <div className="record-form-pg-header">
+            <FontAwesomeIcon icon={faFileLines} />
+            <h1>New Record Form</h1>
           </div>
+          <RecordFormNav />
+          <RecordFormWrapper>
+            <Routes>
+              <Route
+                path={"create-new-war-crimes"}
+                element={<WarCrimesForm />}
+              />
+              <Route
+                path={"create-new-refugees-and-idps"}
+                element={<RefugeesAndIdpsForm />}
+              />
+              <Route
+                path={"create-new-protest-abroad"}
+                element={<ProtestsAbroad />}
+              />
+              <Route
+                path={"create-new-international-response"}
+                element={<InternationalResponseForm />}
+              />
+              <Route
+                path={"create-new-media-and-disinformation"}
+                element={<MediaAndDisInformationForm />}
+              />
+              <Route path={"create-new-russia"} element={<RussiaForm />} />
+            </Routes>
+          </RecordFormWrapper>
         </div>
-      </>
-    );
+      </div>
+    </>
+  );
 };
 export default RecordFormPage;

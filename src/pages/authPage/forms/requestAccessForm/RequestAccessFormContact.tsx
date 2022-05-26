@@ -1,5 +1,5 @@
 import { useState } from "react";
-import RequestAccessInput from "./RequestAccessInput";
+import RequestAccessInput from "../../../utilityComponents/formInputs/FormInputs";
 import validPhoneNum from "../../../../helperFunctions/validatePhoneNum";
 const FormContact = () => {
       const [preferredContact, setPreferredContact] = useState({

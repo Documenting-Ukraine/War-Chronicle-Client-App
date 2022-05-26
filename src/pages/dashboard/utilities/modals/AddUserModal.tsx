@@ -7,9 +7,9 @@ import { useEffect, useState } from "react";
 import { unstable_batchedUpdates } from "react-dom";
 import LoadingIcon from "../../../../pages/utilityComponents/loadingIcon/LoadingIcon";
 import RequestAccessInput, {
-  CustomRequestAccessInput,
+  CustomFormInputs,
   customStylesErr,
-} from "../../../authPage/forms/requestAccessForm/RequestAccessInput";
+} from "../../../utilityComponents/formInputs/FormInputs";
 import { categoryDropdownOptions } from "../../../../types/dataTypes/CategoryIconMap";
 import Select from "react-select";
 import useFormInputs from "../../../../hooks/use-form-inputs";
@@ -160,7 +160,7 @@ const AddUserModal = ({
             )}
             <div className="top-spacing"></div>
             <RequestAccessInput name="New User Gmail" />
-            <CustomRequestAccessInput name="Account Type">
+            <CustomFormInputs name="Account Type">
               <>
                 <Select
                   defaultValue={accountTypeOptions[1]}
@@ -179,10 +179,10 @@ const AddUserModal = ({
                   </div>
                 )}
               </>
-            </CustomRequestAccessInput>
+            </CustomFormInputs>
 
             {accountType !== "admin" && (
-              <CustomRequestAccessInput name="Assign Category Scopes">
+              <CustomFormInputs name="Assign Category Scopes">
                 <>
                   <Select
                     options={categoryDropdownOptions(null)}
@@ -201,7 +201,7 @@ const AddUserModal = ({
                     </div>
                   )}
                 </>
-              </CustomRequestAccessInput>
+              </CustomFormInputs>
             )}
           </>
         </GeneralDashboardPopUp>

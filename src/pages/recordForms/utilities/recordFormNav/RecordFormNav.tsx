@@ -9,18 +9,18 @@ import recordFormRoutes, {
   grabRecordFormType,
 } from "../../data/recordFormRoutes";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router";
+import { useLocation,  } from "react-router";
 
 const RecordFormNav = () => {
-  const params = useParams();
+  const location = useLocation();
+  const endPath = location.pathname.split("/")
+  const routeId = endPath[endPath.length-1]
   return (
     <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y]}
       navigation
       spaceBetween={40}
       slidesPerView={"auto"}
-      onSlideChange={() => console.log("slide change")}
-      onSwiper={(swiper) => console.log(swiper)}
       className={"record-form-carousel"}
     >
       {recordFormRoutes.map((route) => {
@@ -28,9 +28,9 @@ const RecordFormNav = () => {
         return (
           <SwiperSlide key={formType} style={{ width: "auto" }}>
             <Link
-              to={`../${route}`}
+              to={`./${route}`}
               className={`record-form-nav-link ${
-                route === params.formid ? "selected" : ""
+                route === routeId ? "selected" : ""
               }`}
             >
               {formType}

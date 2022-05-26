@@ -1,2 +1,8 @@
-const RussiaForm = () => {};
+const RussiaForm = () => {
+    return (
+        <div>
+            
+        </div>
+    )
+};
 export default RussiaForm;

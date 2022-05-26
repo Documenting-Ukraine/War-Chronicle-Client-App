@@ -1,7 +1,7 @@
 import { useState } from "react";
 import validEmail from "../../../../helperFunctions/validateEmail";
 import FormErrBanner from "../../../utilityComponents/formErrBanner/FormErrBanner";
-import RequestAccessInput from "./RequestAccessInput";
+import RequestAccessInput from "../../../utilityComponents/formInputs/FormInputs";
 import FormContact from "./RequestAccessFormContact";
 import FormSubmitted from "./RequestAccessFormSubmitted";
 import realmApiCalls from "../../../../helperFunctions/realmApiCalls";

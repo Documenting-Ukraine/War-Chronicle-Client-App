@@ -1,6 +1,6 @@
 import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
 import { GeneralDashboardPopUp, PopUpProps } from "./general";
-import RequestAccessInput from "../../../authPage/forms/requestAccessForm/RequestAccessInput";
+import RequestAccessInput from "../../../utilityComponents/formInputs/FormInputs";
 import { categoryDropdownOptions } from "../../../../types/dataTypes/CategoryIconMap";
 import { useRealmApp } from "../../../../realm/RealmApp";
 import { isUserCustomData } from "../../../../types/dataTypes";
