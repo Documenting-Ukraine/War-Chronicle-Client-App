@@ -49,7 +49,6 @@ export const deleteNewUserRequest = createAsyncThunk(
       "delete_requests",
       {...input, request_type: 'new_user'}
     );
-
     if (isDeleteNewUserRequestResults(newUserRequestData)) {
       const document = newUserRequestData.new_last_document;
       //parse to string, since objects are non-serializable

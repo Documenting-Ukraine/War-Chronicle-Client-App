@@ -8,11 +8,14 @@ import FormInputs, {
   CustomFormInputs,
 } from "../../../utilityComponents/formInputs/FormInputs";
 import FormDropZone from "../../../utilityComponents/formInputs/FormDropZone";
+import FormListInputs from "../../../utilityComponents/formInputs/FormListInputs";
 interface RecordFormWrapperProps {
   children: JSX.Element;
   callback?: (e: React.FormEvent<HTMLFormElement>) => void;
+  generalEventType?: boolean;
 }
 const RecordFormWrapper = ({
+  generalEventType = false,
   children,
   callback,
 }: RecordFormWrapperProps): JSX.Element => {
@@ -22,7 +25,6 @@ const RecordFormWrapper = ({
   const [similarRecords, setSimilarRecords] = useState<RecordSubmissionType[]>(
     []
   );
-  const [title, setTitle] = useState("");
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const generalProps = {};
     if (callback) callback(e);
@@ -34,32 +36,54 @@ const RecordFormWrapper = ({
         className="record-form-pg-form"
       >
         <form onSubmit={onSubmit}>
-          <CustomFormInputs name="Title" className="record-form-input">
-            <input
-              id={"record-title"}
-              value={title}
-              onChange={(e) => setTitle(e.currentTarget.value)}
-            />
-          </CustomFormInputs>
+          <FormInputs
+            name="Title"
+            className="record-form-input"
+            required
+            inputType="text"
+          />
           <FormInputs
             textArea
-            name={"Description"}
+            name={"General Description"}
             className="record-form-input"
+            required
           />
-          <FormDropZone
-            name={"Images"}
-            mediaType={"images"}
-            description={"Insert Images Here"}
-            maxFiles={10}
-            maxSize={Math.pow(10, 6)*5}
-          />
-          <FormDropZone
-            name={"Videos"}
-            mediaType={"videos"}
-            description={"Insert Videos Here"}
-            maxFiles={10}
-            maxSize={Math.pow(10, 8)*5}
-          />
+          <CustomFormInputs name="Media" className="record-form-input">
+            <>
+              <FormDropZone
+                name={"Images"}
+                mediaType={"images"}
+                description={"Upload Images"}
+                maxFiles={10}
+                className={"media-form-input"}
+                maxSize={Math.pow(10, 6) * 5}
+              />
+              <FormDropZone
+                name={"Videos"}
+                mediaType={"videos"}
+                description={"Upload Videos"}
+                maxFiles={10}
+                maxSize={Math.pow(10, 8) * 5}
+              />
+            </>
+          </CustomFormInputs>
+          <CustomFormInputs
+            name="Main Evidence"
+            className="record-form-input"
+            required
+          >
+            <FormListInputs />
+          </CustomFormInputs>
+          <CustomFormInputs
+            name="Additional Evidence"
+            className="record-form-input"
+            required={false}
+          >
+            <FormListInputs required={false} />
+          </CustomFormInputs>
+          {generalEventType && <>
+            
+          </>}
           {children}
         </form>
       </RecordFormBox>

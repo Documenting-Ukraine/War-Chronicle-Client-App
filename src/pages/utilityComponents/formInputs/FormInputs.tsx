@@ -12,17 +12,19 @@ export const CustomFormInputs = ({
   children,
   name,
   className,
+  required = true
 }: {
   children: JSX.Element;
   name: string;
   className?: string;
+  required?: boolean
 }) => {
   return (
     <div className={`form-inputs ${className ? className : ""}`}>
       <div className="d-flex flex-column w-100">
         <label data-testid={name} htmlFor={`${name}-input`}>
           {name}
-          <span>*</span>
+          {required && <span>*</span>}
         </label>
         {children}
       </div>
@@ -30,6 +32,7 @@ export const CustomFormInputs = ({
   );
 };
 const FormInputs = ({
+  title,
   name,
   textArea,
   customValidation,
@@ -39,6 +42,7 @@ const FormInputs = ({
   isDropdownMulti = false,
   className,
 }: {
+  title?: string;
   name: string;
   className?: string;
   textArea?: boolean;
@@ -56,15 +60,15 @@ const FormInputs = ({
     onDropdownMultiChange,
   } = useFormInputs({
     validateFunc: customValidation,
-    required: true,
+    required: required,
     isMulti: isDropdownMulti,
   });
   return (
     <div className={`form-inputs ${className ? className : ""}`}>
       <div className="d-flex flex-column w-100">
         <label data-testid={name} htmlFor={`${name}-input`}>
-          {name}
-          <span>*</span>
+          {title ? title : name}
+          {required && <span>*</span>}
         </label>
         {textArea ? (
           <textarea
@@ -72,11 +76,7 @@ const FormInputs = ({
             name={name}
             onChange={onDefaultChange}
             onBlur={onTouch}
-            style={
-              required && err.err
-                ? { border: "1.5px solid darkred" }
-                : undefined
-            }
+            style={required && err.err ? { border: "1.5px solid darkred" } : {}}
             required={required}
           />
         ) : dropDown ? (

@@ -18,17 +18,21 @@ const useFormInputs = ({
   //run validating function
   useEffect(() => {
     if (touched) {
-      if (removeAddedWhiteSpace(value).length <= 0 && required)
+      if (removeAddedWhiteSpace(value).length <= 0 && required){
         setErr({ err: true, message: "Field is required" });
+        if (validateFunc) validateFunc(value)
+      }
       else if (validateFunc && validateFunc(value).err)
         setErr(validateFunc(value));
       else setErr({ err: false, message: "" });
     }
   }, [touched, value, validateFunc, required]);
   useEffect(() => {
-    if (touched && isMulti && multiValue.length <= 0) {
-      setErr({ err: true, message: "Field is required" });
-    } else setErr({ err: false, message: "" });
+    if (isMulti) {
+      if (touched && multiValue.length <= 0) {
+        setErr({ err: true, message: "Field is required" });
+      } else setErr({ err: false, message: "" });
+    }
   }, [touched, multiValue, isMulti]);
   const onDefaultChange = (
     e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
@@ -61,7 +65,7 @@ const useFormInputs = ({
     onDropdownChange,
     onTouch,
     onDropdownMultiChange,
-    setMultiValue
+    setMultiValue,
   };
 };
 export default useFormInputs;
