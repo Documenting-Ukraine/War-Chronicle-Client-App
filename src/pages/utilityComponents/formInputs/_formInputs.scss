@@ -159,6 +159,23 @@
     right: 0.2rem;
   }
 }
+.form-inputs-time-inputs{
+  display: flex;
+  input{
+    width: 100%;
+    &.add-right-spacing{
+      margin-right: 0.5rem;
+    }
+  }
+}
+.form-inputs-time-err{
+    display: flex;
+    align-items: center;
+    color: darkred;
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+}
+
 .thumbnails-container {
   display: flex;
   flex-wrap: wrap;

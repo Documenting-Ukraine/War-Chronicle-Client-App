@@ -34,7 +34,7 @@ export interface GeneralRecordType {
 } 
 export type GeneralEventType = GeneralRecordType & {
   date_first_published: Date | string;
-  date_event_occured: Date | string;
+  date_event_occurred: Date | string;
   address?: address;
 };
 

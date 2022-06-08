@@ -9,6 +9,7 @@ import FormInputs, {
 } from "../../../utilityComponents/formInputs/FormInputs";
 import FormDropZone from "../../../utilityComponents/formInputs/FormDropZone";
 import FormListInputs from "../../../utilityComponents/formInputs/FormListInputs";
+import FormDateInputs from "../../../utilityComponents/formInputs/FormDateInputs";
 interface RecordFormWrapperProps {
   children: JSX.Element;
   callback?: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -81,9 +82,54 @@ const RecordFormWrapper = ({
           >
             <FormListInputs required={false} />
           </CustomFormInputs>
-          {generalEventType && <>
-            
-          </>}
+          {generalEventType && (
+            <>
+              <FormDateInputs
+                name="Date Published"
+                onDateChange={(e: Date) => {}}
+                timeInput
+                required
+              />
+              <FormDateInputs
+                name="Date Event Occurred"
+                onDateChange={(e: Date) => {}}
+                timeInput
+                required
+              />
+              <CustomFormInputs
+                name={"Address"}
+                className="record-form-input"
+                required
+              >
+                <FormInputs
+                  title="Oblast"
+                  name="Oblast"
+                  isDropdownMulti
+                  required
+                  dropDown={}
+                />
+                <FormInputs
+                  title="City"
+                  name="City"
+                  isDropdownMulti
+                  required
+                  dropDown={}
+                />
+                <FormInputs
+                  title="Latitude"
+                  required={false}
+                  inputType={"text"}
+                  name={"Latitude"}
+                />
+                <FormInputs
+                  title="Longitude"
+                  name="Longitude"
+                  inputType="text"
+                  required={false}
+                />
+              </CustomFormInputs>
+            </>
+          )}
           {children}
         </form>
       </RecordFormBox>

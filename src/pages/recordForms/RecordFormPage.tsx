@@ -19,31 +19,34 @@ const RecordFormPage = (): JSX.Element => {
             <h1>New Record Form</h1>
           </div>
           <RecordFormNav />
-          <RecordFormWrapper>
-            <Routes>
-              <Route
-                path={"create-new-war-crimes"}
-                element={<WarCrimesForm />}
-              />
-              <Route
-                path={"create-new-refugees-and-idps"}
-                element={<RefugeesAndIdpsForm />}
-              />
-              <Route
-                path={"create-new-protest-abroad"}
-                element={<ProtestsAbroad />}
-              />
-              <Route
-                path={"create-new-international-response"}
-                element={<InternationalResponseForm />}
-              />
-              <Route
-                path={"create-new-media-and-disinformation"}
-                element={<MediaAndDisInformationForm />}
-              />
-              <Route path={"create-new-russia"} element={<RussiaForm />} />
-            </Routes>
-          </RecordFormWrapper>
+
+          <Routes>
+            <Route
+              path={"create-new-war-crimes"}
+              element={
+                <RecordFormWrapper generalEventType>
+                  <WarCrimesForm />
+                </RecordFormWrapper>
+              }
+            />
+            <Route
+              path={"create-new-refugees-and-idps"}
+              element={<RefugeesAndIdpsForm />}
+            />
+            <Route
+              path={"create-new-protest-abroad"}
+              element={<ProtestsAbroad />}
+            />
+            <Route
+              path={"create-new-international-response"}
+              element={<InternationalResponseForm />}
+            />
+            <Route
+              path={"create-new-media-and-disinformation"}
+              element={<MediaAndDisInformationForm />}
+            />
+            <Route path={"create-new-russia"} element={<RussiaForm />} />
+          </Routes>
         </div>
       </div>
     </>
