@@ -1,4 +1,5 @@
-import Select from "react-select";
+import Select, { MultiValue } from "react-select";
+
 import { GroupedOption, Option } from "../../authPage/data/OccupationList";
 import useFormInputs from "../../../hooks/use-form-inputs";
 import { CSSObjectWithLabel } from "react-select";
@@ -12,12 +13,12 @@ export const CustomFormInputs = ({
   children,
   name,
   className,
-  required = true
+  required = true,
 }: {
   children: JSX.Element;
   name: string;
   className?: string;
-  required?: boolean
+  required?: boolean;
 }) => {
   return (
     <div className={`form-inputs ${className ? className : ""}`}>
@@ -36,6 +37,7 @@ const FormInputs = ({
   name,
   textArea,
   customValidation,
+  customDropdownFunc,
   inputType = "text",
   dropDown,
   required = true,
@@ -51,6 +53,7 @@ const FormInputs = ({
   dropDown?: GroupedOption[] | Option[];
   required?: boolean;
   isDropdownMulti?: boolean;
+  customDropdownFunc?: (e: MultiValue<Option> | Option | null) => void;
 }) => {
   const {
     err,
@@ -59,6 +62,7 @@ const FormInputs = ({
     onDropdownChange,
     onDropdownMultiChange,
   } = useFormInputs({
+    customDropdownFunc: customDropdownFunc,
     validateFunc: customValidation,
     required: required,
     isMulti: isDropdownMulti,

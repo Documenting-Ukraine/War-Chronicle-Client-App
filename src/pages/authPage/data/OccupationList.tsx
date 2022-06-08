@@ -1,25 +1,42 @@
-
-import OccupationFile from "./OccupationList.json"
+import OccupationFile from "./OccupationList.json";
+export const isOption = (e: any): e is Option => {
+  try {
+    return e.value && e.label;
+  } catch (e) {
+    return false;
+  }
+};
 interface Option {
-    readonly value: string, 
-    readonly label: string
+  readonly value: string;
+  readonly label: string;
 }
 interface GroupedOption {
   readonly label: string;
   readonly options: readonly Option[];
 }
-const occupationDataKeys = Object.keys(OccupationFile)
+const occupationDataKeys = Object.keys(OccupationFile);
 const transfromOptions = (value: string) => {
-    return{value: value, label: value}
-}
-const occupationData: GroupedOption[] = occupationDataKeys.map((key) => {
-    const groupName = key
-    const groupOptions = OccupationFile[key].map((value) => transfromOptions(value))
+  return { value: value, label: value };
+};
+export const transformSingleList = (list: string[]): Option[] => {
+  return list.map((key) => {
     return {
-        label: groupName,
-        options: groupOptions
-    }
-})
+      label: key,
+      value: key,
+    };
+  });
 
-export { occupationData, transfromOptions};
-export type { GroupedOption, Option }
+};
+const occupationData: GroupedOption[] = occupationDataKeys.map((key) => {
+  const groupName = key;
+  const groupOptions = OccupationFile[key].map((value) =>
+    transfromOptions(value)
+  );
+  return {
+    label: groupName,
+    options: groupOptions,
+  };
+});
+
+export { occupationData, transfromOptions };
+export type { GroupedOption, Option };

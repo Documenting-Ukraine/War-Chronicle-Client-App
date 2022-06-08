@@ -10,6 +10,7 @@ import FormInputs, {
 import FormDropZone from "../../../utilityComponents/formInputs/FormDropZone";
 import FormListInputs from "../../../utilityComponents/formInputs/FormListInputs";
 import FormDateInputs from "../../../utilityComponents/formInputs/FormDateInputs";
+import FormAddressInputs from "../../../utilityComponents/formInputs/FormAddressInputs";
 interface RecordFormWrapperProps {
   children: JSX.Element;
   callback?: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -96,38 +97,7 @@ const RecordFormWrapper = ({
                 timeInput
                 required
               />
-              <CustomFormInputs
-                name={"Address"}
-                className="record-form-input"
-                required
-              >
-                <FormInputs
-                  title="Oblast"
-                  name="Oblast"
-                  isDropdownMulti
-                  required
-                  dropDown={}
-                />
-                <FormInputs
-                  title="City"
-                  name="City"
-                  isDropdownMulti
-                  required
-                  dropDown={}
-                />
-                <FormInputs
-                  title="Latitude"
-                  required={false}
-                  inputType={"text"}
-                  name={"Latitude"}
-                />
-                <FormInputs
-                  title="Longitude"
-                  name="Longitude"
-                  inputType="text"
-                  required={false}
-                />
-              </CustomFormInputs>
+              <FormAddressInputs />
             </>
           )}
           {children}

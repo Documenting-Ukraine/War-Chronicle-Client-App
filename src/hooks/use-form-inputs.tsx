@@ -4,9 +4,11 @@ import { Option } from "../pages/authPage/data/OccupationList";
 import removeAddedWhiteSpace from "../helperFunctions/removeWhiteSpace";
 const useFormInputs = ({
   validateFunc,
+  customDropdownFunc,
   required,
   isMulti,
 }: {
+  customDropdownFunc?: (e: MultiValue<Option> | Option | null) => void;
   validateFunc?: (str: string) => { err: boolean; message: string };
   required?: boolean;
   isMulti?: boolean;
@@ -18,11 +20,10 @@ const useFormInputs = ({
   //run validating function
   useEffect(() => {
     if (touched) {
-      if (removeAddedWhiteSpace(value).length <= 0 && required){
+      if (removeAddedWhiteSpace(value).length <= 0 && required) {
         setErr({ err: true, message: "Field is required" });
-        if (validateFunc) validateFunc(value)
-      }
-      else if (validateFunc && validateFunc(value).err)
+        if (validateFunc) validateFunc(value);
+      } else if (validateFunc && validateFunc(value).err)
         setErr(validateFunc(value));
       else setErr({ err: false, message: "" });
     }
@@ -43,6 +44,7 @@ const useFormInputs = ({
     option: Option | null,
     actionMeta: ActionMeta<Option>
   ) => {
+    if (option && customDropdownFunc) customDropdownFunc(option);
     setValue(option ? option.value : "");
   };
 
@@ -53,6 +55,7 @@ const useFormInputs = ({
     options: MultiValue<Option>,
     actionMeta: ActionMeta<Option>
   ) => {
+    if (options && customDropdownFunc) customDropdownFunc(options);
     const copied = [...options];
     setMultiValue(copied);
   };
