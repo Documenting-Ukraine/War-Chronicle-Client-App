@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { MultiValue } from "react-select";
+import { Disinformation } from "../../../types/dataTypes/DataLists";
 import {
   MediaType,
   Languages,
@@ -17,6 +18,7 @@ import FormInputs, {
 } from "../../utilityComponents/formInputs/FormInputs";
 const newMediaTypes = transformSingleList([...MediaType]);
 const newMediaRegion = transformSingleList([...MediaRegion]);
+const newDisinformation = transformSingleList([...Disinformation])
 const allLanguages = transformSingleList(Languages.map((e) => e.name));
 const MediaTypeInput = (): JSX.Element => {
   const [mediaType, setMediaType] = useState<
@@ -101,6 +103,14 @@ const MediaAndDisInformationForm = (): JSX.Element => {
         subCaption="Seperate names with a comma"
         required
       />
+      <FormInputs
+        title={"Disinformation Type"}
+        subCaption={"Leave empty if media is truthful"}
+        name={"disinformation"}
+        className="record-form-input"
+        inputType="text"
+        required={false}
+      />
       <CustomFormInputs
         title={"Editorial Stance"}
         name={"editorialStance"}
@@ -125,6 +135,7 @@ const MediaAndDisInformationForm = (): JSX.Element => {
           />
         </>
       </CustomFormInputs>
+
       <FormInputs
         title={"Additional Notes"}
         name={"notes"}
