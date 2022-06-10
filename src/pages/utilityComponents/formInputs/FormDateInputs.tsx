@@ -8,8 +8,10 @@ const FormDateInputs = ({
   className,
   onDateChange,
   timeInput = true,
+  title,
 }: {
   name: string;
+  title?: string;
   required: boolean;
   className?: string;
   onDateChange: (e: Date) => void;
@@ -47,7 +49,12 @@ const FormDateInputs = ({
     }
   };
   return (
-    <CustomFormInputs name={name} required={required} className={className}>
+    <CustomFormInputs
+      title={title}
+      name={name}
+      required={required}
+      className={className}
+    >
       <>
         <div className="form-inputs-time-inputs">
           <input

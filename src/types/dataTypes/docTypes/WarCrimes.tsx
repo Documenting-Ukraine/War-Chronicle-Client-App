@@ -65,9 +65,11 @@ export const Munition = [
 ] as const;
 export const LandmarkSignificance = ["National", "Local"];
 export const LandmarksTypes = [
+  "Building",
+  "Monument",
+  "Landscape",
   "Archaeological",
   "Historical",
-  "Monumental Art",
   "Architecture and Urban Planning",
   "Garden-park artistry",
   "Historical Landscape",
@@ -90,9 +92,6 @@ export const Landmarks = [
 ] as const;
 export const KeyActor = ["Private", "Public", "Mixed"] as const;
 export const ObjectsOfCulture = [
-  "Building",
-  "Monument",
-  "Landscape",
   "Landmark",
   "Work of Art",
 ] as const;
@@ -110,7 +109,6 @@ type AttacksOnCivilians = GeneralWarCrimes & {
 
 type DestructionOfCulture = GeneralWarCrimes & {
   key_actor: typeof KeyActor[number];
-  // landmark?: typeof Landmarks[number];
   objects_of_culture: typeof ObjectsOfCulture[number];
 };
 

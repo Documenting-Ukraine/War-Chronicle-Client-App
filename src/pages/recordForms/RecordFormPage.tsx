@@ -47,7 +47,11 @@ const RecordFormPage = (): JSX.Element => {
             />
             <Route
               path={"create-new-media-and-disinformation"}
-              element={<MediaAndDisInformationForm />}
+              element={
+                <RecordFormWrapper dateFirstPublished>
+                  <MediaAndDisInformationForm />
+                </RecordFormWrapper>
+              }
             />
             <Route path={"create-new-russia"} element={<RussiaForm />} />
           </Routes>

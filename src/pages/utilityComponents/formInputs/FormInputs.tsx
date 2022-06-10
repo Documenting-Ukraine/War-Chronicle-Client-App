@@ -63,6 +63,7 @@ const FormInputs = ({
   className,
   defaultDropDownValue,
   controlledDropDownValue,
+  subCaption
 }: {
   title?: string;
   name: string;
@@ -75,6 +76,7 @@ const FormInputs = ({
   controlledDropDownValue?: Option;
   required?: boolean;
   isDropdownMulti?: boolean;
+  subCaption?: string;
   customDropdownFunc?: (e: MultiValue<Option> | Option | null) => void;
 }) => {
   const {
@@ -99,6 +101,7 @@ const FormInputs = ({
           {title ? title : name}
           {required && <span>*</span>}
         </label>
+        {subCaption && <div className="form-inputs-sub-caption">{subCaption}</div>}
         {textArea ? (
           <textarea
             id={`${name}-input`}

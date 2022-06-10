@@ -73,40 +73,14 @@ const DestructionOfCulture = (): JSX.Element => {
         className={"record-form-input"}
         required
       />
-
-      {/* <FormInputs
-        title="Objects of Culture"
-        name={"objectsOfCulture"}
-        dropDown={newObjectsOfCultureList}
-        className={"record-form-input"}
-        required
-      /> */}
       <CustomFormInputs
-        title="Objects of Culture"
-        name={"objectsOfCulture"}
+        title="Object of Cultural Heritage"
+        name={"objectOfHeritageCulture"}
         className={"record-form-input"}
         sectionContainer
         required={true}
       >
         <>
-          {/* <FormInputs
-            title="Name"
-            inputType="text"
-            required={false}
-            name={"landmarkName"}
-          />
-          <FormInputs
-            title="Type"
-            name={"landmarkType"}
-            required={false}
-            dropDown={newLandmarkTypes}
-          />
-          <FormInputs
-            title="Significance"
-            name={"landmarkSignificance"}
-            dropDown={newLandmarkSignficance}
-            required={false}
-          /> */}
           <FormInputs
             title="Object Name"
             inputType="text"
@@ -171,7 +145,7 @@ const WarCrimesForm = (): JSX.Element => {
         }}
       />
       {warCrimeType === "Attacks on Civilians" && <AttacksOnCivilians />}
-      {warCrimeType === "Destuction of Culture" && <DestructionOfCulture />}
+      {warCrimeType === "Destruction of Culture" && <DestructionOfCulture />}
     </>
   );
 };

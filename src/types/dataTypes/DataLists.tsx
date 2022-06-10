@@ -11,7 +11,7 @@ export const isInList = (e: string, a: readonly any[]) => {
 };
 export const WarCrimeTypes = [
   "Attacks on Civilians",
-  "Destuction of Culture",
+  "Destruction of Culture"
 ] as const;
 export const WarCrime = WarCrimeTypes as ReadonlyArray<string>;
 export const isWarCrime = (e: string): e is typeof WarCrimeTypes[number] => {

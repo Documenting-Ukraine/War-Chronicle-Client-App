@@ -15,7 +15,7 @@ const Refugees = (): JSX.Element => {
   return (
     <>
       <FormInputs
-        title={"Total Number of UK Refugees Worldwide as of published date"}
+        title={"Total Number of UKR Refugees Worldwide as of published date"}
         name={"totalNumOfRefugees"}
         inputType="number"
         className="record-form-input"
@@ -37,7 +37,7 @@ const Refugees = (): JSX.Element => {
             required
           />
           <FormInputs
-            title={"UK Refugees in Country as of published date"}
+            title={"UKR Refugees in Country as of published date"}
             name={"refugeesInHostCountry"}
             inputType="number"
             className="record-form-input"

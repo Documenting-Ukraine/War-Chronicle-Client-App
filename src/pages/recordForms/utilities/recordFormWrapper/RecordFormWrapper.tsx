@@ -52,7 +52,11 @@ const RecordFormWrapper = ({
             className="record-form-input"
             required
           />
-          <CustomFormInputs name="Media" className="record-form-input">
+          <CustomFormInputs
+            title="Media Files"
+            name={"mediaFiles"}
+            className="record-form-input"
+          >
             <>
               <FormDropZone
                 name={"Images"}
@@ -72,19 +76,13 @@ const RecordFormWrapper = ({
             </>
           </CustomFormInputs>
           <CustomFormInputs
-            name="Main Evidence"
+            name="Evidence"
             className="record-form-input"
             required
           >
             <FormListInputs />
           </CustomFormInputs>
-          <CustomFormInputs
-            name="Additional Evidence"
-            className="record-form-input"
-            required={false}
-          >
-            <FormListInputs required={false} />
-          </CustomFormInputs>
+
           {dateFirstPublished && !generalEventType && (
             <FormDateInputs
               className="record-form-input"
