@@ -4,6 +4,8 @@ import { Option } from "../pages/authPage/data/OccupationList";
 import removeAddedWhiteSpace from "../helperFunctions/removeWhiteSpace";
 const useFormInputs = ({
   validateFunc,
+  defaultDropDownValue,
+  controlledDropDownValue,
   customDropdownFunc,
   required,
   isMulti,
@@ -12,8 +14,12 @@ const useFormInputs = ({
   validateFunc?: (str: string) => { err: boolean; message: string };
   required?: boolean;
   isMulti?: boolean;
+  defaultDropDownValue?: Option;
+  controlledDropDownValue?: Option;
 }) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(
+    defaultDropDownValue ? defaultDropDownValue.value : ""
+  );
   const [err, setErr] = useState({ err: false, message: "" });
   const [touched, setTouched] = useState(false);
   const [multiValue, setMultiValue] = useState<Option[]>([]);
@@ -35,6 +41,9 @@ const useFormInputs = ({
       } else setErr({ err: false, message: "" });
     }
   }, [touched, multiValue, isMulti]);
+  useEffect(() => {
+    if (controlledDropDownValue) setValue(controlledDropDownValue.value);
+  }, [controlledDropDownValue]);
   const onDefaultChange = (
     e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
   ) => {

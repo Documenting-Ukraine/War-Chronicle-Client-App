@@ -31,7 +31,11 @@ const RecordFormPage = (): JSX.Element => {
             />
             <Route
               path={"create-new-refugees-and-idps"}
-              element={<RefugeesAndIdpsForm />}
+              element={
+                <RecordFormWrapper dateFirstPublished>
+                  <RefugeesAndIdpsForm />
+                </RecordFormWrapper>
+              }
             />
             <Route
               path={"create-new-protest-abroad"}

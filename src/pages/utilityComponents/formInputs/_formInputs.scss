@@ -118,6 +118,14 @@
   width: 100%;
   flex-direction: column;
 }
+.form-inputs-section-container {
+  padding: 1.5rem;
+  border: 2px solid $lighter-gray;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 .form-inputs-dropzone-err {
   position: relative;
   padding: 1rem;
@@ -159,21 +167,21 @@
     right: 0.2rem;
   }
 }
-.form-inputs-time-inputs{
+.form-inputs-time-inputs {
   display: flex;
-  input{
+  input {
     width: 100%;
-    &.add-right-spacing{
+    &.add-right-spacing {
       margin-right: 0.5rem;
     }
   }
 }
-.form-inputs-time-err{
-    display: flex;
-    align-items: center;
-    color: darkred;
-    font-size: 0.8rem;
-    margin-top: 0.2rem;
+.form-inputs-time-err {
+  display: flex;
+  align-items: center;
+  color: darkred;
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
 }
 
 .thumbnails-container {
@@ -224,12 +232,7 @@
   @include thumbnail-styles();
 }
 .evidence-list-container {
-  padding: 1.5rem;
-  border: 2px solid $lighter-gray;
-  border-radius: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+  @extend .form-inputs-section-container;
   .add-evidence-btn {
     @include remove-btn-default();
     background-color: $dark-blue;
@@ -277,10 +280,13 @@
     color: $dark-blue;
   }
 }
-.evidence-list-input-error{
+.evidence-list-input-error {
   display: flex;
   align-items: center;
   color: darkred;
   font-size: 0.8rem;
   margin-top: 0.2rem;
+}
+.address-list-container {
+  @extend .form-inputs-section-container;
 }

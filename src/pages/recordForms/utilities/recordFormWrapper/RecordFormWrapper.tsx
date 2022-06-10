@@ -14,15 +14,17 @@ import FormAddressInputs from "../../../utilityComponents/formInputs/FormAddress
 interface RecordFormWrapperProps {
   children: JSX.Element;
   callback?: (e: React.FormEvent<HTMLFormElement>) => void;
+  dateFirstPublished?: boolean;
   generalEventType?: boolean;
 }
 const RecordFormWrapper = ({
   generalEventType = false,
+  dateFirstPublished = false,
   children,
   callback,
 }: RecordFormWrapperProps): JSX.Element => {
   const params = useParams();
-  const route = params["formid"];
+  const route = params["*"];
   const formType = route ? grabRecordFormType(route) : "Form";
   const [similarRecords, setSimilarRecords] = useState<RecordSubmissionType[]>(
     []
@@ -83,21 +85,32 @@ const RecordFormWrapper = ({
           >
             <FormListInputs required={false} />
           </CustomFormInputs>
+          {dateFirstPublished && !generalEventType && (
+            <FormDateInputs
+              className="record-form-input"
+              name="Date First Published"
+              onDateChange={(e: Date) => {}}
+              timeInput
+              required
+            />
+          )}
           {generalEventType && (
             <>
+              <FormAddressInputs />
               <FormDateInputs
-                name="Date Published"
+                className="record-form-input"
+                name="Date First Published"
                 onDateChange={(e: Date) => {}}
                 timeInput
                 required
               />
               <FormDateInputs
+                className="record-form-input"
                 name="Date Event Occurred"
                 onDateChange={(e: Date) => {}}
                 timeInput
                 required
               />
-              <FormAddressInputs />
             </>
           )}
           {children}

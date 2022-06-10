@@ -3,15 +3,15 @@ import { Disinformation } from "../DataLists";
 
 type MediaAndDisInfoGeneral = GeneralRecordType & {
   record_type: "Media And Disinformation";
-  articleTitle: string;
-  primaryLanguage: string;
-  hostingOutlet: string;
-  originalOutlet?: string;
-  dateOfPublication: Date;
-  dateOfMostRecentEdit: Date;
+  article_title: string;
+  primary_language: string;
+  hosting_outlet: string;
+  original_outlet?: string;
+  date_first_published: Date | string;
+  date_of_most_recent_edit: Date;
   author: string;
   //    mediaType: typeof MediaTypes,
-  editorialStance: {
+  editorial_stance: {
     stance: string;
     quote: string;
   };

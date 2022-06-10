@@ -11,7 +11,6 @@ export type ArrayOneOrMore<T> = {
 export type MediaLink = {
   local_url: string;
   media_type: string;
-  third_party_url?: string;
   description?: string;
 };
 export type Media = {

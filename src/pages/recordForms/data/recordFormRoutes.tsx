@@ -9,12 +9,15 @@ const recordFormRoutes = allCategories.map((category) => {
 export const grabRecordFormType = (str: string) => {
   const removedPrefix = str.replace(/create-new-/, "");
   const words = removedPrefix.split(/-/);
-  const newStr = words.reduce((a, b) => {
-    const upper = b[0].toUpperCase();
-    const subString = b.substring(1, b.length);
-    const newB = upper + subString;
-    return a + " " + newB;
-  }, "");
-  return newStr.substring(1, newStr.length);
+  const map: { [key: string]: string } = {};
+  for (let category of allCategories)
+    map[
+      category
+        .toLowerCase()
+        .split(" ")
+        .reduce((a, b) => a + b, "")
+    ] = category;
+  const newStr = words.reduce((a, b) => a + b, "");
+  return map[newStr];
 };
 export default recordFormRoutes;

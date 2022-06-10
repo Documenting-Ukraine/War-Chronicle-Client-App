@@ -8,24 +8,17 @@ import { MultiValue } from "react-select";
 import {
   Option,
   isOption,
-  transfromOptions,
   transformSingleList,
+  transfromOptions,
 } from "../../../pages/authPage/data/OccupationList";
 import FormInputs, { CustomFormInputs } from "./FormInputs";
 const OblastKeys = Object.keys(OblastList);
 const FormAddressInputs = () => {
-  const [oblast, setOblast] = useState<keyof OblastRegion>(
-    isOblastKey(OblastKeys[0]) ? OblastKeys[0] : "Cherkasy"
-  );
-  const [city, setCity] = useState(
-    isOblastKey(OblastKeys[0])
-      ? OblastList[OblastKeys[0]]
-      : OblastList["Cherkasy"][0]
-  );
-
+  const [oblast, setOblast] = useState<keyof OblastRegion | undefined>();
+  const [city, setCity] = useState<string>("");
   return (
     <CustomFormInputs name={"Address"} className="record-form-input" required>
-      <section>
+      <section className="address-list-container">
         <FormInputs
           title="Oblast"
           name="Oblast"
@@ -38,12 +31,21 @@ const FormAddressInputs = () => {
             }
           }}
         />
-        <FormInputs
-          title="City"
-          name="City"
-          required
-          dropDown={transformSingleList(OblastList[oblast])}
-        />
+        {oblast && (
+          <FormInputs
+            title="City"
+            name="City"
+            required
+            dropDown={transformSingleList(OblastList[oblast])}
+            controlledDropDownValue={transfromOptions(city)}
+            customDropdownFunc={(e: Option | MultiValue<Option> | null) => {
+              if (isOption(e)) {
+                setCity(e.value);
+              }
+            }}
+          />
+        )}
+
         <FormInputs
           title="Latitude"
           required={false}

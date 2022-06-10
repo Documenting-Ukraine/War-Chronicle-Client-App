@@ -1,24 +1,34 @@
-
 //missing lists
-const WarCrimeType = [] as const;
-
+export interface ReadonlyArray<T> {
+  includes<U>(x: U & (T & U extends never ? never : unknown)): boolean;
+}
+export const isInList = (e: string, a: readonly any[]) => {
+  try {
+    return a.includes(e);
+  } catch (a) {
+    return false;
+  }
+};
+export const WarCrimeTypes = [
+  "Attacks on Civilians",
+  "Destuction of Culture",
+] as const;
+export const WarCrime = WarCrimeTypes as ReadonlyArray<string>;
+export const isWarCrime = (e: string): e is typeof WarCrimeTypes[number] => {
+  try {
+    return WarCrime.includes(e);
+  } catch (a) {
+    return false;
+  }
+};
 //International Response
-const Countries = [] as const;
-const AidTypes = [] as const;
+export const Countries = [] as const;
+export const AidTypes = [] as const;
 
 //Disinformation
-const Disinformation = [] as const;
+export const Disinformation = [] as const;
 
 //Russia
-const ResponseType = [] as const;
-const CorporationIndustry = [] as const;
-const OrganizationType = [] as const;
-export type {
-  Countries,
-  AidTypes,
-  Disinformation,
-  WarCrimeType,
-  ResponseType,
-  CorporationIndustry,
-  OrganizationType,
-};
+export const ResponseType = [] as const;
+export const CorporationIndustry = [] as const;
+export const OrganizationType = [] as const;

@@ -1,6 +1,10 @@
 import Select, { MultiValue } from "react-select";
 
-import { GroupedOption, Option } from "../../authPage/data/OccupationList";
+import {
+  GroupedOption,
+  Option,
+  transfromOptions,
+} from "../../authPage/data/OccupationList";
 import useFormInputs from "../../../hooks/use-form-inputs";
 import { CSSObjectWithLabel } from "react-select";
 export const customStylesErr = {
@@ -10,24 +14,38 @@ export const customStylesErr = {
   }),
 };
 export const CustomFormInputs = ({
+  title,
   children,
   name,
   className,
+  sectionContainer,
+  sectionClassName,
   required = true,
 }: {
+  title?: string;
   children: JSX.Element;
   name: string;
   className?: string;
   required?: boolean;
+  sectionContainer?: boolean;
+  sectionClassName?: string;
 }) => {
   return (
     <div className={`form-inputs ${className ? className : ""}`}>
       <div className="d-flex flex-column w-100">
         <label data-testid={name} htmlFor={`${name}-input`}>
-          {name}
+          {title ? title : name}
           {required && <span>*</span>}
         </label>
-        {children}
+        {sectionContainer ? (
+          <section
+            className={`form-inputs-section-container ${sectionClassName}`}
+          >
+            {children}
+          </section>
+        ) : (
+          children
+        )}
       </div>
     </div>
   );
@@ -43,6 +61,8 @@ const FormInputs = ({
   required = true,
   isDropdownMulti = false,
   className,
+  defaultDropDownValue,
+  controlledDropDownValue,
 }: {
   title?: string;
   name: string;
@@ -51,11 +71,14 @@ const FormInputs = ({
   customValidation?: (e: string) => { err: boolean; message: string };
   inputType?: string;
   dropDown?: GroupedOption[] | Option[];
+  defaultDropDownValue?: Option;
+  controlledDropDownValue?: Option;
   required?: boolean;
   isDropdownMulti?: boolean;
   customDropdownFunc?: (e: MultiValue<Option> | Option | null) => void;
 }) => {
   const {
+    value,
     err,
     onTouch,
     onDefaultChange,
@@ -63,6 +86,8 @@ const FormInputs = ({
     onDropdownMultiChange,
   } = useFormInputs({
     customDropdownFunc: customDropdownFunc,
+    defaultDropDownValue: defaultDropDownValue,
+    controlledDropDownValue: controlledDropDownValue,
     validateFunc: customValidation,
     required: required,
     isMulti: isDropdownMulti,
@@ -87,6 +112,7 @@ const FormInputs = ({
           isDropdownMulti ? (
             <Select
               options={dropDown}
+              defaultValue={defaultDropDownValue}
               className={"form-inputs-dropdown"}
               classNamePrefix={"dropdown-input"}
               name={name}
@@ -95,9 +121,11 @@ const FormInputs = ({
               onBlur={onTouch}
               styles={required && err.err ? customStylesErr : undefined}
               isMulti={true}
+              value={value ? transfromOptions(value) : null}
             />
           ) : (
             <Select
+              defaultValue={defaultDropDownValue}
               options={dropDown}
               className={"form-inputs-dropdown"}
               classNamePrefix={"dropdown-input"}
@@ -106,6 +134,7 @@ const FormInputs = ({
               onChange={onDropdownChange}
               onBlur={onTouch}
               styles={required && err.err ? customStylesErr : undefined}
+              value={value ? transfromOptions(value) : null}
             />
           )
         ) : (
