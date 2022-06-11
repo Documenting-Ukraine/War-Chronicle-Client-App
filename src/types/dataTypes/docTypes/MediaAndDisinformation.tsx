@@ -1,6 +1,6 @@
 import { GeneralRecordType } from "../GeneralRecordType";
-import { Disinformation, isInList } from "../DataLists";
-export const MediaRegion = ["Russia", "China", "Western"] as const;
+import { isInList } from "../DataLists";
+export const MediaRegion = ["Russia", "China", "Ukraine", "Western"] as const;
 export const MediaType = [
   "Scholarly Journal",
   "Social Media",

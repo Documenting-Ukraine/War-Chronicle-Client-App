@@ -53,6 +53,19 @@
     }
   }
 }
+.record-form-submit-btn{
+  @include remove-btn-default();
+  display: flex;
+  width: 100%;
+  border-radius: 0.5rem;
+  background-color: $dark-blue;
+  padding: 0.6rem;
+  justify-content: center;
+  align-items: center;
+  color: $white;
+  margin-top: 1.8rem;
+  margin-bottom: 0.5rem;
+}
 .media-form-input{
   margin-bottom: 1rem;
 }

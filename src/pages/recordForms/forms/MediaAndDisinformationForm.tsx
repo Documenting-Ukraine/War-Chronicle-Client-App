@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { MultiValue } from "react-select";
-import { Disinformation } from "../../../types/dataTypes/DataLists";
 import {
   MediaType,
   Languages,
@@ -18,7 +17,6 @@ import FormInputs, {
 } from "../../utilityComponents/formInputs/FormInputs";
 const newMediaTypes = transformSingleList([...MediaType]);
 const newMediaRegion = transformSingleList([...MediaRegion]);
-const newDisinformation = transformSingleList([...Disinformation])
 const allLanguages = transformSingleList(Languages.map((e) => e.name));
 const MediaTypeInput = (): JSX.Element => {
   const [mediaType, setMediaType] = useState<

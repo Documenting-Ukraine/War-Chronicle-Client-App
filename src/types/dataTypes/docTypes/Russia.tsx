@@ -2,8 +2,6 @@ import { GeneralRecordType } from "../GeneralRecordType";
 import {
   ResponseType,
   Countries,
-  CorporationIndustry,
-  OrganizationType,
 } from "../DataLists";
 type RussiaGeneral = GeneralRecordType & {
   record_type: "Russia";
@@ -19,7 +17,7 @@ type Sanctions = RussiaGeneral & {
 type Corporations = RussiaGeneral & {
   corporation: string;
   responseType: typeof ResponseType[number];
-  corporationIndustry: typeof CorporationIndustry[number];
+  corporationIndustry: string;
   dateOfFirstResponse: Date;
   dateMostRecentReponse: Date;
   donationValuation?: number;
@@ -27,7 +25,7 @@ type Corporations = RussiaGeneral & {
 type SportsAndCulture = RussiaGeneral & {
   organization: string;
   dateOfAnnouncement: Date;
-  organizationCategory: typeof OrganizationType[number];
+  organizationCategory: string;
   responseType: typeof ResponseType[number];
 };
 

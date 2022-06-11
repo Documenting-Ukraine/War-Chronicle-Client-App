@@ -43,7 +43,11 @@ const RecordFormPage = (): JSX.Element => {
             />
             <Route
               path={"create-new-international-response"}
-              element={<InternationalResponseForm />}
+              element={
+                <RecordFormWrapper>
+                  <InternationalResponseForm />
+                </RecordFormWrapper>
+              }
             />
             <Route
               path={"create-new-media-and-disinformation"}

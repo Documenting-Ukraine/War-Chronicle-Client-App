@@ -41,14 +41,16 @@ const RecordFormWrapper = ({
       >
         <form onSubmit={onSubmit}>
           <FormInputs
-            name="Title"
+            title="Record Title"
+            name="title"
             className="record-form-input"
             required
             inputType="text"
           />
           <FormInputs
             textArea
-            name={"General Description"}
+            title={"General Description"}
+            name={"description"}
             className="record-form-input"
             required
           />
@@ -59,7 +61,7 @@ const RecordFormWrapper = ({
           >
             <>
               <FormDropZone
-                name={"Images"}
+                name={"images"}
                 mediaType={"images"}
                 description={"Upload Images"}
                 maxFiles={10}
@@ -67,7 +69,7 @@ const RecordFormWrapper = ({
                 maxSize={Math.pow(10, 6) * 5}
               />
               <FormDropZone
-                name={"Videos"}
+                name={"videos"}
                 mediaType={"videos"}
                 description={"Upload Videos"}
                 maxFiles={10}
@@ -112,6 +114,13 @@ const RecordFormWrapper = ({
             </>
           )}
           {children}
+          <button
+            className={"record-form-submit-btn"}
+            type="submit"
+            aria-label={"submit-new-record"}
+          >
+            <span>Submit</span>
+          </button>
         </form>
       </RecordFormBox>
       <div className="record-form-pg-boxes">

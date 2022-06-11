@@ -63,7 +63,8 @@ const FormInputs = ({
   className,
   defaultDropDownValue,
   controlledDropDownValue,
-  subCaption
+  subCaption,
+  isClearable
 }: {
   title?: string;
   name: string;
@@ -77,11 +78,13 @@ const FormInputs = ({
   required?: boolean;
   isDropdownMulti?: boolean;
   subCaption?: string;
+  isClearable?: boolean;
   customDropdownFunc?: (e: MultiValue<Option> | Option | null) => void;
 }) => {
   const {
     value,
     err,
+    multiValue,
     onTouch,
     onDefaultChange,
     onDropdownChange,
@@ -124,7 +127,8 @@ const FormInputs = ({
               onBlur={onTouch}
               styles={required && err.err ? customStylesErr : undefined}
               isMulti={true}
-              value={value ? transfromOptions(value) : null}
+              value={multiValue}
+              isClearable={isClearable}
             />
           ) : (
             <Select
@@ -138,6 +142,7 @@ const FormInputs = ({
               onBlur={onTouch}
               styles={required && err.err ? customStylesErr : undefined}
               value={value ? transfromOptions(value) : null}
+              isClearable={isClearable}
             />
           )
         ) : (
