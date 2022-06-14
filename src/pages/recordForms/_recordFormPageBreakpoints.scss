@@ -1,0 +1,8 @@
+@import "./utilities/recordFormWrapper/recordFormWrapperBreakpoints";
+
+@mixin record-form-pg-md {
+    @include record-form-wrapper-md;
+}
+@mixin record-form-pg-sm {
+    
+}

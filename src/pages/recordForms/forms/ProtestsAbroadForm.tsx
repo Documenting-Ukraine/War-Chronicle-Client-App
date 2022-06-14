@@ -1,18 +1,33 @@
-import { ProtestAbroadRegion } from "../../../types/dataTypes/docTypes/ProtestsAbroad";
-import { transformSingleList } from "../../authPage/data/OccupationList";
+import { useState } from "react";
+import {
+  isProtestAbroadRegion,
+  ProtestAbroadRegion,
+} from "../../../types/dataTypes/docTypes/ProtestsAbroad";
+import {
+  isOption,
+  transformSingleList,
+} from "../../authPage/data/OccupationList";
 import FormInputs, {
   CustomFormInputs,
 } from "../../utilityComponents/formInputs/FormInputs";
-const newProtestRegions = transformSingleList([...ProtestAbroadRegion]);
+const newProtestRegions = transformSingleList(ProtestAbroadRegion);
 const ProtestsAbroad = (): JSX.Element => {
+  const [protestLocation, setProtestLocation] = useState<
+    typeof ProtestAbroadRegion[number] | undefined
+  >();
   return (
     <>
       <FormInputs
         title="Protest Location"
-        name="protest_location"
+        name="protestLocation"
         dropDown={newProtestRegions}
+        customDropdownFunc={(e) => {
+          if (isOption(e) && isProtestAbroadRegion(e.value))
+            setProtestLocation(e.value);
+        }}
         required
       />
+      {}
       <FormInputs
         title="Number of Protesters"
         name="numOfProtesters"

@@ -1,3 +1,4 @@
+import { isInList } from "../DataLists";
 import { Address, GeneralEventType } from "../GeneralRecordType";
 export const ProtestAbroadRegion = [
   "Belarus",
@@ -5,6 +6,9 @@ export const ProtestAbroadRegion = [
   "Central Asia",
   "Ukraine",
 ] as const;
+export const isProtestAbroadRegion = (
+  e: string
+): e is typeof ProtestAbroadRegion[number] => isInList(e, ProtestAbroadRegion);
 export type ProtestsAbroadAddress = Omit<
   GeneralEventType["address"],
   "oblast" | "city"

@@ -11,12 +11,43 @@ import FormDropZone from "../../../utilityComponents/formInputs/FormDropZone";
 import FormListInputs from "../../../utilityComponents/formInputs/FormListInputs";
 import FormDateInputs from "../../../utilityComponents/formInputs/FormDateInputs";
 import FormAddressInputs from "../../../utilityComponents/formInputs/FormAddressInputs";
+import useWindowWidth from "../../../../hooks/use-window-width";
 interface RecordFormWrapperProps {
   children: JSX.Element;
   callback?: (e: React.FormEvent<HTMLFormElement>) => void;
   dateFirstPublished?: boolean;
   generalEventType?: boolean;
 }
+const RecordFormBoxes = ({
+  similarRecords,
+}: {
+  similarRecords: RecordSubmissionType[];
+}): JSX.Element => {
+  return (
+    <div className="record-form-pg-boxes">
+      <RecordFormBox
+        title={"Similar Records"}
+        className="record-form-similar-records"
+      >
+        <>
+          {similarRecords?.map((record) => {
+            <RecordItem
+              key={record._id}
+              id={record._id}
+              title={record.record_title}
+              recordType={record.record_type}
+              description={record.description}
+              creationDate={record.record_creation_date}
+            />;
+          })}
+        </>
+      </RecordFormBox>
+      <RecordFormBox title={"Guidelines"} className="record-form-guidelines">
+        <div></div>
+      </RecordFormBox>
+    </div>
+  );
+};
 const RecordFormWrapper = ({
   generalEventType = false,
   dateFirstPublished = false,
@@ -26,6 +57,7 @@ const RecordFormWrapper = ({
   const params = useParams();
   const route = params["*"];
   const formType = route ? grabRecordFormType(route) : "Form";
+  const mediumWindowWidth = useWindowWidth(992);
   const [similarRecords, setSimilarRecords] = useState<RecordSubmissionType[]>(
     []
   );
@@ -35,6 +67,10 @@ const RecordFormWrapper = ({
   };
   return (
     <div className="record-form-pg-wrapper">
+      {!mediumWindowWidth && (
+        <RecordFormBoxes similarRecords={similarRecords} />
+      )}
+
       <RecordFormBox
         title={`New ${formType} Record`}
         className="record-form-pg-form"
@@ -123,28 +159,7 @@ const RecordFormWrapper = ({
           </button>
         </form>
       </RecordFormBox>
-      <div className="record-form-pg-boxes">
-        <RecordFormBox
-          title={"Similar Records"}
-          className="record-form-similar-records"
-        >
-          <>
-            {similarRecords?.map((record) => {
-              <RecordItem
-                key={record._id}
-                id={record._id}
-                title={record.record_title}
-                recordType={record.record_type}
-                description={record.description}
-                creationDate={record.record_creation_date}
-              />;
-            })}
-          </>
-        </RecordFormBox>
-        <RecordFormBox title={"Guidelines"} className="record-form-guidelines">
-          <div></div>
-        </RecordFormBox>
-      </div>
+      {mediumWindowWidth && <RecordFormBoxes similarRecords={similarRecords} />}
     </div>
   );
 };

@@ -1,9 +1,11 @@
 @import "../src/pages/utilityComponents/utilitiesBreakpoints";
 @import "../src/pages/dashboard/dashboardBreakpoints";
+@import "../src/pages/recordForms/recordFormPageBreakpoints";
 @media (min-width: 992px) {
 }
 
 @media (max-width: 992px) {
+  @include record-form-pg-md;
 }
 
 @media (max-width: 768px) {
@@ -14,8 +16,8 @@
 
 @media (max-width: 575px) {
   @include dashboard-sm;
+  @include record-form-pg-sm;
 }
 
 @media (any-hover: hover) {
 }
-

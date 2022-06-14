@@ -18,14 +18,15 @@ const occupationDataKeys = Object.keys(OccupationFile);
 const transfromOptions = (value: string) => {
   return { value: value, label: value };
 };
-export const transformSingleList = (list: string[]): Option[] => {
+export const transformSingleList = (
+  list: string[] | readonly string[]
+): Option[] => {
   return list.map((key) => {
     return {
       label: key,
       value: key,
     };
   });
-
 };
 const occupationData: GroupedOption[] = occupationDataKeys.map((key) => {
   const groupName = key;

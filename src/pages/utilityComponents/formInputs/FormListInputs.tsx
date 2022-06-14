@@ -73,6 +73,8 @@ const FormListInputs = ({
   className?: string;
   required?: boolean;
 }) => {
+  const smallWidth = useWindowWidth(576);
+
   const [inputs, setInputs] = useState<EvidenceItem>([
     {
       _id: uuidv4(),
@@ -149,7 +151,7 @@ const FormListInputs = ({
             onClick={onAddNewInput}
             aria-label={"add-new-evidence-item"}
           >
-            <span>Add Evidence</span>
+            <span>Add {smallWidth && "Evidence"}</span>
             <FontAwesomeIcon icon={faPlus} />
           </button>
         </div>

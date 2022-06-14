@@ -1,0 +1,17 @@
+@mixin record-form-wrapper-md {
+  .record-form-pg-wrapper {
+    flex-direction: column;
+  }
+  .record-form-pg-boxes {
+    width: 100%;
+  }
+  .record-form-pg-form {
+    width: 100%;
+
+  }
+  .record-form-box-container {
+    .record-form-box-body {
+      padding: 1.4rem 5%;
+    }
+  }
+}
