@@ -39,7 +39,11 @@ const RecordFormPage = (): JSX.Element => {
             />
             <Route
               path={"create-new-protest-abroad"}
-              element={<ProtestsAbroad />}
+              element={
+                <RecordFormWrapper>
+                  <ProtestsAbroad />
+                </RecordFormWrapper>
+              }
             />
             <Route
               path={"create-new-international-response"}
@@ -57,7 +61,14 @@ const RecordFormPage = (): JSX.Element => {
                 </RecordFormWrapper>
               }
             />
-            <Route path={"create-new-russia"} element={<RussiaForm />} />
+            <Route
+              path={"create-new-russia"}
+              element={
+                <RecordFormWrapper>
+                  <RussiaForm />
+                </RecordFormWrapper>
+              }
+            />
           </Routes>
         </div>
       </div>

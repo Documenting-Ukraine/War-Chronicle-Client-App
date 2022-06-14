@@ -9,6 +9,7 @@ export const isInList = (e: string, a: readonly any[]) => {
     return false;
   }
 };
+export const BooleanDropdownOptions = ["Yes", "No", "N/A"] as const;
 export const WarCrimeTypes = [
   "Attacks on Civilians",
   "Destruction of Culture",
@@ -267,7 +268,32 @@ export const Countries = [
   ["ZM", "Zambia"],
   ["ZW", "Zimbabwe"],
 ] as const;
-export const AidTypes = [] as const;
+export const InternationalResponseType = [
+  "United Nations Resolution",
+  "Combat Permission",
+  "Military Aid",
+  "Humanitarian Aid",
+] as const;
 
 //Russia
-export const ResponseType = [] as const;
+export const RussianRecordTypes = [
+  "Sanctions vs. Russia",
+  "Corporation Responses",
+  "Sports and Culture Responses",
+  "Protests in Russia",
+] as const;
+export const SanctionType = [
+  "Governmental Body",
+  "Private Institution",
+  "Public Institution",
+  "Individual",
+] as const;
+export const AidTypes = ["military", "humanitarian"] as const;
+export const ResponseType = [
+  "Removal of Offices",
+  "Removal of Assets",
+  "Removal of Products or Services",
+  "Donation", 
+  "Other"
+] as const;
+export const isResponseType = (e: string): e is typeof ResponseType[number] => isInList(e, ResponseType)

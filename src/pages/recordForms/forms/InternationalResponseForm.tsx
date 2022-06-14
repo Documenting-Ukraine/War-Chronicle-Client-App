@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { MultiValue } from "react-select";
-import { Countries } from "../../../types/dataTypes/DataLists";
+import { BooleanDropdownOptions, Countries, InternationalResponseType } from "../../../types/dataTypes/DataLists";
 import {
-  InternationalResponseType,
   isInternationalType,
 } from "../../../types/dataTypes/docTypes/InternationalResponse";
 import {
@@ -19,16 +18,22 @@ const newInternationalTypes = transformSingleList([
 const newCountries = transformSingleList(
   Countries.map((country) => country[1])
 );
-const booleanDropdownOptions = transformSingleList(["Yes", "No", "N/A"]);
-const generalAidTypes = transformSingleList(["Military", "Humanitarian"])
+const booleanDropdown = transformSingleList([...BooleanDropdownOptions]);
+const generalAidTypes = transformSingleList(["Military", "Humanitarian"]);
 const GeneralAidInputs = (): JSX.Element => {
   return (
     <>
       <FormInputs
+        title="Specific Aid Sent (ex. military supplies, rations, etc)"
+        name="subAidTypes"
+        subCaption="Seperate each aid type with a comma"
+        inputType="text"
+      />
+      <FormInputs
         title={"Has Aid Been Sent?"}
         name={"aidSent"}
-        defaultDropDownValue={booleanDropdownOptions[2]}
-        dropDown={booleanDropdownOptions}
+        defaultDropDownValue={booleanDropdown[2]}
+        dropDown={booleanDropdown}
         required
       />
       <FormInputs
@@ -109,14 +114,22 @@ const InternationalResponseForm = () => {
           <FormInputs
             title={"Permission Granted To Citizens"}
             name={"permissionGrantedToCitizens"}
-            defaultDropDownValue={booleanDropdownOptions[2]}
-            dropDown={booleanDropdownOptions}
+            defaultDropDownValue={booleanDropdown[2]}
+            dropDown={booleanDropdown}
             required={false}
           />
         </>
       )}
-      {responseType === "Humanitarian Aid" && <> <GeneralAidInputs /></>}
-      {responseType === "Military Aid" && <> <GeneralAidInputs /> </>}
+      {responseType === "Humanitarian Aid" && (
+        <>
+          <GeneralAidInputs />
+        </>
+      )}
+      {responseType === "Military Aid" && (
+        <>
+          <GeneralAidInputs />
+        </>
+      )}
     </>
   );
 };

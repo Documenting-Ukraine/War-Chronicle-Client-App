@@ -1,11 +1,6 @@
 import { GeneralRecordType } from "../GeneralRecordType";
-import { Countries, AidTypes, isInList } from "../DataLists";
-export const InternationalResponseType = [
-  "United Nations Resolution",
-  "Combat Permission",
-  "Military Aid",
-  "Humanitarian Aid",
-] as const;
+import { Countries, AidTypes, isInList, InternationalResponseType } from "../DataLists";
+
 export const isInternationalType = (
   e: string
 ): e is typeof InternationalResponseType[number] =>
@@ -24,21 +19,21 @@ type CombatPermission = GeneralInternational & {
   date_permission_granted: Date | string;
 };
 type Aid = {
+  general_aid_type: typeof AidTypes[number]
   aid_sent: boolean;
   recipient: string;
   date_aid_is_announced: Date | string;
   date_aid_is_sent: Date | string;
   aid_valuation: number;
+  sub_aid_types: string;
 };
 type MilitaryAid = GeneralInternational &
   Aid & {
     general_aid_type: "military";
-    sub_aid_types: typeof AidTypes[number][];
   };
 type HumanitarianAid = GeneralInternational &
   Aid & {
     general_aid_type: "humanitarian";
-    sub_aid_types: typeof AidTypes[number][];
   };
 
 type InternationalResponse =

@@ -17,7 +17,7 @@ const FormAddressInputs = () => {
   const [oblast, setOblast] = useState<keyof OblastRegion | undefined>();
   const [city, setCity] = useState<string>("");
   return (
-    <CustomFormInputs name={"Address"} className="record-form-input" required>
+    <CustomFormInputs title="Event Location" name={"Address"} className="record-form-input" required>
       <section className="address-list-container">
         <FormInputs
           title="Oblast"

@@ -1,5 +1,5 @@
 import { OblastRegion } from "./OblastRegionType";
-export type address = {
+export type Address = {
   oblast: keyof OblastRegion;
   city: OblastRegion[keyof OblastRegion];
   latitude?: string;
@@ -34,6 +34,6 @@ export interface GeneralRecordType {
 export type GeneralEventType = GeneralRecordType & {
   date_first_published: Date | string;
   date_event_occurred: Date | string;
-  address?: address;
+  address: Address;
 };
 
