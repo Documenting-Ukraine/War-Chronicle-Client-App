@@ -20,11 +20,16 @@ export type ProtestsAbroadGeneral = Omit<GeneralEventType, "address"> & {
   num_of_arrests?: number;
   num_of_hospitalizations?: number;
 };
-export type ProtestsUkraine = {
+export type ProtestsUkraine = ProtestsAbroadGeneral & {
   address: Address;
 };
-export type ProtestsBelarus = {
+export type ProtestsBelarus = ProtestsAbroadGeneral & {
   address: {};
 };
-export type ProtestsCaucasus = {};
-export type ProtestsCentralAsia = {};
+export type ProtestsCaucasus = ProtestsAbroadGeneral & {};
+export type ProtestsCentralAsia = ProtestsAbroadGeneral & {};
+export type ProtestsAbroad =
+  | ProtestsUkraine
+  | ProtestsCaucasus
+  | ProtestsCentralAsia
+  | ProtestsBelarus;

@@ -6,10 +6,12 @@ const useFormInputs = ({
   validateFunc,
   defaultDropDownValue,
   controlledDropDownValue,
+  controlledValue,
   customDropdownFunc,
   required,
   isMulti,
 }: {
+  controlledValue?: string;
   customDropdownFunc?: (e: MultiValue<Option> | Option | null) => void;
   validateFunc?: (str: string) => { err: boolean; message: string };
   required?: boolean;
@@ -44,6 +46,9 @@ const useFormInputs = ({
   useEffect(() => {
     if (controlledDropDownValue) setValue(controlledDropDownValue.value);
   }, [controlledDropDownValue]);
+  useEffect(() => {
+    if (controlledValue) setValue(controlledValue);
+  }, [controlledValue]);
   const onDefaultChange = (
     e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
   ) => {

@@ -1,6 +1,7 @@
 import { InternationalResponse } from "./docTypes/InternationalResponse";
 import { MediaAndDisInformation } from "./docTypes/MediaAndDisinformation";
 import { RefugeesAndIdps } from "./docTypes/RefugeesAndIdps";
+import { ProtestsAbroad } from "./docTypes/ProtestsAbroad";
 import { Russia } from "./docTypes/Russia";
 import { WarCrimes } from "./docTypes/WarCrimes";
 import { CategoriesList, isCategoryScope } from "./CategoryIconMap";
@@ -10,7 +11,8 @@ type RecordSubmissionType =
   | MediaAndDisInformation
   | RefugeesAndIdps
   | Russia
-  | WarCrimes;
+  | WarCrimes
+  | ProtestsAbroad;
 type UserDocument = {
   _id: string;
   occupation: string;

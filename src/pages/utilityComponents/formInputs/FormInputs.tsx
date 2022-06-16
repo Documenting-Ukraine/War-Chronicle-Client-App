@@ -64,13 +64,14 @@ const FormInputs = ({
   defaultDropDownValue,
   controlledDropDownValue,
   subCaption,
-  isClearable
+  isClearable,
 }: {
   title?: string;
+  idx?: number;
   name: string;
   className?: string;
   textArea?: boolean;
-  customValidation?: (e: string) => { err: boolean; message: string };
+  customValidation?: (e: string ) => { err: boolean; message: string };
   inputType?: string;
   dropDown?: GroupedOption[] | Option[];
   defaultDropDownValue?: Option;
@@ -104,9 +105,12 @@ const FormInputs = ({
           {title ? title : name}
           {required && <span>*</span>}
         </label>
-        {subCaption && <div className="form-inputs-sub-caption">{subCaption}</div>}
+        {subCaption && (
+          <div className="form-inputs-sub-caption">{subCaption}</div>
+        )}
         {textArea ? (
           <textarea
+      
             id={`${name}-input`}
             name={name}
             onChange={onDefaultChange}
@@ -147,6 +151,7 @@ const FormInputs = ({
           )
         ) : (
           <input
+      
             id={`${name}-input`}
             name={name}
             type={inputType}

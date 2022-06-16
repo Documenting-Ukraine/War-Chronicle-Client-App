@@ -1,6 +1,6 @@
 import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   Evidence,
   ArrayOneOrMore,
@@ -29,7 +29,7 @@ const FormListInput = ({
 }: {
   idx: number;
   onDeleteInput: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  customValidation?: (e: string) => {
+  customValidation: (e: string) => {
     err: boolean;
     message: string;
   };
@@ -116,6 +116,25 @@ const FormListInputs = ({
         ];
     });
   };
+
+  const customValidation = (str: string) => {
+    if (removeAddedWhiteSpace(str).length <= 0)
+      setErr({
+        err: true,
+        message: `All evidence items must have a link`,
+      });
+    else {
+      setErr({
+        err: false,
+        message: "",
+      });
+    }
+    return { err: false, message: "" };
+  };
+  const savedValidation = useCallback(
+    (str: string) => customValidation(str),
+    []
+  );
   return (
     <>
       <div className="d-flex flex-column w-100">
@@ -129,20 +148,8 @@ const FormListInputs = ({
                 key={input._id}
                 idx={idx}
                 onDeleteInput={onDeleteInput}
-                customValidation={required ? (str) => {
-                  if (removeAddedWhiteSpace(str).length <= 0)
-                    setErr({
-                      err: true,
-                      message: `Evidence ${idx + 1} does not have a link. All evidence items must have a link`,
-                    });
-                  else {
-                    setErr({
-                      err: false,
-                      message: "",
-                    });
-                  }
-                  return { err: false, message: "" };
-                }: undefined}
+                customValidation={savedValidation}
+                
               />
             );
           })}

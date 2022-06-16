@@ -22,7 +22,6 @@
 }
 .record-form-box-container {
   @include wrapper-containers();
-  min-height: 15rem;
   width: 100%;
   &:nth-child(2) {
     margin-top: 10%;
@@ -43,6 +42,7 @@
   }
   .record-form-box-body {
     padding: 1.4rem 2rem;
+    min-height: 15rem;
   }
 }
 .record-form-pg-form {
@@ -50,6 +50,62 @@
   .record-form-input {
     label {
       font-size: 1rem;
+    }
+  }
+}
+.record-form-guidelines {
+  li {
+    color: $darkest-gray;
+    margin: 1rem 0;
+  }
+}
+.record-form-similar-records {
+  .record-form-box-body {
+    max-height: 50vh;
+    overflow: auto;
+    padding: 0;
+  }
+}
+.record-form-record-item {
+  padding: 1rem 1.5rem;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid $lighter-gray;
+
+  &:last-child {
+    border-bottom: none;
+  }
+  .record-item-heading {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: $light-blue;
+    text-decoration: underline;
+    margin-bottom: 0.5rem;
+  }
+  .record-item-body {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    line-height: 1.3rem;
+    overflow: hidden;
+    margin: 1rem 0;
+    color: $darkest-gray;
+    font-size: 0.9rem;
+  }
+  .record-item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    text-align: end;
+    * {
+      font-size: 0.8rem;
+      color: $gray;
+    }
+    .record-item-type {
+      display: flex;
+      flex-direction: column;
+      text-align: start;
     }
   }
 }

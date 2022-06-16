@@ -1,11 +1,20 @@
-import { ObjectId } from "mongodb";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
+import { RecordSubmissionType } from "../../../../types";
+
+export type RecordProperties = Pick<
+  RecordSubmissionType,
+  | "_id"
+  | "record_title"
+  | "record_type"
+  | "description"
+  | "record_creation_date"
+>;
 interface RecordItemProps {
-  id: string | ObjectId;
-  title: string;
-  description: string;
-  creationDate: string | Date;
-  recordType: string;
+  id: RecordProperties["_id"];
+  title: RecordProperties["record_title"];
+  description: RecordProperties["description"];
+  creationDate: RecordProperties["record_creation_date"];
+  recordType: RecordProperties["record_type"];
 }
 const RecordItem = ({
   id,
@@ -15,19 +24,25 @@ const RecordItem = ({
   recordType,
 }: RecordItemProps) => {
   return (
-      <Link to={`/search/records/${id}`} className="record-item">
-      <div>
-        <h5>{title}</h5>
-        <label>{recordType}</label>
+    <Link to={`/search/records/${id}`} className="record-form-record-item">
+
+      <h5 className="record-item-heading">{title}</h5>
+      <p className="record-item-body">{description}</p>
+      <div className="record-item-footer">
+      <div className="record-item-type">
+        <span>
+          <b>Category: </b>
+          {recordType}
+        </span>
       </div>
-      <p>{description}</p>
-      <div>
-        Created on{" "}
-        {new Date(creationDate).toLocaleDateString("en-us", {
-          month: "short",
-          day: "2-digit",
-          year: "numeric",
-        })}
+        <div>
+          Created on{" "}
+          {new Date(creationDate).toLocaleDateString("en-us", {
+            month: "short",
+            day: "2-digit",
+            year: "numeric",
+          })}
+        </div>
       </div>
     </Link>
   );

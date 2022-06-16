@@ -7,9 +7,7 @@ import {
   isOption,
   transformSingleList,
 } from "../../authPage/data/OccupationList";
-import FormInputs, {
-  CustomFormInputs,
-} from "../../utilityComponents/formInputs/FormInputs";
+import FormInputs from "../../utilityComponents/formInputs/FormInputs";
 const newProtestRegions = transformSingleList(ProtestAbroadRegion);
 const ProtestsAbroad = (): JSX.Element => {
   const [protestLocation, setProtestLocation] = useState<

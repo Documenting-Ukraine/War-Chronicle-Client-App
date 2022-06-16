@@ -1,8 +1,7 @@
 import { useParams } from "react-router";
-import { RecordSubmissionType } from "../../../../types";
 import { grabRecordFormType } from "../../data/recordFormRoutes";
 import RecordFormBox from "./RecordFormBox";
-import RecordItem from "./RecordItem";
+import RecordItem, { RecordProperties } from "./RecordItem";
 import React, { useState } from "react";
 import FormInputs, {
   CustomFormInputs,
@@ -12,6 +11,12 @@ import FormListInputs from "../../../utilityComponents/formInputs/FormListInputs
 import FormDateInputs from "../../../utilityComponents/formInputs/FormDateInputs";
 import FormAddressInputs from "../../../utilityComponents/formInputs/FormAddressInputs";
 import useWindowWidth from "../../../../hooks/use-window-width";
+import { v4 as uuid } from "uuid";
+const guidelines = [
+  "Be concise and specific. Avoid non-objective language",
+  "No duplicate records. Reference our similar records to prevent duplicate creation",
+  "Submit one entry at a time. Entries with multiple data sets will be removed",
+];
 interface RecordFormWrapperProps {
   children: JSX.Element;
   callback?: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -21,16 +26,29 @@ interface RecordFormWrapperProps {
 const RecordFormBoxes = ({
   similarRecords,
 }: {
-  similarRecords: RecordSubmissionType[];
+  similarRecords: RecordProperties[];
 }): JSX.Element => {
   return (
     <div className="record-form-pg-boxes">
+      <RecordFormBox title={"Guidelines"} className="record-form-guidelines">
+        <ol>
+          {guidelines.map((str) => {
+            const [bolded, nonBolded] = str.split(".");
+            return (
+              <li key={bolded}>
+                <b>{bolded}.</b>
+                {nonBolded}
+              </li>
+            );
+          })}
+        </ol>
+      </RecordFormBox>
       <RecordFormBox
         title={"Similar Records"}
         className="record-form-similar-records"
       >
         <>
-          {similarRecords?.map((record) => {
+          {similarRecords.map((record) =>(
             <RecordItem
               key={record._id}
               id={record._id}
@@ -38,12 +56,9 @@ const RecordFormBoxes = ({
               recordType={record.record_type}
               description={record.description}
               creationDate={record.record_creation_date}
-            />;
-          })}
+            />
+          ))}
         </>
-      </RecordFormBox>
-      <RecordFormBox title={"Guidelines"} className="record-form-guidelines">
-        <div></div>
       </RecordFormBox>
     </div>
   );
@@ -58,8 +73,38 @@ const RecordFormWrapper = ({
   const route = params["*"];
   const formType = route ? grabRecordFormType(route) : "Form";
   const mediumWindowWidth = useWindowWidth(992);
-  const [similarRecords, setSimilarRecords] = useState<RecordSubmissionType[]>(
-    []
+  const [similarRecords, setSimilarRecords] = useState<RecordProperties[]>(
+    [{
+      _id: uuid(),
+      record_title: "Hello",
+      record_type: "International Response",
+      description: "Hello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the world",
+      record_creation_date: new Date()
+    }, {
+      _id: uuid(),
+      record_title: "Hello",
+      record_type: "International Response",
+      description: "Hello the world",
+      record_creation_date: new Date()
+    }, {
+      _id: uuid(),
+      record_title: "Hello",
+      record_type: "International Response",
+      description: "Hello the world",
+      record_creation_date: new Date()
+    }, {
+      _id: uuid(),
+      record_title: "Hello",
+      record_type: "International Response",
+      description: "Hello the world",
+      record_creation_date: new Date()
+    }, {
+      _id: uuid(),
+      record_title: "Hello",
+      record_type: "International Response",
+      description: "Hello the world",
+      record_creation_date: new Date()
+    }]
   );
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const generalProps = {};
