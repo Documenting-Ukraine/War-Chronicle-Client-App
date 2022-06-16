@@ -6,14 +6,15 @@ import removeAddedWhiteSpace from "../../../../helperFunctions/removeWhiteSpace"
 import { useEffect, useState } from "react";
 import { unstable_batchedUpdates } from "react-dom";
 import LoadingIcon from "../../../../pages/utilityComponents/loadingIcon/LoadingIcon";
-import RequestAccessInput, {
+import FormInputs, {
   CustomFormInputs,
   customStylesErr,
 } from "../../../utilityComponents/formInputs/FormInputs";
 import { categoryDropdownOptions } from "../../../../types/dataTypes/CategoryIconMap";
 import Select from "react-select";
 import useFormInputs from "../../../../hooks/use-form-inputs";
-import { Option } from "../../../authPage/data/OccupationList";
+import { isOption, Option } from "../../../authPage/data/OccupationList";
+import { sub } from "date-fns";
 
 interface NewInviteLinkPayload {
   category_scopes: string[];
@@ -28,31 +29,18 @@ const AddUserModal = ({
   const app = useRealmApp();
   const [isLoading, setIsLoading] = useState(false);
   const [err, setError] = useState({ err: true, message: "" });
+  const [accountType, setAccountType] = useState<"admin" | "contributor">(
+    "contributor"
+  );
+  const [assignedScopes, setAssginedScopes] = useState<Option[]>([]);
   const [submitted, setSubmitted] = useState<false | NewInviteLinkPayload[]>(
     false
   );
-  const {
-    err: accountTypeErr,
-    onTouch,
-    onDropdownChange,
-    value: accountType,
-  } = useFormInputs({
-    required: true,
-  });
-  const {
-    err: categoryScopeErr,
-    onTouch: onCategoryScopeTouch,
-    onDropdownMultiChange,
-    multiValue: assignedScopes,
-    setMultiValue: setAssginedScopes
-  } = useFormInputs({
-    required: true,
-    isMulti: true,
-  });
-  useEffect(() =>{
+
+  useEffect(() => {
     //reset multi values
-    if(accountType === "admin") setAssginedScopes([])
-  }, [accountType, setAssginedScopes])
+    if (accountType === "admin") setAssginedScopes([]);
+  }, [accountType]);
   const onClosePopUp = (
     e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>
   ) => {
@@ -136,77 +124,62 @@ const AddUserModal = ({
     { label: "Contributor", value: "contributor" },
   ];
   return (
-    <PopUpBg fullViewport={true} onClick={onClosePopUp}>
-      <form onSubmit={onSendUserInvite}>
-        <GeneralDashboardPopUp
-          index={0}
-          onClick={onClosePopUp}
-          overallClassName={"add-user-pop-up"}
-          heading={`Invite New User`}
-          btnActionType="add-user"
-          btnText="Send Invite"
-          btnClass="send-user-invite-access-btn"
-          alertClass="add-user-alert"
-          alertContent={alertContent}
-        >
-          <>
-            {err.err && (
-              <div className="request-scope-pop-up-err">{err.message}</div>
-            )}
-            {isLoading && (
-              <div className="request-scope-pop-up-loading">
-                <LoadingIcon strokeWidth={"0.2rem"} />
-              </div>
-            )}
-            <div className="top-spacing"></div>
-            <RequestAccessInput name="New User Gmail" />
-            <CustomFormInputs name="Account Type">
-              <>
-                <Select
-                  defaultValue={accountTypeOptions[1]}
-                  options={accountTypeOptions}
+    <>
+      <PopUpBg fullViewport={true} onClick={onClosePopUp}>
+        <form onSubmit={onSendUserInvite}>
+          <GeneralDashboardPopUp
+            index={0}
+            onClick={onClosePopUp}
+            overallClassName={"add-user-pop-up"}
+            heading={`Invite New User`}
+            btnActionType="add-user"
+            btnText="Send Invite"
+            btnClass="send-user-invite-access-btn"
+            alertClass="add-user-alert"
+            alertContent={alertContent}
+          >
+            <>
+              {err.err && (
+                <div className="request-scope-pop-up-err">{err.message}</div>
+              )}
+              {isLoading && (
+                <div className="request-scope-pop-up-loading">
+                  <LoadingIcon strokeWidth={"0.2rem"} />
+                </div>
+              )}
+              <div className="top-spacing"></div>
+              <FormInputs name="New User Gmail" />
+              <FormInputs
+                name="Account Type"
+                dropDown={accountTypeOptions}
+                className="request-form-dropdown"
+                defaultDropDownValue={accountTypeOptions[1]}
+                customDropdownFunc={(e) => {
+                  if (
+                    isOption(e) &&
+                    (e.value === "admin" || e.value === "contributor")
+                  )
+                    setAccountType(e.value);
+                }}
+                required
+              />
+              {accountType !== "admin" && (
+                <FormInputs
+                  dropDown={categoryDropdownOptions(null)}
+                  name={"Assign Category Scopes"}
+                  isDropdownMulti
                   className={"request-form-dropdown"}
-                  classNamePrefix={"dropdown-input"}
-                  name={"Account Type"}
-                  id={`${"Account Type"}-input`}
-                  onChange={onDropdownChange}
-                  onBlur={onTouch}
-                  styles={accountTypeErr.err ? customStylesErr : undefined}
+                  customDropdownFunc={(e) => {
+                    if (!isOption(e) && e) setAssginedScopes([...e]);
+                  }}
+                  required
                 />
-                {accountTypeErr.err && (
-                  <div className="row-input-error">
-                    {accountTypeErr.message}
-                  </div>
-                )}
-              </>
-            </CustomFormInputs>
-
-            {accountType !== "admin" && (
-              <CustomFormInputs name="Assign Category Scopes">
-                <>
-                  <Select
-                    options={categoryDropdownOptions(null)}
-                    className={"request-form-dropdown"}
-                    classNamePrefix={"dropdown-input"}
-                    name={"Assign Category Scopes"}
-                    id={`${"Assign Category Scopes"}-input`}
-                    onChange={onDropdownMultiChange}
-                    onBlur={onCategoryScopeTouch}
-                    styles={categoryScopeErr.err ? customStylesErr : undefined}
-                    isMulti={true}
-                  />
-                  {categoryScopeErr.err && (
-                    <div className="row-input-error assign-scopes">
-                      {categoryScopeErr.message}
-                    </div>
-                  )}
-                </>
-              </CustomFormInputs>
-            )}
-          </>
-        </GeneralDashboardPopUp>
-      </form>
-    </PopUpBg>
+              )}
+            </>
+          </GeneralDashboardPopUp>
+        </form>
+      </PopUpBg>
+    </>
   );
 };
 export default AddUserModal;

@@ -39,7 +39,7 @@ const contributeActionCardData = (user: Realm.User) => {
     accountType === "admin"
       ? [
           {
-            additionalRoute: `search-contributions`,
+            replaceRoute: `/search`,
             cardIcon: faFolder,
             cardHeading: `Find Contributions`,
             cardDescription: `Search through the contributions of others, to update or delete them.`,
