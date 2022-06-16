@@ -6,15 +6,9 @@ import removeAddedWhiteSpace from "../../../../helperFunctions/removeWhiteSpace"
 import { useEffect, useState } from "react";
 import { unstable_batchedUpdates } from "react-dom";
 import LoadingIcon from "../../../../pages/utilityComponents/loadingIcon/LoadingIcon";
-import FormInputs, {
-  CustomFormInputs,
-  customStylesErr,
-} from "../../../utilityComponents/formInputs/FormInputs";
+import FormInputs from "../../../utilityComponents/formInputs/FormInputs";
 import { categoryDropdownOptions } from "../../../../types/dataTypes/CategoryIconMap";
-import Select from "react-select";
-import useFormInputs from "../../../../hooks/use-form-inputs";
 import { isOption, Option } from "../../../authPage/data/OccupationList";
-import { sub } from "date-fns";
 
 interface NewInviteLinkPayload {
   category_scopes: string[];

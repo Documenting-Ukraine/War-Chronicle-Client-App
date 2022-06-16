@@ -1,15 +1,14 @@
-import DashboardWrapper from "./utilities/DashboardWrapper";
-import DashboardOverview from "./DashboardOverview";
-import DashboardContribute from "./DashboardContribute";
-import DashboardManage from "./DashboardManage";
+import { lazy } from "react";
 import { useRealmApp } from "../../realm/RealmApp";
-
+const DashboardWrapper = lazy(() => import("./utilities/DashboardWrapper"));
+const DashboardOverview = lazy(() => import("./DashboardOverview"));
+const DashboardContribute = lazy(() => import("./DashboardContribute"));
+const DashboardManage = lazy(() => import("./DashboardManage"));
 const Dashboard = ({
   type,
 }: {
   type: "overview" | "manage" | "contribute" | "landing";
-  }): JSX.Element => {
-
+}): JSX.Element => {
   const app = useRealmApp();
 
   const accountType = app.currentUser?.customData?.account_type;
