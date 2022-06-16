@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import { unstable_batchedUpdates } from "react-dom";
 import Dropzone, { DropEvent, FileRejection } from "react-dropzone";
+import LoadingIcon from "../loadingIcon/LoadingIcon";
 import {
   MediaFile,
   VideoThumbnail,
@@ -16,12 +17,31 @@ interface FormDropZoneProps {
   description: string | JSX.Element;
   mediaType: "videos" | "images";
   className?: string;
+  defaultFiles?: string[];
 }
 interface ErrorProps {
   err: boolean;
   files: FileRejection[];
 }
-
+const generateFilesFromUrl = async (urls: string[]) => {
+  const newFiles = urls.map(async (url) => {
+    const urlParams = url.split("/");
+    const fileName = urlParams[urlParams.length - 1];
+    const lastModified = new Date().getMilliseconds();
+    const file = await fetch(url);
+    const fileBlob = await file.blob();
+    const result: MediaFile = {
+      ...fileBlob,
+      lastModified: lastModified,
+      name: fileName,
+      webkitRelativePath: url,
+      preview: url,
+    };
+    return result;
+  });
+  const result = await Promise.all(newFiles);
+  return result;
+};
 const FormDropZone = ({
   name,
   maxSize,
@@ -29,13 +49,33 @@ const FormDropZone = ({
   description,
   mediaType,
   className,
+  defaultFiles,
 }: FormDropZoneProps) => {
   const [files, setFiles] = useState<MediaFile[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [err, setErr] = useState<ErrorProps>({
     err: false,
     files: [],
   });
-  const [isOver, setIsOver] = useState(false)
+  const [isOver, setIsOver] = useState(false);
+  useEffect(() => {
+    let mounted = true;
+    if (defaultFiles && mounted) {
+      setIsLoading(true);
+      generateFilesFromUrl(defaultFiles).then((result) => {
+        if (mounted) {
+          unstable_batchedUpdates(() => {
+            setIsLoading(false);
+            setFiles(result);
+          });
+        }
+      });
+    }
+
+    return () => {
+      mounted = false;
+    };
+  }, [defaultFiles]);
   useEffect(() => {
     let mounted = true;
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
@@ -43,19 +83,19 @@ const FormDropZone = ({
       if (mounted) files.forEach((file) => URL.revokeObjectURL(file.preview));
     };
   }, [files]);
-  const onDragEnter = () =>{
-    setIsOver(true)
-  }
-  const onDragLeave = () =>{
-    setIsOver(false)
-  }
+  const onDragEnter = () => {
+    setIsOver(true);
+  };
+  const onDragLeave = () => {
+    setIsOver(false);
+  };
   const onDrop = (
     acceptedFiles: File[],
     fileRejections: FileRejection[],
     event: DropEvent
   ) => {
-    unstable_batchedUpdates(() =>{
-      setIsOver(false)
+    unstable_batchedUpdates(() => {
+      setIsOver(false);
       setFiles((state) => {
         const map = generateFileMap(files);
         const allFiles = acceptedFiles.map((file) => {
@@ -67,7 +107,7 @@ const FormDropZone = ({
         });
         const isMediaFiles = (file: MediaFile | null): file is MediaFile =>
           file !== null;
-  
+
         const newFiles: MediaFile[] = allFiles.filter(isMediaFiles);
         return [...state, ...newFiles];
       });
@@ -75,7 +115,7 @@ const FormDropZone = ({
         err: fileRejections.length > 0,
         files: fileRejections,
       });
-    })
+    });
   };
   const onRemoveThumbnail = (e: React.MouseEvent<HTMLButtonElement>) => {
     const fileName = e.currentTarget.dataset["fileName"];
@@ -109,7 +149,7 @@ const FormDropZone = ({
           onRemoveThumbnail={onRemoveThumbnail}
         />
       );
-    if (mediaType === "videos")
+    else if (mediaType === "videos")
       return (
         <VideoThumbnail
           key={file.name}
@@ -117,6 +157,7 @@ const FormDropZone = ({
           onRemoveThumbnail={onRemoveThumbnail}
         />
       );
+    else return null;
   });
 
   return (
@@ -136,16 +177,17 @@ const FormDropZone = ({
             <section>
               <div
                 {...getRootProps({
-                  className: `form-inputs-dropzone ${className} ${isOver? "over-dropzone": ""}`,
+                  className: `form-inputs-dropzone ${className} ${
+                    isOver ? "over-dropzone" : ""
+                  }`,
                 })}
               >
+                {isLoading && <LoadingIcon entireViewPort width = {50} height={"100%"} backgroundColor="white" />}
                 <label htmlFor={name}>
                   <div>
                     <FontAwesomeIcon icon={faUpload} />
                   </div>
-                  <span>
-                   {description}
-                  </span>
+                  <span>{description}</span>
                 </label>
                 <input {...inputProps} />
               </div>

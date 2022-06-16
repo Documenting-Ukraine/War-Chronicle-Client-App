@@ -1,5 +1,18 @@
-const ViewPortWrapper = ({ children }: { children: JSX.Element }) => {
-  return <div className="loading-icon-entire-viewport">{children}</div>;
+const ViewPortWrapper = ({
+  children,
+  backgroundColor,
+  height,
+}: {
+  children: JSX.Element;
+  backgroundColor?: string;
+  height?: string | number;
+}) => {
+  const styles = { backgroundColor: backgroundColor, height: height };
+  return (
+    <div className="loading-icon-entire-viewport" style={styles}>
+      {children}
+    </div>
+  );
 };
 const Icon = ({
   width,
@@ -26,22 +39,26 @@ const Icon = ({
 };
 const LoadingIcon = ({
   width = 100,
+  height,
   strokeWidth = 3,
   entireViewPort = false,
+  backgroundColor,
 }: {
   width?: number | string;
   strokeWidth?: number | string;
   entireViewPort?: boolean;
+  backgroundColor?: string;
+  height?: string | number
 }): JSX.Element => {
   return (
     <>
       {entireViewPort ? (
-        <ViewPortWrapper>
+        <ViewPortWrapper backgroundColor={backgroundColor} height = {height}>
           <Icon width={width} strokeWidth={strokeWidth} />
         </ViewPortWrapper>
-      )
-        : <Icon width={width} strokeWidth={strokeWidth} />
-      }
+      ) : (
+        <Icon width={width} strokeWidth={strokeWidth} />
+      )}
     </>
   );
 };

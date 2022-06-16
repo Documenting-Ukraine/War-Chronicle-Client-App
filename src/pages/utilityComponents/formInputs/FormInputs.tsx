@@ -61,6 +61,7 @@ const FormInputs = ({
   required = true,
   isDropdownMulti = false,
   className,
+  defaultValue,
   defaultDropDownValue,
   controlledDropDownValue,
   subCaption,
@@ -71,9 +72,10 @@ const FormInputs = ({
   name: string;
   className?: string;
   textArea?: boolean;
-  customValidation?: (e: string ) => { err: boolean; message: string };
+  customValidation?: (e: string) => { err: boolean; message: string };
   inputType?: string;
   dropDown?: GroupedOption[] | Option[];
+  defaultValue?: string;
   defaultDropDownValue?: Option;
   controlledDropDownValue?: Option;
   required?: boolean;
@@ -92,7 +94,7 @@ const FormInputs = ({
     onDropdownMultiChange,
   } = useFormInputs({
     customDropdownFunc: customDropdownFunc,
-    defaultDropDownValue: defaultDropDownValue,
+    defaultValue: defaultDropDownValue ? defaultDropDownValue : defaultValue,
     controlledDropDownValue: controlledDropDownValue,
     validateFunc: customValidation,
     required: required,
@@ -110,13 +112,13 @@ const FormInputs = ({
         )}
         {textArea ? (
           <textarea
-      
             id={`${name}-input`}
             name={name}
             onChange={onDefaultChange}
             onBlur={onTouch}
             style={required && err.err ? { border: "1.5px solid darkred" } : {}}
             required={required}
+            value={value}
           />
         ) : dropDown ? (
           isDropdownMulti ? (
@@ -151,7 +153,6 @@ const FormInputs = ({
           )
         ) : (
           <input
-      
             id={`${name}-input`}
             name={name}
             type={inputType}
@@ -163,6 +164,7 @@ const FormInputs = ({
                 : undefined
             }
             required={required}
+            value={value}
           />
         )}
       </div>

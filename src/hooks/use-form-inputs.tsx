@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { ActionMeta, MultiValue } from "react-select";
-import { Option } from "../pages/authPage/data/OccupationList";
+import { Option, isOption } from "../pages/authPage/data/OccupationList";
 import removeAddedWhiteSpace from "../helperFunctions/removeWhiteSpace";
 const useFormInputs = ({
   validateFunc,
-  defaultDropDownValue,
+  defaultValue,
   controlledDropDownValue,
   controlledValue,
   customDropdownFunc,
@@ -16,11 +16,15 @@ const useFormInputs = ({
   validateFunc?: (str: string) => { err: boolean; message: string };
   required?: boolean;
   isMulti?: boolean;
-  defaultDropDownValue?: Option;
+  defaultValue?: Option | string;
   controlledDropDownValue?: Option;
 }) => {
   const [value, setValue] = useState(
-    defaultDropDownValue ? defaultDropDownValue.value : ""
+    defaultValue && isOption(defaultValue)
+      ? defaultValue.value
+      : defaultValue
+      ? defaultValue
+      : ""
   );
   const [err, setErr] = useState({ err: false, message: "" });
   const [touched, setTouched] = useState(false);

@@ -87,6 +87,8 @@
     display: -webkit-box;
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
+    line-clamp: 5;
+    box-orient: vertical;
     line-height: 1.3rem;
     overflow: hidden;
     margin: 1rem 0;

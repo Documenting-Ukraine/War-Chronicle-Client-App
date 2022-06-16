@@ -21,14 +21,16 @@ const isEvidence = (
     return false;
   }
 };
-type EvidenceItem = ArrayOneOrMore<Evidence & { _id: string }>;
+type EvidenceList = ArrayOneOrMore<Evidence & { _id: string }>;
 const FormListInput = ({
   idx,
   onDeleteInput,
   customValidation,
+  defaultValue,
 }: {
   idx: number;
   onDeleteInput: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  defaultValue?: Evidence;
   customValidation: (e: string) => {
     err: boolean;
     message: string;
@@ -54,6 +56,7 @@ const FormListInput = ({
         inputType="text"
         className="evidence-list-form-inputs"
         customValidation={customValidation}
+        defaultValue={defaultValue ? defaultValue.url : undefined}
         required
       />
       <FormInputs
@@ -62,26 +65,31 @@ const FormListInput = ({
         inputType="text"
         className="evidence-list-form-inputs"
         required={false}
+        defaultValue={defaultValue ? defaultValue.description : undefined}
       />
     </div>
   );
 };
+const defaultList: EvidenceList = [
+  {
+    _id: uuidv4(),
+    description: "",
+    url: "",
+  },
+];
 const FormListInputs = ({
   className,
   required = true,
+  defaultValues,
 }: {
+  defaultValues?: EvidenceList;
   className?: string;
   required?: boolean;
 }) => {
   const smallWidth = useWindowWidth(576);
-
-  const [inputs, setInputs] = useState<EvidenceItem>([
-    {
-      _id: uuidv4(),
-      description: "",
-      url: "",
-    },
-  ]);
+  const [inputs, setInputs] = useState<EvidenceList>(
+    defaultValues ? defaultValues : defaultList
+  );
   const [err, setErr] = useState({
     err: false,
     message: "",
@@ -149,7 +157,10 @@ const FormListInputs = ({
                 idx={idx}
                 onDeleteInput={onDeleteInput}
                 customValidation={savedValidation}
-                
+                defaultValue={{
+                  url: input.url,
+                  description: input.description,
+                }}
               />
             );
           })}

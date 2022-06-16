@@ -1,12 +1,17 @@
 import { isBefore } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { unstable_batchedUpdates } from "react-dom";
 import { CustomFormInputs } from "./FormInputs";
+const transformDate = (date: Date) => date.toISOString().split("T")[0];
+const transformTime = (date: Date) => date.toISOString().slice(11, 16);
+const defaultDate = transformDate(new Date());
+const defaultTime = transformTime(new Date());
 const FormDateInputs = ({
   name,
   required,
   className,
   onDateChange,
+  defaultValue,
   timeInput = true,
   title,
 }: {
@@ -14,11 +19,19 @@ const FormDateInputs = ({
   title?: string;
   required: boolean;
   className?: string;
+  defaultValue?: Date | string;
   onDateChange: (e: Date) => void;
   timeInput?: boolean;
 }) => {
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
-  const [time, setTime] = useState(new Date().toISOString().slice(11, 16));
+  const [date, setDate] = useState(
+    defaultValue ? transformDate(new Date(defaultValue)) : defaultDate
+  );
+  const [time, setTime] = useState(
+    defaultValue ? transformTime(new Date(defaultValue)) : defaultTime
+  );
+  useEffect(() =>{
+    onDateChange(new Date(`${date}T${time}`))
+  }, [date, time, onDateChange])
   const [err, setErr] = useState({ err: false, message: "" });
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;

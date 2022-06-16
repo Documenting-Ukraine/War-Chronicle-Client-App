@@ -12,12 +12,26 @@ import {
   transfromOptions,
 } from "../../../pages/authPage/data/OccupationList";
 import FormInputs, { CustomFormInputs } from "./FormInputs";
+import { Address } from "../../../types/dataTypes/GeneralRecordType";
 const OblastKeys = Object.keys(OblastList);
-const FormAddressInputs = () => {
-  const [oblast, setOblast] = useState<keyof OblastRegion | undefined>();
-  const [city, setCity] = useState<string>("");
+const FormAddressInputs = ({
+  defaultAddress,
+}: {
+  defaultAddress?: Address;
+}) => {
+  const [oblast, setOblast] = useState<keyof OblastRegion | undefined>(
+    defaultAddress ? defaultAddress.oblast : undefined
+  );
+  const [city, setCity] = useState<string>(
+    defaultAddress ? defaultAddress.city : ""
+  );
   return (
-    <CustomFormInputs title="Event Location" name={"Address"} className="record-form-input" required>
+    <CustomFormInputs
+      title="Event Location"
+      name={"Address"}
+      className="record-form-input"
+      required
+    >
       <section className="address-list-container">
         <FormInputs
           title="Oblast"
@@ -30,6 +44,9 @@ const FormAddressInputs = () => {
               setCity(OblastList[e.value][0]);
             }
           }}
+          defaultDropDownValue={
+            defaultAddress ? transfromOptions(defaultAddress.oblast) : undefined
+          }
         />
         {oblast && (
           <FormInputs
@@ -43,6 +60,9 @@ const FormAddressInputs = () => {
                 setCity(e.value);
               }
             }}
+            defaultDropDownValue={
+              defaultAddress ? transfromOptions(defaultAddress.city) : undefined
+            }
           />
         )}
 
@@ -51,12 +71,22 @@ const FormAddressInputs = () => {
           required={false}
           inputType={"text"}
           name={"Latitude"}
+          defaultValue={
+            defaultAddress && defaultAddress.latitude
+              ? defaultAddress.latitude
+              : ""
+          }
         />
         <FormInputs
           title="Longitude"
           name="Longitude"
           inputType="text"
           required={false}
+          defaultValue={
+            defaultAddress && defaultAddress.longitude
+              ? defaultAddress.longitude
+              : ""
+          }
         />
       </section>
     </CustomFormInputs>

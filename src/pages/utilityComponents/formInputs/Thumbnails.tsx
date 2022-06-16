@@ -1,15 +1,16 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-export const generateFileMap = (files: MediaFile[]) => {
-  const map: { [key: string]: MediaFile } = {};
+export const generateFileMap = (files: MediaFileProps[]) => {
+  const map: { [key: string]: MediaFileProps } = {};
   for (let file of files) map[file.name] = file;
   return map;
 };
-export type MediaFile = File & { preview: string };
+export type MediaFileProps = { readonly name: string; preview: string };
 export interface ThumbnailProps {
-  file: MediaFile;
+  file: MediaFileProps;
   onRemoveThumbnail: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
+export type MediaFile = MediaFileProps & File
 export const ThumbnailWrapper = ({
   children,
   file,
