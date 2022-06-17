@@ -15,6 +15,7 @@ import {
   MunitionMineList,
   munitionTypeList,
   ObjectsOfCulture,
+  WarCrimes,
 } from "../../../types/dataTypes/docTypes/WarCrimes";
 const WarCrimeOptions = transformSingleList([...WarCrimeTypes]);
 const newMunitionList = transformSingleList([...munitionTypeList]);
@@ -121,7 +122,11 @@ const DestructionOfCulture = (): JSX.Element => {
   );
 };
 
-const WarCrimesForm = (): JSX.Element => {
+const WarCrimesForm = ({
+  defaultInputs,
+}: {
+  defaultInputs?: WarCrimes;
+}): JSX.Element => {
   const [warCrimeType, setWarCrimeType] = useState<
     typeof WarCrimeTypes[number]
   >(WarCrimeTypes[0]);
