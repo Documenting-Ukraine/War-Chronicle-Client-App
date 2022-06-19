@@ -4,18 +4,18 @@ import { RealmApp } from "../../../../realm/RealmApp";
 import { CategoriesList } from "../../../../types/dataTypes/CategoryIconMap";
 import { RecordSubmissionType } from "../../dashboard/dashboardReducer";
 import { isObject, has } from "lodash";
+import { WritableDraft } from "immer/dist/internal";
 export type RecordFormSearchQuery = {
-    [key: string]: any;
-    value: string;
-    _ids?: string[];
-    title?: string;
-    categories?: typeof CategoriesList[number];
-    date?: {
-      timeFrame: "before" | "after";
-      dateValue: Date | string;
-    };
-
-}
+  [key: string]: any;
+  value: string;
+  _ids?: string[];
+  title?: string;
+  categories?: typeof CategoriesList[number];
+  date?: {
+    timeFrame: "before" | "after";
+    dateValue: Date | string;
+  };
+};
 type FetchRecordFormsProps = {
   app: RealmApp;
   input: {
@@ -33,7 +33,7 @@ export type FetchRecordFormsResult = {
 };
 export const isFetchRecordFormsResult = (
   e: any
-): e is FetchRecordFormsResult => {
+): e is WritableDraft<FetchRecordFormsResult> => {
   try {
     const isObj = isObject(e);
     const hasKeys =
@@ -51,7 +51,7 @@ export const fetchRecordForms = createAsyncThunk(
   async ({
     app,
     input,
-  }: FetchRecordFormsProps): Promise<FetchRecordFormsResult | null> => {
+  }: FetchRecordFormsProps): Promise<WritableDraft<FetchRecordFormsResult> | null> => {
     const recordFormData = await app.currentUser?.callFunction(
       "search_record_forms",
       input
