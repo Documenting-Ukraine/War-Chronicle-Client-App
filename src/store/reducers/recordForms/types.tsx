@@ -6,6 +6,8 @@ export type SelectedRecord = {
 
 export type SearchRecordData = {
   data: RecordSubmissionType[];
+  pagination_end: boolean;
+  prev_search: string;
   idx_counter: number;
 };
 export type RecordFormReducerProps = {

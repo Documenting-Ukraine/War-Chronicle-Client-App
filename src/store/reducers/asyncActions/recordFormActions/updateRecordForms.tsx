@@ -3,6 +3,8 @@ import { isObject, has } from "lodash";
 import { RealmApp } from "../../../../realm/RealmApp";
 import { CategoriesList } from "../../../../types/dataTypes/CategoryIconMap";
 import { RecordSubmissionType } from "../../dashboard/dashboardReducer";
+import { WritableDraft } from "immer/dist/internal";
+
 export type UpdateRecordFormProps = {
   app: RealmApp;
   input: {
@@ -18,7 +20,7 @@ export type UpdateRecordFormResults = {
 };
 export const isUpdateRecordFormResults = (
   e: any
-): e is UpdateRecordFormResults => {
+): e is WritableDraft<UpdateRecordFormResults> => {
   try {
     const isObj = isObject(e);
     const hasKeys = has(e, "error") && has(e, "new_document");
@@ -32,7 +34,7 @@ export const updateRecordForm = createAsyncThunk(
   async ({
     app,
     input,
-  }: UpdateRecordFormProps): Promise<UpdateRecordFormResults | null> => {
+  }: UpdateRecordFormProps): Promise<WritableDraft<UpdateRecordFormResults> | null> => {
     const updateRecordForm = await app.currentUser?.callFunction(
       "update_record_form",
       input

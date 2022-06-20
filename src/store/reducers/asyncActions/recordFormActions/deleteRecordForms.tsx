@@ -3,6 +3,7 @@ import { isObject, has } from "lodash";
 import { RealmApp } from "../../../../realm/RealmApp";
 import { RecordSubmissionType } from "../../dashboard/dashboardReducer";
 import { RecordFormSearchQuery } from "./fetchRecordForms";
+import { WritableDraft } from "immer/dist/internal";
 export type DeleteRecordProps = {
   app: RealmApp;
   input: {
@@ -14,14 +15,17 @@ export type DeleteRecordProps = {
 export type DeleteRecordResults = {
   error: null;
   number_removed: number;
-  record_form_idx: number;
+  record_form_idx?: number;
+  removed_form_ids: string[];
   new_last_documents?: RecordSubmissionType[];
 };
-export const isDeleteRecordResults = (e: any): e is DeleteRecordResults => {
+export const isDeleteRecordResults = (
+  e: any
+): e is WritableDraft<DeleteRecordResults> => {
   try {
     const isObj = isObject(e);
     const hasKeys =
-      has(e, "error") && has(e, "number_removed") && has(e, "record_form_idx");
+      has(e, "error") && has(e, "number_removed") && has(e, "removed_form_ids");
     return isObj && hasKeys;
   } catch (e) {
     return false;
@@ -32,7 +36,7 @@ export const deleteRecordForms = createAsyncThunk(
   async ({
     app,
     input,
-  }: DeleteRecordProps): Promise<DeleteRecordResults | null> => {
+  }: DeleteRecordProps): Promise<WritableDraft<DeleteRecordResults> | null> => {
     const deleteData = await app.currentUser?.callFunction(
       "delete_user",
       input
