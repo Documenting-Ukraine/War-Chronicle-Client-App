@@ -11,15 +11,26 @@ import FormListInputs from "../../../utilityComponents/formInputs/FormListInputs
 import FormDateInputs from "../../../utilityComponents/formInputs/FormDateInputs";
 import FormAddressInputs from "../../../utilityComponents/formInputs/FormAddressInputs";
 import useWindowWidth from "../../../../hooks/use-window-width";
-import { v4 as uuid } from "uuid";
+import {
+  GeneralEventType,
+  GeneralRecordType,
+} from "../../../../types/dataTypes/GeneralRecordType";
 const guidelines = [
   "Be concise and specific. Avoid non-objective language",
   "No duplicate records. Reference our similar records to prevent duplicate creation",
   "Submit one entry at a time. Entries with multiple data sets will be removed",
 ];
+export type SubmitCallbackProps = {
+  recordType: string;
+  generalProps: GeneralRecordType | GeneralEventType;
+  additionalProps: {
+    [key: string]: any;
+  };
+  event: React.FormEvent<HTMLFormElement>;
+};
 interface RecordFormWrapperProps {
   children: JSX.Element;
-  callback?: (e: React.FormEvent<HTMLFormElement>) => void;
+  callback?: (e: SubmitCallbackProps) => void;
   dateFirstPublished?: boolean;
   generalEventType?: boolean;
 }
@@ -48,7 +59,7 @@ const RecordFormBoxes = ({
         className="record-form-similar-records"
       >
         <>
-          {similarRecords.map((record) =>(
+          {similarRecords.map((record) => (
             <RecordItem
               key={record._id}
               id={record._id}
@@ -58,6 +69,11 @@ const RecordFormBoxes = ({
               creationDate={record.record_creation_date}
             />
           ))}
+          {similarRecords.length <= 0 && (
+            <div className="d-flex w-100 h-100 justify-content-center align-items-center">
+              No records found.
+            </div>
+          )}
         </>
       </RecordFormBox>
     </div>
@@ -73,42 +89,20 @@ const RecordFormWrapper = ({
   const route = params["*"];
   const formType = route ? grabRecordFormType(route) : "Form";
   const mediumWindowWidth = useWindowWidth(992);
-  const [similarRecords, setSimilarRecords] = useState<RecordProperties[]>(
-    [{
-      _id: uuid(),
-      record_title: "Hello",
-      record_type: "International Response",
-      description: "Hello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the worldHello the world",
-      record_creation_date: new Date()
-    }, {
-      _id: uuid(),
-      record_title: "Hello",
-      record_type: "International Response",
-      description: "Hello the world",
-      record_creation_date: new Date()
-    }, {
-      _id: uuid(),
-      record_title: "Hello",
-      record_type: "International Response",
-      description: "Hello the world",
-      record_creation_date: new Date()
-    }, {
-      _id: uuid(),
-      record_title: "Hello",
-      record_type: "International Response",
-      description: "Hello the world",
-      record_creation_date: new Date()
-    }, {
-      _id: uuid(),
-      record_title: "Hello",
-      record_type: "International Response",
-      description: "Hello the world",
-      record_creation_date: new Date()
-    }]
-  );
+  const [similarRecords, setSimilarRecords] = useState<RecordProperties[]>([]);
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    const generalProps = {};
-    if (callback) callback(e);
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget)
+    const fieldValues = Object.fromEntries(formData.entries());
+    console.log(fieldValues)
+    // const generalProps 
+    // const additionalProps = 
+    // const submitProps: SubmitCallbackProps = {
+    //   generalProps: generalProps,
+    //   additionalProps: 
+    //   event: e,
+    // }
+    // if (callback) callback(e);
   };
   return (
     <div className="record-form-pg-wrapper">
@@ -169,7 +163,8 @@ const RecordFormWrapper = ({
           {dateFirstPublished && !generalEventType && (
             <FormDateInputs
               className="record-form-input"
-              name="Date First Published"
+              title="Date First Published"
+              name="dateFirstPublished"
               onDateChange={(e: Date) => {}}
               timeInput
               required
@@ -180,14 +175,16 @@ const RecordFormWrapper = ({
               <FormAddressInputs />
               <FormDateInputs
                 className="record-form-input"
-                name="Date First Published"
+                title="Date First Published"
+                name="dateFirstPublished"
                 onDateChange={(e: Date) => {}}
                 timeInput
                 required
               />
               <FormDateInputs
                 className="record-form-input"
-                name="Date Event Occurred"
+                title="Date Event Occurred"
+                name="dateEventOccurred"
                 onDateChange={(e: Date) => {}}
                 timeInput
                 required

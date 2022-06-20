@@ -1,7 +1,8 @@
 import { faFileLines } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router";
+import { SubmitCallbackProps } from "./utilities/recordFormWrapper/RecordFormWrapper";
 import LoadingIcon from "../utilityComponents/loadingIcon/LoadingIcon";
 import RecordFormNav from "./utilities/recordFormNav/RecordFormNav";
 import RecordFormWrapper from "./utilities/recordFormWrapper/RecordFormWrapper";
@@ -17,6 +18,14 @@ const RussiaForm = lazy(() => import("./forms/RussiaForm"));
 const WarCrimesForm = lazy(() => import("./forms/WarCrimesForm"));
 
 const RecordFormPage = (): JSX.Element => {
+  const onSubmitCallback = ({
+    recordType,
+    generalProps,
+    additionalProps,
+    event,
+  }: SubmitCallbackProps) => {
+
+  };
   return (
     <>
       <div className="record-form-pg">

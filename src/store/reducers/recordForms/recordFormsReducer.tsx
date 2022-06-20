@@ -59,6 +59,7 @@ const recordFormReducer = createSlice({
         selectedDoc.data = null;
         selectedDoc.status = "failed";
       }
+      return newState;
     },
   },
   extraReducers: (builder) => {

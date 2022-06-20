@@ -76,6 +76,7 @@ const FormDropZone = ({
       mounted = false;
     };
   }, [defaultFiles]);
+
   useEffect(() => {
     let mounted = true;
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
