@@ -10,17 +10,17 @@ const FormDateInputs = ({
   name,
   required,
   className,
-  onDateChange,
   defaultValue,
   timeInput = true,
   title,
+  onDateChange
 }: {
   name: string;
   title?: string;
   required: boolean;
   className?: string;
   defaultValue?: Date | string;
-  onDateChange: (e: Date) => void;
+  onDateChange?: (e: Date) => void;
   timeInput?: boolean;
 }) => {
   const [date, setDate] = useState(
@@ -29,9 +29,10 @@ const FormDateInputs = ({
   const [time, setTime] = useState(
     defaultValue ? transformTime(new Date(defaultValue)) : defaultTime
   );
-  useEffect(() =>{
-    onDateChange(new Date(`${date}T${time}`))
-  }, [date, time, onDateChange])
+  useEffect(() => {
+    if(onDateChange)
+    onDateChange(new Date(`${date}T${time}`));
+  }, [date, time, onDateChange]);
   const [err, setErr] = useState({ err: false, message: "" });
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
@@ -46,7 +47,7 @@ const FormDateInputs = ({
             setDate(value);
             setErr({ err: false, message: "" });
           });
-          return onDateChange(newDate);
+          return onDateChange ? onDateChange(newDate): null;
         } else return setErr({ err: true, message: "Invalid Date" });
       case "time":
         newDate = new Date(`${date}T${value}`);
@@ -55,7 +56,7 @@ const FormDateInputs = ({
             setTime(value);
             setErr({ err: false, message: "" });
           });
-          return onDateChange(newDate);
+          return onDateChange ? onDateChange(newDate): null;
         } else return setErr({ err: true, message: "Invalid Date" });
       default:
         return;
@@ -71,13 +72,16 @@ const FormDateInputs = ({
       <>
         <div className="form-inputs-time-inputs">
           <input
+            name={`${name}Date`}
             className={timeInput ? "add-right-spacing" : ""}
             type="date"
             onChange={onChange}
             value={date}
             max={new Date().toISOString().split("T")[0]}
           />
-          {timeInput && <input type="time" onChange={onChange} value={time} />}
+          {timeInput && (
+            <input type="time" name={`${name}Time`} onChange={onChange} value={time} />
+          )}
         </div>
         {err.err && <div className="form-inputs-time-err">{err.message}</div>}
       </>

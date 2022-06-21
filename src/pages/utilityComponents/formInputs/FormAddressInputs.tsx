@@ -28,14 +28,14 @@ const FormAddressInputs = ({
   return (
     <CustomFormInputs
       title="Event Location"
-      name={"Address"}
+      name={"address"}
       className="record-form-input"
       required
     >
       <section className="address-list-container">
         <FormInputs
           title="Oblast"
-          name="Oblast"
+          name="oblast"
           required
           dropDown={transformSingleList(OblastKeys)}
           customDropdownFunc={(e: Option | MultiValue<Option> | null) => {
@@ -51,7 +51,7 @@ const FormAddressInputs = ({
         {oblast && (
           <FormInputs
             title="City"
-            name="City"
+            name="city"
             required
             dropDown={transformSingleList(OblastList[oblast])}
             controlledDropDownValue={transfromOptions(city)}
@@ -70,7 +70,7 @@ const FormAddressInputs = ({
           title="Latitude"
           required={false}
           inputType={"text"}
-          name={"Latitude"}
+          name={"latitude"}
           defaultValue={
             defaultAddress && defaultAddress.latitude
               ? defaultAddress.latitude
@@ -79,7 +79,7 @@ const FormAddressInputs = ({
         />
         <FormInputs
           title="Longitude"
-          name="Longitude"
+          name="longitude"
           inputType="text"
           required={false}
           defaultValue={

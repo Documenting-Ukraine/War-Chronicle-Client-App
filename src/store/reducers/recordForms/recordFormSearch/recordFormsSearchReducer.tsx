@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LoadingStatus, RecordFormReducerProps } from "./types";
-import { updateRecordForm } from "../asyncActions/recordFormActions/updateRecordForms";
-import { fetchRecordForms } from "../asyncActions/recordFormActions/fetchRecordForms";
-import { deleteRecordForms } from "../asyncActions/recordFormActions/deleteRecordForms";
+import { LoadingStatus, RecordFormReducerProps } from "../types";
+import { updateRecordForm } from "../../asyncActions/recordFormActions/updateRecordForms";
+import { fetchRecordForms } from "../../asyncActions/recordFormActions/fetchRecordForms";
+import { deleteRecordForms } from "../../asyncActions/recordFormActions/deleteRecordForms";
 import { cloneDeep } from "lodash";
 const updateLoadingState = (
   state: RecordFormReducerProps,
@@ -20,8 +20,8 @@ const updateLoadingState = (
   return newState;
 };
 
-const recordFormReducer = createSlice({
-  name: "recordFormSlice",
+export const recordFormSearchSlice = createSlice({
+  name: "recordFormSearchSlice",
   initialState: {
     searched_data: {
       data: [],
@@ -40,10 +40,7 @@ const recordFormReducer = createSlice({
     },
   } as RecordFormReducerProps,
   reducers: {
-    updateSelectedDocument(
-      state: RecordFormReducerProps,
-      action: PayloadAction<{ _id: string }>
-    ) {
+    updateSelectedDocument(state, action: PayloadAction<{ _id: string }>) {
       const newState = cloneDeep(state);
       const searchedDocs = newState.searched_data.data;
       const selectedDoc = newState.selected_record;
@@ -146,4 +143,4 @@ const recordFormReducer = createSlice({
     });
   },
 });
-export const { updateSelectedDocument } = recordFormReducer.actions;
+export const { updateSelectedDocument } = recordFormSearchSlice.actions;

@@ -29,7 +29,6 @@ export interface GeneralRecordType {
   media?: Media;
   description: string;
   evidence: ArrayOneOrMore<Evidence>;
-  additional_evidence?: Evidence[];
 } 
 export type GeneralEventType = GeneralRecordType & {
   date_first_published: Date | string;

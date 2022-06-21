@@ -10,9 +10,9 @@ import {
 export const CategoriesList = [
   "War Crimes",
   "Refugees And IDPs",
-  "Protest Abroad",
+  "Protests Abroad",
   "International Response",
-  "Media and Disinformation",
+  "Media And Disinformation",
   "Russia",
 ] as const;
 export function categoryDropdownOptions(user: Realm.User | null) {
@@ -47,17 +47,17 @@ export function isCategoryScope(
 const categoryIconMap: CategoryIconProps = {
   "War Crimes": faHandcuffs,
   "Refugees And IDPs": faTents,
-  "Protest Abroad": faPeopleGroup,
+  "Protests Abroad": faPeopleGroup,
   "International Response": faEarthAmericas,
-  "Media and Disinformation": faNewspaper,
+  "Media And Disinformation": faNewspaper,
   Russia: faFlag,
 };
 export const categoryPermissions: GenericCategoryMap<boolean> = {
   "War Crimes": false,
   "Refugees And IDPs": false,
-  "Protest Abroad": false,
+  "Protests Abroad": false,
   "International Response": false,
-  "Media and Disinformation": false,
+  "Media And Disinformation": false,
   Russia: false,
 };
 export default categoryIconMap;

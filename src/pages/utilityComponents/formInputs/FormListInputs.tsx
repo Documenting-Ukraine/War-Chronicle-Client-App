@@ -52,7 +52,7 @@ const FormListInput = ({
       </div>
       <FormInputs
         title={"Link"}
-        name={`evidence-list-${idx}`}
+        name={`evidenceListLink${idx}`}
         inputType="text"
         className="evidence-list-form-inputs"
         customValidation={customValidation}
@@ -61,7 +61,7 @@ const FormListInput = ({
       />
       <FormInputs
         title={"Description"}
-        name={`evidence-list-${idx}`}
+        name={`evidenceListDescription${idx}`}
         inputType="text"
         className="evidence-list-form-inputs"
         required={false}

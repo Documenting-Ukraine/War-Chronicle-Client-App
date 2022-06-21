@@ -2,7 +2,7 @@ import { isInList } from "../DataLists";
 import { GeneralRecordType } from "../GeneralRecordType";
 type RefugeesAndIdpsGeneral = GeneralRecordType & {
   date_first_published: Date | string;
-  record_type: "Refugees And Idps";
+  record_type: "Refugees And IDPs";
 };
 export const RefugeesAndIdpsTypes = ["Refugees", "IDPs"] as const;
 export const isRefugeesAndIdpsType = (

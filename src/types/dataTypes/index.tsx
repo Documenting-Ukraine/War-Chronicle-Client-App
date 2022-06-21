@@ -6,6 +6,7 @@ import { Russia } from "./docTypes/Russia";
 import { WarCrimes } from "./docTypes/WarCrimes";
 import { CategoriesList, isCategoryScope } from "./CategoryIconMap";
 import { ObjectId } from "mongodb";
+
 type RecordSubmissionType =
   | InternationalResponse
   | MediaAndDisInformation
