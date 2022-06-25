@@ -1,15 +1,17 @@
 import { faUpload, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { unstable_batchedUpdates } from "react-dom";
 import Dropzone, { DropEvent, FileRejection } from "react-dropzone";
-import LoadingIcon from "../loadingIcon/LoadingIcon";
+import LoadingIcon from "../../loadingIcon/LoadingIcon";
+import { generateFilesFromUrl } from "./generateFilesFromUrl";
 import {
   MediaFile,
   VideoThumbnail,
   ImageThumbnail,
   generateFileMap,
-} from "./Thumbnails";
+} from "../Thumbnails";
+import { useDropZoneProvider } from "./FormDropZoneContext";
 interface FormDropZoneProps {
   name: string;
   maxSize: number;
@@ -23,25 +25,6 @@ interface ErrorProps {
   err: boolean;
   files: FileRejection[];
 }
-const generateFilesFromUrl = async (urls: string[]) => {
-  const newFiles = urls.map(async (url) => {
-    const urlParams = url.split("/");
-    const fileName = urlParams[urlParams.length - 1];
-    const lastModified = new Date().getMilliseconds();
-    const file = await fetch(url);
-    const fileBlob = await file.blob();
-    const result: MediaFile = {
-      ...fileBlob,
-      lastModified: lastModified,
-      name: fileName,
-      webkitRelativePath: url,
-      preview: url,
-    };
-    return result;
-  });
-  const result = await Promise.all(newFiles);
-  return result;
-};
 const FormDropZone = ({
   name,
   maxSize,
@@ -51,7 +34,7 @@ const FormDropZone = ({
   className,
   defaultFiles,
 }: FormDropZoneProps) => {
-  const [files, setFiles] = useState<MediaFile[]>([]);
+  const { images, videos, setImages, setVideos } = useDropZoneProvider();
   const [isLoading, setIsLoading] = useState(false);
   const [err, setErr] = useState<ErrorProps>({
     err: false,
@@ -66,7 +49,8 @@ const FormDropZone = ({
         if (mounted) {
           unstable_batchedUpdates(() => {
             setIsLoading(false);
-            setFiles(result);
+            if (mediaType === "images") setImages(result);
+            if (mediaType === "videos") setVideos(result);
           });
         }
       });
@@ -81,9 +65,13 @@ const FormDropZone = ({
     let mounted = true;
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     return () => {
-      if (mounted) files.forEach((file) => URL.revokeObjectURL(file.preview));
+      if (mounted && mediaType === "images")
+        images.forEach((file) => URL.revokeObjectURL(file.preview));
+      if (mounted && mediaType === "videos")
+        videos.forEach((file) => URL.revokeObjectURL(file.preview));
     };
-  }, [files]);
+  }, [images, videos]);
+
   const onDragEnter = () => {
     setIsOver(true);
   };
@@ -97,21 +85,38 @@ const FormDropZone = ({
   ) => {
     unstable_batchedUpdates(() => {
       setIsOver(false);
-      setFiles((state) => {
-        const map = generateFileMap(files);
-        const allFiles = acceptedFiles.map((file) => {
-          if (file.name in map) return null;
-          else
-            return Object.assign(file, {
-              preview: URL.createObjectURL(file),
-            });
-        });
-        const isMediaFiles = (file: MediaFile | null): file is MediaFile =>
-          file !== null;
+      if (mediaType === "images")
+        setImages((state) => {
+          const map = generateFileMap(images);
+          const allFiles = acceptedFiles.map((file) => {
+            if (file.name in map) return null;
+            else
+              return Object.assign(file, {
+                preview: URL.createObjectURL(file),
+              });
+          });
+          const isMediaFiles = (file: MediaFile | null): file is MediaFile =>
+            file !== null;
 
-        const newFiles: MediaFile[] = allFiles.filter(isMediaFiles);
-        return [...state, ...newFiles];
-      });
+          const newFiles: MediaFile[] = allFiles.filter(isMediaFiles);
+          return [...state, ...newFiles];
+        });
+      if (mediaType === "videos")
+        setVideos((state) => {
+          const map = generateFileMap(videos);
+          const allFiles = acceptedFiles.map((file) => {
+            if (file.name in map) return null;
+            else
+              return Object.assign(file, {
+                preview: URL.createObjectURL(file),
+              });
+          });
+          const isMediaFiles = (file: MediaFile | null): file is MediaFile =>
+            file !== null;
+
+          const newFiles: MediaFile[] = allFiles.filter(isMediaFiles);
+          return [...state, ...newFiles];
+        });
       setErr({
         err: fileRejections.length > 0,
         files: fileRejections,
@@ -120,7 +125,10 @@ const FormDropZone = ({
   };
   const onRemoveThumbnail = (e: React.MouseEvent<HTMLButtonElement>) => {
     const fileName = e.currentTarget.dataset["fileName"];
-    setFiles((files) => files.filter((file) => file.name !== fileName));
+    if (mediaType === "images")
+      setImages((files) => files.filter((file) => file.name !== fileName));
+    if (mediaType === "videos")
+      setVideos((files) => files.filter((file) => file.name !== fileName));
   };
   const onRemoveErr = (e: React.MouseEvent<HTMLButtonElement>) => {
     const fileName = e.currentTarget.dataset["fileName"];
@@ -141,26 +149,25 @@ const FormDropZone = ({
     mediaType === "videos"
       ? { "video/*": [".mp4"] }
       : { "image/*": [".png", ".gif", ".jpeg", ".jpg"] };
-  const thumbnails = files.map((file) => {
-    if (mediaType === "images")
-      return (
-        <ImageThumbnail
-          key={file.name}
-          file={file}
-          onRemoveThumbnail={onRemoveThumbnail}
-        />
-      );
-    else if (mediaType === "videos")
-      return (
-        <VideoThumbnail
-          key={file.name}
-          file={file}
-          onRemoveThumbnail={onRemoveThumbnail}
-        />
-      );
-    else return null;
-  });
 
+  const thumbnails =
+    mediaType === "images"
+      ? images.map((file) => (
+          <ImageThumbnail
+            key={file.name}
+            file={file}
+            onRemoveThumbnail={onRemoveThumbnail}
+          />
+        ))
+      : mediaType === "videos"
+      ? videos.map((file) => (
+          <VideoThumbnail
+            key={file.name}
+            file={file}
+            onRemoveThumbnail={onRemoveThumbnail}
+          />
+        ))
+      : [];
   return (
     <>
       <Dropzone
@@ -183,7 +190,14 @@ const FormDropZone = ({
                   }`,
                 })}
               >
-                {isLoading && <LoadingIcon entireViewPort width = {50} height={"100%"} backgroundColor="white" />}
+                {isLoading && (
+                  <LoadingIcon
+                    entireViewPort
+                    width={50}
+                    height={"100%"}
+                    backgroundColor="white"
+                  />
+                )}
                 <label htmlFor={name}>
                   <div>
                     <FontAwesomeIcon icon={faUpload} />

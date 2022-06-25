@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import FormInputs, {
   CustomFormInputs,
 } from "../../../utilityComponents/formInputs/FormInputs";
-import FormDropZone from "../../../utilityComponents/formInputs/FormDropZone";
+import FormDropZone from "../../../utilityComponents/formInputs/FormDropZone/FormDropZone";
 import FormListInputs from "../../../utilityComponents/formInputs/FormListInputs";
 import FormDateInputs from "../../../utilityComponents/formInputs/FormDateInputs";
 import FormAddressInputs from "../../../utilityComponents/formInputs/FormAddressInputs";
@@ -17,6 +17,7 @@ import {
   GeneralRecordType,
 } from "../../../../types/dataTypes/GeneralRecordType";
 import RecordFormSubmitWrapper from "./RecordFormSubmitWrapper";
+import { DropZoneProvider } from "../../../utilityComponents/formInputs/FormDropZone/FormDropZoneContext";
 
 export type SubmitCallbackProps = {
   recordType: string;
@@ -48,71 +49,59 @@ const RecordFormWrapper = ({
       {!mediumWindowWidth && (
         <RecordFormBoxes similarRecords={similarRecords} />
       )}
-
       <RecordFormBox
         title={`New ${formType} Record`}
         className="record-form-pg-form"
       >
-        <RecordFormSubmitWrapper>
-          <>
-            <FormInputs
-              title="Record Title"
-              name="title"
-              className="record-form-input"
-              required
-              inputType="text"
-            />
-            <FormInputs
-              textArea
-              title={"General Description"}
-              name={"description"}
-              className="record-form-input"
-              required
-            />
-            <CustomFormInputs
-              title="Media Files"
-              name={"mediaFiles"}
-              className="record-form-input"
-            >
-              <>
-                <FormDropZone
-                  name={"images"}
-                  mediaType={"images"}
-                  description={"Upload Images"}
-                  maxFiles={10}
-                  className={"media-form-input"}
-                  maxSize={Math.pow(10, 6) * 5}
-                />
-                <FormDropZone
-                  name={"videos"}
-                  mediaType={"videos"}
-                  description={"Upload Videos"}
-                  maxFiles={10}
-                  maxSize={Math.pow(10, 8) * 5}
-                />
-              </>
-            </CustomFormInputs>
-            <CustomFormInputs
-              name="Evidence"
-              className="record-form-input"
-              required
-            >
-              <FormListInputs />
-            </CustomFormInputs>
-
-            {dateFirstPublished && !generalEventType && (
-              <FormDateInputs
+        <DropZoneProvider>
+          <RecordFormSubmitWrapper recordType={formType}>
+            <>
+              <FormInputs
+                title="Record Title"
+                name="title"
                 className="record-form-input"
-                title="Date First Published"
-                name="dateFirstPublished"
-                onDateChange={(e: Date) => {}}
-                timeInput
+                required
+                inputType="text"
+              />
+              <FormInputs
+                textArea
+                title={"General Description"}
+                name={"description"}
+                className="record-form-input"
                 required
               />
-            )}
-            {generalEventType && (
-              <>
-                <FormAddressInputs />
+              <CustomFormInputs
+                title="Media Files"
+                name={"mediaFiles"}
+                className="record-form-input"
+              >
+                <>
+                  <FormDropZone
+                    name={"images"}
+                    mediaType={"images"}
+                    description={"Upload Images"}
+                    maxFiles={10}
+                    className={"media-form-input"}
+                    maxSize={Math.pow(10, 6) * 5}
+                  />
+                  <FormDropZone
+                    name={"videos"}
+                    mediaType={"videos"}
+                    description={"Upload Videos"}
+                    maxFiles={10}
+                    maxSize={Math.pow(10, 8) * 5}
+                  />
+                </>
+              </CustomFormInputs>
+              <CustomFormInputs
+                name="Evidence"
+                className="record-form-input"
+                required
+              >
+                <FormListInputs />
+              </CustomFormInputs>
+
+              {dateFirstPublished && !generalEventType && (
                 <FormDateInputs
                   className="record-form-input"
                   title="Date First Published"
@@ -121,19 +110,32 @@ const RecordFormWrapper = ({
                   timeInput
                   required
                 />
-                <FormDateInputs
-                  className="record-form-input"
-                  title="Date Event Occurred"
-                  name="dateEventOccurred"
-                  onDateChange={(e: Date) => {}}
-                  timeInput
-                  required
-                />
-              </>
-            )}
-            {children}
-          </>
-        </RecordFormSubmitWrapper>
+              )}
+              {generalEventType && (
+                <>
+                  <FormAddressInputs />
+                  <FormDateInputs
+                    className="record-form-input"
+                    title="Date First Published"
+                    name="dateFirstPublished"
+                    onDateChange={(e: Date) => {}}
+                    timeInput
+                    required
+                  />
+                  <FormDateInputs
+                    className="record-form-input"
+                    title="Date Event Occurred"
+                    name="dateEventOccurred"
+                    onDateChange={(e: Date) => {}}
+                    timeInput
+                    required
+                  />
+                </>
+              )}
+              {children}
+            </>
+          </RecordFormSubmitWrapper>
+        </DropZoneProvider>
       </RecordFormBox>
       {mediumWindowWidth && <RecordFormBoxes similarRecords={similarRecords} />}
     </div>

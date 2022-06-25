@@ -1,4 +1,7 @@
+import { isInList } from "./DataLists";
 import { OblastRegion } from "./OblastRegionType";
+export const addressKeys = ["oblast", "city", "latitude", "longitude"] as const
+export const isAddressKey = (e: string): e is (typeof addressKeys[number] | keyof Address) => isInList(e, addressKeys)
 export type Address = {
   oblast: keyof OblastRegion;
   city: OblastRegion[keyof OblastRegion];
@@ -8,6 +11,9 @@ export type Address = {
 export type ArrayOneOrMore<T> = {
   0: T;
 } & Array<T>;
+export function isArrayOneOrMore<T>(as: T[]): as is ArrayOneOrMore<T>{
+  return as.length>0
+}
 export type MediaLink = {
   local_url: string;
   media_type: string;
@@ -23,6 +29,7 @@ export type Evidence = {
   url: string;
 }
 export interface GeneralRecordType {
+  [key: string]: any;
   _id: string;
   record_title: string;
   record_creation_date: Date | string;

@@ -536,7 +536,7 @@ type OblastRegion = {
   Zakarpattia: typeof zakarpattiaOblast[number];
   Mykolaiv: typeof mykolaivOblast[number];
 };
-export const OblastList = {
+export const OblastList: { [key: string]: string[] } = {
   Kyiv: ["Kyiv"],
   Kharkiv: [
     "Kharkiv",
@@ -1051,6 +1051,16 @@ export const isOblastKey = (e: string): e is keyof OblastRegion => {
   try {
     return Object.keys(OblastList).includes(e);
   } catch (a) {
+    return false;
+  }
+};
+export const isCity = (
+  oblast: string,
+  city: string
+): city is OblastRegion[keyof OblastRegion] => {
+  try {
+    return OblastList[oblast].includes(city);
+  } catch (e) {
     return false;
   }
 };
