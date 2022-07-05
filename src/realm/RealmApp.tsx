@@ -1,16 +1,58 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import * as Realm from "realm-web";
 import { unstable_batchedUpdates } from "react-dom";
-type ErrorCallBack = (e: Realm.MongoDBRealmError) => any
+type ErrorCallBack = (e: Realm.MongoDBRealmError) => any;
+type AWSCredentialsObj = {
+  awsUserPoolToken: {
+    AccessToken: string;
+    ExpiresIn: number;
+    IdToken: string;
+    RefreshToken: string;
+    TokenType: string;
+  };
+  awsIdentityCredentials: {
+    Credentials: {
+      AccessKeyId: string;
+      Expiration: string | Date;
+      SecretKey: string;
+      SessionToken: string;
+    };
+    IdentityId: string;
+  };
+};
+export const isAWSCreds = (e: any): e is AWSCredentialsObj => {
+  try {
+    const userPool = e.awsUserPoolToken;
+    const identity = e.awsIdentityCredentials;
+    const allUserPoolProps =
+      userPool.AccessToken &&
+      userPool.ExpiresIn &&
+      userPool.IdToken &&
+      userPool.RefreshToken &&
+      userPool.TokenType;
+    const allIdentityProps = identity.Credentials && identity.IdentityId;
+    return allUserPoolProps && allIdentityProps;
+  } catch (a) {
+    return false;
+  }
+};
 export interface RealmApp {
-  app: Realm.App,
-  currentUser: Realm.User | null,
-  logIn: (cred: Realm.Credentials, errCall: ErrorCallBack) => Promise<Realm.User | null>,
-  logOut: () => Promise<void>,
-  userLoading: boolean
+  app: Realm.App;
+  currentUser: Realm.User | null;
+  logIn: (
+    cred: Realm.Credentials,
+    errCall: ErrorCallBack
+  ) => Promise<Realm.User | null>;
+  logOut: () => Promise<void>;
+  userLoading: boolean;
+  awsCredentials: null | AWSCredentialsObj;
+  getAWSCredentials: (
+    user: Realm.User,
+    credentials: string | null
+  ) => Promise<AWSCredentialsObj | null>;
 }
 const RealmAppContext = createContext<RealmApp | null>(null);
-  
+
 export const useRealmApp = () => {
   const app = useContext(RealmAppContext);
   if (!app) {
@@ -39,17 +81,40 @@ export const RealmAppProvider = ({
   const [currentUser, setCurrentUser] = useState(app.currentUser);
   //to give feedback while a user is being authenticated
   const [userLoading, setUserLoading] = useState(false);
+  const [awsCredentials, setAwsCreds] = useState<AWSCredentialsObj | null>(
+    null
+  );
+  const getAWSCredentials = async (
+    user: Realm.User,
+    realmAccessToken: string | null
+  ) => {
+    try {
+      const awsCreds = await user?.callFunction(
+        "user_aws_auth",
+        realmAccessToken
+      );
+      if (isAWSCreds(awsCreds)) {
+        setAwsCreds(awsCreds);
+        return awsCreds;
+      } else return null;
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
+  };
   async function logIn(
     credentials: Realm.Credentials,
     errorCallBack: (e: Realm.MongoDBRealmError) => void
   ) {
     try {
       setUserLoading(true);
-      await app.logIn(credentials);
+      const user = await app.logIn(credentials);
+      const awsCreds = await getAWSCredentials(user, user?.accessToken);
       // If successful, app.currentUser is the user that just logged in
       unstable_batchedUpdates(() => {
         setCurrentUser(app.currentUser);
         setUserLoading(false);
+        setAwsCreds(awsCreds);
       });
       return app.currentUser;
     } catch (e) {
@@ -58,11 +123,11 @@ export const RealmAppProvider = ({
         console.error(e);
         if (errorCallBack) errorCallBack(e);
         unstable_batchedUpdates(() => {
-            setCurrentUser(null);
-            setUserLoading(false);
+          setCurrentUser(null);
+          setUserLoading(false);
         });
       }
-      return null
+      return null;
     }
   }
   async function logOut() {
@@ -73,8 +138,15 @@ export const RealmAppProvider = ({
     setCurrentUser(app.currentUser);
   }
   const wrapped: RealmApp = {
-    app, currentUser, logIn, logOut, userLoading
+    app,
+    currentUser,
+    logIn,
+    logOut,
+    userLoading,
+    awsCredentials,
+    getAWSCredentials,
   };
+
   return (
     <RealmAppContext.Provider value={wrapped}>
       {children}
