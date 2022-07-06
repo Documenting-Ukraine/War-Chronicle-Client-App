@@ -1,6 +1,6 @@
 import { faUpload, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect} from "react";
 import { unstable_batchedUpdates } from "react-dom";
 import Dropzone, { DropEvent, FileRejection } from "react-dropzone";
 import LoadingIcon from "../../loadingIcon/LoadingIcon";

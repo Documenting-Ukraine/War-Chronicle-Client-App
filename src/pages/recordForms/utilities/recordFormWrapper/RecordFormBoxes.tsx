@@ -41,7 +41,7 @@ const RecordFormBoxes = ({
             />
           ))}
           {similarRecords.length <= 0 && (
-            <div className="d-flex w-100 h-100 justify-content-center align-items-center">
+            <div className="d-flex w-100 h-100 justify-content-center align-items-center flex-grow-1">
               No records found.
             </div>
           )}
