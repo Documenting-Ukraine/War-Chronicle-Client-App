@@ -1,5 +1,5 @@
 import { GeneralEventType } from "../GeneralRecordType";
-import { isInList, WarCrimeTypes } from "../DataLists";
+import { isInList} from "../DataLists";
 import { ReadonlyArray } from "../DataLists";
 //War Crimes
 export const munitionTypeList = [
@@ -42,7 +42,7 @@ export const munitionType = (
   if (subTypes)
     return {
       munition_type: title,
-      sub_types: subTypes,
+      munition_sub_types: subTypes,
     };
   else return { munition_type: title };
 };
@@ -100,16 +100,27 @@ export const isObjectOfCulture = (
 ): e is typeof ObjectsOfCulture[number] => isInList(e, ObjectsOfCulture);
 type GeneralWarCrimes = GeneralEventType & {
   record_type: "War Crimes";
-  war_crime: typeof WarCrimeTypes[number];
   civilian_casualties?: number;
 };
 type AttacksOnCivilians = GeneralWarCrimes & {
+  war_crime: "Attacks on Civilians"
   munition: typeof Munition[number];
 };
 
 type DestructionOfCulture = GeneralWarCrimes & {
-  key_actor: typeof KeyActor[number];
-  objects_of_culture: typeof ObjectsOfCulture[number];
+  war_crime: "Destruction of Culture",
+  key_actor: {
+    actor_type: typeof KeyActor[number], 
+    actor_name: string
+  };
+  objects_of_culture: {
+    object_type: typeof ObjectsOfCulture[number],
+    object_name: string, 
+    landmark?: {
+      landmark_type: typeof LandmarksTypes[number],
+      landmark_significance: typeof LandmarkSignificance[number]
+    }
+  };
 };
 
 type WarCrimes = AttacksOnCivilians | DestructionOfCulture;

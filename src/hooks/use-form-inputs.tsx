@@ -38,6 +38,7 @@ const useFormInputs = ({
       } else if (validateFunc && validateFunc(value).err)
         setErr(validateFunc(value));
       else setErr({ err: false, message: "" });
+      // if(validateFunc) validateFunc(value)
     }
   }, [touched, value, validateFunc, required]);
   useEffect(() => {

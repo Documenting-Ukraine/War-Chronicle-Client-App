@@ -15,7 +15,7 @@ const MediaAndDisInformationForm = lazy(
 const ProtestsAbroad = lazy(() => import("./forms/ProtestsAbroadForm"));
 const RefugeesAndIdpsForm = lazy(() => import("./forms/RefugeesAndIdpsForm"));
 const RussiaForm = lazy(() => import("./forms/RussiaForm"));
-const WarCrimesForm = lazy(() => import("./forms/WarCrimesForm"));
+const WarCrimesForm = lazy(() => import("./forms/WarCrimesForm/WarCrimesForm"));
 
 const RecordFormPage = (): JSX.Element => {
   const onSubmitCallback = ({
@@ -54,7 +54,7 @@ const RecordFormPage = (): JSX.Element => {
                 }
               />
               <Route
-                path={"create-new-protest-abroad"}
+                path={"create-new-protests-abroad"}
                 element={
                   <RecordFormWrapper>
                     <ProtestsAbroad />

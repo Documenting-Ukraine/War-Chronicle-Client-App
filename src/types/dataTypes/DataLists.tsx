@@ -9,6 +9,13 @@ export const isInList = (e: string, a: readonly any[]) => {
     return false;
   }
 };
+export function isItemInList<S>(e: any, arr: readonly any[]): e is S{
+  try {
+    return arr.includes(e);
+  } catch (a) {
+    return false;
+  }
+}
 export const BooleanDropdownOptions = ["Yes", "No", "N/A"] as const;
 export const WarCrimeTypes = [
   "Attacks on Civilians",
