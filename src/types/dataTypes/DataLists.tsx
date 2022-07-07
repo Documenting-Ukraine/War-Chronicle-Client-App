@@ -9,7 +9,7 @@ export const isInList = (e: string, a: readonly any[]) => {
     return false;
   }
 };
-export function isItemInList<S>(e: any, arr: readonly any[]): e is S{
+export function isItemInList<S>(e: any, arr: readonly S[]): e is S{
   try {
     return arr.includes(e);
   } catch (a) {

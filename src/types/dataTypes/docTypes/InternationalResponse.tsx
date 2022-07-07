@@ -1,5 +1,5 @@
 import { GeneralRecordType } from "../GeneralRecordType";
-import { Countries, AidTypes, isInList, InternationalResponseType } from "../DataLists";
+import { Countries, AidTypes, isInList, InternationalResponseType, BooleanDropdownOptions } from "../DataLists";
 
 export const isInternationalType = (
   e: string
@@ -7,21 +7,21 @@ export const isInternationalType = (
   isInList(e, InternationalResponseType);
 type GeneralInternational = GeneralRecordType & {
   record_type: "International Response";
-  response_type: typeof InternationalResponseType[number];
-  countries: typeof Countries[number][];
+  international_response_type: typeof InternationalResponseType[number];
+  participating_countries: typeof Countries[number][];
 };
 type UNRecord = GeneralInternational & {
-  resolution: string;
+  resolution_name: string;
 };
 type CombatPermission = GeneralInternational & {
-  permission_granted_to_citizens?: boolean;
+  permission_granted_to_citizens?: typeof BooleanDropdownOptions[number];
   number_of_volunteers?: number;
   date_permission_granted: Date | string;
 };
 type Aid = {
   general_aid_type: typeof AidTypes[number]
-  aid_sent: boolean;
-  recipient: string;
+  aid_sent: typeof BooleanDropdownOptions[number];
+  aid_recipient: string;
   date_aid_is_announced: Date | string;
   date_aid_is_sent: Date | string;
   aid_valuation: number;

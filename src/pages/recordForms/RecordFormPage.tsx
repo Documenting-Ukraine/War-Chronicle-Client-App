@@ -7,14 +7,14 @@ import LoadingIcon from "../utilityComponents/loadingIcon/LoadingIcon";
 import RecordFormNav from "./utilities/recordFormNav/RecordFormNav";
 import RecordFormWrapper from "./utilities/recordFormWrapper/RecordFormWrapper";
 const InternationalResponseForm = lazy(
-  () => import("./forms/InternationalResponseForm")
+  () => import("./forms/InternationResponseForm/InternationalResponseForm")
 );
 const MediaAndDisInformationForm = lazy(
-  () => import("./forms/MediaAndDisinformationForm")
+  () => import("./forms/MediaAndDisinformationForm/MediaAndDisinformationForm")
 );
-const ProtestsAbroad = lazy(() => import("./forms/ProtestsAbroadForm"));
-const RefugeesAndIdpsForm = lazy(() => import("./forms/RefugeesAndIdpsForm"));
-const RussiaForm = lazy(() => import("./forms/RussiaForm"));
+const ProtestsAbroad = lazy(() => import("./forms/ProtestsAbroadForm/ProtestsAbroadForm"));
+const RefugeesAndIdpsForm = lazy(() => import("./forms/RefugeesAndIdpsForm/RefugeesAndIdpsForm"));
+const RussiaForm = lazy(() => import("./forms/RussiaForm/RussiaForm"));
 const WarCrimesForm = lazy(() => import("./forms/WarCrimesForm/WarCrimesForm"));
 
 const RecordFormPage = (): JSX.Element => {
