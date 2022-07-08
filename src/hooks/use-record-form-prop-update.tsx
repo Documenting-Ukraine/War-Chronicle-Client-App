@@ -2,14 +2,15 @@ import { useDispatch } from "react-redux";
 import { updateFormProps } from "../store/reducers/recordForms/recordFormSubmission/recordFormSubmissionReducer";
 import { RecordSubmissionType } from "../types";
 
-const useRecordFormPropUpdate = (): ((
-  e: Partial<RecordSubmissionType>
-) => void) => {
+const useRecordFormPropUpdate = (
+  recordType?: RecordSubmissionType["record_type"]
+): ((e: Partial<RecordSubmissionType>) => void) => {
   const dispatch = useDispatch();
   const updateStoreProps = (e: Partial<RecordSubmissionType>) =>
     dispatch(
       updateFormProps({
-        payload: e,
+        ...e,
+        record_type: recordType,
       })
     );
   return updateStoreProps;

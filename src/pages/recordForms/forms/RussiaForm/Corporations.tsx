@@ -15,7 +15,7 @@ const Corporations = (): JSX.Element => {
   const [responseType, setResponseType] = useState<
     typeof ResponseType[number] | undefined
   >();
-  const updateStoreProps = useRecordFormPropUpdate();
+  const updateStoreProps = useRecordFormPropUpdate("Russia");
   return (
     <>
       <FormInputs

@@ -23,7 +23,7 @@ const KeyActors = () => {
   const [keyActorType, setKeyActorType] = useState<
     typeof KeyActor[number] | undefined
   >();
-  const updateStoreProps = useRecordFormPropUpdate();
+  const updateStoreProps = useRecordFormPropUpdate("War Crimes");
   useEffect(() => {
     updateStoreProps({
       key_actor: {
@@ -64,7 +64,7 @@ const KeyActors = () => {
   );
 };
 const ObjectsOfCultureInputs = () => {
-  const updateStoreProps = useRecordFormPropUpdate();
+  const updateStoreProps = useRecordFormPropUpdate("War Crimes");
   const [objectOfCulture, setObjectOfCulture] = useState<
     typeof ObjectsOfCulture[number] | undefined
   >();

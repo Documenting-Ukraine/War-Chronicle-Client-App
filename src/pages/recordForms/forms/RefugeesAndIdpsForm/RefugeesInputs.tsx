@@ -4,7 +4,7 @@ import FormInputs, {
   CustomFormInputs,
 } from "../../../utilityComponents/formInputs/FormInputs";
 const Refugees = (): JSX.Element => {
-    const updateStoreProps = useRecordFormPropUpdate();
+    const updateStoreProps = useRecordFormPropUpdate("Refugees And IDPs");
   const [countryName, setCountryName] = useState("");
   const [refugeesInCountry, setRefugeesInCountry] = useState(0);
   useEffect(() => {

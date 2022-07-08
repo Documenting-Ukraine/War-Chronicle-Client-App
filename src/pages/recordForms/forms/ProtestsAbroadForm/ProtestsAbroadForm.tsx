@@ -14,7 +14,7 @@ const ProtestsAbroad = (): JSX.Element => {
   // const [protestLocation, setProtestLocation] = useState<
   //   typeof ProtestAbroadRegion[number] | undefined
   // >();
-  const updateStoreProps = useRecordFormPropUpdate()
+  const updateStoreProps = useRecordFormPropUpdate("Protests Abroad")
   return (
     <>
       <FormInputs

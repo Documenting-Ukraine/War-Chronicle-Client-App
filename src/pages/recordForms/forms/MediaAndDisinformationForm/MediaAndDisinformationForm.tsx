@@ -24,7 +24,7 @@ const MediaTypeInput = (): JSX.Element => {
   const [mediaType, setMediaType] = useState<
     typeof MediaType[number] | undefined
   >();
-  const updateStoreProps = useRecordFormPropUpdate();
+  const updateStoreProps = useRecordFormPropUpdate("Media And Disinformation");
   return (
     <>
       <FormInputs
@@ -63,7 +63,7 @@ const MediaTypeInput = (): JSX.Element => {
 const EditiorialStance = () => {
   const [stance, setStance] = useState("");
   const [quote, setQuote] = useState("");
-  const updateStoreProps = useRecordFormPropUpdate();
+  const updateStoreProps = useRecordFormPropUpdate("Media And Disinformation");
   useEffect(() => {
     updateStoreProps({
       editorial_stance: {
@@ -108,7 +108,7 @@ const EditiorialStance = () => {
   );
 };
 const MediaAndDisInformationForm = (): JSX.Element => {
-  const updateStoreProps = useRecordFormPropUpdate();
+  const updateStoreProps = useRecordFormPropUpdate("Media And Disinformation");
   return (
     <>
       <FormDateInputs

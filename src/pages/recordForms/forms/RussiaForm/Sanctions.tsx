@@ -12,7 +12,7 @@ import FormInputs from "../../../utilityComponents/formInputs/FormInputs";
 const sanctionTypeOptions = transformSingleList([...SanctionType]);
 
 const Sanctions = (): JSX.Element => {
-  const updateStoreProps = useRecordFormPropUpdate();
+  const updateStoreProps = useRecordFormPropUpdate("Russia");
   return (
     <>
       <FormInputs

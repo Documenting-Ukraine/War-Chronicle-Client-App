@@ -9,16 +9,21 @@ import {
   isRefugeesAndIdpsType,
   RefugeesAndIdpsTypes,
 } from "../../../../types/dataTypes/docTypes/RefugeesAndIdps";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Refugees from "./RefugeesInputs";
 import IDPs from "./IDPsInputs";
 import useRecordFormPropUpdate from "../../../../hooks/use-record-form-prop-update";
 const refugeesAndIdpsOptions = transformSingleList([...RefugeesAndIdpsTypes]);
 const RefugeesAndIdpsForm = () => {
+  const updateStoreProps = useRecordFormPropUpdate("Refugees And IDPs")
   const [refugeesAndIdpsType, setRefugeesAndIdpsType] = useState<
     typeof RefugeesAndIdpsTypes[number]
   >(RefugeesAndIdpsTypes[0]);
-  const updateStoreProps = useRecordFormPropUpdate()
+  useEffect(() => {
+    updateStoreProps({
+      refugees_and_idps_type: refugeesAndIdpsType
+    })
+  }, [refugeesAndIdpsType])
   return (
     <>
       <FormInputs
@@ -30,9 +35,6 @@ const RefugeesAndIdpsForm = () => {
         customDropdownFunc={(e: Option | MultiValue<Option> | null) => {
           if (isOption(e) && isRefugeesAndIdpsType(e.value)){
             setRefugeesAndIdpsType(e.value);
-            updateStoreProps({
-              refugees_and_idps_type: refugeesAndIdpsType
-            })
           }
         }}
       />

@@ -13,7 +13,7 @@ import useRecordFormPropUpdate from "../../../../hooks/use-record-form-prop-upda
 const newMunitionList = transformSingleList([...munitionTypeList]);
 const newMunitionMine = transformSingleList([...MunitionMineList]);
 const AttacksOnCivilians = (): JSX.Element => {
-  const updateStoreProps = useRecordFormPropUpdate();
+  const updateStoreProps = useRecordFormPropUpdate("War Crimes");
   const [munitionType, setMunitionType] = useState<
     typeof munitionTypeList[number]
   >("Mine, Booby-Trap or Other Device");

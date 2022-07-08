@@ -15,7 +15,7 @@ import Corporations from "./Corporations";
 import useRecordFormPropUpdate from "../../../../hooks/use-record-form-prop-update";
 const newRussianRecordTypes = transformSingleList([...RussianRecordTypes]);
 const RussiaForm = (): JSX.Element => {
-  const updateStoreProps = useRecordFormPropUpdate();
+  const updateStoreProps = useRecordFormPropUpdate("Russia");
   const [russianRecordType, setRussianRecordType] = useState<
     typeof RussianRecordTypes[number] | undefined
   >();

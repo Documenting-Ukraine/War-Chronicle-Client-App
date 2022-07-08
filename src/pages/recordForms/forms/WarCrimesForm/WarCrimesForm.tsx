@@ -1,16 +1,16 @@
 import { transformSingleList } from "../../../authPage/data/OccupationList";
 import FormInputs from "../../../utilityComponents/formInputs/FormInputs";
-import { WarCrimeTypes, isWarCrime } from "../../../../types/dataTypes/DataLists";
-import { useState } from "react";
+import {
+  WarCrimeTypes,
+  isWarCrime,
+} from "../../../../types/dataTypes/DataLists";
+import { useEffect, useState } from "react";
 import { Option, isOption } from "../../../authPage/data/OccupationList";
 import { MultiValue } from "react-select";
-import {
-  WarCrimes,
-} from "../../../../types/dataTypes/docTypes/WarCrimes";
-import { useDispatch } from "react-redux";
-import { updateFormProps } from "../../../../store/reducers/recordForms/recordFormSubmission/recordFormSubmissionReducer";
+import { WarCrimes } from "../../../../types/dataTypes/docTypes/WarCrimes";
 import DestructionOfCulture from "./DestructionOfCulture";
 import AttacksOnCivilians from "./AttackOnCivilians";
+import useRecordFormPropUpdate from "../../../../hooks/use-record-form-prop-update";
 
 const WarCrimeOptions = transformSingleList([...WarCrimeTypes]);
 
@@ -19,22 +19,15 @@ const WarCrimesForm = ({
 }: {
   defaultInputs?: WarCrimes;
 }): JSX.Element => {
+  const updateStoreProps = useRecordFormPropUpdate("War Crimes");
   const [warCrimeType, setWarCrimeType] = useState<
     typeof WarCrimeTypes[number]
   >(WarCrimeTypes[0]);
-  const dispatch = useDispatch();
-  const updateStoreProps = (e: Partial<WarCrimes>) =>
-    dispatch(
-      updateFormProps({
-        payload: e,
-      })
-    );
-  const updateCivilians = (e: string) => {
+  useEffect(() => {
     updateStoreProps({
-      civilian_casualties: parseInt(e),
+      war_crime: warCrimeType,
     });
-    return { err: false, message: "" };
-  };
+  }, [warCrimeType, updateStoreProps]);
   return (
     <>
       <FormInputs
@@ -43,7 +36,12 @@ const WarCrimesForm = ({
         className="record-form-input"
         inputType="number"
         required={false}
-        customValidation={updateCivilians}
+        customValidation={(e: string) => {
+          updateStoreProps({
+            civilian_casualties: parseInt(e),
+          });
+          return { err: false, message: "" };
+        }}
       />
       <FormInputs
         title={"War Crime Type"}
@@ -54,7 +52,6 @@ const WarCrimesForm = ({
         customDropdownFunc={(e: Option | MultiValue<Option> | null) => {
           if (isOption(e) && isWarCrime(e.value)) {
             setWarCrimeType(e.value);
-            updateStoreProps({ war_crime: e.value });
           }
         }}
       />

@@ -24,7 +24,7 @@ const newCountries = transformSingleList(
 );
 const booleanDropdown = transformSingleList([...BooleanDropdownOptions]);
 const GeneralAidInputs = (): JSX.Element => {
-  const updateStoreProps = useRecordFormPropUpdate();
+  const updateStoreProps = useRecordFormPropUpdate("International Response");
   return (
     <>
       <FormInputs
@@ -111,7 +111,7 @@ const InternationalResponseForm = () => {
   const [responseType, setResponseType] = useState<
     typeof InternationalResponseType[number] | undefined
   >();
-  const updateStoreProps = useRecordFormPropUpdate();
+  const updateStoreProps = useRecordFormPropUpdate("International Response");
   return (
     <>
       <FormInputs

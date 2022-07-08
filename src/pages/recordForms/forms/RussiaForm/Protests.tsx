@@ -3,7 +3,7 @@ import FormAddressInputs from "../../../utilityComponents/formInputs/FormAddress
 import FormInputs from "../../../utilityComponents/formInputs/FormInputs";
 
 const Protests = (): JSX.Element => {
-    const updateStoreProps = useRecordFormPropUpdate()
+    const updateStoreProps = useRecordFormPropUpdate("Russia")
     return (
       <>
         <FormAddressInputs />

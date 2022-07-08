@@ -16,8 +16,10 @@ export const recordFormSubmissionSlice = createSlice({
     updateFormProps(state, action: PayloadAction<RecordFormSubmssionProps>) {
       const copyState = cloneDeep(state);
       const payload = action.payload;
-      if (copyState.record_type && payload.record_type)
-        return determineSubmissionType(copyState, payload);
+      if (copyState.record_type){
+        const newState = determineSubmissionType(copyState, payload);
+        return newState
+      }
       return state;
     },
   },

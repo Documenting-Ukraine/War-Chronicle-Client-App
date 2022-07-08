@@ -70,37 +70,6 @@ const RecordFormWrapper = ({
                 className="record-form-input"
                 required
               />
-              <CustomFormInputs
-                title="Media Files"
-                name={"mediaFiles"}
-                className="record-form-input"
-              >
-                <>
-                  <FormDropZone
-                    name={"images"}
-                    mediaType={"images"}
-                    description={"Upload Images"}
-                    maxFiles={10}
-                    className={"media-form-input"}
-                    maxSize={Math.pow(10, 6) * 5}
-                  />
-                  <FormDropZone
-                    name={"videos"}
-                    mediaType={"videos"}
-                    description={"Upload Videos"}
-                    maxFiles={10}
-                    maxSize={Math.pow(10, 8) * 5}
-                  />
-                </>
-              </CustomFormInputs>
-              <CustomFormInputs
-                name="Evidence"
-                className="record-form-input"
-                required
-              >
-                <FormListInputs />
-              </CustomFormInputs>
-
               {dateFirstPublished && !generalEventType && (
                 <FormDateInputs
                   className="record-form-input"
@@ -132,6 +101,37 @@ const RecordFormWrapper = ({
                   />
                 </>
               )}
+                            <CustomFormInputs
+                name="Evidence"
+                className="record-form-input"
+                required
+              >
+                <FormListInputs />
+              </CustomFormInputs>
+              <CustomFormInputs
+                title="Media Files"
+                name={"mediaFiles"}
+                className="record-form-input"
+                required={false}
+              >
+                <>
+                  <FormDropZone
+                    name={"images"}
+                    mediaType={"images"}
+                    description={"Upload Images"}
+                    maxFiles={10}
+                    className={"media-form-input"}
+                    maxSize={Math.pow(10, 6) * 5}
+                  />
+                  <FormDropZone
+                    name={"videos"}
+                    mediaType={"videos"}
+                    description={"Upload Videos"}
+                    maxFiles={10}
+                    maxSize={Math.pow(10, 8) * 5}
+                  />
+                </>
+              </CustomFormInputs>
               {children}
             </>
           </RecordFormSubmitWrapper>

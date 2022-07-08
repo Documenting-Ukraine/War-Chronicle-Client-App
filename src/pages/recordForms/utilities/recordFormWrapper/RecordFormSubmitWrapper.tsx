@@ -40,8 +40,8 @@ const RecordFormSubmitWrapper = ({
       recordType: recordType,
       recordTitle: extractedInputs.record_title,
     });
-    let imageLinks: string[];
-    let videoLinks: string[];
+    let imageLinks: string[] = [];
+    let videoLinks: string[] = [];
     try {
       const [imageUploadLinks, videoUploadLinks] = await Promise.all([
         imageUpload,
@@ -50,10 +50,12 @@ const RecordFormSubmitWrapper = ({
       imageLinks = imageUploadLinks;
       videoLinks = videoUploadLinks;
     } catch (e) {
+      imageLinks = []
+      videoLinks = []
       return setErr({
         error: true,
         message:
-          "Form Submission failed. We could not upload your media files.",
+          "We could not upload your media files. Please try editing the record, and uploading them again",
       });
     }
 
@@ -70,6 +72,7 @@ const RecordFormSubmitWrapper = ({
       generalInputs,
       additionalInputs,
     };
+    console.log(submissionObject)
     return submissionObject;
   };
 
@@ -83,7 +86,7 @@ const RecordFormSubmitWrapper = ({
           "upload_record_form",
           payload
         );
-        navigate(`/search/recordForms/${recordType}/${documentId}`);
+        //navigate(`/search/recordForms/${recordType}/${documentId}`);
       })
       .catch((e) => console.error(e));
   };

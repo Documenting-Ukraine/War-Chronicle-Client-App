@@ -2,7 +2,7 @@ import useRecordFormPropUpdate from "../../../../hooks/use-record-form-prop-upda
 import FormInputs from "../../../utilityComponents/formInputs/FormInputs";
 
 const IDPs = (): JSX.Element => {
-    const updateStoreProps = useRecordFormPropUpdate();
+    const updateStoreProps = useRecordFormPropUpdate("Refugees And IDPs");
     return (
       <>
         <FormInputs

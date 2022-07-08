@@ -18,7 +18,7 @@ const SportsAndCulture = (): JSX.Element => {
     const [responseType, setResponseType] = useState<
       typeof SportsAndCultureResponses[number] | undefined
     >();
-    const updateStoreProps = useRecordFormPropUpdate();
+    const updateStoreProps = useRecordFormPropUpdate("Russia");
     return (
       <>
         <FormInputs
