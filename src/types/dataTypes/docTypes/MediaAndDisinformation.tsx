@@ -14,7 +14,7 @@ type MediaAndDisInfoGeneral = GeneralRecordType & {
   record_type: "Media And Disinformation";
   media_type: typeof MediaType[number];
   media_region: typeof MediaRegion[number];
-  custom_article_type: string;
+  custom_media_type: string;
   media_title: string;
   primary_language: string;
   hosting_outlet: string;

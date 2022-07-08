@@ -6,6 +6,7 @@ import {
   isOption,
   Option,
   transformSingleList,
+  transformOptions,
 } from "../../../authPage/data/OccupationList";
 import FormInputs from "../../../utilityComponents/formInputs/FormInputs";
 import SportsAndCulture from "./SportsAndCulture";
@@ -13,34 +14,45 @@ import Sanctions from "./Sanctions";
 import Protests from "./Protests";
 import Corporations from "./Corporations";
 import useRecordFormPropUpdate from "../../../../hooks/use-record-form-prop-update";
+import RussiaTemplate from "./RussiaTemplate";
+import { Russia } from "../../../../types";
 const newRussianRecordTypes = transformSingleList([...RussianRecordTypes]);
-const RussiaForm = (): JSX.Element => {
+const RussiaForm = ({
+  defaultInputs,
+}: {
+  defaultInputs?: Russia;
+}): JSX.Element => {
   const updateStoreProps = useRecordFormPropUpdate("Russia");
   const [russianRecordType, setRussianRecordType] = useState<
     typeof RussianRecordTypes[number] | undefined
-  >();
+  >(defaultInputs?.russian_record_type);
   return (
-    <>
-      <FormInputs
-        title="Russian Record Type"
-        name="russianRecordType"
-        dropDown={newRussianRecordTypes}
-        customDropdownFunc={(e: Option | MultiValue<Option> | null) => {
-          if (isOption(e) && isRussianRecordType(e.value)) {
-            setRussianRecordType(e.value);
-            updateStoreProps({ russian_record_type: e.value });
+    <RussiaTemplate
+      russianRecordType={russianRecordType}
+      corporationsEl={<Corporations defaultInputs={defaultInputs} />}
+      protestsEl={<Protests defaultInputs={defaultInputs} />}
+      sanctionsEl={<Sanctions defaultInputs={defaultInputs} />}
+      sportsEl={<SportsAndCulture defaultInputs={defaultInputs} />}
+    >
+      <>
+        <FormInputs
+          title="Russian Record Type"
+          name="russianRecordType"
+          dropDown={newRussianRecordTypes}
+          defaultDropDownValue={
+            russianRecordType ? transformOptions(russianRecordType) : undefined
           }
-        }}
-        required
-      />
-      {russianRecordType === "Corporation Responses" && <Corporations />}
-      {russianRecordType === "Protests in Russia" && <Protests />}
-      {russianRecordType === "Sanctions vs. Russia" && <Sanctions />}
-      {russianRecordType === "Sports and Culture Responses" && (
-        <SportsAndCulture />
-      )}
-      <FormInputs title={"Notes"} name={"notes"} textArea required={false} />
-    </>
+          customDropdownFunc={(e: Option | MultiValue<Option> | null) => {
+            if (isOption(e) && isRussianRecordType(e.value)) {
+              setRussianRecordType(e.value);
+              updateStoreProps({ russian_record_type: e.value });
+            }
+          }}
+          required
+        />
+        <FormInputs title={"Notes"} name={"notes"} textArea required={false} />
+      </>
+    </RussiaTemplate>
   );
 };
 export default RussiaForm;

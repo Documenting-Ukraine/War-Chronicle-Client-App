@@ -2,7 +2,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { cloneDeep } from "lodash";
 import { RecordSubmissionType } from "../../../../types/dataTypes";
 import { determineSubmissionType } from "./determineSubmissionType";
-export type RecordFormSubmssionProps = Partial<Omit<RecordSubmissionType, "record_type">>;
+export type RecordFormSubmssionProps = Omit<
+  Partial<RecordSubmissionType>,
+  "record_type"
+>;
 export const recordFormSubmissionSlice = createSlice({
   name: "recordFormSubmissionSlice",
   initialState: {} as RecordFormSubmssionProps,
@@ -16,9 +19,9 @@ export const recordFormSubmissionSlice = createSlice({
     updateFormProps(state, action: PayloadAction<RecordFormSubmssionProps>) {
       const copyState = cloneDeep(state);
       const payload = action.payload;
-      if (copyState.record_type){
+      if (copyState.record_type && payload.record_type) {
         const newState = determineSubmissionType(copyState, payload);
-        return newState
+        return newState ? newState : state;
       }
       return state;
     },

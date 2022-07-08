@@ -8,7 +8,7 @@ import { CategoriesList, isCategoryScope } from "./CategoryIconMap";
 import { ObjectId } from "mongodb";
 
 type RecordSubmissionType =
-  | InternationalResponse
+  InternationalResponse
   | MediaAndDisInformation
   | RefugeesAndIdps
   | Russia

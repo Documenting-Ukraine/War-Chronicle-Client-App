@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useRecordFormPropUpdate from "../../../../hooks/use-record-form-prop-update";
+import { Russia } from "../../../../types";
 import {
   isResponseType,
   ResponseType,
@@ -7,14 +8,20 @@ import {
 import {
   isOption,
   transformSingleList,
+  transformOptions,
 } from "../../../authPage/data/OccupationList";
 import FormDateInputs from "../../../utilityComponents/formInputs/FormDateInputs";
 import FormInputs from "../../../utilityComponents/formInputs/FormInputs";
 const responseTypeOptions = transformSingleList([...ResponseType]);
-const Corporations = (): JSX.Element => {
+
+const Corporations = ({
+  defaultInputs,
+}: {
+  defaultInputs?: Russia;
+}): JSX.Element => {
   const [responseType, setResponseType] = useState<
     typeof ResponseType[number] | undefined
-  >();
+  >(defaultInputs?.russian_record_response_type);
   const updateStoreProps = useRecordFormPropUpdate("Russia");
   return (
     <>
@@ -23,6 +30,7 @@ const Corporations = (): JSX.Element => {
         name="corporationName"
         inputType="text"
         required
+        defaultValue={defaultInputs?.corporation_name}
         customValidation={(e) => {
           updateStoreProps({
             corporation_name: e,
@@ -35,6 +43,7 @@ const Corporations = (): JSX.Element => {
         name="corporationIndustry"
         inputType="text"
         required
+        defaultValue={defaultInputs?.corporation_industry}
         customValidation={(e) => {
           updateStoreProps({
             corporation_industry: e,
@@ -46,6 +55,9 @@ const Corporations = (): JSX.Element => {
         title="Response Type"
         name="responseType"
         dropDown={responseTypeOptions}
+        defaultDropDownValue={
+          responseType ? transformOptions(responseType) : undefined
+        }
         customDropdownFunc={(e) => {
           if (isOption(e) && isResponseType(e.value)) {
             setResponseType(e.value);
@@ -62,6 +74,7 @@ const Corporations = (): JSX.Element => {
           name={"customResponseType"}
           inputType="text"
           required={true}
+          defaultValue={defaultInputs?.russian_record_custom_response_type}
           customValidation={(e) => {
             updateStoreProps({
               russian_record_custom_response_type: e,
@@ -72,6 +85,7 @@ const Corporations = (): JSX.Element => {
       )}
       {responseType === "Donation" && (
         <FormInputs
+          defaultValue={defaultInputs?.donation_valuation}
           title="Donation Valuation"
           name={"donationValuation"}
           inputType="number"
@@ -88,10 +102,11 @@ const Corporations = (): JSX.Element => {
         title="Date of First Response"
         name={"dateOfFirstResponse"}
         timeInput={false}
+        defaultValue={new Date(defaultInputs?.date_of_first_response)}
         onDateChange={(e: Date) => {
-            updateStoreProps({
-                date_of_first_response: e
-            })
+          updateStoreProps({
+            date_of_first_response: e,
+          });
         }}
         required
       />
@@ -99,10 +114,11 @@ const Corporations = (): JSX.Element => {
         title="Date of Most Recent Response"
         name={"dateOfMostRecentResponse"}
         timeInput={false}
+        defaultValue={new Date(defaultInputs?.date_of_most_recent_response)}
         onDateChange={(e: Date) => {
-            updateStoreProps({
-                date_of_most_recent_response: e
-            })
+          updateStoreProps({
+            date_of_most_recent_response: e,
+          });
         }}
         required
       />

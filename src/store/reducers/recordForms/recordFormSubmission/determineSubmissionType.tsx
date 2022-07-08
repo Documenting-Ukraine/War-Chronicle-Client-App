@@ -48,6 +48,6 @@ export const determineSubmissionType = (
         };
       break;
     default:
-      break;
+      return copyState
   }
 };

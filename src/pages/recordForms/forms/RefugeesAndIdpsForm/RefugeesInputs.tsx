@@ -3,10 +3,23 @@ import useRecordFormPropUpdate from "../../../../hooks/use-record-form-prop-upda
 import FormInputs, {
   CustomFormInputs,
 } from "../../../utilityComponents/formInputs/FormInputs";
-const Refugees = (): JSX.Element => {
-    const updateStoreProps = useRecordFormPropUpdate("Refugees And IDPs");
-  const [countryName, setCountryName] = useState("");
-  const [refugeesInCountry, setRefugeesInCountry] = useState(0);
+import { RefugeesAndIdps } from "../../../../types";
+const Refugees = ({
+  defaultInputs,
+}: {
+  defaultInputs?: RefugeesAndIdps;
+}): JSX.Element => {
+  const updateStoreProps = useRecordFormPropUpdate("Refugees And IDPs");
+  const [countryName, setCountryName] = useState(
+    defaultInputs?.host_country?.country_name
+      ? defaultInputs.host_country.country_name
+      : ""
+  );
+  const [refugeesInCountry, setRefugeesInCountry] = useState(
+    defaultInputs?.host_country?.refugees_in_host_country
+      ? defaultInputs.host_country.refugees_in_host_country
+      : 0
+  );
   useEffect(() => {
     updateStoreProps({
       host_country: {
@@ -23,6 +36,7 @@ const Refugees = (): JSX.Element => {
         inputType="number"
         className="record-form-input"
         required
+        defaultValue={defaultInputs?.total_num_of_refugees}
         customValidation={(e) => {
           updateStoreProps({
             total_num_of_idps: parseInt(e),
@@ -45,9 +59,10 @@ const Refugees = (): JSX.Element => {
             className="record-form-input"
             required
             customValidation={(e) => {
-                setCountryName(e);
-                return { err: false, message: "" };
-              }}
+              setCountryName(e);
+              return { err: false, message: "" };
+            }}
+            defaultValue={countryName}
           />
           <FormInputs
             title={"UKR Refugees in Country as of published date"}
@@ -55,10 +70,11 @@ const Refugees = (): JSX.Element => {
             inputType="number"
             className="record-form-input"
             required
+            defaultValue={refugeesInCountry}
             customValidation={(e) => {
-                setRefugeesInCountry(parseInt(e));
-                return { err: false, message: "" };
-              }}
+              setRefugeesInCountry(parseInt(e));
+              return { err: false, message: "" };
+            }}
           />
         </>
       </CustomFormInputs>

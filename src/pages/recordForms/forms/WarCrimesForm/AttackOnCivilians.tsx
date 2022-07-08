@@ -1,4 +1,7 @@
-import { transformSingleList } from "../../../authPage/data/OccupationList";
+import {
+  transformSingleList,
+  transformOptions,
+} from "../../../authPage/data/OccupationList";
 import FormInputs from "../../../utilityComponents/formInputs/FormInputs";
 import { useEffect, useState } from "react";
 import { Option, isOption } from "../../../authPage/data/OccupationList";
@@ -7,19 +10,28 @@ import {
   isMunitionType,
   MunitionMineList,
   munitionTypeList,
+  WarCrimes,
 } from "../../../../types/dataTypes/docTypes/WarCrimes";
 import { isItemInList } from "../../../../types/dataTypes/DataLists";
 import useRecordFormPropUpdate from "../../../../hooks/use-record-form-prop-update";
 const newMunitionList = transformSingleList([...munitionTypeList]);
 const newMunitionMine = transformSingleList([...MunitionMineList]);
-const AttacksOnCivilians = (): JSX.Element => {
+const AttacksOnCivilians = ({
+  defaultInputs,
+}: {
+  defaultInputs?: WarCrimes;
+}): JSX.Element => {
   const updateStoreProps = useRecordFormPropUpdate("War Crimes");
   const [munitionType, setMunitionType] = useState<
     typeof munitionTypeList[number]
-  >("Mine, Booby-Trap or Other Device");
+  >(
+    defaultInputs?.munition?.munition_type
+      ? defaultInputs?.munition?.munition_type
+      : "Mine, Booby-Trap or Other Device"
+  );
   const [munitionSubType, setMunitionSubType] = useState<
     typeof MunitionMineList[number] | undefined
-  >();
+  >(defaultInputs?.munition?.munition_sub_types);
   useEffect(() => {
     updateStoreProps({
       munition: {
@@ -32,11 +44,15 @@ const AttacksOnCivilians = (): JSX.Element => {
   return (
     <>
       <FormInputs
-        title="Munition"
-        name={"munition"}
+        title="Munition Type"
+        name={"munitionType"}
         className={"record-form-input"}
         dropDown={newMunitionList}
-        defaultDropDownValue={newMunitionList[0]}
+        defaultDropDownValue={
+          defaultInputs?.munition?.munition_type
+            ? transformOptions(defaultInputs?.munition?.munition_type)
+            : newMunitionList[0]
+        }
         customDropdownFunc={(e: Option | MultiValue<Option> | null) => {
           if (isOption(e) && isMunitionType(e.value)) setMunitionType(e.value);
         }}
@@ -48,6 +64,11 @@ const AttacksOnCivilians = (): JSX.Element => {
           dropDown={newMunitionMine}
           name={"munitionSubType"}
           className={"record-form-input"}
+          defaultDropDownValue={
+            defaultInputs?.munition?.munition_sub_types
+              ? transformOptions(defaultInputs?.munition?.munition_sub_types)
+              : undefined
+          }
           customDropdownFunc={(e: Option | MultiValue<Option> | null) => {
             if (
               isOption(e) &&

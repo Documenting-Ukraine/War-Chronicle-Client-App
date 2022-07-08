@@ -3,7 +3,7 @@ import Select, { MultiValue } from "react-select";
 import {
   GroupedOption,
   Option,
-  transfromOptions,
+  transformOptions,
 } from "../../authPage/data/OccupationList";
 import useFormInputs from "../../../hooks/use-form-inputs";
 import { CSSObjectWithLabel } from "react-select";
@@ -63,6 +63,7 @@ const FormInputs = ({
   className,
   defaultValue,
   defaultDropDownValue,
+  defaultMultiDropDownValue,
   controlledDropDownValue,
   subCaption,
   isClearable,
@@ -77,6 +78,7 @@ const FormInputs = ({
   dropDown?: GroupedOption[] | Option[];
   defaultValue?: string;
   defaultDropDownValue?: Option;
+  defaultMultiDropDownValue?: Option[];
   controlledDropDownValue?: Option;
   required?: boolean;
   isDropdownMulti?: boolean;
@@ -95,6 +97,7 @@ const FormInputs = ({
   } = useFormInputs({
     customDropdownFunc: customDropdownFunc,
     defaultValue: defaultDropDownValue ? defaultDropDownValue : defaultValue,
+    defaultMultiDropDownValue: defaultMultiDropDownValue,
     controlledDropDownValue: controlledDropDownValue,
     validateFunc: customValidation,
     required: required,
@@ -147,7 +150,7 @@ const FormInputs = ({
               onChange={onDropdownChange}
               onBlur={onTouch}
               styles={required && err.err ? customStylesErr : undefined}
-              value={value ? transfromOptions(value) : null}
+              value={value ? transformOptions(value) : null}
               isClearable={isClearable}
             />
           )

@@ -7,7 +7,7 @@ import LoadingIcon from "../utilityComponents/loadingIcon/LoadingIcon";
 import RecordFormNav from "./utilities/recordFormNav/RecordFormNav";
 import RecordFormWrapper from "./utilities/recordFormWrapper/RecordFormWrapper";
 const InternationalResponseForm = lazy(
-  () => import("./forms/InternationResponseForm/InternationalResponseForm")
+  () => import("./forms/InternationalResponseForm/InternationalResponseForm")
 );
 const MediaAndDisInformationForm = lazy(
   () => import("./forms/MediaAndDisinformationForm/MediaAndDisinformationForm")

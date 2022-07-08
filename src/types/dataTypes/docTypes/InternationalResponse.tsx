@@ -8,14 +8,14 @@ export const isInternationalType = (
 type GeneralInternational = GeneralRecordType & {
   record_type: "International Response";
   international_response_type: typeof InternationalResponseType[number];
-  participating_countries: typeof Countries[number][];
+  participating_countries: typeof Countries[number][1][];
 };
 type UNRecord = GeneralInternational & {
   resolution_name: string;
 };
 type CombatPermission = GeneralInternational & {
   permission_granted_to_citizens?: typeof BooleanDropdownOptions[number];
-  number_of_volunteers?: number;
+  num_of_volunteers?: number;
   date_permission_granted: Date | string;
 };
 type Aid = {

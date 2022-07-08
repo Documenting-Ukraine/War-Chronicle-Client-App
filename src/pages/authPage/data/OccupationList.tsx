@@ -15,7 +15,7 @@ interface GroupedOption {
   readonly options: readonly Option[];
 }
 const occupationDataKeys = Object.keys(OccupationFile);
-const transfromOptions = (value: string) => {
+const transformOptions = (value: string) => {
   return { value: value, label: value };
 };
 export const transformSingleList = (
@@ -31,7 +31,7 @@ export const transformSingleList = (
 const occupationData: GroupedOption[] = occupationDataKeys.map((key) => {
   const groupName = key;
   const groupOptions = OccupationFile[key].map((value) =>
-    transfromOptions(value)
+    transformOptions(value)
   );
   return {
     label: groupName,
@@ -39,5 +39,5 @@ const occupationData: GroupedOption[] = occupationDataKeys.map((key) => {
   };
 });
 
-export { occupationData, transfromOptions };
+export { occupationData, transformOptions };
 export type { GroupedOption, Option };

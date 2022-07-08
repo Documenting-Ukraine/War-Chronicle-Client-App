@@ -10,7 +10,9 @@ const useFormInputs = ({
   customDropdownFunc,
   required,
   isMulti,
+  defaultMultiDropDownValue
 }: {
+  defaultMultiDropDownValue?: Option[],
   controlledValue?: string;
   customDropdownFunc?: (e: MultiValue<Option> | Option | null) => void;
   validateFunc?: (str: string) => { err: boolean; message: string };
@@ -28,7 +30,7 @@ const useFormInputs = ({
   );
   const [err, setErr] = useState({ err: false, message: "" });
   const [touched, setTouched] = useState(false);
-  const [multiValue, setMultiValue] = useState<Option[]>([]);
+  const [multiValue, setMultiValue] = useState<Option[]>(defaultMultiDropDownValue ? defaultMultiDropDownValue: []);
   //run validating function
   useEffect(() => {
     if (touched) {

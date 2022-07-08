@@ -9,7 +9,7 @@ import {
   Option,
   isOption,
   transformSingleList,
-  transfromOptions,
+  transformOptions,
 } from "../../../pages/authPage/data/OccupationList";
 import FormInputs, { CustomFormInputs } from "./FormInputs";
 import { Address } from "../../../types/dataTypes/GeneralRecordType";
@@ -45,7 +45,7 @@ const FormAddressInputs = ({
             }
           }}
           defaultDropDownValue={
-            defaultAddress ? transfromOptions(defaultAddress.oblast) : undefined
+            defaultAddress ? transformOptions(defaultAddress.oblast) : undefined
           }
         />
         {oblast && (
@@ -54,14 +54,14 @@ const FormAddressInputs = ({
             name="city"
             required
             dropDown={transformSingleList(OblastList[oblast])}
-            controlledDropDownValue={transfromOptions(city)}
+            controlledDropDownValue={transformOptions(city)}
             customDropdownFunc={(e: Option | MultiValue<Option> | null) => {
               if (isOption(e)) {
                 setCity(e.value);
               }
             }}
             defaultDropDownValue={
-              defaultAddress ? transfromOptions(defaultAddress.city) : undefined
+              defaultAddress ? transformOptions(defaultAddress.city) : undefined
             }
           />
         )}
