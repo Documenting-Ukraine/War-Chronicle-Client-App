@@ -8,7 +8,7 @@ export const generateFileMap = (files: MediaFileProps[]) => {
 export type MediaFileProps = { readonly name: string; preview: string };
 export interface ThumbnailProps {
   file: MediaFileProps;
-  onRemoveThumbnail: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onRemoveThumbnail?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 export type MediaFile = MediaFileProps & File
 export const ThumbnailWrapper = ({

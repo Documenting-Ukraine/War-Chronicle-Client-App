@@ -18,14 +18,6 @@ const RussiaForm = lazy(() => import("./forms/RussiaForm/RussiaForm"));
 const WarCrimesForm = lazy(() => import("./forms/WarCrimesForm/WarCrimesForm"));
 
 const RecordFormPage = (): JSX.Element => {
-  const onSubmitCallback = ({
-    recordType,
-    generalProps,
-    additionalProps,
-    event,
-  }: SubmitCallbackProps) => {
-
-  };
   return (
     <>
       <div className="record-form-pg">

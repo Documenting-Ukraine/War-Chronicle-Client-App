@@ -18,6 +18,7 @@ import {
 } from "../../../../types/dataTypes/GeneralRecordType";
 import RecordFormSubmitWrapper from "./RecordFormSubmitWrapper";
 import { DropZoneProvider } from "../../../utilityComponents/formInputs/FormDropZone/FormDropZoneContext";
+import { RecordSubmissionType } from "../../../../types";
 
 export type SubmitCallbackProps = {
   recordType: string;
@@ -31,11 +32,13 @@ interface RecordFormWrapperProps {
   children: JSX.Element;
   dateFirstPublished?: boolean;
   generalEventType?: boolean;
+  defaultInputs?: RecordSubmissionType;
 }
 
 const RecordFormWrapper = ({
   generalEventType = false,
   dateFirstPublished = false,
+  defaultInputs,
   children,
 }: RecordFormWrapperProps): JSX.Element => {
   const params = useParams();
@@ -62,12 +65,14 @@ const RecordFormWrapper = ({
                 className="record-form-input"
                 required
                 inputType="text"
+                defaultValue={defaultInputs?.record_title}
               />
               <FormInputs
                 textArea
                 title={"General Description"}
                 name={"description"}
                 className="record-form-input"
+                defaultValue={defaultInputs?.description}
                 required
               />
               {dateFirstPublished && !generalEventType && (
@@ -75,6 +80,7 @@ const RecordFormWrapper = ({
                   className="record-form-input"
                   title="Date First Published"
                   name="dateFirstPublished"
+                  defaultValue={new Date(defaultInputs?.date_first_published)}
                   onDateChange={(e: Date) => {}}
                   timeInput
                   required
@@ -82,16 +88,18 @@ const RecordFormWrapper = ({
               )}
               {generalEventType && (
                 <>
-                  <FormAddressInputs />
+                  <FormAddressInputs defaultAddress={defaultInputs?.address} />
                   <FormDateInputs
                     className="record-form-input"
                     title="Date First Published"
                     name="dateFirstPublished"
+                    defaultValue={new Date(defaultInputs?.date_first_published)}
                     onDateChange={(e: Date) => {}}
                     timeInput
                     required
                   />
                   <FormDateInputs
+                    defaultValue={new Date(defaultInputs?.date_event_occurred)}
                     className="record-form-input"
                     title="Date Event Occurred"
                     name="dateEventOccurred"
@@ -101,12 +109,12 @@ const RecordFormWrapper = ({
                   />
                 </>
               )}
-                            <CustomFormInputs
+              <CustomFormInputs
                 name="Evidence"
                 className="record-form-input"
                 required
               >
-                <FormListInputs />
+                <FormListInputs defaultValues={defaultInputs?.evidence} />
               </CustomFormInputs>
               <CustomFormInputs
                 title="Media Files"
@@ -122,9 +130,11 @@ const RecordFormWrapper = ({
                     maxFiles={10}
                     className={"media-form-input"}
                     maxSize={Math.pow(10, 6) * 5}
+                    defaultFiles={defaultInputs?.media?.images}
                   />
                   <FormDropZone
                     name={"videos"}
+                    defaultFiles={defaultInputs?.media?.videos}
                     mediaType={"videos"}
                     description={"Upload Videos"}
                     maxFiles={10}

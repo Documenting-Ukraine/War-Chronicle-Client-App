@@ -2,10 +2,14 @@ import { useState, createContext, useContext } from "react";
 import { MediaFile } from "../Thumbnails";
 
 interface DropZoneProviderProps {
-  images: MediaFile[];
-  videos: MediaFile[];
-  setImages: React.Dispatch<React.SetStateAction<MediaFile[]>>;
-  setVideos: React.Dispatch<React.SetStateAction<MediaFile[]>>
+  newImages: MediaFile[];
+  newVideos: MediaFile[];
+  storedImages: string[];
+  storedVideos: string[];
+  setStoredImages: React.Dispatch<React.SetStateAction<string[]>>
+  setStoredVideos: React.Dispatch<React.SetStateAction<string[]>>
+  setNewImages: React.Dispatch<React.SetStateAction<MediaFile[]>>;
+  setNewVideos: React.Dispatch<React.SetStateAction<MediaFile[]>>
 }
 
 const DropZoneFileContext = createContext<DropZoneProviderProps | null>(null);
@@ -17,17 +21,28 @@ export const useDropZoneProvider = () => {
   return context
 }
 export const DropZoneProvider = ({
+  storedMedia,
   children,
 }: {
+  storedMedia?: {
+    images?: string[];
+    videos?: string[]
+  };
   children: JSX.Element;
 }) => {
-  const [images, setImages] = useState<MediaFile[]>([])
-  const [videos, setVideos] = useState<MediaFile[]>([])
+  const [newImages, setNewImages] = useState<MediaFile[]>([])
+  const [newVideos, setNewVideos] = useState<MediaFile[]>([])
+  const [storedImages, setStoredImages] = useState<string[]>(storedMedia?.images ? storedMedia.images : [])
+  const [storedVideos, setStoredVideos] = useState<string[]>(storedMedia?.videos ? storedMedia.videos: [])
   const wrapped = {
-    images,
-    videos,
-    setImages,
-    setVideos,
+    newImages,
+    newVideos,
+    storedImages, 
+    setStoredImages,
+    storedVideos, 
+    setStoredVideos,
+    setNewImages,
+    setNewVideos,
   }
   return (
     <DropZoneFileContext.Provider value={wrapped}>

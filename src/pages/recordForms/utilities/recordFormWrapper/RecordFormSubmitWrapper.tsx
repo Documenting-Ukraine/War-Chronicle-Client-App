@@ -10,17 +10,24 @@ import { useNavigate } from "react-router";
 const RecordFormSubmitWrapper = ({
   recordType,
   children,
+  recordFormId
 }: {
   recordType: string;
   children: JSX.Element;
+  recordFormId?: string;
 }) => {
   const app = useRealmApp();
   const navigate = useNavigate();
-  const { images, videos } = useDropZoneProvider();
+  const { newImages, newVideos, storedImages, storedVideos } = useDropZoneProvider();
   const [err, setErr] = useState({
     error: false,
     message: "",
   });
+  const [loadingProgress, setLoadingProgress] = useState({
+    isLoading: false,
+    loadingMessage: "", 
+    progressNum: 100 
+  })
   const additionalFormData = useSelector(
     (state: RootState) => state.recordForms.submission
   );
@@ -29,36 +36,38 @@ const RecordFormSubmitWrapper = ({
   }) => {
     const extractedInputs = extractGeneralInputs(fieldValues);
     const imageUpload = awsS3UploadMedia({
-      files: images,
+      files: newImages,
       credentials: app.awsCredentials,
       recordType: recordType,
       recordTitle: extractedInputs.record_title,
     });
     const videoUpload = awsS3UploadMedia({
-      files: videos,
+      files: newVideos,
       credentials: app.awsCredentials,
       recordType: recordType,
       recordTitle: extractedInputs.record_title,
     });
-    let imageLinks: string[] = [];
-    let videoLinks: string[] = [];
+    let imageLinks: string[] = storedImages;
+    let videoLinks: string[] = storedVideos;
     try {
+      setLoadingProgress({
+        isLoading: true, 
+        loadingMessage: "Uploading Media files. Please wait",
+        progressNum: 0
+      })
       const [imageUploadLinks, videoUploadLinks] = await Promise.all([
         imageUpload,
-        videoUpload,
+        videoUpload
       ]);
-      imageLinks = imageUploadLinks;
-      videoLinks = videoUploadLinks;
+      imageLinks = [...imageLinks, ...imageUploadLinks];
+      videoLinks = [...videoLinks, ...videoUploadLinks];
     } catch (e) {
-      imageLinks = []
-      videoLinks = []
       return setErr({
         error: true,
         message:
           "We could not upload your media files. Please try editing the record, and uploading them again",
       });
     }
-
     const generalInputs = {
       ...extractedInputs,
       record_type: recordType,
@@ -69,10 +78,10 @@ const RecordFormSubmitWrapper = ({
     };
     const additionalInputs = cloneDeep(additionalFormData);
     const submissionObject = {
+      recordId: recordFormId,
       generalInputs,
       additionalInputs,
     };
-    console.log(submissionObject)
     return submissionObject;
   };
 
@@ -82,11 +91,21 @@ const RecordFormSubmitWrapper = ({
     const fieldValues = Object.fromEntries(formData.entries());
     createSubmission(fieldValues)
       .then((payload) => {
+        setLoadingProgress({
+          isLoading: true, 
+          loadingMessage: "Uploading Record Content",
+          progressNum: 50
+        })
         const documentId = app.currentUser?.callFunction(
           "upload_record_form",
           payload
         );
-        //navigate(`/search/recordForms/${recordType}/${documentId}`);
+        setLoadingProgress({
+          isLoading: true,
+          loadingMessage: "Record Successfully Uploaded",
+          progressNum: 100
+        })
+        navigate(`/search/recordForms/${recordType}/${documentId}`);
       })
       .catch((e) => console.error(e));
   };
