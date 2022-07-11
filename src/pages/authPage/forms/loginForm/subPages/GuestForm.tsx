@@ -70,7 +70,7 @@ const GuestForm = ({
     <div className="login-guest-form-container">
       {app?.userLoading && (
         <PopUpBg className="login-form-container-loading">
-          <LoginLoadingMessage text="Loading..."/>
+          <LoginLoadingMessage text="Loading..." width={"60%"}/>
         </PopUpBg>
       )}
       <button

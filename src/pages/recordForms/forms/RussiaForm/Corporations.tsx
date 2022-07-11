@@ -105,7 +105,7 @@ const Corporations = ({
         defaultValue={new Date(defaultInputs?.date_of_first_response)}
         onDateChange={(e: Date) => {
           updateStoreProps({
-            date_of_first_response: e,
+            date_of_first_response: e.toString(),
           });
         }}
         required
@@ -117,7 +117,7 @@ const Corporations = ({
         defaultValue={new Date(defaultInputs?.date_of_most_recent_response)}
         onDateChange={(e: Date) => {
           updateStoreProps({
-            date_of_most_recent_response: e,
+            date_of_most_recent_response: e.toString(),
           });
         }}
         required

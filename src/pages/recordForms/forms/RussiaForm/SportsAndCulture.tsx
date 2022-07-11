@@ -106,7 +106,7 @@ const SportsAndCulture = ({
         timeInput={false}
         onDateChange={(e: Date) => {
           updateStoreProps({
-            date_of_announcement: e,
+            date_of_announcement: e.toString(),
           });
         }}
         defaultValue={new Date(defaultInputs?.date_of_announcement)}

@@ -1,16 +1,26 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector, batch } from "react-redux";
 import { useRealmApp } from "../../../../realm/RealmApp";
 import { RootState } from "../../../../store/rootReducer";
 import { useDropZoneProvider } from "../../../utilityComponents/formInputs/FormDropZone/FormDropZoneContext";
 import extractGeneralInputs from "../utilityFuncs/extractGeneralInputs";
 import awsS3UploadMedia from "../utilityFuncs/awsS3UploadMedia";
-import { useState } from "react";
 import { cloneDeep } from "lodash";
 import { useNavigate } from "react-router";
+import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
+import LoadingMessage from "../../../utilityComponents/loadingMessage/LoadingMessage";
+import { createPortal } from "react-dom";
+import { updateRecordForm } from "../../../../store/reducers/asyncActions/recordFormActions/updateRecordForms";
+import { isItemInList } from "../../../../types/dataTypes/DataLists";
+import {
+  RecordFormSubmssionProps,
+  updateErrorState,
+  updateLoadingState,
+} from "../../../../store/reducers/recordForms/recordFormSubmission/recordFormSubmissionReducer";
+import FormErrBanner from "../../../utilityComponents/formErrBanner/FormErrBanner";
 const RecordFormSubmitWrapper = ({
   recordType,
   children,
-  recordFormId
+  recordFormId,
 }: {
   recordType: string;
   children: JSX.Element;
@@ -18,19 +28,14 @@ const RecordFormSubmitWrapper = ({
 }) => {
   const app = useRealmApp();
   const navigate = useNavigate();
-  const { newImages, newVideos, storedImages, storedVideos } = useDropZoneProvider();
-  const [err, setErr] = useState({
-    error: false,
-    message: "",
-  });
-  const [loadingProgress, setLoadingProgress] = useState({
-    isLoading: false,
-    loadingMessage: "", 
-    progressNum: 100 
-  })
+  const dispatch = useDispatch();
+  const { newImages, newVideos, storedImages, storedVideos } =
+    useDropZoneProvider();
   const additionalFormData = useSelector(
     (state: RootState) => state.recordForms.submission
   );
+  const err = additionalFormData.status.err;
+  const loadingProgress = additionalFormData.status.loading;
   const createSubmission = async (fieldValues: {
     [k: string]: FormDataEntryValue;
   }) => {
@@ -50,27 +55,44 @@ const RecordFormSubmitWrapper = ({
     let imageLinks: string[] = storedImages;
     let videoLinks: string[] = storedVideos;
     try {
-      setLoadingProgress({
-        isLoading: true, 
-        loadingMessage: "Uploading Media files. Please wait",
-        progressNum: 0
-      })
+      dispatch(
+        updateLoadingState({
+          status: true,
+          message: "Uploading New media files. Please wait",
+          progressNum: 0,
+        })
+      );
       const [imageUploadLinks, videoUploadLinks] = await Promise.all([
         imageUpload,
-        videoUpload
+        videoUpload,
       ]);
       imageLinks = [...imageLinks, ...imageUploadLinks];
       videoLinks = [...videoLinks, ...videoUploadLinks];
     } catch (e) {
-      return setErr({
-        error: true,
-        message:
-          "We could not upload your media files. Please try editing the record, and uploading them again",
-      });
+      dispatch(
+        updateErrorState({
+          status: true,
+          message:
+            "We could not upload your media files. Please try editing the record, and uploading them again",
+        })
+      );
     }
-    const generalInputs = {
+    const recordTypeArr = [
+      "International Response",
+      "Media And Disinformation",
+      "Russia",
+      "Refugees And IDPs",
+      "War Crimes",
+      "Protests Abroad",
+    ] as const;
+    const generalInputs: RecordFormSubmssionProps = {
       ...extractedInputs,
-      record_type: recordType,
+      record_type: isItemInList<typeof recordTypeArr[number]>(
+        recordType,
+        recordTypeArr
+      )
+        ? recordType
+        : undefined,
       media: {
         imageLinks,
         videoLinks,
@@ -84,33 +106,63 @@ const RecordFormSubmitWrapper = ({
     };
     return submissionObject;
   };
-
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const fieldValues = Object.fromEntries(formData.entries());
-    createSubmission(fieldValues)
-      .then((payload) => {
-        setLoadingProgress({
-          isLoading: true, 
-          loadingMessage: "Uploading Record Content",
-          progressNum: 50
-        })
-        const documentId = app.currentUser?.callFunction(
-          "upload_record_form",
-          payload
-        );
-        setLoadingProgress({
-          isLoading: true,
-          loadingMessage: "Record Successfully Uploaded",
-          progressNum: 100
-        })
-        navigate(`/search/recordForms/${recordType}/${documentId}`);
-      })
-      .catch((e) => console.error(e));
+    createSubmission(fieldValues).then(async (payload) => {
+      if (payload) {
+        batch(() => {
+          dispatch(
+            updateLoadingState({
+              status: true,
+              progressNum: 80,
+              message: "Uploading all record content to database",
+            })
+          );
+          dispatch(
+            updateRecordForm({
+              app: app,
+              input: payload,
+              callback: (res) => {
+                if (res)
+                  navigate(
+                    `/search/recordForms/${res.new_document.record_type}/${res.new_document._id}`
+                  );
+              },
+            })
+          );
+        });
+      }
+    });
   };
   return (
     <form onSubmit={onSubmit}>
+      {loadingProgress.status && (
+        <PopUpBg fullViewport>
+          <LoadingMessage fontColor={"white"} text={loadingProgress.message} />
+        </PopUpBg>
+      )}
+      {!err.status &&
+        createPortal(
+          <div >
+            <FormErrBanner
+              formErr={{
+                err: err.status,
+                message: err.message,
+              }}
+              setFormErr={() => {
+                dispatch(
+                  updateErrorState({
+                    status: false,
+                    message: "",
+                  })
+                );
+              }}
+            />
+          </div>,
+          document.body
+        )}
       {children}
       <button
         className={"record-form-submit-btn"}

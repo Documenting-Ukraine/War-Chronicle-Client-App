@@ -97,7 +97,7 @@ const RequestAccessForm = (): JSX.Element => {
     <form id="request-access-form" onSubmit={onSubmit}>
       {submitLoading && (
         <PopUpBg className="request-form-container-loading">
-          <LoadingMessage text={"Sending Form..."} />
+          <LoadingMessage text={"Sending Form..."} width = {"60%"} />
         </PopUpBg>
       )}
       {formErr.err && (

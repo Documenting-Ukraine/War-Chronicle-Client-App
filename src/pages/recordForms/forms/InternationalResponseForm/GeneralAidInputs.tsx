@@ -81,7 +81,7 @@ const GeneralAidInputs = ({
         name="dateAidIsAnnounced"
         onDateChange={(e: Date) => {
           updateStoreProps({
-            date_aid_is_announced: e,
+            date_aid_is_announced: e.toString(),
           });
         }}
         required
@@ -96,7 +96,7 @@ const GeneralAidInputs = ({
         name="dateAidIsSent"
         onDateChange={(e: Date) => {
           updateStoreProps({
-            date_aid_is_sent: e,
+            date_aid_is_sent: e.toString(),
           });
         }}
         required

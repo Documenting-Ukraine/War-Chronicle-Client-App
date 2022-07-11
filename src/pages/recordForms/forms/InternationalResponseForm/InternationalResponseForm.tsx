@@ -62,7 +62,7 @@ const InternationalResponseForm = ({
         name="datePermissionGranted"
         onDateChange={(e: Date) => {
           updateStoreProps({
-            date_permission_granted: e,
+            date_permission_granted: e.toString(),
           });
         }}
         defaultValue={

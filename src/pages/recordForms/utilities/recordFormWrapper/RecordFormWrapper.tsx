@@ -80,7 +80,11 @@ const RecordFormWrapper = ({
                   className="record-form-input"
                   title="Date First Published"
                   name="dateFirstPublished"
-                  defaultValue={new Date(defaultInputs?.date_first_published)}
+                  defaultValue={
+                    defaultInputs
+                      ? new Date(defaultInputs.date_first_published)
+                      : undefined
+                  }
                   onDateChange={(e: Date) => {}}
                   timeInput
                   required
@@ -93,13 +97,21 @@ const RecordFormWrapper = ({
                     className="record-form-input"
                     title="Date First Published"
                     name="dateFirstPublished"
-                    defaultValue={new Date(defaultInputs?.date_first_published)}
+                    defaultValue={
+                      defaultInputs
+                        ? new Date(defaultInputs.date_first_published)
+                        : undefined
+                    }
                     onDateChange={(e: Date) => {}}
                     timeInput
                     required
                   />
                   <FormDateInputs
-                    defaultValue={new Date(defaultInputs?.date_event_occurred)}
+                    defaultValue={
+                      defaultInputs
+                        ? new Date(defaultInputs.date_event_occurred)
+                        : undefined
+                    }
                     className="record-form-input"
                     title="Date Event Occurred"
                     name="dateEventOccurred"

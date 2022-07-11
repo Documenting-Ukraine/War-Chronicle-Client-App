@@ -88,28 +88,28 @@ export const recordFormSearchSlice = createSlice({
       return updateLoadingState(newState, "success", "fetch");
       //   if (!results) return updateLoadingState(state, "success", "fetch");
     });
-    builder.addCase(updateRecordForm.pending, (state, action) => {
-      return updateLoadingState(state, "loading", "update");
-    });
-    builder.addCase(updateRecordForm.rejected, (state, action) => {
-      return updateLoadingState(state, "failed", "update");
-    });
-    builder.addCase(updateRecordForm.fulfilled, (state, action) => {
-      const newState = cloneDeep(state);
-      const response = action.payload;
-      if (!response) return updateLoadingState(newState, "failed", "update");
-      const newDocument = response.new_document;
-      const searchedData = newState.searched_data.data;
-      const updatedData = newState.recently_updated_record;
-      const oldDocIdx = searchedData.findIndex(
-        (e) => e._id.toString() === newDocument._id.toString()
-      );
-      if (oldDocIdx >= 0) {
-        searchedData.splice(oldDocIdx, 1, newDocument);
-        updatedData.data = newDocument;
-      }
-      return updateLoadingState(newState, "success", "update");
-    });
+    // builder.addCase(updateRecordForm.pending, (state, action) => {
+    //   return updateLoadingState(state, "loading", "update");
+    // });
+    // builder.addCase(updateRecordForm.rejected, (state, action) => {
+    //   return updateLoadingState(state, "failed", "update");
+    // });
+    // builder.addCase(updateRecordForm.fulfilled, (state, action) => {
+    //   const newState = cloneDeep(state);
+    //   const response = action.payload;
+    //   if (!response) return updateLoadingState(newState, "failed", "update");
+    //   const newDocument = response.new_document;
+    //   const searchedData = newState.searched_data.data;
+    //   const updatedData = newState.recently_updated_record;
+    //   const oldDocIdx = searchedData.findIndex(
+    //     (e) => e._id.toString() === newDocument._id.toString()
+    //   );
+    //   if (oldDocIdx >= 0) {
+    //     searchedData.splice(oldDocIdx, 1, newDocument);
+    //     updatedData.data = newDocument;
+    //   }
+    //   return updateLoadingState(newState, "success", "update");
+    // });
     builder.addCase(deleteRecordForms.pending, (state, action) => {
       return updateLoadingState(state, "loading", "delete");
     });

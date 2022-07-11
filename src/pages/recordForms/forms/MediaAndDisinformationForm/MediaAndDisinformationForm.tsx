@@ -88,7 +88,7 @@ const FormBody = memo(
           name="dateOfRecentEdit"
           onDateChange={(e: Date) => {
             updateStoreProps({
-              date_of_most_recent_edit: e,
+              date_of_most_recent_edit: e.toString(),
             });
           }}
           defaultValue={

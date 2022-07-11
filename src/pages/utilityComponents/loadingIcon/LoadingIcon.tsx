@@ -37,19 +37,20 @@ const Icon = ({
     </div>
   );
 };
+export type LoadingIconProps = {
+  width?: number | string;
+  strokeWidth?: number | string;
+  entireViewPort?: boolean;
+  backgroundColor?: string;
+  height?: string | number
+}
 const LoadingIcon = ({
   width = 100,
   height,
   strokeWidth = 3,
   entireViewPort = false,
   backgroundColor,
-}: {
-  width?: number | string;
-  strokeWidth?: number | string;
-  entireViewPort?: boolean;
-  backgroundColor?: string;
-  height?: string | number
-}): JSX.Element => {
+}: LoadingIconProps ): JSX.Element => {
   return (
     <>
       {entireViewPort ? (
