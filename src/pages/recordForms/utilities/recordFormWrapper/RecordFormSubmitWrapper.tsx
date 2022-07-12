@@ -16,7 +16,8 @@ import {
   updateErrorState,
   updateLoadingState,
 } from "../../../../store/reducers/recordForms/recordFormSubmission/recordFormSubmissionReducer";
-import FormErrBanner from "../../../utilityComponents/formErrBanner/FormErrBanner";
+// import FormErrBanner from "../../../utilityComponents/formErrBanner/FormErrBanner";
+import PageBanner from "../../../utilityComponents/pageBanner/PageBanner";
 const RecordFormSubmitWrapper = ({
   recordType,
   children,
@@ -143,24 +144,20 @@ const RecordFormSubmitWrapper = ({
           <LoadingMessage fontColor={"white"} text={loadingProgress.message} />
         </PopUpBg>
       )}
-      {!err.status &&
+      {err.status &&
         createPortal(
-          <div >
-            <FormErrBanner
-              formErr={{
-                err: err.status,
-                message: err.message,
-              }}
-              setFormErr={() => {
-                dispatch(
-                  updateErrorState({
-                    status: false,
-                    message: "",
-                  })
-                );
-              }}
-            />
-          </div>,
+          <PageBanner
+            className= {"alert alert-danger record-form-err-banner"}
+            bannerMessage={err.message}
+            closeBanner={() => {
+              dispatch(
+                updateErrorState({
+                  status: false,
+                  message: "",
+                })
+              );
+            }}
+          />,
           document.body
         )}
       {children}
