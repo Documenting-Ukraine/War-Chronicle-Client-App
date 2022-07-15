@@ -158,6 +158,7 @@ const FormListInputs = ({
                 onDeleteInput={onDeleteInput}
                 customValidation={savedValidation}
                 defaultValue={{
+                  _id: input._id,
                   url: input.url,
                   description: input.description,
                 }}

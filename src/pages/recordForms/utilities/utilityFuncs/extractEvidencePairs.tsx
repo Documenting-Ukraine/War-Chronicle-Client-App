@@ -1,6 +1,7 @@
 import { isArrayOneOrMore } from "../../../../types/dataTypes/GeneralRecordType";
 import { FormDataIndexType } from "./extractStringFormData";
 import { RecordSubmissionType } from "../../../../types";
+import {v4 as uuidv4} from "uuid"
 export const extractEvidencePairs = (
     formData: FormDataIndexType
   ): RecordSubmissionType["evidence"] => {
@@ -26,10 +27,11 @@ export const extractEvidencePairs = (
       return {
         url: formData[key].toString(),
         description: formData[value].toString(),
+        _id: uuidv4()
       };
     });
     return isArrayOneOrMore(groupKeyMatches)
       ? groupKeyMatches
-      : [{ url: "", description: "" }];
+      : [{_id:uuidv4(),  url: "", description: "" }];
   };
   

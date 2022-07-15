@@ -14,10 +14,12 @@ import FormInputs from "../../../utilityComponents/formInputs/FormInputs";
 const sanctionTypeOptions = transformSingleList([...SanctionType]);
 
 const Sanctions = ({
-  defaultInputs
+  defaultInputs,
 }: {
-  defaultInputs?: Russia
+  defaultInputs?: Russia;
 }): JSX.Element => {
+  const sanctionType =
+    defaultInputs?.russian_record_type === "Sanctions vs. Russia";
   const updateStoreProps = useRecordFormPropUpdate("Russia");
   return (
     <>
@@ -27,7 +29,7 @@ const Sanctions = ({
         dropDown={sanctionTypeOptions}
         required
         defaultDropDownValue={
-          defaultInputs?.sanction_type
+          sanctionType
             ? transformOptions(defaultInputs.sanction_type)
             : undefined
         }
@@ -46,7 +48,7 @@ const Sanctions = ({
         name="sanctionName"
         inputType="text"
         required={false}
-        defaultValue = {defaultInputs?.sanction_name}
+        defaultValue={sanctionType ? defaultInputs?.sanction_name : undefined}
         customValidation={(e) => {
           updateStoreProps({
             sanction_name: e,

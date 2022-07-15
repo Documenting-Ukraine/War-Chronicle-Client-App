@@ -14,6 +14,12 @@ type RecordSubmissionType =
   | Russia
   | WarCrimes
   | ProtestsAbroad;
+// type RecordSubmissionProps = InternationalResponse
+// & MediaAndDisInformation
+// & RefugeesAndIdps
+// & Russia
+// & WarCrimes
+// & ProtestsAbroad;
 type UserDocument = {
   _id: string;
   occupation: string;

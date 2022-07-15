@@ -33,8 +33,9 @@ const RecentRow = ({
               <FontAwesomeIcon icon={faImage} />
             ) : (
               <img
-                src={mainImage.local_url}
-                alt={mainImage?.description}
+               src= {mainImage}
+                //src={mainImage.local_url}
+                //alt={mainImage?.description}
               />
             )}
           </div>

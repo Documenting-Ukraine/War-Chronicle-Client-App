@@ -126,6 +126,9 @@ const FormDropZone = ({
   const onDragLeave = () => {
     setIsOver(false);
   };
+  const getFileFromEvent = () => {
+    setIsLoading(true);
+  };
   const onDrop = (
     acceptedFiles: File[],
     fileRejections: FileRejection[],
@@ -168,6 +171,7 @@ const FormDropZone = ({
         err: fileRejections.length > 0,
         files: fileRejections,
       });
+      setIsLoading(false);
     });
   };
   const onRemoveThumbnail = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -225,6 +229,7 @@ const FormDropZone = ({
         multiple
         maxSize={maxSize}
         maxFiles={maxFiles}
+        //getFilesFromEvent= {getFileFromEvent}
       >
         {({ getRootProps, getInputProps }) => {
           const inputProps = { ...getInputProps(), name: name, id: name };

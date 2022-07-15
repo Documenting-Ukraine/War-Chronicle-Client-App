@@ -21,17 +21,23 @@ const AttacksOnCivilians = ({
 }: {
   defaultInputs?: WarCrimes;
 }): JSX.Element => {
+  const attackOnCiviliansType =
+    defaultInputs?.war_crime === "Attacks on Civilians";
   const updateStoreProps = useRecordFormPropUpdate("War Crimes");
   const [munitionType, setMunitionType] = useState<
     typeof munitionTypeList[number]
   >(
-    defaultInputs?.munition?.munition_type
+    attackOnCiviliansType && defaultInputs?.munition?.munition_type
       ? defaultInputs?.munition?.munition_type
       : "Mine, Booby-Trap or Other Device"
   );
   const [munitionSubType, setMunitionSubType] = useState<
     typeof MunitionMineList[number] | undefined
-  >(defaultInputs?.munition?.munition_sub_types);
+  >(
+    attackOnCiviliansType
+      ? defaultInputs?.munition?.munition_sub_types
+      : undefined
+  );
   useEffect(() => {
     updateStoreProps({
       munition: {
@@ -49,7 +55,7 @@ const AttacksOnCivilians = ({
         className={"record-form-input"}
         dropDown={newMunitionList}
         defaultDropDownValue={
-          defaultInputs?.munition?.munition_type
+          attackOnCiviliansType && defaultInputs?.munition?.munition_type
             ? transformOptions(defaultInputs?.munition?.munition_type)
             : newMunitionList[0]
         }
@@ -65,7 +71,7 @@ const AttacksOnCivilians = ({
           name={"munitionSubType"}
           className={"record-form-input"}
           defaultDropDownValue={
-            defaultInputs?.munition?.munition_sub_types
+            attackOnCiviliansType && defaultInputs?.munition?.munition_sub_types
               ? transformOptions(defaultInputs?.munition?.munition_sub_types)
               : undefined
           }

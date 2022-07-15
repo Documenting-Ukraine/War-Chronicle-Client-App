@@ -1,8 +1,7 @@
 import { faFileLines } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router";
-import { SubmitCallbackProps } from "./utilities/recordFormWrapper/RecordFormWrapper";
 import LoadingIcon from "../utilityComponents/loadingIcon/LoadingIcon";
 import RecordFormNav from "./utilities/recordFormNav/RecordFormNav";
 import RecordFormWrapper from "./utilities/recordFormWrapper/RecordFormWrapper";

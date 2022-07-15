@@ -4,12 +4,10 @@ import { RecordSubmissionType } from "../../../../types/dataTypes";
 import { isErrorResponseData } from "../../../../types/generics/CustomHTTPTypes";
 import { updateRecordForm } from "../../asyncActions/recordFormActions/updateRecordForms";
 import { determineSubmissionType } from "./determineSubmissionType";
-export type RecordFormSubmssionProps = Omit<
-  Partial<RecordSubmissionType>,
-  "record_type"
->;
+
+export type FormSubmssionProps = Partial<RecordSubmissionType>;
 type SubmissionSliceProps = {
-  data: RecordFormSubmssionProps;
+  data: FormSubmssionProps;
   status: {
     err: {
       status: boolean;
@@ -103,11 +101,15 @@ export const recordFormSubmissionSlice = createSlice({
         data: { record_type: action.payload },
       };
     },
-    updateFormProps(state, action: PayloadAction<RecordFormSubmssionProps>) {
+    updateFormProps(
+      state,
+      action: PayloadAction<FormSubmssionProps>
+    ) {
       const copyState = cloneDeep(state.data);
       const payload = action.payload;
-      if (copyState.record_type && payload.record_type) {
+      if (copyState.record_type) {
         const newState = determineSubmissionType(copyState, payload);
+        if(state.data.record_type === newState?.record_type)
         state.data = newState ? newState : state.data;
       }
       return state;

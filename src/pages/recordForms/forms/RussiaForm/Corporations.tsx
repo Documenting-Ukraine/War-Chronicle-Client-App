@@ -19,9 +19,11 @@ const Corporations = ({
 }: {
   defaultInputs?: Russia;
 }): JSX.Element => {
+  const corporationType =
+    defaultInputs?.russian_record_type === "Corporation Responses";
   const [responseType, setResponseType] = useState<
     typeof ResponseType[number] | undefined
-  >(defaultInputs?.russian_record_response_type);
+  >(corporationType ? defaultInputs.russian_record_response_type : undefined);
   const updateStoreProps = useRecordFormPropUpdate("Russia");
   return (
     <>
@@ -30,7 +32,9 @@ const Corporations = ({
         name="corporationName"
         inputType="text"
         required
-        defaultValue={defaultInputs?.corporation_name}
+        defaultValue={
+          corporationType ? defaultInputs?.corporation_name : undefined
+        }
         customValidation={(e) => {
           updateStoreProps({
             corporation_name: e,
@@ -43,7 +47,9 @@ const Corporations = ({
         name="corporationIndustry"
         inputType="text"
         required
-        defaultValue={defaultInputs?.corporation_industry}
+        defaultValue={
+          corporationType ? defaultInputs?.corporation_industry : undefined
+        }
         customValidation={(e) => {
           updateStoreProps({
             corporation_industry: e,
@@ -74,7 +80,11 @@ const Corporations = ({
           name={"customResponseType"}
           inputType="text"
           required={true}
-          defaultValue={defaultInputs?.russian_record_custom_response_type}
+          defaultValue={
+            corporationType
+              ? defaultInputs?.russian_record_custom_response_type
+              : undefined
+          }
           customValidation={(e) => {
             updateStoreProps({
               russian_record_custom_response_type: e,
@@ -85,7 +95,11 @@ const Corporations = ({
       )}
       {responseType === "Donation" && (
         <FormInputs
-          defaultValue={defaultInputs?.donation_valuation}
+          defaultValue={
+            corporationType
+              ? defaultInputs?.donation_valuation?.toString()
+              : undefined
+          }
           title="Donation Valuation"
           name={"donationValuation"}
           inputType="number"
@@ -102,7 +116,11 @@ const Corporations = ({
         title="Date of First Response"
         name={"dateOfFirstResponse"}
         timeInput={false}
-        defaultValue={new Date(defaultInputs?.date_of_first_response)}
+        defaultValue={
+          corporationType
+            ? new Date(defaultInputs?.date_of_first_response)
+            : undefined
+        }
         onDateChange={(e: Date) => {
           updateStoreProps({
             date_of_first_response: e.toString(),
@@ -114,7 +132,11 @@ const Corporations = ({
         title="Date of Most Recent Response"
         name={"dateOfMostRecentResponse"}
         timeInput={false}
-        defaultValue={new Date(defaultInputs?.date_of_most_recent_response)}
+        defaultValue={
+          corporationType
+            ? new Date(defaultInputs?.date_of_most_recent_response)
+            : undefined
+        }
         onDateChange={(e: Date) => {
           updateStoreProps({
             date_of_most_recent_response: e.toString(),

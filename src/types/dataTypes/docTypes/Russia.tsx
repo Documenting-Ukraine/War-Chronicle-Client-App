@@ -1,7 +1,6 @@
 import { GeneralEventType, GeneralRecordType } from "../GeneralRecordType";
 import {
   ResponseType,
-  Countries,
   isInList,
   SanctionType,
   RussianRecordTypes,
@@ -17,7 +16,7 @@ type RussiaGeneral = GeneralRecordType & {
 
 type Sanctions = RussiaGeneral & {
   russian_record_type: "Sanctions vs. Russia",
-  countries: typeof Countries[number][];
+  countries: string[];
   sanction_type: typeof SanctionType[number];
   sanction_name?: string;
 };
@@ -43,7 +42,7 @@ export const isSportsResponseType = (
 type SportsAndCulture = RussiaGeneral & {
   russian_record_type: "Sports and Culture Responses",
   organization_name: string;
-  date_of_announcement: Date;
+  date_of_announcement: Date | string;
   organization_type: string;
   russian_record_response_type: typeof SportsAndCultureResponses[number];
   russian_record_custom_response_type?: string;

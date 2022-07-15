@@ -10,7 +10,11 @@ const IDPs = ({
   return (
     <>
       <FormInputs
-        defaultValue={defaultInputs?.total_num_of_idps}
+        defaultValue={
+          defaultInputs && defaultInputs.refugees_and_idps_type === "IDPs"
+            ? defaultInputs.total_num_of_idps.toString()
+            : undefined
+        }
         title={"Total Number IDPs as of published date"}
         name={"totalNumOfIdps"}
         inputType="number"

@@ -14,22 +14,23 @@ export type ArrayOneOrMore<T> = {
 export function isArrayOneOrMore<T>(as: T[]): as is ArrayOneOrMore<T>{
   return as.length>0
 }
-export type MediaLink = {
-  local_url: string;
-  media_type: string;
-  description?: string;
-};
+// export type MediaLink = {
+//   local_url: string;
+//   media_type: string;
+//   description?: string;
+// };
+export type MediaLink = string
 export type Media = {
-  images?: ArrayOneOrMore<MediaLink>;
-  videos?: ArrayOneOrMore<MediaLink>;
+  images?: MediaLink[];
+  videos?: MediaLink[];
   main_image?: MediaLink;
 };
 export type Evidence = {
+  _id: string;
   description: string;
   url: string;
 }
 export interface GeneralRecordType {
-  [key: string]: any;
   _id: string;
   record_title: string;
   record_creation_date: Date | string;

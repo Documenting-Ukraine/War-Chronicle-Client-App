@@ -21,9 +21,15 @@ const SportsAndCulture = ({
 }: {
   defaultInputs?: Russia;
 }): JSX.Element => {
+  const sportAndCultureType =
+    defaultInputs?.russian_record_type === "Sports and Culture Responses";
   const [responseType, setResponseType] = useState<
     typeof SportsAndCultureResponses[number] | undefined
-  >(defaultInputs?.russian_record_response_type);
+  >(
+    sportAndCultureType
+      ? defaultInputs?.russian_record_response_type
+      : undefined
+  );
   const updateStoreProps = useRecordFormPropUpdate("Russia");
   return (
     <>
@@ -32,7 +38,9 @@ const SportsAndCulture = ({
         name="organizationName"
         inputType="text"
         required
-        defaultValue={defaultInputs?.organization_name}
+        defaultValue={
+          sportAndCultureType ? defaultInputs?.organization_name : undefined
+        }
         customValidation={(e) => {
           updateStoreProps({
             organization_name: e,
@@ -43,7 +51,9 @@ const SportsAndCulture = ({
       <FormInputs
         title="Organization Type (ex. soccer, football, workers union etc)"
         name="organizationType"
-        defaultValue={defaultInputs?.organization_type}
+        defaultValue={
+          sportAndCultureType ? defaultInputs?.organization_type : undefined
+        }
         inputType="text"
         required
         customValidation={(e) => {
@@ -72,7 +82,11 @@ const SportsAndCulture = ({
       />
       {responseType === "Other" && (
         <FormInputs
-          defaultValue={defaultInputs?.russian_record_custom_response_type}
+          defaultValue={
+            sportAndCultureType
+              ? defaultInputs?.russian_record_custom_response_type
+              : undefined
+          }
           title="Custom Response Type"
           name={"customResponseType"}
           inputType="text"
@@ -93,11 +107,15 @@ const SportsAndCulture = ({
           required={false}
           customValidation={(e) => {
             updateStoreProps({
-              donation_valuation: e,
+              donation_valuation: parseInt(e),
             });
             return { err: false, message: "" };
           }}
-          defaultValue={defaultInputs?.donation_valuation}
+          defaultValue={
+            sportAndCultureType
+              ? defaultInputs?.donation_valuation?.toString()
+              : undefined
+          }
         />
       )}
       <FormDateInputs
@@ -109,7 +127,11 @@ const SportsAndCulture = ({
             date_of_announcement: e.toString(),
           });
         }}
-        defaultValue={new Date(defaultInputs?.date_of_announcement)}
+        defaultValue={
+          sportAndCultureType
+            ? new Date(defaultInputs?.date_of_announcement)
+            : new Date()
+        }
         required
       />
     </>

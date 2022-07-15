@@ -20,7 +20,7 @@ type MediaAndDisInfoGeneral = GeneralRecordType & {
   hosting_outlet: string;
   original_outlet?: string;
   date_first_published: Date | string;
-  date_of_most_recent_edit: Date;
+  date_of_most_recent_edit: Date | string;
   author: string;
   editorial_stance: {
     stance: string;

@@ -23,26 +23,29 @@ const newLandmarkSignficance = transformSingleList([...LandmarkSignificance]);
 const newLandmarkTypes = transformSingleList([...LandmarksTypes]);
 const newKeyActors = transformSingleList([...KeyActor]);
 const KeyActors = ({ defaultInputs }: { defaultInputs?: WarCrimes }) => {
+  const destructionOfCultureType =
+    defaultInputs && defaultInputs.war_crime === "Destruction of Culture";
   const [keyActorName, setKeyActorName] = useState(
-    defaultInputs?.key_actor?.actor_name
+    destructionOfCultureType && defaultInputs?.key_actor?.actor_name
       ? defaultInputs?.key_actor?.actor_name
       : ""
   );
   const [keyActorType, setKeyActorType] = useState<
     typeof KeyActor[number] | undefined
   >(
-    defaultInputs?.key_actor?.actor_type
+    destructionOfCultureType && defaultInputs?.key_actor?.actor_type
       ? defaultInputs?.key_actor?.actor_type
-      : ""
+      : undefined
   );
   const updateStoreProps = useRecordFormPropUpdate("War Crimes");
   useEffect(() => {
-    updateStoreProps({
-      key_actor: {
-        actor_name: keyActorName,
-        actor_type: keyActorType,
-      },
-    });
+    if (keyActorType)
+      updateStoreProps({
+        key_actor: {
+          actor_name: keyActorName,
+          actor_type: keyActorType,
+        },
+      });
   }, [keyActorName, keyActorType, updateStoreProps]);
 
   return (
@@ -54,7 +57,7 @@ const KeyActors = ({ defaultInputs }: { defaultInputs?: WarCrimes }) => {
         className={"record-form-input"}
         name={"keyActorName"}
         defaultValue={
-          defaultInputs?.key_actor?.actor_name
+          destructionOfCultureType && defaultInputs?.key_actor?.actor_name
             ? defaultInputs?.key_actor?.actor_name
             : ""
         }
@@ -69,7 +72,7 @@ const KeyActors = ({ defaultInputs }: { defaultInputs?: WarCrimes }) => {
         dropDown={newKeyActors}
         className={"record-form-input"}
         defaultDropDownValue={
-          defaultInputs?.key_actor?.actor_name
+          destructionOfCultureType && defaultInputs?.key_actor?.actor_name
             ? transformOptions(defaultInputs?.key_actor?.actor_type)
             : undefined
         }
@@ -90,32 +93,52 @@ const ObjectsOfCultureInputs = ({
 }: {
   defaultInputs?: WarCrimes;
 }) => {
+  const destructionOfCultureType =
+    defaultInputs && defaultInputs.war_crime === "Destruction of Culture";
   const updateStoreProps = useRecordFormPropUpdate("War Crimes");
   const [objectOfCulture, setObjectOfCulture] = useState<
     typeof ObjectsOfCulture[number] | undefined
-  >(defaultInputs?.objects_of_culture?.object_type);
+  >(
+    destructionOfCultureType
+      ? defaultInputs?.objects_of_culture?.object_type
+      : undefined
+  );
   const [objectName, setObjectName] = useState(
-    defaultInputs?.objects_of_culture?.object_name
+    destructionOfCultureType && defaultInputs?.objects_of_culture?.object_name
       ? defaultInputs?.objects_of_culture?.object_name
       : ""
   );
   const [landmarkType, setLandmarkType] = useState<
     typeof LandmarksTypes[number] | undefined
-  >(defaultInputs?.objects_of_culture?.landmark?.landmark_type);
+  >(
+    destructionOfCultureType
+      ? defaultInputs?.objects_of_culture?.landmark?.landmark_type
+      : undefined
+  );
   const [landmarkSignificance, setLandmarkSignificance] = useState<
     typeof LandmarkSignificance[number] | undefined
-  >(defaultInputs?.objects_of_culture?.landmark?.landmark_significance);
+  >(
+    destructionOfCultureType
+      ? defaultInputs?.objects_of_culture?.landmark?.landmark_significance
+      : undefined
+  );
   useEffect(() => {
-    updateStoreProps({
-      objects_of_culture: {
-        object_type: objectOfCulture,
-        object_name: objectName,
-        landmark: {
+    const landmarkProps = landmarkType
+      ? {
           landmark_type: landmarkType,
-          landmark_significance: landmarkSignificance,
+          landmark_significance: landmarkSignificance
+            ? landmarkSignificance
+            : "",
+        }
+      : null;
+    if (objectOfCulture)
+      updateStoreProps({
+        objects_of_culture: {
+          object_type: objectOfCulture,
+          object_name: objectName,
+          landmark: landmarkProps ? landmarkProps : undefined,
         },
-      },
-    });
+      });
   }, [
     updateStoreProps,
     objectOfCulture,

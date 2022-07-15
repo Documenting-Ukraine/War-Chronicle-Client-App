@@ -13,5 +13,4 @@ export type SearchRecordData = {
 export type RecordFormReducerProps = {
   searched_data: SearchRecordData & LoadingStatus;
   selected_record: SelectedRecord & LoadingStatus;
-  recently_updated_record: SelectedRecord & LoadingStatus;
 };

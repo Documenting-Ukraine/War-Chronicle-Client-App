@@ -1,6 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { LoadingStatus, RecordFormReducerProps } from "../types";
-import { updateRecordForm } from "../../asyncActions/recordFormActions/updateRecordForms";
 import { fetchRecordForms } from "../../asyncActions/recordFormActions/fetchRecordForms";
 import { deleteRecordForms } from "../../asyncActions/recordFormActions/deleteRecordForms";
 import { cloneDeep } from "lodash";
@@ -13,10 +12,7 @@ const updateLoadingState = (
     ...state,
     searched_data: { ...state.searched_data, status: loading },
     selected_record: { ...state.selected_record, status: loading },
-    recently_updated_record: { ...state.recently_updated_record },
   };
-  if (requestType === "update")
-    newState.recently_updated_record.status = loading;
   return newState;
 };
 
@@ -33,31 +29,24 @@ export const recordFormSearchSlice = createSlice({
     selected_record: {
       status: "success",
       data: null,
-    },
-    recently_updated_record: {
-      data: null,
-      status: "success",
-    },
+    }
   } as RecordFormReducerProps,
   reducers: {
-    updateSelectedDocument(state, action: PayloadAction<{ _id: string }>) {
-      const newState = cloneDeep(state);
-      const searchedDocs = newState.searched_data.data;
-      const selectedDoc = newState.selected_record;
-      const newDocId = action.payload._id;
-      const searchDocIdx = searchedDocs.findIndex(
-        (e) => e._id.toString() === newDocId
-      );
-      if (searchDocIdx >= 0) {
-        selectedDoc.data =
-          searchDocIdx >= 0 ? searchedDocs[searchDocIdx] : null;
-        selectedDoc.status = "success";
-      } else {
-        selectedDoc.data = null;
-        selectedDoc.status = "failed";
+    clearSearchData(state, action){
+      return {
+        searched_data: {
+          data: [],
+          idx_counter: 0,
+          pagination_end: false,
+          prev_search: "",
+          status: "success",
+        },
+        selected_record: {
+          status: "success",
+          data: null,
+        }
       }
-      return newState;
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchRecordForms.pending, (state, action) => {
@@ -86,30 +75,8 @@ export const recordFormSearchSlice = createSlice({
           results && results.length > 0 ? results[0] : null;
       }
       return updateLoadingState(newState, "success", "fetch");
-      //   if (!results) return updateLoadingState(state, "success", "fetch");
+      //if (!results) return updateLoadingState(state, "success", "fetch");
     });
-    // builder.addCase(updateRecordForm.pending, (state, action) => {
-    //   return updateLoadingState(state, "loading", "update");
-    // });
-    // builder.addCase(updateRecordForm.rejected, (state, action) => {
-    //   return updateLoadingState(state, "failed", "update");
-    // });
-    // builder.addCase(updateRecordForm.fulfilled, (state, action) => {
-    //   const newState = cloneDeep(state);
-    //   const response = action.payload;
-    //   if (!response) return updateLoadingState(newState, "failed", "update");
-    //   const newDocument = response.new_document;
-    //   const searchedData = newState.searched_data.data;
-    //   const updatedData = newState.recently_updated_record;
-    //   const oldDocIdx = searchedData.findIndex(
-    //     (e) => e._id.toString() === newDocument._id.toString()
-    //   );
-    //   if (oldDocIdx >= 0) {
-    //     searchedData.splice(oldDocIdx, 1, newDocument);
-    //     updatedData.data = newDocument;
-    //   }
-    //   return updateLoadingState(newState, "success", "update");
-    // });
     builder.addCase(deleteRecordForms.pending, (state, action) => {
       return updateLoadingState(state, "loading", "delete");
     });
@@ -143,4 +110,4 @@ export const recordFormSearchSlice = createSlice({
     });
   },
 });
-export const { updateSelectedDocument } = recordFormSearchSlice.actions;
+export const { clearSearchData } = recordFormSearchSlice.actions;

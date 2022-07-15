@@ -26,8 +26,8 @@ export type ProtestsUkraine = ProtestsAbroadGeneral & {
 export type ProtestsBelarus = ProtestsAbroadGeneral & {
   address: {};
 };
-export type ProtestsCaucasus = ProtestsAbroadGeneral & {};
-export type ProtestsCentralAsia = ProtestsAbroadGeneral & {};
+export type ProtestsCaucasus = ProtestsAbroadGeneral;
+export type ProtestsCentralAsia = ProtestsAbroadGeneral;
 export type ProtestsAbroad =
   | ProtestsUkraine
   | ProtestsCaucasus

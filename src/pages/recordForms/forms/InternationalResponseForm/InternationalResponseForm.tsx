@@ -55,6 +55,7 @@ const InternationalResponseForm = ({
       />
     </>
   );
+  const combatType = defaultInputs?.international_response_type === "Combat Permission"
   const combatPermissionEl = (
     <>
       <FormDateInputs
@@ -66,7 +67,7 @@ const InternationalResponseForm = ({
           });
         }}
         defaultValue={
-          defaultInputs?.date_permission_granted
+          combatType && defaultInputs?.date_permission_granted
             ? new Date(defaultInputs.date_permission_granted)
             : undefined
         }
@@ -77,10 +78,10 @@ const InternationalResponseForm = ({
         name={"numberOfVolunteers"}
         inputType={"number"}
         required={false}
-        defaultValue={defaultInputs?.num_of_volunteers?.toString()}
+        defaultValue={combatType ? defaultInputs?.num_of_volunteers?.toString(): undefined}
         customValidation={(e) => {
           updateStoreProps({
-            number_of_volunteers: e,
+            num_of_volunteers: parseInt(e),
           });
           return { err: false, message: "" };
         }}
@@ -89,8 +90,8 @@ const InternationalResponseForm = ({
         title={"Permission Granted To Citizens"}
         name={"permissionGrantedToCitizens"}
         defaultDropDownValue={
-          defaultInputs?.permission_granted_to_citizens
-            ? defaultInputs.permission_granted_to_citizens
+          combatType && defaultInputs?.permission_granted_to_citizens
+            ? transformOptions(defaultInputs.permission_granted_to_citizens)
             : booleanDropdown[2]
         }
         dropDown={booleanDropdown}

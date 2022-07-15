@@ -3,20 +3,20 @@ import { isObject, has } from "lodash";
 import { RealmApp } from "../../../../realm/RealmApp";
 import { RecordSubmissionType } from "../../dashboard/dashboardReducer";
 import { WritableDraft } from "immer/dist/internal";
-import { RecordFormSubmssionProps } from "../../recordForms/recordFormSubmission/recordFormSubmissionReducer";
+import { FormSubmssionProps } from "../../recordForms/recordFormSubmission/recordFormSubmissionReducer";
 import { isErrorResponseData } from "../../../../types/generics/CustomHTTPTypes";
 export type UpdateRecordFormResults = {
   error: null;
   record_id?: string;
   new_document: Pick<RecordSubmissionType, "_id" | "record_type"> &
-    RecordFormSubmssionProps;
+    FormSubmssionProps;
 };
 export type UpdateRecordFormProps = {
   app: RealmApp;
   input: {
     recordId?: string;
-    generalInputs: RecordFormSubmssionProps;
-    additionalInputs: RecordFormSubmssionProps;
+    generalInputs: FormSubmssionProps;
+    additionalInputs: FormSubmssionProps;
   };
   callback?: (e?: UpdateRecordFormResults) => void;
 };

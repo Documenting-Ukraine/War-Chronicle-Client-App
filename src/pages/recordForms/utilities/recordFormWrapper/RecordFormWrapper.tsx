@@ -1,9 +1,8 @@
 import { useParams } from "react-router";
 import { grabRecordFormType } from "../../data/recordFormRoutes";
 import RecordFormBox from "./RecordFormBox";
-import { RecordProperties } from "./RecordItem";
 import RecordFormBoxes from "./RecordFormBoxes";
-import React, { useState } from "react";
+import React, { useEffect, useLayoutEffect, useState, useMemo } from "react";
 import FormInputs, {
   CustomFormInputs,
 } from "../../../utilityComponents/formInputs/FormInputs";
@@ -19,6 +18,14 @@ import {
 import RecordFormSubmitWrapper from "./RecordFormSubmitWrapper";
 import { DropZoneProvider } from "../../../utilityComponents/formInputs/FormDropZone/FormDropZoneContext";
 import { RecordSubmissionType } from "../../../../types";
+import { useRealmApp } from "../../../../realm/RealmApp";
+import { useDispatch, useSelector } from "react-redux";
+import { clearSearchData } from "../../../../store/reducers/recordForms/recordFormSearch/recordFormsSearchReducer";
+import { fetchRecordForms } from "../../../../store/reducers/asyncActions/recordFormActions/fetchRecordForms";
+import { isItemInList } from "../../../../types/dataTypes/DataLists";
+import { CategoriesList } from "../../../../types/dataTypes/CategoryIconMap";
+import { debounce } from "lodash";
+import { RootState } from "../../../../store/rootReducer";
 
 export type SubmitCallbackProps = {
   recordType: string;
@@ -34,19 +41,56 @@ interface RecordFormWrapperProps {
   generalEventType?: boolean;
   defaultInputs?: RecordSubmissionType;
 }
-
 const RecordFormWrapper = ({
   generalEventType = false,
   dateFirstPublished = false,
   defaultInputs,
   children,
 }: RecordFormWrapperProps): JSX.Element => {
+  const app = useRealmApp();
+  const dispatch = useDispatch();
   const params = useParams();
   const route = params["*"];
   const formType = route ? grabRecordFormType(route) : "Form";
   const mediumWindowWidth = useWindowWidth(992);
-  const [similarRecords, setSimilarRecords] = useState<RecordProperties[]>([]);
-
+  const similarRecords = useSelector(
+    (state: RootState) => state.recordForms.search.searched_data.data
+  );
+  const [title, setTitle] = useState("");
+  const updateRecordTitle = (e: string) => setTitle(e);
+  const debouncedTitle = useMemo(() => debounce(updateRecordTitle, 2000), []);
+  //clear search history
+  useLayoutEffect(() => {
+    dispatch(clearSearchData({}));
+  }, [dispatch]);
+  const eventRecordType =
+    defaultInputs?.record_type !== "War Crimes" &&
+    defaultInputs?.record_type !== "Protests Abroad" &&
+    defaultInputs?.record_type !== "Russia";
+  const russianEventRecordType =
+    defaultInputs?.record_type === "Russia" &&
+    defaultInputs.russian_record_type === "Protests in Russia";
+  const eventType = !eventRecordType && russianEventRecordType;
+  useEffect(() => {
+    const charLenBeforeSearch = 8;
+    if (title.length >= charLenBeforeSearch) {
+      if (
+        isItemInList<typeof CategoriesList[number]>(formType, CategoriesList)
+      ) {
+        dispatch(
+          fetchRecordForms({
+            app: app,
+            input: {
+              searchQuery: {
+                value: title,
+                categories: [formType],
+              },
+            },
+          })
+        );
+      }
+    }
+  }, [app, dispatch, title, formType]);
   return (
     <div className="record-form-pg-wrapper">
       {!mediumWindowWidth && (
@@ -65,7 +109,11 @@ const RecordFormWrapper = ({
                 className="record-form-input"
                 required
                 inputType="text"
-                defaultValue={defaultInputs?.record_title}
+                defaultValue={title}
+                customValidation={(e) => {
+                  debouncedTitle(e);
+                  return { err: false, message: "" };
+                }}
               />
               <FormInputs
                 textArea
@@ -82,7 +130,11 @@ const RecordFormWrapper = ({
                   name="dateFirstPublished"
                   defaultValue={
                     defaultInputs
-                      ? new Date(defaultInputs.date_first_published)
+                      ? new Date(
+                          eventType
+                            ? defaultInputs.date_first_published
+                            : new Date()
+                        )
                       : undefined
                   }
                   onDateChange={(e: Date) => {}}
@@ -92,14 +144,22 @@ const RecordFormWrapper = ({
               )}
               {generalEventType && (
                 <>
-                  <FormAddressInputs defaultAddress={defaultInputs?.address} />
+                  <FormAddressInputs
+                    defaultAddress={
+                      eventType ? defaultInputs.address : undefined
+                    }
+                  />
                   <FormDateInputs
                     className="record-form-input"
                     title="Date First Published"
                     name="dateFirstPublished"
                     defaultValue={
                       defaultInputs
-                        ? new Date(defaultInputs.date_first_published)
+                        ? new Date(
+                            eventType
+                              ? defaultInputs.date_first_published
+                              : new Date()
+                          )
                         : undefined
                     }
                     onDateChange={(e: Date) => {}}
@@ -109,7 +169,11 @@ const RecordFormWrapper = ({
                   <FormDateInputs
                     defaultValue={
                       defaultInputs
-                        ? new Date(defaultInputs.date_event_occurred)
+                        ? new Date(
+                            eventType
+                              ? defaultInputs.date_event_occurred
+                              : new Date()
+                          )
                         : undefined
                     }
                     className="record-form-input"

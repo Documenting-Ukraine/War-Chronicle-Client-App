@@ -12,12 +12,12 @@ import { createPortal } from "react-dom";
 import { updateRecordForm } from "../../../../store/reducers/asyncActions/recordFormActions/updateRecordForms";
 import { isItemInList } from "../../../../types/dataTypes/DataLists";
 import {
-  RecordFormSubmssionProps,
   updateErrorState,
   updateLoadingState,
 } from "../../../../store/reducers/recordForms/recordFormSubmission/recordFormSubmissionReducer";
-// import FormErrBanner from "../../../utilityComponents/formErrBanner/FormErrBanner";
 import PageBanner from "../../../utilityComponents/pageBanner/PageBanner";
+import { CategoriesList } from "../../../../types/dataTypes/CategoryIconMap";
+import { determineSubmissionType } from "../../../../store/reducers/recordForms/recordFormSubmission/determineSubmissionType";
 const RecordFormSubmitWrapper = ({
   recordType,
   children,
@@ -45,13 +45,17 @@ const RecordFormSubmitWrapper = ({
       files: newImages,
       credentials: app.awsCredentials,
       recordType: recordType,
-      recordTitle: extractedInputs.record_title,
+      recordTitle: extractedInputs.record_title
+        ? extractedInputs.record_title
+        : "",
     });
     const videoUpload = awsS3UploadMedia({
       files: newVideos,
       credentials: app.awsCredentials,
       recordType: recordType,
-      recordTitle: extractedInputs.record_title,
+      recordTitle: extractedInputs.record_title
+        ? extractedInputs.record_title
+        : "",
     });
     let imageLinks: string[] = storedImages;
     let videoLinks: string[] = storedVideos;
@@ -78,31 +82,23 @@ const RecordFormSubmitWrapper = ({
         })
       );
     }
-    const recordTypeArr = [
-      "International Response",
-      "Media And Disinformation",
-      "Russia",
-      "Refugees And IDPs",
-      "War Crimes",
-      "Protests Abroad",
-    ] as const;
-    const generalInputs: RecordFormSubmssionProps = {
-      ...extractedInputs,
-      record_type: isItemInList<typeof recordTypeArr[number]>(
+    const copyState = {
+      record_type: isItemInList<typeof CategoriesList[number]>(
         recordType,
-        recordTypeArr
+        CategoriesList
       )
         ? recordType
         : undefined,
       media: {
-        imageLinks,
-        videoLinks,
+        images: imageLinks,
+        videos: videoLinks,
       },
     };
-    const additionalInputs = cloneDeep(additionalFormData);
+    const generalInputs = determineSubmissionType(copyState, extractedInputs);
+    const additionalInputs = cloneDeep(additionalFormData.data);
     const submissionObject = {
       recordId: recordFormId,
-      generalInputs,
+      generalInputs: generalInputs ? generalInputs : {},
       additionalInputs,
     };
     return submissionObject;
@@ -126,10 +122,18 @@ const RecordFormSubmitWrapper = ({
               app: app,
               input: payload,
               callback: (res) => {
-                if (res)
+                if (res) {
+                  dispatch(
+                    updateLoadingState({
+                      status: true,
+                      progressNum: 100,
+                      message: `Successfully created a new ${res.new_document.record_type} record. Database Id is ${res.new_document._id}`,
+                    })
+                  );
                   navigate(
                     `/search/recordForms/${res.new_document.record_type}/${res.new_document._id}`
                   );
+                }
               },
             })
           );
@@ -147,7 +151,7 @@ const RecordFormSubmitWrapper = ({
       {err.status &&
         createPortal(
           <PageBanner
-            className= {"alert alert-danger record-form-err-banner"}
+            className={"alert alert-danger record-form-err-banner"}
             bannerMessage={err.message}
             closeBanner={() => {
               dispatch(

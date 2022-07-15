@@ -10,7 +10,7 @@ export type RecordFormSearchQuery = {
   value: string;
   _ids?: string[];
   title?: string;
-  categories?: typeof CategoriesList[number];
+  categories?: typeof CategoriesList[number][];
   date?: {
     timeFrame: "before" | "after";
     dateValue: Date | string;

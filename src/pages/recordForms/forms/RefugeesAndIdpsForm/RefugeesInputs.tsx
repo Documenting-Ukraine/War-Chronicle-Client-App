@@ -10,13 +10,14 @@ const Refugees = ({
   defaultInputs?: RefugeesAndIdps;
 }): JSX.Element => {
   const updateStoreProps = useRecordFormPropUpdate("Refugees And IDPs");
+  const refugeeType = defaultInputs?.refugees_and_idps_type === "Refugees";
   const [countryName, setCountryName] = useState(
-    defaultInputs?.host_country?.country_name
+    refugeeType && defaultInputs?.host_country?.country_name
       ? defaultInputs.host_country.country_name
       : ""
   );
   const [refugeesInCountry, setRefugeesInCountry] = useState(
-    defaultInputs?.host_country?.refugees_in_host_country
+    refugeeType && defaultInputs?.host_country?.refugees_in_host_country
       ? defaultInputs.host_country.refugees_in_host_country
       : 0
   );
@@ -36,7 +37,11 @@ const Refugees = ({
         inputType="number"
         className="record-form-input"
         required
-        defaultValue={defaultInputs?.total_num_of_refugees}
+        defaultValue={
+          refugeeType
+            ? defaultInputs?.total_num_of_refugees.toString()
+            : undefined
+        }
         customValidation={(e) => {
           updateStoreProps({
             total_num_of_idps: parseInt(e),
@@ -70,7 +75,7 @@ const Refugees = ({
             inputType="number"
             className="record-form-input"
             required
-            defaultValue={refugeesInCountry}
+            defaultValue={refugeesInCountry.toString()}
             customValidation={(e) => {
               setRefugeesInCountry(parseInt(e));
               return { err: false, message: "" };

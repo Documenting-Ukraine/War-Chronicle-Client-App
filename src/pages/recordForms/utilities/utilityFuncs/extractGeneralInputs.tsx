@@ -1,4 +1,3 @@
-import transformCamelToSnakeCase from "./transformCamelToSnake";
 import {
   FormDataIndexType,
   extractStringFormData,
@@ -10,7 +9,7 @@ import { extractAddressValues } from "./extractAddressValues";
 const extractGeneralInputs = (
   record: FormDataIndexType
 ): Partial<RecordSubmissionType> => {
-  const generalProps: Partial<RecordSubmissionType> = {
+  const generalProps: Partial<RecordSubmissionType> & { [key: string]: any } = {
     record_title: extractStringFormData("recordTitle", record),
     description: extractStringFormData("description", record),
     evidence: extractEvidencePairs(record),

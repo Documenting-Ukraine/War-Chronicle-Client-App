@@ -18,6 +18,9 @@ const GeneralAidInputs = ({
   defaultInputs?: InternationalResponse;
 }): JSX.Element => {
   const updateStoreProps = useRecordFormPropUpdate("International Response");
+  const responseType =
+    defaultInputs?.international_response_type === "Humanitarian Aid" ||
+    defaultInputs?.international_response_type === "Military Aid";
   return (
     <>
       <FormInputs
@@ -26,7 +29,7 @@ const GeneralAidInputs = ({
         subCaption="Seperate each aid type with a comma"
         inputType="text"
         required={false}
-        defaultValue={defaultInputs?.sub_aid_types}
+        defaultValue={responseType ? defaultInputs.sub_aid_types : undefined}
         customValidation={(e) => {
           updateStoreProps({
             sub_aid_types: e,
@@ -38,8 +41,10 @@ const GeneralAidInputs = ({
         title={"Has Aid Been Sent?"}
         name={"aidSent"}
         defaultDropDownValue={
-          defaultInputs?.aid_sent
-            ? transformOptions(defaultInputs.aid_sent)
+          responseType
+            ? defaultInputs?.aid_sent
+              ? transformOptions(defaultInputs.aid_sent)
+              : booleanDropdown[2]
             : booleanDropdown[2]
         }
         dropDown={booleanDropdown}
@@ -63,7 +68,7 @@ const GeneralAidInputs = ({
         name={"recipient"}
         inputType={"text"}
         required
-        defaultValue={defaultInputs?.aid_recipient}
+        defaultValue={responseType ? defaultInputs?.aid_recipient : undefined}
         customValidation={(e) => {
           updateStoreProps({
             aid_recipient: e,
@@ -73,8 +78,10 @@ const GeneralAidInputs = ({
       />
       <FormDateInputs
         defaultValue={
-          defaultInputs?.date_aid_is_announced
-            ? new Date(defaultInputs.date_aid_is_announced)
+          responseType
+            ? defaultInputs?.date_aid_is_announced
+              ? new Date(defaultInputs.date_aid_is_announced)
+              : undefined
             : undefined
         }
         title="Date Aid is Announced"
@@ -88,8 +95,10 @@ const GeneralAidInputs = ({
       />
       <FormDateInputs
         defaultValue={
-          defaultInputs?.date_aid_is_sent
-            ? new Date(defaultInputs.date_aid_is_sent)
+          responseType
+            ? defaultInputs?.date_aid_is_sent
+              ? new Date(defaultInputs.date_aid_is_sent)
+              : undefined
             : undefined
         }
         title="Date Aid is Sent"
@@ -102,7 +111,9 @@ const GeneralAidInputs = ({
         required
       />
       <FormInputs
-        defaultValue={defaultInputs?.aid_valuation}
+        defaultValue={
+          responseType ? defaultInputs?.aid_valuation.toString() : undefined
+        }
         title={"Aid Valuation"}
         name={"aidValuation"}
         inputType={"number"}
