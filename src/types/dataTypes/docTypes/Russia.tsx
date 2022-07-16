@@ -11,7 +11,7 @@ export const isRussianRecordType = (
 ): e is typeof RussianRecordTypes[number] => isInList(e, RussianRecordTypes);
 type RussiaGeneral = GeneralRecordType & {
   record_type: "Russia";
-  notes: string;
+  notes?: string;
 };
 
 type Sanctions = RussiaGeneral & {

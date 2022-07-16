@@ -43,7 +43,7 @@ export const updateRecordForm = createAsyncThunk(
   > => {
     try {
       const updateRecordForm = await app.currentUser?.callFunction(
-        "update_record_form",
+        "update_record_form_public",
         input
       );
       if (isUpdateRecordFormResults(updateRecordForm)) {
