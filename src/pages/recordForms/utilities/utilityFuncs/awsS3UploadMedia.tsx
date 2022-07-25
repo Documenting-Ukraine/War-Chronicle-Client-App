@@ -25,7 +25,6 @@ const awsS3UploadMedia = async ({
       sessionToken: identityCreds.SessionToken
     },
   });
-  console.log(identityCreds)
   const filePaths: string[] = [];
   const fileUploadPromises = files.map((file) => {
     const fileNameArr = file.name.split(".");

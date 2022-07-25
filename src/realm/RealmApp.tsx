@@ -67,6 +67,7 @@ export const RealmAppProvider = ({
   //to give feedback while a user is being authenticated
   const [userLoading, setUserLoading] = useState(false);
   const [awsCredentials, setAwsCreds] = useState<AWSCredentialsObj>(null);
+  //console.log(awsCredentials)
   const getAWSCredentials = async (
     user: Realm.User,
     realmAccessToken: string | null
@@ -76,6 +77,7 @@ export const RealmAppProvider = ({
         "user_aws_auth_public",
         realmAccessToken
       );
+      //console.log(awsCreds)
       if (isAWSCreds(awsCreds)) {
         setAwsCreds(awsCreds);
         return awsCreds;
@@ -86,18 +88,23 @@ export const RealmAppProvider = ({
     }
   };
   useEffect(() => {
+    let isMounted = true
     if (currentUser && !awsCredentials) {
       getAWSCredentials(currentUser, currentUser?.accessToken)
         .then((payload) => {
+          if(isMounted)
           setAwsCreds(payload);
           // We can to recursively call this function again
           // 30 mins before expiration to refresh token
           setTimeout(() => {
-            if (currentUser)
+            if (currentUser && isMounted)
               getAWSCredentials(currentUser, currentUser?.accessToken);
           }, hoursToMilliseconds(11));
         })
         .catch((e) => console.error(e));
+    }
+    return () => {
+      isMounted = false
     }
   }, [currentUser, awsCredentials]);
 
