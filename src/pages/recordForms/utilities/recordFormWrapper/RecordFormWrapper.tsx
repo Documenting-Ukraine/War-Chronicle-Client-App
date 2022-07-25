@@ -105,7 +105,7 @@ const RecordFormWrapper = ({
             <>
               <FormInputs
                 title="Record Title"
-                name="title"
+                name="recordTitle"
                 className="record-form-input"
                 required
                 inputType="text"

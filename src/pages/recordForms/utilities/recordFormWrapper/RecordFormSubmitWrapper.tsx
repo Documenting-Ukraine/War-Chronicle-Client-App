@@ -41,22 +41,6 @@ const RecordFormSubmitWrapper = ({
     [k: string]: FormDataEntryValue;
   }) => {
     const extractedInputs = extractGeneralInputs(fieldValues);
-    const imageUpload = awsS3UploadMedia({
-      files: newImages,
-      credentials: app.awsCredentials,
-      recordType: recordType,
-      recordTitle: extractedInputs.record_title
-        ? extractedInputs.record_title
-        : "",
-    });
-    const videoUpload = awsS3UploadMedia({
-      files: newVideos,
-      credentials: app.awsCredentials,
-      recordType: recordType,
-      recordTitle: extractedInputs.record_title
-        ? extractedInputs.record_title
-        : "",
-    });
     let imageLinks: string[] = storedImages;
     let videoLinks: string[] = storedVideos;
     try {
@@ -67,13 +51,31 @@ const RecordFormSubmitWrapper = ({
           progressNum: 0,
         })
       );
+      const imageUpload = awsS3UploadMedia({
+        files: newImages,
+        credentials: app.awsCredentials,
+        recordType: recordType,
+        recordTitle: extractedInputs.record_title
+          ? extractedInputs.record_title
+          : "",
+      });
+      const videoUpload = awsS3UploadMedia({
+        files: newVideos,
+        credentials: app.awsCredentials,
+        recordType: recordType,
+        recordTitle: extractedInputs.record_title
+          ? extractedInputs.record_title
+          : "",
+      });
       const [imageUploadLinks, videoUploadLinks] = await Promise.all([
         imageUpload,
         videoUpload,
       ]);
+      //console.log(imageUploadLinks, videoUploadLinks);
       imageLinks = [...imageLinks, ...imageUploadLinks];
       videoLinks = [...videoLinks, ...videoUploadLinks];
     } catch (e) {
+      console.error(e);
       dispatch(
         updateErrorState({
           status: true,
@@ -94,6 +96,13 @@ const RecordFormSubmitWrapper = ({
         videos: videoLinks,
       },
     };
+    //set record type equal to copy state to generate map
+    extractedInputs.record_type = isItemInList<typeof CategoriesList[number]>(
+      recordType,
+      CategoriesList
+    )
+      ? recordType
+      : undefined;
     const generalInputs = determineSubmissionType(copyState, extractedInputs);
     const additionalInputs = cloneDeep(additionalFormData.data);
     const submissionObject = {
@@ -127,11 +136,11 @@ const RecordFormSubmitWrapper = ({
                     updateLoadingState({
                       status: true,
                       progressNum: 100,
-                      message: `Successfully created a new ${res.new_document.record_type} record. Database Id is ${res.new_document._id}`,
+                      message: `Successfully created a new ${res.response.new_document.record_type} record. Database Id is ${res.response.new_document._id.toString()}`,
                     })
                   );
                   navigate(
-                    `/search/recordForms/${res.new_document.record_type}/${res.new_document._id}`
+                    `/search/recordForms/${res.response.new_document.record_type}/${res.response.new_document._id.toString()}`
                   );
                 }
               },

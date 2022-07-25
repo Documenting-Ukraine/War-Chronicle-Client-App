@@ -70,7 +70,7 @@ export const recordFormSubmissionSlice = createSlice({
       };
     });
     builder.addCase(updateRecordForm.fulfilled, (state, action) => {
-      const payload = action.payload;
+      const payload = action.payload?.response;
       const document = payload?.new_document;
       return {
         ...state,

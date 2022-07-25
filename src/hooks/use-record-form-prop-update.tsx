@@ -13,6 +13,7 @@ const useRecordFormPropUpdate = (
   const updateStoreProps = (e: FormSubmssionProps) => {
     const copyState = { record_type: recordType };
     const newProps = e;
+    newProps.record_type = recordType
     const submissionProps = determineSubmissionType(copyState, newProps);
     if (submissionProps) dispatch(updateFormProps(submissionProps));
   };

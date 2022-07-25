@@ -7,9 +7,11 @@ import { FormSubmssionProps } from "../../recordForms/recordFormSubmission/recor
 import { isErrorResponseData } from "../../../../types/generics/CustomHTTPTypes";
 export type UpdateRecordFormResults = {
   error: null;
-  record_id?: string;
-  new_document: Pick<RecordSubmissionType, "_id" | "record_type"> &
-    FormSubmssionProps;
+  response: {
+    record_id?: string;
+    new_document: Pick<RecordSubmissionType, "_id" | "record_type"> &
+      FormSubmssionProps;
+  };
 };
 export type UpdateRecordFormProps = {
   app: RealmApp;
@@ -26,7 +28,8 @@ export const isUpdateRecordFormResults = (
 ): e is WritableDraft<UpdateRecordFormResults> => {
   try {
     const isObj = isObject(e);
-    const hasKeys = has(e, "error") && has(e, "new_document");
+    const hasKeys =
+      has(e, "error") && has(e, "response") && has(e.response, "new_document");
     return isObj && hasKeys;
   } catch (e) {
     return false;
@@ -43,15 +46,27 @@ export const updateRecordForm = createAsyncThunk(
   > => {
     try {
       const updateRecordForm = await app.currentUser?.callFunction(
-        "update_record_form_public",
+        "upload_record_form_public",
         input
       );
       if (isUpdateRecordFormResults(updateRecordForm)) {
-        if (callback) callback(updateRecordForm);
-        return updateRecordForm;
+        const newDoc = {
+          ...updateRecordForm,
+          response: {
+            ...updateRecordForm.response,
+            new_document: {
+              ...updateRecordForm.response.new_document,
+              _id: updateRecordForm.response.new_document._id.toString(),
+            },
+            record_id: updateRecordForm.response.record_id?.toString(),
+          },
+        };
+        if (callback) callback(newDoc);
+        return newDoc;
       } else if (isErrorResponseData(updateRecordForm)) throw updateRecordForm;
       return null;
     } catch (e) {
+      console.error(e);
       if (isErrorResponseData(e)) throw e;
     }
   }

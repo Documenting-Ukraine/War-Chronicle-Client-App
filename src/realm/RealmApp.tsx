@@ -1,37 +1,23 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import * as Realm from "realm-web";
 import { unstable_batchedUpdates } from "react-dom";
+import { hoursToMilliseconds } from "date-fns";
 type ErrorCallBack = (e: Realm.MongoDBRealmError) => any;
 export type AWSCredentialsObj = {
-  awsUserPoolToken: {
-    AccessToken: string;
-    ExpiresIn: number;
-    IdToken: string;
-    RefreshToken: string;
-    TokenType: string;
-  };
-  awsIdentityCredentials: {
-    Credentials: {
-      AccessKeyId: string;
-      Expiration: string | Date;
-      SecretKey: string;
-      SessionToken: string;
-    };
-    IdentityId: string;
-  };
+  AccessKeyId: string;
+  Expiration: string | Date;
+  SecretKey: string;
+  SessionToken: string;
 } | null;
 export const isAWSCreds = (e: any): e is AWSCredentialsObj => {
   try {
-    const userPool = e.awsUserPoolToken;
-    const identity = e.awsIdentityCredentials;
-    const allUserPoolProps =
-      userPool.AccessToken &&
-      userPool.ExpiresIn &&
-      userPool.IdToken &&
-      userPool.RefreshToken &&
-      userPool.TokenType;
-    const allIdentityProps = identity.Credentials && identity.IdentityId;
-    return allUserPoolProps && allIdentityProps;
+    const token = e;
+    const alltokenProps =
+      token.AccessKeyId &&
+      token.SecretAccessKey &&
+      token.SessionToken &&
+      token.Expiration;
+    return alltokenProps;
   } catch (a) {
     return false;
   }
@@ -80,24 +66,14 @@ export const RealmAppProvider = ({
   const [currentUser, setCurrentUser] = useState(app.currentUser);
   //to give feedback while a user is being authenticated
   const [userLoading, setUserLoading] = useState(false);
-  const [awsCredentials, setAwsCreds] = useState<AWSCredentialsObj>(
-    null
-  );
-  useEffect(() => {
-    if (currentUser && !awsCredentials) {
-      getAWSCredentials(currentUser, currentUser?.accessToken)
-        .then((payload) => setAwsCreds(payload))
-        .catch((e) => console.error(e));
-    }
-  }, [currentUser, awsCredentials]);
-
+  const [awsCredentials, setAwsCreds] = useState<AWSCredentialsObj>(null);
   const getAWSCredentials = async (
     user: Realm.User,
     realmAccessToken: string | null
   ) => {
     try {
       const awsCreds = await user?.callFunction(
-        "user_aws_auth",
+        "user_aws_auth_public",
         realmAccessToken
       );
       if (isAWSCreds(awsCreds)) {
@@ -109,6 +85,22 @@ export const RealmAppProvider = ({
       return null;
     }
   };
+  useEffect(() => {
+    if (currentUser && !awsCredentials) {
+      getAWSCredentials(currentUser, currentUser?.accessToken)
+        .then((payload) => {
+          setAwsCreds(payload);
+          // We can to recursively call this function again
+          // 30 mins before expiration to refresh token
+          setTimeout(() => {
+            if (currentUser)
+              getAWSCredentials(currentUser, currentUser?.accessToken);
+          }, hoursToMilliseconds(11));
+        })
+        .catch((e) => console.error(e));
+    }
+  }, [currentUser, awsCredentials]);
+
   async function logIn(
     credentials: Realm.Credentials,
     errorCallBack: (e: Realm.MongoDBRealmError) => void
