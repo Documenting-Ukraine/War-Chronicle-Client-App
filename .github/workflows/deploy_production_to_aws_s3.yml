@@ -17,6 +17,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Create .env file
+      env: 
+        secrets: ${{ secrets }}
       run: |
         npm install mv
         cd node_scripts
