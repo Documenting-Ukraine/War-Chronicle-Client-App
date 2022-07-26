@@ -9,11 +9,17 @@ export type RecordFormSearchQuery = {
   [key: string]: any;
   value: string;
   _ids?: string[];
-  title?: string;
   categories?: typeof CategoriesList[number][];
+  containsMedia?: boolean;
   date?: {
-    timeFrame: "before" | "after";
-    dateValue: Date | string;
+    eventDate?:{
+      startDate: Date|string;
+      endDate: Date | string;
+    };
+    recordCreation?:{
+      startDate: Date|string;
+      endDate: Date | string;
+    };
   };
 };
 type FetchRecordFormsProps = {
