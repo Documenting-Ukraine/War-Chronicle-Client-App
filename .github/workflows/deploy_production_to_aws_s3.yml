@@ -21,6 +21,7 @@ jobs:
         secrets: ${{ toJson(secrets) }}
       run: |
         npm install mv
+        npm install dotenv
         cd node_scripts
         cd workflows
         node createEnvFile.js
