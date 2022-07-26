@@ -22,6 +22,7 @@ jobs:
       run: |
         npm install mv
         npm install dotenv
+        npm install @actions/core
         cd node_scripts
         cd workflows
         node createEnvFile.js
