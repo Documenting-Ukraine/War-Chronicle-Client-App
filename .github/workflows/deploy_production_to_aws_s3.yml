@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - production #here we choose to deploy only when a push is on production
+  merge: 
+    branches:
+      - production #here we choose to deploy only when a push is on production
 jobs:
   build:
     runs-on: ubuntu-latest
