@@ -34,6 +34,7 @@ const RecentRow = ({
             ) : (
               <img
                src= {mainImage}
+               alt={""}
                 //src={mainImage.local_url}
                 //alt={mainImage?.description}
               />

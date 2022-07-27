@@ -3,7 +3,7 @@ import {Routes, Route } from "react-router-dom";
 import NavWrapper from "./pages/utilityComponents/navWrapper/NavWrapper";
 import LoadingIcon from "./pages/utilityComponents/loadingIcon/LoadingIcon";
 import {
-  RequireAuth,
+  // RequireAuth,
   RequireNonGuestAndOwner,
   RequireNonGuestAccount,
   RequireNoUser

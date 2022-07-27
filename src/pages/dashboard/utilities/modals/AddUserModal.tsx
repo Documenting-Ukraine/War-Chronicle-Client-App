@@ -27,9 +27,9 @@ const AddUserModal = ({
     "contributor"
   );
   const [assignedScopes, setAssginedScopes] = useState<Option[]>([]);
-  const [submitted, setSubmitted] = useState<false | NewInviteLinkPayload[]>(
-    false
-  );
+  // const [submitted, setSubmitted] = useState<false | NewInviteLinkPayload[]>(
+  //   false
+  // );
 
   useEffect(() => {
     //reset multi values
@@ -84,10 +84,10 @@ const AddUserModal = ({
           err: false,
           message: "",
         });
-        setSubmitted((state) => {
-          if (state) return [...state, ...payload.users];
-          else return payload.users;
-        });
+        // setSubmitted((state) => {
+        //   if (state) return [...state, ...payload.users];
+        //   else return payload.users;
+        // });
       });
     } catch (e) {
       console.error(e);

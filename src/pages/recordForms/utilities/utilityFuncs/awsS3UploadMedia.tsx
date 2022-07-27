@@ -49,11 +49,8 @@ const awsS3UploadMedia = async ({
   } catch (e) {
     const error = new Error();
     error.stack = JSON.stringify(e);
-    throw {
-      error: true,
-      message: "Could not upload media files to S3",
-      metadata: error,
-    };
+    error.message = "Could not upload media files to S3"
+    throw error
   }
 };
 export default awsS3UploadMedia;

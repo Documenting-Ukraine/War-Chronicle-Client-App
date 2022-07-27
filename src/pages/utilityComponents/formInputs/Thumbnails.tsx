@@ -38,6 +38,7 @@ export const ImageThumbnail = ({ file, onRemoveThumbnail }: ThumbnailProps) => {
       <ThumbnailWrapper file={file} onRemoveThumbnail={onRemoveThumbnail}>
         <img
           src={file.preview}
+          alt = {""}
           // Revoke data uri after image is loaded
           onLoad={() => {
             URL.revokeObjectURL(file.preview);

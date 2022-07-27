@@ -126,9 +126,9 @@ const FormDropZone = ({
   const onDragLeave = () => {
     setIsOver(false);
   };
-  const getFileFromEvent = () => {
-    setIsLoading(true);
-  };
+  // const getFileFromEvent = () => {
+  //   setIsLoading(true);
+  // };
   const onDrop = (
     acceptedFiles: File[],
     fileRejections: FileRejection[],
