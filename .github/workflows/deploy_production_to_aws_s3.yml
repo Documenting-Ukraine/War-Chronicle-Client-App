@@ -6,6 +6,7 @@ on:
       - production #here we choose to deploy only when a push is on production
 jobs:
   build:
+    environment: production
     runs-on: ubuntu-latest
     strategy: 
       matrix: 
