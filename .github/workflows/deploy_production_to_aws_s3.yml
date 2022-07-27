@@ -24,6 +24,8 @@ jobs:
         cd node_scripts
         cd workflows
         node createEnvFile.js
+        cd ..
+        cd ..
       env: 
         REACT_APP_SECRETS: ${{toJson(secrets)}}
     - name: Configure AWS Credentials
@@ -36,9 +38,10 @@ jobs:
     #Here you could add some building steps if you were dealing with some angular/react/Vue...
     - name: Build static site
       run: 
+        ls -alR
         npm install
         npm run build --if-present
         npm run deploy
         
     - name: Deploy static site to S3 bucket
-      run: aws s3 sync ./build/ s3://archive-of-russian-aggression-client --delete
+      run: aws s3 sync ./build s3://archive-of-russian-aggression-client --delete
