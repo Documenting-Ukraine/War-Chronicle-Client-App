@@ -16,15 +16,16 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Create .env file
-      env: 
-        REACT_APP_SECRETS: ${{ toJson(secrets) }}
+    - name: Create env file
       run: |
         npm install mv
         npm install dotenv
         cd node_scripts
         cd workflows
         node createEnvFile.js
+        echo "$REACT_APP_SECRETS"
+      env: 
+        REACT_APP_SECRETS: ${{toJson(secrets)}}
     # - name: Configure AWS Credentials
     #   uses: aws-actions/configure-aws-credentials@v1
     #   with:
