@@ -33,8 +33,8 @@ const RecentRow = ({
               <FontAwesomeIcon icon={faImage} />
             ) : (
               <img
-               src= {mainImage}
-               alt={""}
+                src={mainImage}
+                alt={""}
                 //src={mainImage.local_url}
                 //alt={mainImage?.description}
               />
@@ -106,7 +106,7 @@ const DashboardRecent = (): JSX.Element => {
         <Link to="../all-contributions">View All</Link>
       </div>
       <div id="dashboard-recent-banner">
-        {contributionsData && contributionsData.length>0 ?
+        {contributionsData && contributionsData.length > 0 ? (
           contributionsData.map((record) => {
             const title = record.record_title;
             const type = record.record_type;
@@ -122,10 +122,14 @@ const DashboardRecent = (): JSX.Element => {
               />
             );
           })
-          : <div id="dashboard-recent-row-placeholder">
-            No submissions recorded. 
-            <Link to={`/dashboard/${app?.currentUser?.id}/contribute`}>Contribute Now</Link>
-          </div>}
+        ) : (
+          <div id="dashboard-recent-row-placeholder">
+            No submissions recorded.
+            <Link to={`/dashboard/${app?.currentUser?.id}/contribute`}>
+              Contribute Now
+            </Link>
+          </div>
+        )}
       </div>
     </>
   );

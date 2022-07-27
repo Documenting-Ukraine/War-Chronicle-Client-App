@@ -15,21 +15,23 @@ const awsS3UploadMedia = async ({
   recordTitle: string;
 }): Promise<string[]> => {
   if (!credentials) return [];
-  if(files.length<=0) return [];
+  if (files.length <= 0) return [];
   const identityCreds = credentials;
   const client = new S3Client({
     region: process.env["REACT_APP_AWS_S3_REGION"],
     credentials: {
       accessKeyId: identityCreds.AccessKeyId,
       secretAccessKey: identityCreds.SecretKey,
-      sessionToken: identityCreds.SessionToken
+      sessionToken: identityCreds.SessionToken,
     },
   });
   const filePaths: string[] = [];
   const fileUploadPromises = files.map((file) => {
     const fileNameArr = file.name.split(".");
     const extension = fileNameArr[fileNameArr.length - 1];
-    const key = `${replaceSpacesWithDash(recordType)}/${recordTitle}/${uuidv4()}.${extension}`;
+    const key = `${replaceSpacesWithDash(
+      recordType
+    )}/${recordTitle}/${uuidv4()}.${extension}`;
     filePaths.push(key);
     const payload = {
       Bucket: process.env.REACT_APP_AWS_BUCKET_NAME,
@@ -42,15 +44,15 @@ const awsS3UploadMedia = async ({
   });
   try {
     const response = await Promise.all(fileUploadPromises);
-    console.log(response)
+    console.log(response);
     if (response.every((r) => r.$metadata.httpStatusCode === 200))
       return filePaths;
     else throw response;
   } catch (e) {
     const error = new Error();
     error.stack = JSON.stringify(e);
-    error.message = "Could not upload media files to S3"
-    throw error
+    error.message = "Could not upload media files to S3";
+    throw error;
   }
 };
 export default awsS3UploadMedia;
