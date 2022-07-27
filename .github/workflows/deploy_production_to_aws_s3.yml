@@ -18,7 +18,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Create .env file
       env: 
-        secrets: ${{ toJson(secrets) }}
+        REACT_APP_SECRETS: ${{ toJson(secrets) }}
       run: |
         npm install mv
         npm install dotenv

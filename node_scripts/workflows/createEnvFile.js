@@ -46,7 +46,7 @@ const moveFile = async ({
 };
 
 const createEnv = async () => {
-  const secretsParse = JSON.parse(process.env.secrets);
+  const secretsParse = JSON.parse(process.env.REACT_APP_SECRETS);
   const reactAppSecrets = Object.entries(secretsParse).filter(([key, value]) =>
     /REACT_APP.*/.test(key)
   );
