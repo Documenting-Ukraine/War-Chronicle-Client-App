@@ -40,8 +40,6 @@ jobs:
       run: |
         npm install
         npm run build
-        npm run deploy
-        ls -R
         
     - name: Deploy static site to S3 bucket
       run: aws s3 sync ./build s3://archive-of-russian-aggression-client --delete
