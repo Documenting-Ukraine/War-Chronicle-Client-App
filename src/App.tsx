@@ -1,19 +1,22 @@
 import React, { Suspense } from "react";
-import {Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import NavWrapper from "./pages/utilityComponents/navWrapper/NavWrapper";
 import LoadingIcon from "./pages/utilityComponents/loadingIcon/LoadingIcon";
 import {
   // RequireAuth,
   RequireNonGuestAndOwner,
   RequireNonGuestAccount,
-  RequireNoUser
+  RequireNoUser,
 } from "./pages/utilityComponents/protectedRoute/ProtectedRoute";
 const FormPage = React.lazy(() => import("./pages/authPage/FormPage"));
 const HomePage = React.lazy(() => import("./pages/homePage/HomePage"));
 const AboutPage = React.lazy(() => import("./pages/aboutPage/AboutPage"));
-const Dashboard = React.lazy(() => import("./pages/dashboard/Dashboard"))
-const DashboardSubpages = React.lazy(() => import("./pages/dashboard/subPages/DashboardSubPages"))
-const RecordFormPage = React.lazy(() => import("./pages/recordForms/RecordFormPage")
+const Dashboard = React.lazy(() => import("./pages/dashboard/Dashboard"));
+const DashboardSubpages = React.lazy(
+  () => import("./pages/dashboard/subPages/DashboardSubPages")
+);
+const RecordFormPage = React.lazy(
+  () => import("./pages/recordForms/RecordFormPage")
 );
 function App() {
   return (
@@ -136,8 +139,7 @@ function App() {
                   </NavWrapper>
                 </RequireNonGuestAccount>
               }
-            >
-            </Route>
+            ></Route>
           </Route>
 
           <Route path="/forms/*">
