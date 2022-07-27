@@ -28,18 +28,17 @@ jobs:
         cd ..
       env: 
         REACT_APP_SECRETS: ${{toJson(secrets)}}
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_S3_DEPLOY_USER_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_S3_DEPLOY_USER_SECERT_KEY }}
-        aws-region: us-east-1 # Use your bucket region here
 
     #Here you could add some building steps if you were dealing with some angular/react/Vue...
     - name: Build static site
       run: |
         npm install
         npm run build
-        
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_S3_DEPLOY_USER_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_S3_DEPLOY_USER_SECERT_KEY }}
+        aws-region: us-east-1 # Use your bucket region here
     - name: Deploy static site to S3 bucket
       run: aws s3 sync ./build s3://archive-of-russian-aggression-client --delete
