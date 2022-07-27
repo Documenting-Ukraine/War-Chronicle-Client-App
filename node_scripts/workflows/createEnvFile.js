@@ -52,7 +52,7 @@ const createEnv = async () => {
   );
   const envValues = {};
   for(let [key, value] of reactAppSecrets) envValues[key] = value
-  console.log(envValues, secretsParse);
+  console.log(envValues, secretsParse, process.env);
   //   delete envValues.AWS_S3_DEPLOY_USER_ACCESS_KEY_ID
   //   delete envValues.AWS_S3_DEPLOY_USER_SECERT_KEY
   //   const envContent = Object.keys(envValues).map((key) => `${key}=${envValues[key]}`)
