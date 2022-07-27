@@ -32,9 +32,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: npm ci, build and test
-        env: 
-          CI : ""
         run: |
           npm ci
           npm run build
-          npm test  
+          npm test 
+        env: 
+          CI : "" 
