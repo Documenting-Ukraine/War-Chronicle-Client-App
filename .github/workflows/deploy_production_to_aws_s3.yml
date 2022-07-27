@@ -24,7 +24,6 @@ jobs:
         cd node_scripts
         cd workflows
         node createEnvFile.js
-        echo "$REACT_APP_SECRETS"
       env: 
         REACT_APP_SECRETS: ${{toJson(secrets)}}
     # - name: Configure AWS Credentials

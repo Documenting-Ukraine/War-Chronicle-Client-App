@@ -52,25 +52,24 @@ const createEnv = async () => {
   );
   const envValues = {};
   for(let [key, value] of reactAppSecrets) envValues[key] = value
-  console.log(envValues, secretsParse, process.env);
-  //   delete envValues.AWS_S3_DEPLOY_USER_ACCESS_KEY_ID
-  //   delete envValues.AWS_S3_DEPLOY_USER_SECERT_KEY
-  //   const envContent = Object.keys(envValues).map((key) => `${key}=${envValues[key]}`)
-  //   await fsPromises.writeFile(".env", envContent)
-  //   return "Env Created"
+    delete envValues.AWS_S3_DEPLOY_USER_ACCESS_KEY_ID
+    delete envValues.AWS_S3_DEPLOY_USER_SECERT_KEY
+    const envContent = Object.keys(envValues).map((key) => `${key}=${envValues[key]}`)
+    await fsPromises.writeFile(".env", envContent)
+    return "Env Created"
 };
-createEnv();
-// .then(async (payload)=>{
-//     console.log(payload)
-//     const curr_dir = __dirname
-//     //move to root directory
-//     await moveFile({
-//       file_name: '',
-//       extension: "env",
-//       directory_start: curr_dir,
-//       directory_des: "../../"
-//     })
-//     console.log("File moved to root")
-// }).catch((e)=> {
-//     console.error(e)
-// })
+createEnv()
+.then(async (payload)=>{
+    console.log(payload)
+    const curr_dir = __dirname
+    //move to root directory
+    await moveFile({
+      file_name: '',
+      extension: "env",
+      directory_start: curr_dir,
+      directory_des: "../../"
+    })
+    console.log("File moved to root")
+}).catch((e)=> {
+    console.error(e)
+})
