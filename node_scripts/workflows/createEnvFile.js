@@ -1,5 +1,4 @@
-require('dotenv').config()
-const core = require('@actions/core')
+require("dotenv").config();
 const mv = require("mv");
 const fs = require("fs");
 const fsPromises = fs.promises;
@@ -47,17 +46,20 @@ const moveFile = async ({
 };
 
 const createEnv = async () => {
-  const secrets = core.getInput('secrets', {required: true})
-  const secretsParse = JSON.parse(secrets)
-  //const envValues = { ...secretsParse };
-  console.log(secretsParse)
-//   delete envValues.AWS_S3_DEPLOY_USER_ACCESS_KEY_ID 
-//   delete envValues.AWS_S3_DEPLOY_USER_SECERT_KEY
-//   const envContent = Object.keys(envValues).map((key) => `${key}=${envValues[key]}`)
-//   await fsPromises.writeFile(".env", envContent)
-//   return "Env Created"
+  const secretsParse = JSON.parse(process.env.secrets);
+  const reactAppSecrets = Object.entries(secretsParse).filter(([key, value]) =>
+    /REACT_APP.*/.test(key)
+  );
+  const envValues = {};
+  for(let [key, value] of reactAppSecrets) envValues[key] = value
+  console.log(envValues, secretsParse);
+  //   delete envValues.AWS_S3_DEPLOY_USER_ACCESS_KEY_ID
+  //   delete envValues.AWS_S3_DEPLOY_USER_SECERT_KEY
+  //   const envContent = Object.keys(envValues).map((key) => `${key}=${envValues[key]}`)
+  //   await fsPromises.writeFile(".env", envContent)
+  //   return "Env Created"
 };
-createEnv()
+createEnv();
 // .then(async (payload)=>{
 //     console.log(payload)
 //     const curr_dir = __dirname
@@ -65,7 +67,7 @@ createEnv()
 //     await moveFile({
 //       file_name: '',
 //       extension: "env",
-//       directory_start: curr_dir, 
+//       directory_start: curr_dir,
 //       directory_des: "../../"
 //     })
 //     console.log("File moved to root")
