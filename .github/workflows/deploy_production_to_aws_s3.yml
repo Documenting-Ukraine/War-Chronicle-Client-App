@@ -6,8 +6,9 @@ on:
       - production #here we choose to deploy only when a push is on production
 jobs:
   build:
-    environment: production
-    environment_url: https://www.archiveofrussianaggression.org
+    environment: 
+      name: production
+      url: https://www.archiveofrussianaggression.org
     runs-on: ubuntu-latest
     strategy: 
       matrix: 
