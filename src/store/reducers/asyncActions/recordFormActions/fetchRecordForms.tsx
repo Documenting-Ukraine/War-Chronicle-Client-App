@@ -1,27 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ObjectId } from "mongodb";
 import { RealmApp } from "../../../../realm/RealmApp";
-import { CategoriesList } from "../../../../types/dataTypes/CategoryIconMap";
 import { RecordSubmissionType } from "../../dashboard/dashboardReducer";
 import { isObject, has } from "lodash";
 import { WritableDraft } from "immer/dist/internal";
-export type RecordFormSearchQuery = {
-  [key: string]: any;
-  value: string;
-  _ids?: string[];
-  categories?: typeof CategoriesList[number][];
-  containsMedia?: boolean;
-  date?: {
-    eventDate?:{
-      startDate: Date|string;
-      endDate: Date | string;
-    };
-    recordCreation?:{
-      startDate: Date|string;
-      endDate: Date | string;
-    };
-  };
-};
+import { RecordFormSearchQuery } from "../../recordForms/types";
 type FetchRecordFormsProps = {
   app: RealmApp;
   input: {
@@ -34,7 +17,7 @@ export type FetchRecordFormsResult = {
   error: null;
   pagination_end: boolean;
   results: RecordSubmissionType[] | null;
-  prev_search: string;
+  prev_search: RecordFormSearchQuery;
   idx_counter: number;
 };
 export const isFetchRecordFormsResult = (
@@ -59,7 +42,7 @@ export const fetchRecordForms = createAsyncThunk(
     input,
   }: FetchRecordFormsProps): Promise<WritableDraft<FetchRecordFormsResult> | null> => {
     const recordFormData = await app.currentUser?.callFunction(
-      "search_record_forms",
+      "search_records_public",
       input
     );
     if (isFetchRecordFormsResult(recordFormData)) return recordFormData;

@@ -23,7 +23,7 @@ export const recordFormSearchSlice = createSlice({
       data: [],
       idx_counter: 0,
       pagination_end: false,
-      prev_search: "",
+      prev_search: {value: '', categories: []},
       status: "success",
     },
     selected_record: {
@@ -38,7 +38,7 @@ export const recordFormSearchSlice = createSlice({
           data: [],
           idx_counter: 0,
           pagination_end: false,
-          prev_search: "",
+          prev_search: {value: '', categories: []},
           status: "success",
         },
         selected_record: {

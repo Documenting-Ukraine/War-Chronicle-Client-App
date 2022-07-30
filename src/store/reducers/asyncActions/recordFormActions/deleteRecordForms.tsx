@@ -2,8 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { isObject, has } from "lodash";
 import { RealmApp } from "../../../../realm/RealmApp";
 import { RecordSubmissionType } from "../../dashboard/dashboardReducer";
-import { RecordFormSearchQuery } from "./fetchRecordForms";
 import { WritableDraft } from "immer/dist/internal";
+import { RecordFormSearchQuery } from "../../recordForms/types";
 export type DeleteRecordProps = {
   app: RealmApp;
   input: {

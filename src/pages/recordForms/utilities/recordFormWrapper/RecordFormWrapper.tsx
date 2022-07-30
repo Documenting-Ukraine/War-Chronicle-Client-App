@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
 import { grabRecordFormType } from "../../data/recordFormRoutes";
 import RecordFormBox from "./RecordFormBox";
-import RecordFormBoxes from "./RecordFormBoxes";
+import RecordFormSearch from "./RecordFormSearch";
 import React, { useEffect, useLayoutEffect, useState, useMemo } from "react";
 import FormInputs, {
   CustomFormInputs,
@@ -19,13 +19,13 @@ import RecordFormSubmitWrapper from "./RecordFormSubmitWrapper";
 import { DropZoneProvider } from "../../../utilityComponents/formInputs/FormDropZone/FormDropZoneContext";
 import { RecordSubmissionType } from "../../../../types";
 import { useRealmApp } from "../../../../realm/RealmApp";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { clearSearchData } from "../../../../store/reducers/recordForms/recordFormSearch/recordFormsSearchReducer";
 import { fetchRecordForms } from "../../../../store/reducers/asyncActions/recordFormActions/fetchRecordForms";
 import { isItemInList } from "../../../../types/dataTypes/DataLists";
 import { CategoriesList } from "../../../../types/dataTypes/CategoryIconMap";
 import { debounce } from "lodash";
-import { RootState } from "../../../../store/rootReducer";
+import removeAddedWhiteSpace from "../../../../helperFunctions/removeWhiteSpace";
 
 export type SubmitCallbackProps = {
   recordType: string;
@@ -53,12 +53,9 @@ const RecordFormWrapper = ({
   const route = params["*"];
   const formType = route ? grabRecordFormType(route) : "Form";
   const mediumWindowWidth = useWindowWidth(992);
-  const similarRecords = useSelector(
-    (state: RootState) => state.recordForms.search.searched_data.data
-  );
   const [title, setTitle] = useState("");
   const updateRecordTitle = (e: string) => setTitle(e);
-  const debouncedTitle = useMemo(() => debounce(updateRecordTitle, 2000), []);
+  const debouncedTitle = useMemo(() => debounce(updateRecordTitle, 4000), []);
   //clear search history
   useLayoutEffect(() => {
     dispatch(clearSearchData({}));
@@ -72,8 +69,8 @@ const RecordFormWrapper = ({
     defaultInputs.russian_record_type === "Protests in Russia";
   const eventType = !eventRecordType && russianEventRecordType;
   useEffect(() => {
-    const charLenBeforeSearch = 8;
-    if (title.length >= charLenBeforeSearch) {
+    const charLenBeforeSearch = 4;
+    if (removeAddedWhiteSpace(title).length >= charLenBeforeSearch) {
       if (
         isItemInList<typeof CategoriesList[number]>(formType, CategoriesList)
       ) {
@@ -90,11 +87,11 @@ const RecordFormWrapper = ({
         );
       }
     }
-  }, [app, dispatch, title, formType]);
+  }, [app, title, formType, dispatch]);
   return (
     <div className="record-form-pg-wrapper">
       {!mediumWindowWidth && (
-        <RecordFormBoxes similarRecords={similarRecords} />
+        <RecordFormSearch />
       )}
       <RecordFormBox
         title={`New ${formType} Record`}
@@ -223,7 +220,7 @@ const RecordFormWrapper = ({
           </RecordFormSubmitWrapper>
         </DropZoneProvider>
       </RecordFormBox>
-      {mediumWindowWidth && <RecordFormBoxes similarRecords={similarRecords} />}
+      {mediumWindowWidth && <RecordFormSearch />}
     </div>
   );
 };

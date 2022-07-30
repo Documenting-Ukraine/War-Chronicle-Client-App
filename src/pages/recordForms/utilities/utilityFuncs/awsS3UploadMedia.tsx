@@ -1,57 +1,67 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import { AWSCredentialsObj } from "../../../../realm/RealmApp";
 import { MediaFile } from "../../../utilityComponents/formInputs/Thumbnails";
-import { v4 as uuidv4 } from "uuid";
-import { replaceSpacesWithDash } from "../../../../helperFunctions/replaceSpacesWithDash";
+import axios from "axios";
+
 const awsS3UploadMedia = async ({
   recordType,
   files,
-  credentials,
-  recordTitle,
+  realmToken,
+  recordTitle
 }: {
   recordType: string;
   files: MediaFile[];
-  credentials: AWSCredentialsObj;
+  realmToken: string; 
   recordTitle: string;
-}): Promise<string[]> => {
-  if (!credentials) return [];
-  if (files.length <= 0) return [];
-  const identityCreds = credentials;
-  const client = new S3Client({
-    region: process.env["REACT_APP_AWS_S3_REGION"],
-    credentials: {
-      accessKeyId: identityCreds.AccessKeyId,
-      secretAccessKey: identityCreds.SecretKey,
-      sessionToken: identityCreds.SessionToken,
-    },
-  });
-  const filePaths: string[] = [];
-  const fileUploadPromises = files.map((file) => {
-    const fileNameArr = file.name.split(".");
-    const extension = fileNameArr[fileNameArr.length - 1];
-    const key = `${replaceSpacesWithDash(
-      recordType
-    )}/${recordTitle}/${uuidv4()}.${extension}`;
-    filePaths.push(key);
-    const payload = {
-      Bucket: process.env.REACT_APP_AWS_BUCKET_NAME,
-      Key: key,
-      Body: file,
-    };
-    const command = new PutObjectCommand(payload);
-    const fileResponse = client.send(command);
-    return fileResponse;
-  });
+}): Promise<{uploaded: string[], failed?: string[]}> => {
+  if (files.length <= 0) return {uploaded: []};
+  const fileNames = files.map((file) => {
+    return{
+      name: file.name,
+      type: file.type,
+      size: file.size,
+    }
+  })
+  //generate map for O(1) look up
+  const filesMap: {[key: string]: MediaFile} = {}
+  for(let file of files) filesMap[file.name] = file
+  const {data: fetchSignedUrls} = await axios({
+    method: "POST",
+    url: `https://api.archiveofrussianaggression.org/fetch_signed_urls`,
+    data: JSON.stringify({
+      token: realmToken,
+      recordType: recordType,
+      files: fileNames,
+      recordTitle: recordTitle,
+    })
+  })
+  if(!Array.isArray(fetchSignedUrls)) return  {uploaded: []}
+  const uploadToS3 = fetchSignedUrls.map((data) =>{
+    const {name, signedUrl} = data
+    const file = filesMap[name]
+    const upload: any = axios({
+      method: "PUT",
+      url: signedUrl,
+      data: file,
+      headers:{
+        'Content-Type': filesMap[name].type
+      }
+    })
+    return upload
+  })
   try {
-    const response = await Promise.all(fileUploadPromises);
-    console.log(response);
-    if (response.every((r) => r.$metadata.httpStatusCode === 200))
-      return filePaths;
-    else throw response;
+    const response = await Promise.all(uploadToS3);
+    const uploadedKeys:string[] = []
+    const failedKeys: string[] = []
+    if (response.every((r, idx) => {
+      if(r.status === 200) uploadedKeys.push(fetchSignedUrls[idx].key)
+      else failedKeys.push(fetchSignedUrls[idx].name)
+      return r.statusCode === 200
+    }))
+      return {uploaded: uploadedKeys};
+    else return {uploaded: uploadedKeys, failed: failedKeys};
   } catch (e) {
     const error = new Error();
     error.stack = JSON.stringify(e);
-    error.message = "Could not upload media files to S3";
+    error.message = "Could not upload all media files to S3";
     throw error;
   }
 };

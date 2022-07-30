@@ -5,7 +5,6 @@ import { GoogleSignUp, GoogleLogin } from "../../../types/index";
 import { GoogleCredientals } from "../../../types/auth/GoogleAuth";
 //eslint ignore next-line
 declare const google: any;
-const googleClientID = process.env.REACT_APP_GOOGLE_CLIENT_ID_DEV;
 
 const GoogleBtn = ({
   btnType,
@@ -49,7 +48,7 @@ const GoogleBtn = ({
       //eslint ignore next-line
       google.accounts.id.initialize({
         context: btnType === "signup" ? "signup" : "signin",
-        client_id: googleClientID,
+        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID_DEV,
         callback: googleCallBack,
       });
       /* istanbul ignore next */

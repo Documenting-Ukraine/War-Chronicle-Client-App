@@ -1,15 +1,20 @@
-import RecordItem, { RecordProperties } from "./RecordItem";
+import RecordItem from "./RecordItem";
+import { RootState } from "../../../../store/rootReducer";
+import { useSelector } from "react-redux";
 import RecordFormBox from "./RecordFormBox";
+import LoadingIcon from "../../../utilityComponents/loadingIcon/LoadingIcon";
+import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
 const guidelines = [
   "Be concise and specific. Avoid non-objective language",
   "No duplicate records. Reference our similar records to prevent duplicate creation",
   "Submit one entry at a time. Entries with multiple data sets will be removed",
 ];
-const RecordFormBoxes = ({
-  similarRecords,
-}: {
-  similarRecords: RecordProperties[];
-}): JSX.Element => {
+const RecordFormSearch = (): JSX.Element => {
+  const recordData = useSelector(
+    (state: RootState) => state.recordForms.search.searched_data
+  );
+  const similarRecords = recordData.data;
+  const status = recordData.status;
   return (
     <div className="record-form-pg-boxes">
       <RecordFormBox title={"Guidelines"} className="record-form-guidelines">
@@ -30,6 +35,12 @@ const RecordFormBoxes = ({
         className="record-form-similar-records"
       >
         <>
+          {status === "loading" &&
+            <PopUpBg fullViewport={false} className={"record-form-similar-records-loading-icon"}>
+              <LoadingIcon backgroundColor="white" />
+            </PopUpBg>
+          }
+
           {similarRecords.map((record) => (
             <RecordItem
               key={record._id}
@@ -50,4 +61,4 @@ const RecordFormBoxes = ({
     </div>
   );
 };
-export default RecordFormBoxes;
+export default RecordFormSearch;

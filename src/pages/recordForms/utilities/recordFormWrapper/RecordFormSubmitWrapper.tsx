@@ -2,22 +2,23 @@ import { useDispatch, useSelector, batch } from "react-redux";
 import { useRealmApp } from "../../../../realm/RealmApp";
 import { RootState } from "../../../../store/rootReducer";
 import { useDropZoneProvider } from "../../../utilityComponents/formInputs/FormDropZone/FormDropZoneContext";
-import extractGeneralInputs from "../utilityFuncs/extractGeneralInputs";
-import awsS3UploadMedia from "../utilityFuncs/awsS3UploadMedia";
-import { cloneDeep } from "lodash";
-import { useNavigate } from "react-router";
-import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
-import LoadingMessage from "../../../utilityComponents/loadingMessage/LoadingMessage";
 import { createPortal } from "react-dom";
 import { updateRecordForm } from "../../../../store/reducers/asyncActions/recordFormActions/updateRecordForms";
 import { isItemInList } from "../../../../types/dataTypes/DataLists";
+import { cloneDeep } from "lodash";
+import { useNavigate } from "react-router";
+import { CategoriesList } from "../../../../types/dataTypes/CategoryIconMap";
+import { determineSubmissionType } from "../../../../store/reducers/recordForms/recordFormSubmission/determineSubmissionType";
 import {
   updateErrorState,
   updateLoadingState,
 } from "../../../../store/reducers/recordForms/recordFormSubmission/recordFormSubmissionReducer";
+import extractGeneralInputs from "../utilityFuncs/extractGeneralInputs";
+import awsS3UploadMedia from "../utilityFuncs/awsS3UploadMedia";
+import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
+import LoadingMessage from "../../../utilityComponents/loadingMessage/LoadingMessage";
 import PageBanner from "../../../utilityComponents/pageBanner/PageBanner";
-import { CategoriesList } from "../../../../types/dataTypes/CategoryIconMap";
-import { determineSubmissionType } from "../../../../store/reducers/recordForms/recordFormSubmission/determineSubmissionType";
+import { useLayoutEffect } from "react";
 const RecordFormSubmitWrapper = ({
   recordType,
   children,
@@ -37,9 +38,20 @@ const RecordFormSubmitWrapper = ({
   );
   const err = additionalFormData.status.err;
   const loadingProgress = additionalFormData.status.loading;
+  //prevent scrolling
+  useLayoutEffect(() => {
+    if(loadingProgress.status) document.body.style.overflow = 'hidden'
+    else document.body.style.overflow = "visible"
+  }, [loadingProgress.status])
   const createSubmission = async (fieldValues: {
     [k: string]: FormDataEntryValue;
   }) => {
+    //grab the newest token
+    await app.currentUser?.refreshAccessToken();
+    const realmAccessToken =
+      app.currentUser && app.currentUser.accessToken
+        ? app.currentUser.accessToken
+        : "";
     const extractedInputs = extractGeneralInputs(fieldValues);
     let imageLinks: string[] = storedImages;
     let videoLinks: string[] = storedVideos;
@@ -53,7 +65,7 @@ const RecordFormSubmitWrapper = ({
       );
       const imageUpload = awsS3UploadMedia({
         files: newImages,
-        credentials: app.awsCredentials,
+        realmToken: realmAccessToken,
         recordType: recordType,
         recordTitle: extractedInputs.record_title
           ? extractedInputs.record_title
@@ -61,7 +73,7 @@ const RecordFormSubmitWrapper = ({
       });
       const videoUpload = awsS3UploadMedia({
         files: newVideos,
-        credentials: app.awsCredentials,
+        realmToken: realmAccessToken,
         recordType: recordType,
         recordTitle: extractedInputs.record_title
           ? extractedInputs.record_title
@@ -71,9 +83,8 @@ const RecordFormSubmitWrapper = ({
         imageUpload,
         videoUpload,
       ]);
-      //console.log(imageUploadLinks, videoUploadLinks);
-      imageLinks = [...imageLinks, ...imageUploadLinks];
-      videoLinks = [...videoLinks, ...videoUploadLinks];
+      imageLinks = [...imageLinks, ...imageUploadLinks.uploaded];
+      videoLinks = [...videoLinks, ...videoUploadLinks.uploaded];
     } catch (e) {
       console.error(e);
       dispatch(
@@ -136,11 +147,15 @@ const RecordFormSubmitWrapper = ({
                     updateLoadingState({
                       status: true,
                       progressNum: 100,
-                      message: `Successfully created a new ${res.response.new_document.record_type} record. Database Id is ${res.response.new_document._id.toString()}`,
+                      message: `Successfully created a new ${
+                        res.response.new_document.record_type
+                      } record. Database Id is ${res.response.new_document._id.toString()}`,
                     })
                   );
                   navigate(
-                    `/search/recordForms/${res.response.new_document.record_type}/${res.response.new_document._id.toString()}`
+                    `/search/recordForms/${
+                      res.response.new_document.record_type
+                    }/${res.response.new_document._id.toString()}`
                   );
                 }
               },
@@ -153,8 +168,8 @@ const RecordFormSubmitWrapper = ({
   return (
     <form onSubmit={onSubmit}>
       {loadingProgress.status && (
-        <PopUpBg fullViewport>
-          <LoadingMessage fontColor={"white"} text={loadingProgress.message} />
+        <PopUpBg fullViewport className={"record-form-submit-loading-message"}>
+          <LoadingMessage fontColor={"black"} text={loadingProgress.message} />
         </PopUpBg>
       )}
       {err.status &&
