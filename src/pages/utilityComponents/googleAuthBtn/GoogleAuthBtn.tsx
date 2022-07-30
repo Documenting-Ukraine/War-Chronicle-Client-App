@@ -43,14 +43,16 @@ const GoogleBtn = ({
     }
   };
   useEffect(() => {
+    const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID_DEV
     const initializeGsi = (): any => {
       /* istanbul ignore next */
       //eslint ignore next-line
       google.accounts.id.initialize({
         context: btnType === "signup" ? "signup" : "signin",
-        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID_DEV,
+        client_id: clientId,
         callback: googleCallBack,
       });
+      console.log(clientId)
       /* istanbul ignore next */
       //eslint ignore next-line
       google.accounts.id.renderButton(
