@@ -50,6 +50,7 @@ const createEnv = async () => {
   const reactAppSecrets = Object.entries(secretsParse).filter(([key, value]) =>
     /REACT_APP.*/.test(key)
   );
+  console.log(reactAppSecrets)
   const envValues = {};
   for(let [key, value] of reactAppSecrets) envValues[key] = value
     delete envValues.AWS_S3_DEPLOY_USER_ACCESS_KEY_ID
