@@ -15,6 +15,8 @@ const Dashboard = React.lazy(() => import("./pages/dashboard/Dashboard"));
 const DashboardSubpages = React.lazy(
   () => import("./pages/dashboard/subPages/DashboardSubPages")
 );
+
+const SearchPage = React.lazy(() => import("./pages/searchPage/SearchPage"));
 const RecordFormPage = React.lazy(
   () => import("./pages/recordForms/RecordFormPage")
 );
@@ -43,7 +45,7 @@ function App() {
             path="/search/*"
             element={
               <NavWrapper>
-                <AboutPage />
+                <SearchPage />
               </NavWrapper>
             }
           />

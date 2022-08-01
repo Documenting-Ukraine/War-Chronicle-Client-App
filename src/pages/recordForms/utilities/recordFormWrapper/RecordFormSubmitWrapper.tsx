@@ -153,7 +153,7 @@ const RecordFormSubmitWrapper = ({
                     })
                   );
                   navigate(
-                    `/search/recordForms/${
+                    `/records/${
                       res.response.new_document.record_type
                     }/${res.response.new_document._id.toString()}`
                   );

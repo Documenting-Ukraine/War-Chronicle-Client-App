@@ -52,7 +52,6 @@ const GoogleBtn = ({
         client_id: clientId,
         callback: googleCallBack,
       });
-      console.log(clientId)
       /* istanbul ignore next */
       //eslint ignore next-line
       google.accounts.id.renderButton(

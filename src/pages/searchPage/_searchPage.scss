@@ -1,0 +1,39 @@
+$namespace: "search-page";
+// .#{$namespace}-contianer{
+    
+// }
+.#{$namespace}-query {
+    background-color: white;
+    padding: 0 0 0 0.5rem;
+    border-radius: 0.4rem;
+    border: 1.7px solid $lighter-gray;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    width: 100%;
+    color: $gray;
+    input {
+      display: flex;
+      align-items: center;
+      height: 2.5rem;
+      width: 100%;
+      margin-left: 0.5rem;
+      border: none;
+      outline: none;
+      pointer-events: auto;
+      font-size: 1rem;
+      &::placeholder {
+        margin: 0;
+        color: $gray;
+        font-weight: 300;
+      }
+    }
+    &:focus,
+    &:active,
+    &:focus-within {
+      outline: $darkest-gray 2px solid;
+    }
+    button{
+        
+    }
+  }

@@ -1,6 +1,9 @@
 import { useRealmApp } from "../../../../realm/RealmApp";
 import { Link } from "react-router-dom";
-import { faCheckCircle, faFaceSmile } from "@fortawesome/free-regular-svg-icons";
+import {
+  faCheckCircle,
+  faFaceSmile,
+} from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/rootReducer";
@@ -20,6 +23,7 @@ import {
 } from "../../../../store/reducers/dashboard/reviewRequests/types";
 import dashboardScopeRequest from "./DashboardScopeRequest";
 import LoadingIcon from "../../../utilityComponents/loadingIcon/LoadingIcon";
+import PageWrapper from "../../../utilityComponents/pageWrapper/PageWrapper";
 
 const DashboardReviewRequests = ({
   pageType,
@@ -40,7 +44,7 @@ const DashboardReviewRequests = ({
   const isUsers = pageType === "review-users";
   //on mount
   useEffect(() => {
-    if(isUsers){
+    if (isUsers) {
       dispatch(
         fetchNewUserRequest({
           app: app,
@@ -48,8 +52,8 @@ const DashboardReviewRequests = ({
             idx_counter: 0,
           },
         })
-      )
-    } else{
+      );
+    } else {
       dispatch(
         fetchScopeRequest({
           app: app,
@@ -57,10 +61,10 @@ const DashboardReviewRequests = ({
             idx_counter: 0,
           },
         })
-      )
+      );
     }
   }, [dispatch, app, isUsers]);
-  const list = isUsers ? reviewUsers.data : reviewScopes.data
+  const list = isUsers ? reviewUsers.data : reviewScopes.data;
   const listInterval = 5;
   const listStart = listPage * listInterval;
   const listEnd = (listPage + 1) * listInterval;
@@ -116,73 +120,78 @@ const DashboardReviewRequests = ({
   };
 
   return (
-    <div id="dashboard-review-requests">
-      <div id="dashboard-review-requests-inner">
-        <div id="dashboard-review-requests-header">
-          <div id="dashboard-review-requests-title">
-            <FontAwesomeIcon icon={faCheckCircle} />
-            <h1>Review Requests</h1>
-          </div>
-          <PaginationNav
-            list={list}
-            listStatus={listStatus}
-            listStart={listStart}
-            listEnd={listEnd}
-            listPage={listPage}
-            listInterval={listInterval}
-            paginationEnd={paginationEnd}
-            onPagination={isUsers ? onUsersPagination : onScopesPagination}
-          >
-            <>
-              <Link
-                to={`/dashboard/${routeParams.id}/manage/review-requests/new-users`}
-                className={`dashboard-review-requests-types ${
-                  isUsers ? "selected" : ""
-                }`}
-                onClick={() => {
-                  if (!isUsers) setListPage(0);
-                }}
-              >
-                New Users
-              </Link>
-              <Link
-                to={`/dashboard/${routeParams.id}/manage/review-requests/new-scopes`}
-                onClick={() => {
-                  if (isUsers) setListPage(0);
-                }}
-                className={`dashboard-review-requests-types ${
-                  isUsers ? "" : "selected"
-                }`}
-              >
-                New Scopes
-              </Link>
-            </>
-          </PaginationNav>
-        </div>
+    // <div id="dashboard-review-requests">
+    //   <div id="dashboard-review-requests-inner">
+    //     <div id="dashboard-review-requests-header">
+    //       <div id="dashboard-review-requests-title">
+    //         <FontAwesomeIcon icon={faCheckCircle} />
+    //         <h1>Review Requests</h1>
+    //       </div>
+    <PageWrapper
+      heading="Review Requests"
+      icon={<FontAwesomeIcon icon={faCheckCircle} />}
+    >
+      <>
+        <PaginationNav
+          list={list}
+          listStatus={listStatus}
+          listStart={listStart}
+          listEnd={listEnd}
+          listPage={listPage}
+          listInterval={listInterval}
+          paginationEnd={paginationEnd}
+          onPagination={isUsers ? onUsersPagination : onScopesPagination}
+        >
+          <>
+            <Link
+              to={`/dashboard/${routeParams.id}/manage/review-requests/new-users`}
+              className={`dashboard-review-requests-types ${
+                isUsers ? "selected" : ""
+              }`}
+              onClick={() => {
+                if (!isUsers) setListPage(0);
+              }}
+            >
+              New Users
+            </Link>
+            <Link
+              to={`/dashboard/${routeParams.id}/manage/review-requests/new-scopes`}
+              onClick={() => {
+                if (isUsers) setListPage(0);
+              }}
+              className={`dashboard-review-requests-types ${
+                isUsers ? "" : "selected"
+              }`}
+            >
+              New Scopes
+            </Link>
+          </>
+        </PaginationNav>
         <div className="dashboard-review-requests-list">
-          {listStatus === "failed" && 
-            <div>
-
+          {listStatus === "failed" && <div></div>}
+          {listStatus === "loading" && (
+            <div
+              className="d-flex justify-content-center"
+              style={{ position: "absolute", width: "100%" }}
+            >
+              <LoadingIcon strokeWidth={"0.2rem"} />
             </div>
-          }
-          {listStatus === "loading" && 
-            <div 
-            className="d-flex justify-content-center"
-            style={{position: "absolute", width: "100%"}}>
-                <LoadingIcon strokeWidth={"0.2rem"}/>
+          )}
+          {listStatus !== "loading" && (!list || list.length <= 0) && (
+            <div className="dashboard-review-requests-placeholder">
+              <div>
+                <FontAwesomeIcon icon={faFaceSmile} />
+              </div>
+              <h4>
+                No {pageType === "review-users" ? "User" : "Scope"} requests
+                were found
+              </h4>
+              <p>
+                When a new {pageType === "review-users" ? "User" : "Scope"}{" "}
+                request is made, they will appear here.
+              </p>
             </div>
-          }
-          {listStatus!=="loading" && (!list || list.length <= 0) &&
-              <div className="dashboard-review-requests-placeholder">
-                <div>
-                  <FontAwesomeIcon icon={faFaceSmile} />
-                </div>
-                <h4>No {pageType === "review-users"? "User" : "Scope"} requests were found</h4>
-                <p>
-                  When a new {pageType === "review-users"? "User" : "Scope"} request is made, they will appear here.
-                </p>
-            </div>
-          } 
+          )}
           {list?.slice(listStart, listEnd).map((request, index) => {
             const generalInfoArr = isNewUserRequest(request)
               ? dashboardNewUserRequest(request)
@@ -197,14 +206,18 @@ const DashboardReviewRequests = ({
                   data={request}
                   generalInfoArr={generalInfoArr}
                   idx={index}
-                  lastId = {list[list.length - 1]._id.toString()}
+                  lastId={list[list.length - 1]._id.toString()}
                 />
               );
           })}
         </div>
+      </>
+    </PageWrapper>
 
-      </div>
-    </div>
+    // </div>
+
+    //   </div>
+    // </div>
   );
 };
 export default memo(DashboardReviewRequests);
