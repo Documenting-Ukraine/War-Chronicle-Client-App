@@ -73,51 +73,7 @@
     border-radius: 0 0 0.5rem 0.5rem;
   }
 }
-.record-form-record-item {
-  padding: 1rem 1.5rem;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  border-bottom: 1px solid $lighter-gray;
 
-  &:last-child {
-    border-bottom: none;
-  }
-  .record-item-heading {
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: $light-blue;
-    text-decoration: underline;
-    margin-bottom: 0.5rem;
-  }
-  .record-item-body {
-    display: -webkit-box;
-    -webkit-line-clamp: 5;
-    -webkit-box-orient: vertical;
-    line-clamp: 5;
-    box-orient: vertical;
-    line-height: 1.3rem;
-    overflow: hidden;
-    margin: 1rem 0;
-    color: $darkest-gray;
-    font-size: 0.9rem;
-  }
-  .record-item-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    text-align: end;
-    * {
-      font-size: 0.8rem;
-      color: $gray;
-    }
-    .record-item-type {
-      display: flex;
-      flex-direction: column;
-      text-align: start;
-    }
-  }
-}
 .record-form-submit-loading-message{
   background-color: white;
 }

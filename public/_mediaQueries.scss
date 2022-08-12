@@ -1,22 +1,26 @@
 @import "../src/pages/utilityComponents/utilitiesBreakpoints";
 @import "../src/pages/dashboard/dashboardBreakpoints";
 @import "../src/pages/recordForms/recordFormPageBreakpoints";
+@import '../src/pages/aboutPage/aboutPageBreakpoints';
 @media (min-width: 992px) {
 }
 
 @media (max-width: 992px) {
   @include record-form-pg-md;
+  @include record-item-md;
 }
 
 @media (max-width: 768px) {
   @include footer-sm;
   @include navbar-sm;
   @include dashboard-md;
+  @include about-pg-md;
 }
 
 @media (max-width: 575px) {
   @include dashboard-sm;
   @include record-form-pg-sm;
+  @include about-pg-sm;
 }
 
 @media (any-hover: hover) {

@@ -1,0 +1,11 @@
+.particle-bg {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  .particle-bg-content{
+    position: relative;
+    z-index: 1;
+    width: 100%;
+  }

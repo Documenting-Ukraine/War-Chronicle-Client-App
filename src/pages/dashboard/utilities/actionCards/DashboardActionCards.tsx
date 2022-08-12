@@ -1,7 +1,6 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRealmApp } from "../../../../realm/RealmApp";
-import { Link } from "react-router-dom";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import ActionCard from '../../../utilityComponents/actionCard/ActionCard'
 interface CardProps {
   additionalRoute?: string;
   cardIcon: IconProp;
@@ -13,32 +12,32 @@ interface CardProps {
 interface DashboardActionProps {
   cardData: CardProps[];
 }
+
 const DashboardActionCard = ({
   linkRoute,
   cardIcon,
   cardHeading,
   cardDescription,
   isBtn,
-}: Omit<CardProps, "additionalRoute"> & { linkRoute: string }) => {
-  const cardContent = (
-    <>
-      <div className="action-card-header">
-        <FontAwesomeIcon icon={cardIcon} />
-        <h2>{cardHeading}</h2>
-      </div>
-      <p className="action-card-description">{cardDescription}</p>
-    </>
-  );
+}: Omit<CardProps, "additionalRoute"> & { linkRoute?: string }) => {
   return (
     <>
       {isBtn ? (
-        <button className="action-card" onClick={isBtn}>
-          {cardContent}
-        </button>
+        <ActionCard
+          header={cardHeading}
+          icon={cardIcon}
+          description={cardDescription}
+          type={"btn"}
+          onClick={isBtn}
+        />
       ) : (
-        <Link to={linkRoute} className="action-card">
-          {cardContent}
-        </Link>
+        <ActionCard
+          header={cardHeading}
+          icon={cardIcon}
+          description={cardDescription}
+          type={"link"}
+          linkRoute={linkRoute}
+        />
       )}
     </>
   );

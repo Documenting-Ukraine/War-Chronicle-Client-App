@@ -20,6 +20,7 @@ const SearchPage = React.lazy(() => import("./pages/searchPage/SearchPage"));
 const RecordFormPage = React.lazy(
   () => import("./pages/recordForms/RecordFormPage")
 );
+const RecordPage = React.lazy(() => import("./pages/recordPage/RecordPage"));
 function App() {
   return (
     <div className="App">
@@ -176,6 +177,14 @@ function App() {
               }
             />
           </Route>
+          <Route
+            path="records/"
+            element={
+              <RequireNoUser>
+                <RecordPage />
+              </RequireNoUser>
+            }
+          ></Route>
         </Routes>
       </Suspense>
     </div>

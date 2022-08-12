@@ -1,0 +1,32 @@
+$namespace: "about-pg";
+@mixin about-pg-lg {
+}
+@mixin about-pg-md {
+}
+@mixin about-pg-sm {
+  ##{$namespace}-contributors-container {
+    padding: 2.5rem 0;
+    h3 {
+      font-size: 2rem;
+    }
+  }
+  ##{$namespace}-contributors {
+    $sub-namespace: "contributor-card";
+    .#{$sub-namespace} {
+      flex-direction: column;
+    }
+    .#{$sub-namespace}-name {
+      font-size: 1rem;
+    }
+    .#{$sub-namespace}-title {
+      font-size: 0.8rem;
+    }
+  }
+  ##{$namespace}-explore-more {
+    $sub-namespace: "explore-card";
+    .#{$sub-namespace}-container {
+      width: 100%;
+      min-width: unset;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import RecordItem from "./RecordItem";
+import RecordItem from "../../../utilityComponents/recordItem/RecordItem";
 import { RootState } from "../../../../store/rootReducer";
 import { useSelector } from "react-redux";
 import RecordFormBox from "./RecordFormBox";

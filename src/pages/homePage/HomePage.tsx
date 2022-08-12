@@ -1,4 +1,5 @@
 const HomePage = ():JSX.Element => {
-  return <div>Home Page</div>;
+  //const namespace = 'home-page'
+  return <div></div>;
 };
 export default HomePage;

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { RecordSubmissionType } from "../../../../types";
+import { RecordSubmissionType } from "../../../types";
 
 export type RecordProperties = Pick<
   RecordSubmissionType,

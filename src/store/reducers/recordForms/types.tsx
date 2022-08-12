@@ -10,8 +10,8 @@ export type RecordFormSearchQuery = {
   [key: string]: any;
   value: string;
   _ids?: string[];
-  categories?: typeof CategoriesList[number][];
-  containsMedia?: boolean;
+  categories?: string[];
+  containsMedia?: boolean | null;
   date?: {
     eventDate?: {
       startDate: Date | string;

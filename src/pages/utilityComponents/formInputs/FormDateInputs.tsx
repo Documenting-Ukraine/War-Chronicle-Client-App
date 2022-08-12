@@ -1,5 +1,5 @@
 import { isBefore } from "date-fns";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { unstable_batchedUpdates } from "react-dom";
 import { CustomFormInputs } from "./FormInputs";
 const transformDate = (date: Date) => date.toISOString().split("T")[0];
@@ -13,7 +13,7 @@ const FormDateInputs = ({
   defaultValue,
   timeInput = true,
   title,
-  onDateChange
+  onDateChange,
 }: {
   name: string;
   title?: string;
@@ -29,10 +29,14 @@ const FormDateInputs = ({
   const [time, setTime] = useState(
     defaultValue ? transformTime(new Date(defaultValue)) : defaultTime
   );
+  const mounted = useRef(false);
   useEffect(() => {
-    if(onDateChange)
-    onDateChange(new Date(`${date}T${time}`));
+    if (onDateChange && !mounted.current) onDateChange(new Date(`${date}T${time}`));
   }, [date, time, onDateChange]);
+  useEffect(() => {
+    mounted.current = true;
+  }, []);
+
   const [err, setErr] = useState({ err: false, message: "" });
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
@@ -47,7 +51,7 @@ const FormDateInputs = ({
             setDate(value);
             setErr({ err: false, message: "" });
           });
-          return onDateChange ? onDateChange(newDate): null;
+          return onDateChange ? onDateChange(newDate) : null;
         } else return setErr({ err: true, message: "Invalid Date" });
       case "time":
         newDate = new Date(`${date}T${value}`);
@@ -56,7 +60,7 @@ const FormDateInputs = ({
             setTime(value);
             setErr({ err: false, message: "" });
           });
-          return onDateChange ? onDateChange(newDate): null;
+          return onDateChange ? onDateChange(newDate) : null;
         } else return setErr({ err: true, message: "Invalid Date" });
       default:
         return;
@@ -80,7 +84,12 @@ const FormDateInputs = ({
             max={new Date().toISOString().split("T")[0]}
           />
           {timeInput && (
-            <input type="time" name={`${name}Time`} onChange={onChange} value={time} />
+            <input
+              type="time"
+              name={`${name}Time`}
+              onChange={onChange}
+              value={time}
+            />
           )}
         </div>
         {err.err && <div className="form-inputs-time-err">{err.message}</div>}
