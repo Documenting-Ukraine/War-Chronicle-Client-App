@@ -2,6 +2,9 @@ $namespace: "about-pg";
 @mixin about-pg-lg {
 }
 @mixin about-pg-md {
+  ##{$namespace}-explore-header{
+    justify-content: center;
+  }
 }
 @mixin about-pg-sm {
   ##{$namespace}-contributors-container {

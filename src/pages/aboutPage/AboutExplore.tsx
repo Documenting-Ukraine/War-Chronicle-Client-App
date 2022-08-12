@@ -55,17 +55,20 @@ const ExploreCard = ({
 const AboutExplore = () => {
   const namespace = "about-pg";
   return (
-    <div id={`${namespace}-explore-more`}>
-      {cardData.map((el) => (
-        <ExploreCard
-          key={el.title}
-          icon={el.icon}
-          title={el.title}
-          link={el.link}
-          description={el.description}
-        />
-      ))}
-    </div>
+    <>
+      <h3 id= {`${namespace}-explore-header`}>Explore More</h3>
+      <div id={`${namespace}-explore-more`}>
+        {cardData.map((el) => (
+          <ExploreCard
+            key={el.title}
+            icon={el.icon}
+            title={el.title}
+            link={el.link}
+            description={el.description}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 export default AboutExplore;
