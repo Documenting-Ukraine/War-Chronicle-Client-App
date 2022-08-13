@@ -20,7 +20,7 @@ const SearchQuery = () => {
   const namespace = "search-page";
   const app = useRealmApp();
   const dispatch = useDispatch();
-  const [advancedSearch, setAdvancedSearch] = useState(true);
+  const [advancedSearch, setAdvancedSearch] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [dateQuery, setDateQuery] = useState<RecordFormSearchQuery["date"]>();
   const [containsMedia, setContainsMedia] = useState<boolean | null>(null);
