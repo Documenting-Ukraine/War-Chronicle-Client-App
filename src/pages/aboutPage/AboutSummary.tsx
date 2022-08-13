@@ -7,7 +7,7 @@ const AboutSummary = () => {
     <div id={`${namespace}-about-us`}>
       <h2 id={`${namespace}-about-header`}>About Us</h2>
       <div id={`${namespace}-about-img`}>
-        <img src={`${staticDomain}/about-pg/burned-building.jpg`} alt="Burned building in Ukraine" />
+        <img src={`https://${staticDomain}/about-pg/burned-building.jpg`} alt="Burned building in Ukraine" />
       </div>
       <div id={`${namespace}-about-summary`}>
         <p>{content}</p>

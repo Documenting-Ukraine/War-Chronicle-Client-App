@@ -32,4 +32,9 @@ $namespace: "about-pg";
       min-width: unset;
     }
   }
+  ##{$namespace}-about-img {
+    height: 15rem;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }
