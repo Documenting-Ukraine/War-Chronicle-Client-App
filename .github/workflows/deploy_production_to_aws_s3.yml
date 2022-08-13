@@ -44,3 +44,11 @@ jobs:
         aws-region: us-east-1 # Use your bucket region here
     - name: Deploy static site to S3 bucket
       run: aws s3 sync ./build s3://archive-of-russian-aggression-client --delete
+    - name: Invalidate Cloudfront cache
+      uses: chetan/invalidate-cloudfront-action@v2
+      env:
+        DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+        PATHS: "/*"
+        AWS_REGION: "us-east-1"
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_S3_DEPLOY_USER_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_DEPLOY_USER_SECERT_KEY }}
