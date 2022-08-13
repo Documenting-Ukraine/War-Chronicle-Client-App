@@ -6,15 +6,17 @@ const PageBanner = ({
 }: {
   bannerMessage?: string;
   className?: string;
-  closeBanner: () => void;
+  closeBanner?: () => void;
 }) => {
   return (
     <div id="page-banner" className={`page-banner-styles ${className}`}>
       <span>{bannerMessage}</span>
-      <button aria-label="close banner" onClick={() => closeBanner()}>
-        <ExitIcon customStrokeWidth="0.5rem" />
-      </button>
+      {closeBanner && (
+        <button aria-label="close banner" onClick={() => closeBanner()}>
+          <ExitIcon customStrokeWidth="0.5rem" />
+        </button>
+      )}
     </div>
   );
 };
-export default PageBanner
+export default PageBanner;

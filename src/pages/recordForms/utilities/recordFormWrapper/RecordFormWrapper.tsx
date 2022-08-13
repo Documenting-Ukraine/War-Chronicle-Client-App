@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { grabRecordFormType } from "../../data/recordFormRoutes";
+import { grabCreateRecordFormType } from "../../data/recordFormRoutes";
 import RecordFormBox from "./RecordFormBox";
 import RecordFormSearch from "./RecordFormSearch";
 import React, { useEffect, useLayoutEffect, useState, useMemo } from "react";
@@ -51,7 +51,7 @@ const RecordFormWrapper = ({
   const dispatch = useDispatch();
   const params = useParams();
   const route = params["*"];
-  const formType = route ? grabRecordFormType(route) : "Form";
+  const formType = route ? grabCreateRecordFormType(route) : "Form";
   const mediumWindowWidth = useWindowWidth(992);
   const [title, setTitle] = useState("");
   const updateRecordTitle = (e: string) => setTitle(e);

@@ -1,19 +1,29 @@
 import GuestForm from "./subPages/GuestForm";
 import MainLoginForm from "./subPages/MainLoginForm";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
-import { User } from "realm-web"
-import { useState } from "react"
+import { User } from "realm-web";
+import { useState } from "react";
 import useLoginError from "../../../../hooks/use-login-error";
-const timeout = 300
+import { useLocation } from "react-router";
+import { isFromIncludes } from "../../../utilityComponents/protectedRoute/ProtectedRoute";
+const timeout = 300;
 const LoginForm = (): JSX.Element => {
-    const navigate = useNavigate()
-    const [signInErr, onSignInError] = useLoginError({ loginType: "googleLogin" }) 
-    const [guestLogin, setGuestLogin] = useState(false)
-    const onSignInSuccess = (user: User) => {
-      if(!guestLogin) navigate(`/dashboard/${user.id}`);
-      else navigate('/search')  
-    };
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [signInErr, onSignInError] = useLoginError({
+    loginType: "googleLogin",
+  });
+  const [guestLogin, setGuestLogin] = useState(false);
+  const onSignInSuccess = (user: User) => {
+    if (isFromIncludes(location) && location.state.from.pathname){
+      const lastPath = location.state.from.pathname
+      return navigate(lastPath);
+    }
+    else if (!guestLogin) navigate(`/dashboard/${user.id}`);
+    else navigate("/search");
+  };
   return (
     <>
       <CSSTransition
@@ -46,5 +56,5 @@ const LoginForm = (): JSX.Element => {
       </CSSTransition>
     </>
   );
-}
-export default LoginForm
+};
+export default LoginForm;

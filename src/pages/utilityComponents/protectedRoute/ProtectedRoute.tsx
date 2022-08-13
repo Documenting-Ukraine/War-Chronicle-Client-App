@@ -1,6 +1,18 @@
 import { Navigate, useLocation, useParams } from "react-router-dom";
 import { useRealmApp } from "../../../realm/RealmApp";
-
+export const isFromIncludes = (
+  e: any
+): e is {
+  state: {
+    from: Location;
+  };
+} => {
+  try {
+    return e.state.from.pathname;
+  } catch (any) {
+    return false;
+  }
+};
 function RequireAuth({ children }: { children: JSX.Element }) {
   let app = useRealmApp();
   let location = useLocation();
@@ -25,12 +37,14 @@ function RequireStrictAuth({
   let app = useRealmApp();
   const params = useParams();
   const location = useLocation();
-  const pathNameArr = location.pathname.split("/")
+  const pathNameArr = location.pathname.split("/");
   //this is if a logged in user tries to access another user's page
   if (app.currentUser && app.currentUser.id !== params.id) {
-    const paramsIdIdx = pathNameArr.indexOf(typeof params.id === "string"? params.id: '') 
-    pathNameArr.splice(paramsIdIdx,1,app.currentUser.id)
-    const newPath = pathNameArr.reduce((first, end) => first + "/" + end)
+    const paramsIdIdx = pathNameArr.indexOf(
+      typeof params.id === "string" ? params.id : ""
+    );
+    pathNameArr.splice(paramsIdIdx, 1, app.currentUser.id);
+    const newPath = pathNameArr.reduce((first, end) => first + "/" + end);
     return <Navigate to={newPath} state={{ from: location }} replace />;
   }
   return <RequireAuth>{children}</RequireAuth>;
@@ -56,30 +70,38 @@ function RequireNonGuestAndOwner({
   }
 
   return (
-    <RequireStrictAuth path={location.pathname}>
-      {children}
-    </RequireStrictAuth>
+    <RequireStrictAuth path={location.pathname}>{children}</RequireStrictAuth>
   );
 }
-function RequireNoUser({ children, allowGuest = false}: {
-    children: JSX.Element,
-    allowGuest?: boolean
+function RequireNoUser({
+  children,
+  allowGuest = false,
+}: {
+  children: JSX.Element;
+  allowGuest?: boolean;
 }) {
-    let app = useRealmApp();
-    if (app.currentUser) {
-        if (app.currentUser.providerType === "anon-user" && !allowGuest) {
-            return <Navigate to={"/search"}/>
-        }
-        if (app.currentUser.providerType === "custom-function") {
-            return <Navigate to={`/dashboard/${app.currentUser.id}`} />
-        }
+  let app = useRealmApp();
+  const location = useLocation();
+  if (app.currentUser) {
+    if (app.currentUser.providerType === "anon-user" && !allowGuest) {
+      if (isFromIncludes(location) && location.state.from.pathname) {
+        const lastPath = location.state.from.pathname;
+        return <Navigate to={lastPath} />;
+      } else return <Navigate to={"/search"} />;
     }
-    return children 
+    if (app.currentUser.providerType === "custom-function") {
+      if (isFromIncludes(location) && location.state.from.pathname) {
+        const lastPath = location.state.from.pathname;
+        return <Navigate to={lastPath} />;
+      } else return <Navigate to={`/dashboard/${app.currentUser.id}`} />;
+    }
+  }
+  return children;
 }
 export {
   RequireAuth,
   RequireStrictAuth,
   RequireNonGuestAccount,
   RequireNonGuestAndOwner,
-  RequireNoUser
+  RequireNoUser,
 };

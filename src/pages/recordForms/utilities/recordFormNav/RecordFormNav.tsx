@@ -4,17 +4,16 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import recordFormRoutes, {
-  grabRecordFormType,
+import {
+  createRecordFormRoutes,
+  grabCreateRecordFormType,
 } from "../../data/recordFormRoutes";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useLocation } from "react-router";
 import { useDispatch } from "react-redux";
 import { updateRecordType } from "../../../../store/reducers/recordForms/recordFormSubmission/recordFormSubmissionReducer";
-import {
-  isCategoryScope,
-} from "../../../../types/dataTypes/CategoryIconMap";
+import { isCategoryScope } from "../../../../types/dataTypes/CategoryIconMap";
 
 const RecordFormNav = () => {
   const dispatch = useDispatch();
@@ -22,7 +21,7 @@ const RecordFormNav = () => {
   const endPath = location.pathname.split("/");
   const routeId = endPath[endPath.length - 1];
   useEffect(() => {
-    const newParseUrlId = grabRecordFormType(routeId);
+    const newParseUrlId = grabCreateRecordFormType(routeId);
     if (isCategoryScope(newParseUrlId))
       dispatch(updateRecordType(newParseUrlId));
   }, [routeId, dispatch]);
@@ -34,8 +33,8 @@ const RecordFormNav = () => {
       slidesPerView={"auto"}
       className={"record-form-carousel"}
     >
-      {recordFormRoutes.map((route) => {
-        const formType = grabRecordFormType(route);
+      {createRecordFormRoutes.map((route) => {
+        const formType = grabCreateRecordFormType(route);
         return (
           <SwiperSlide key={formType} style={{ width: "auto" }}>
             <Link

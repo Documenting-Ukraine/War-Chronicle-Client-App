@@ -38,10 +38,14 @@ type UserCustomData = Omit<UserDocument, "creation_date" | "_id"> & {
   _id: ObjectId;
 };
 export function isUserCustomData(arg: any): arg is UserCustomData {
-  const copyArg = { ...arg };
-  copyArg._id = copyArg._id.toString();
-  copyArg.creation_date = copyArg.creation_date.toString();
-  return isUserDocument(copyArg);
+  try{
+    const copyArg = { ...arg };
+    copyArg._id = copyArg._id.toString();
+    copyArg.creation_date = copyArg.creation_date.toString();
+    return isUserDocument(copyArg);
+  }catch(e){
+    return false
+  }
 }
 export function isUserDocument(arg: any): arg is UserDocument {
   try {

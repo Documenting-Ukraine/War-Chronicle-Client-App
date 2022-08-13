@@ -1,9 +1,9 @@
 import React, { Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import NavWrapper from "./pages/utilityComponents/navWrapper/NavWrapper";
 import LoadingIcon from "./pages/utilityComponents/loadingIcon/LoadingIcon";
 import {
-  // RequireAuth,
+  RequireAuth,
   RequireNonGuestAndOwner,
   RequireNonGuestAccount,
   RequireNoUser,
@@ -177,14 +177,19 @@ function App() {
               }
             />
           </Route>
-          <Route
-            path="records/"
-            element={
-              <RequireNoUser>
-                <RecordPage />
-              </RequireNoUser>
-            }
-          ></Route>
+          <Route path="records/*">
+            <Route index element={<Navigate to={"/search"}></Navigate>} />
+            <Route
+              path=":id"
+              element={
+                <RequireAuth>
+                  <NavWrapper>
+                    <RecordPage />
+                  </NavWrapper>
+                </RequireAuth>
+              }
+            ></Route>
+          </Route>
         </Routes>
       </Suspense>
     </div>
