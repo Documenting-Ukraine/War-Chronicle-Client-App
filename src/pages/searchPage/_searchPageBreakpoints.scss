@@ -1,0 +1,66 @@
+@mixin search-pg-lg {
+}
+@mixin search-pg-md {
+}
+@mixin search-pg-sm {
+  $namespace: "search-page";
+  $borderRadius: 0.4rem;
+  .#{$namespace}-header {
+    font-size: 1.5rem;
+    h1 {
+      font-size: 1.8rem;
+    }
+  }
+  .#{$namespace}-query-container {
+    align-items: center;
+    #advanced-search-btn {
+      padding: 0.2rem 0.5rem;
+      font-size: 0.9rem;
+      min-height: 2.5rem;
+    }
+  }
+  .#{$namespace}-advanced-search-container {
+    padding: 5%;
+    h3 {
+      font-size: 1rem;
+    }
+    h4 {
+      font-size: 0.85rem;
+    }
+  }
+  .#{$namespace}-media-query {
+    flex-direction: column;
+    align-items: start;
+    margin-bottom: 1rem;
+    h4{
+        margin-bottom: 0.5rem;
+    }
+    .form-inputs {
+      margin: 0;
+    }
+  }
+  .#{$namespace}-dates-header {
+    button {
+      font-size: 0.9rem;
+    }
+  }
+  .#{$namespace}-date-rows {
+    flex-direction: column;
+    align-items: start;
+    .form-inputs {
+      width: 100%;
+      margin-bottom: 0.5rem;
+      label {
+        font-size: 1rem;
+        color: $darker-gray;
+        font-weight: 600;
+      }
+      input {
+        min-height: 2.25rem;
+      }
+    }
+    .delete-date-query {
+        width: 100%;
+    }
+  }
+}

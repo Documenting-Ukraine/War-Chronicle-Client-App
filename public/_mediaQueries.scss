@@ -2,7 +2,9 @@
 @import "../src/pages/dashboard/dashboardBreakpoints";
 @import "../src/pages/recordForms/recordFormPageBreakpoints";
 @import '../src/pages/aboutPage/aboutPageBreakpoints';
+@import '../src/pages/searchPage/searchPageBreakpoints';
 @media (min-width: 992px) {
+
 }
 
 @media (max-width: 992px) {
@@ -15,13 +17,16 @@
   @include navbar-sm;
   @include dashboard-md;
   @include about-pg-md;
+  @include search-pg-md;
 }
 
 @media (max-width: 575px) {
   @include dashboard-sm;
   @include record-form-pg-sm;
   @include about-pg-sm;
+  @include search-pg-sm;
 }
 
 @media (any-hover: hover) {
+
 }

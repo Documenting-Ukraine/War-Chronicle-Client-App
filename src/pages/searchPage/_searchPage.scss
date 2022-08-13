@@ -114,13 +114,16 @@ $borderRadius: 0.4rem;
 .#{$namespace}-date-rows {
   display: flex;
   justify-content: space-between;
-  align-content: end;
+  align-items: center;
+  margin-bottom: 1rem;
   .form-inputs {
     width: 30%;
+    margin-bottom: 0;
     label {
       font-size: 1rem;
       color: $darker-gray;
       font-weight: 600;
+      margin-bottom: 0;
     }
     input {
       min-height: 2.25rem;

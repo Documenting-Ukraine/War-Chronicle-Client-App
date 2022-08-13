@@ -13,7 +13,7 @@ type DateInterval = {
   startDate: Date | string;
   endDate: Date | string;
 };
-const MediaOptionTypes = ["Contain", "Not Contain", "N/A"];
+const MediaOptionTypes = ["Yes", "No", "Does not matter"];
 const categoriesOption = transformSingleList([...CategoriesList]);
 const mediaOptions = transformSingleList(MediaOptionTypes);
 const SearchQuery = () => {
@@ -75,38 +75,12 @@ const SearchQuery = () => {
             !advancedSearch ? "show-more-options" : "hide-options"
           }`}
         >
-          {!advancedSearch ? "Advanced Search" : "Hide Options"}
+          {!advancedSearch ? "Advanced" : "Hide Options"}
         </button>
       </div>
       {advancedSearch && (
         <div className={`${namespace}-advanced-search-container`}>
           <h3>Matches all the following rules:</h3>
-          <div className={`${namespace}-media-query`}>
-            <label>Does</label>
-            <FormInputs
-              required = {false}
-              title={" "}
-              name={"Media Query"}
-              dropDown={mediaOptions}
-              defaultDropDownValue={mediaOptions[2]}
-              customDropdownFunc={(e) => {
-                if(isOption(e)){
-                  switch(e.value){
-                    case "Contain":
-                      setContainsMedia(true)
-                      break; 
-                    case "Not Contain":
-                      setContainsMedia(false)
-                      break; 
-                    default: 
-                      setContainsMedia(null)
-                  }
-                }
-              }}
-            />
-            <label>Media</label>
-          </div>
-
           <h4>Record Types</h4>
           <FormInputs
             name={"Record Types"}
@@ -121,6 +95,30 @@ const SearchQuery = () => {
             isDropdownMulti
             dropDown={categoriesOption}
           />
+          <div className={`${namespace}-media-query`}>
+            <h4>Contains Media?</h4>
+            <FormInputs
+              required={false}
+              title={" "}
+              name={"Media Query"}
+              dropDown={mediaOptions}
+              defaultDropDownValue={mediaOptions[2]}
+              customDropdownFunc={(e) => {
+                if (isOption(e)) {
+                  switch (e.value) {
+                    case "Yes":
+                      setContainsMedia(true);
+                      break;
+                    case "No":
+                      setContainsMedia(false);
+                      break;
+                    default:
+                      setContainsMedia(null);
+                  }
+                }
+              }}
+            />
+          </div>
           <SearchDateList onChange={onSearchQueryCallback} />
         </div>
       )}
