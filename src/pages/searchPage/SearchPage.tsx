@@ -16,7 +16,7 @@ const SearchPage = (): JSX.Element => {
   //on page mount clear store data to refresh
   useEffect(() => {
     dispatch(clearSearchData({}));
-  }, []);
+  }, [dispatch]);
   const namespace = "search-page";
   return (
     <>
@@ -30,7 +30,7 @@ const SearchPage = (): JSX.Element => {
               </div>
               <SearchQuery />
             </>
-          </ParticlesBackground>  
+          </ParticlesBackground>
           <div className={`${namespace}-records-container`}>
             {recordsData.data.length <= 0 && (
               <div className={`${namespace}-no-records-found`}>
@@ -39,7 +39,8 @@ const SearchPage = (): JSX.Element => {
                 </div>
                 <h4>No records found</h4>
                 <p>
-                  We can't find any records matching your search. Try searching with broader rules
+                  We can't find any records matching your search. Try searching
+                  with broader rules
                 </p>
               </div>
             )}
