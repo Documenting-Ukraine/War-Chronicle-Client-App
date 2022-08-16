@@ -8,9 +8,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Avatar from "react-avatar";
 import { useNavigate } from "react-router-dom";
 import useIsClickOutside from "../../../hooks/use-click-outside";
-
+import ClampLines from "../clampLines/ClampLines";
 interface UserDropdownItemType {
-  children: JSX.Element;
+  children?: JSX.Element;
   icon?: IconProp;
   customIcon?: JSX.Element;
   onClick?: () => void;
@@ -77,7 +77,13 @@ export const UserDropdownModal = ({
           />
         }
       >
-        <span>{email}</span>
+        <>{email && <ClampLines 
+            id={email} 
+            ellipsis = {"..."}
+            buttons={false}
+            text={email + "rigiroegmiogmeroig rgrg irej oireg r gire goeiog re ig"} 
+            lines={1} 
+        />}</>
       </UserDropdownItem>
       {currentUser.providerType !== "anon-user" && (
         <UserDropdownItem
@@ -103,39 +109,39 @@ const UserDropdown = ({
 }: UserDropdownProps): JSX.Element => {
   const { ref, isClickOutside, setisClickOutside } = useIsClickOutside(false);
   return (
-      <div
-        className={`user-dropdown-container ${
-          userDropdownClass ? userDropdownClass : ""
-        }`}
+    <div
+      className={`user-dropdown-container ${
+        userDropdownClass ? userDropdownClass : ""
+      }`}
+    >
+      <button
+        className={"user-dropdown-btn"}
+        ref={ref}
+        onClick={() => setisClickOutside((state) => !state)}
       >
-        <button
-          className={"user-dropdown-btn"}
-          ref={ref}
-          onClick={() => setisClickOutside((state) => !state)}
-        >
-          <Avatar
-            name={name ? name : "Guest"}
-            className={"user-dropdown-avatar"}
-            size={"2rem"}
-            textSizeRatio={2.5}
-            round={true}
-            style={{ cursor: "pointer" }}
-          />
-          <FontAwesomeIcon
-            icon={faChevronDown}
-            className={"user-dropdown-arrow-down"}
-          />
-        </button>
-        {isClickOutside && (
-          <UserDropdownModal
-            currentUser={currentUser}
-            name={name ? name : "Guest"}
-            email={email ? email : "Guest"}
-            logOut={logOut}
-            userModalClass={userModalClass}
-          />
-        )}
-      </div>
+        <Avatar
+          name={name ? name : "Guest"}
+          className={"user-dropdown-avatar"}
+          size={"2rem"}
+          textSizeRatio={2.5}
+          round={true}
+          style={{ cursor: "pointer" }}
+        />
+        <FontAwesomeIcon
+          icon={faChevronDown}
+          className={"user-dropdown-arrow-down"}
+        />
+      </button>
+      {isClickOutside && (
+        <UserDropdownModal
+          currentUser={currentUser}
+          name={name ? name : "Guest"}
+          email={email ? email : "Guest"}
+          logOut={logOut}
+          userModalClass={userModalClass}
+        />
+      )}
+    </div>
   );
 };
 export default UserDropdown;

@@ -18,12 +18,21 @@ const grabFormType = (str: string, prefix: RegExp) => {
         .reduce((a, b) => a + b, "")
     ] = category;
   const newStr = words.reduce((a, b) => a + b, "");
-  return map[newStr];
+  const formType = map[newStr];
+  return formType ? formType : "";
 };
 export const createRecordFormRoutes = mapRecordFormRoute("create-new");
 export const updateRecordFormRoutes = mapRecordFormRoute("update-record");
 //this is to determine the record type from a route
 export const grabCreateRecordFormType = (str: string) =>
   grabFormType(str, /create-new-/);
-export const grabUpdateRecordFormType = (str: string) =>
-  grabFormType(str, /update-record-/);
+export const isolateUpdateRecordRoute = (str: string) => {
+  const isolateParams = str.split("/");
+  const updateRegex = /update-record-/;
+  const filter = isolateParams.filter((el) => updateRegex.test(el));
+  return filter.length > 0 ? filter[0] : null;
+};
+export const grabUpdateRecordFormType = (str: string) => {
+  const preProcessStr = isolateUpdateRecordRoute(str);
+  return grabFormType(preProcessStr ? preProcessStr : "", /update-record-/);
+};

@@ -51,7 +51,6 @@
     align-items: center;
     font-size: 1.5rem;
     margin-bottom: 1.2rem;
-    
     svg{
         width: 1.3rem;
     }
@@ -60,6 +59,7 @@
     }
 }
 .footer-contact-row-text{
+    position: relative;
     display: flex;
     flex-direction: column;
     margin-left: 0.6rem;
@@ -70,6 +70,12 @@
         font-weight: 300;
         opacity: 0.8;
         letter-spacing: 0.5px;
+        @include link-underline-styles(
+            $height: 0.5px,
+            $defaultColor: $white,
+            $selectedColor: $white,
+            $bottom: -2px
+        );
     }
 
 }

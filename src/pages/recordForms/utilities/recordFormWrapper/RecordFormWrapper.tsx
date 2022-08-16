@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { grabCreateRecordFormType } from "../../data/recordFormRoutes";
+import { grabCreateRecordFormType, grabUpdateRecordFormType } from "../../data/recordFormRoutes";
 import RecordFormBox from "./RecordFormBox";
 import RecordFormSearch from "./RecordFormSearch";
 import React, { useEffect, useLayoutEffect, useState, useMemo } from "react";
@@ -19,7 +19,7 @@ import RecordFormSubmitWrapper from "./RecordFormSubmitWrapper";
 import { DropZoneProvider } from "../../../utilityComponents/formInputs/FormDropZone/FormDropZoneContext";
 import { RecordSubmissionType } from "../../../../types";
 import { useRealmApp } from "../../../../realm/RealmApp";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { clearSearchData } from "../../../../store/reducers/recordForms/recordFormSearch/recordFormsSearchReducer";
 import { fetchRecordForms } from "../../../../store/reducers/asyncActions/recordFormActions/fetchRecordForms";
 import { isItemInList } from "../../../../types/dataTypes/DataLists";
@@ -36,12 +36,14 @@ export type SubmitCallbackProps = {
   event: React.FormEvent<HTMLFormElement>;
 };
 interface RecordFormWrapperProps {
+  formAction?: "create-new" | "update";
   children: JSX.Element;
   dateFirstPublished?: boolean;
   generalEventType?: boolean;
   defaultInputs?: RecordSubmissionType;
 }
 const RecordFormWrapper = ({
+  formAction = "create-new",
   generalEventType = false,
   dateFirstPublished = false,
   defaultInputs,
@@ -51,9 +53,13 @@ const RecordFormWrapper = ({
   const dispatch = useDispatch();
   const params = useParams();
   const route = params["*"];
-  const formType = route ? grabCreateRecordFormType(route) : "Form";
+  const createRouteFormType = route ? grabCreateRecordFormType(route) : "Form";
+  const updateRouteFormType = route ? grabUpdateRecordFormType(route) : 'Form';
+  const formType = formAction === "create-new" ? createRouteFormType : updateRouteFormType
   const mediumWindowWidth = useWindowWidth(992);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(
+    defaultInputs?.record_title ? defaultInputs.record_title : ""
+  );
   const updateRecordTitle = (e: string) => setTitle(e);
   const debouncedTitle = useMemo(() => debounce(updateRecordTitle, 4000), []);
   //clear search history
@@ -90,11 +96,11 @@ const RecordFormWrapper = ({
   }, [app, title, formType, dispatch]);
   return (
     <div className="record-form-pg-wrapper">
-      {!mediumWindowWidth && (
-        <RecordFormSearch />
-      )}
+      {!mediumWindowWidth && <RecordFormSearch />}
       <RecordFormBox
-        title={`New ${formType} Record`}
+        title={`${
+          formAction === "create-new" ? "New" : "Update"
+        } ${formType} Record`}
         className="record-form-pg-form"
       >
         <DropZoneProvider>

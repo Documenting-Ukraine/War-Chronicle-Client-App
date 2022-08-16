@@ -23,7 +23,6 @@ const RecordContentPage = ({ data }: { data: RecordSubmissionType }) => {
   const app = useRealmApp();
   const namespace = "record-pg";
   const updateRoute = replaceSpacesWithDash(data.record_type.toLowerCase());
-console.log(app)
   return (
     <div id={`${namespace}-record-content`}>
       {validateUserEdit(app, [data.record_type]) && (

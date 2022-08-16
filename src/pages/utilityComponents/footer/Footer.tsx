@@ -1,8 +1,5 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import {
-  faEnvelope,
-  faLocationDot,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import useWindowWidth from "../../../hooks/use-window-width";
@@ -64,6 +61,9 @@ const FooterContactRow = ({
 };
 const Footer = (): JSX.Element => {
   const mediumWidth = useWindowWidth(992);
+  const location = process.env.REACT_APP_OFFICE_LOCATION;
+  const locationURI = encodeURI(location ? location : "");
+  const locationURL = `https://www.google.com/maps/search/?api=1&query=${locationURI}`;
   return (
     <footer id="footer">
       <div id="footer-container">
@@ -74,9 +74,7 @@ const Footer = (): JSX.Element => {
         </div>
         <div className="footer-contact-column">
           <FooterContactRow textContent="Location:" icon={faLocationDot}>
-            <a href={`${process.env.REACT_APP_LOCATION_URL}`}>
-              {process.env.REACT_APP_LOCATION}
-            </a>
+            <a href={locationURL} target={'_blank'} rel="noreferrer">{location}</a>
           </FooterContactRow>
           <FooterContactRow textContent="Contact Us: " icon={faEnvelope}>
             <a href={`mailto:${process.env.REACT_APP_SUPPORT_EMAIL}`}>

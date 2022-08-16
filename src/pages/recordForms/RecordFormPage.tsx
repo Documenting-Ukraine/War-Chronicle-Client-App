@@ -4,14 +4,19 @@ import PageWrapper from "../utilityComponents/pageWrapper/PageWrapper";
 import CreateRecordFormRoutes from "./CreateRecordFormRoutes";
 import RecordFormNav from "./utilities/recordFormNav/RecordFormNav";
 import UpdateRecordFormRoutes from "./UpdateRecordFormRoutes";
+import { useParams } from "react-router";
+import { isolateUpdateRecordRoute } from "./data/recordFormRoutes";
 const RecordFormPage = (): JSX.Element => {
+  const params = useParams();
+  const location = params["*"];
+  const isUpdateRecordRoute = location && isolateUpdateRecordRoute(location);
   return (
     <PageWrapper
-      heading="New Record Form"
+      heading={isUpdateRecordRoute ? "Update Record" : "New Record Form"}
       icon={<FontAwesomeIcon icon={faFileLines} />}
     >
       <>
-        <RecordFormNav />
+        {!isUpdateRecordRoute && <RecordFormNav />}
         <CreateRecordFormRoutes />
         <UpdateRecordFormRoutes />
       </>

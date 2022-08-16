@@ -34,7 +34,6 @@
     padding: 0.5rem 1rem;
     border: none;
     background-color: $white;
-
     &:hover{
         background-color: $lighter-gray;
     }
@@ -47,6 +46,8 @@
     color: $darkest-blue
 }
 .user-dropdown-modal-content{
+    word-break: break-all;
+    overflow-wrap: break-word;
     display: flex;
     flex-grow: 1;
     align-items: center;
