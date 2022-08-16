@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import * as Realm from "realm-web";
 import { unstable_batchedUpdates } from "react-dom";
-import { hoursToMilliseconds } from "date-fns";
 type ErrorCallBack = (e: Realm.MongoDBRealmError) => any;
 export interface RealmApp {
   app: Realm.App;
@@ -95,7 +94,7 @@ export const RealmAppProvider = ({
   ) {
     try {
       setUserLoading(true);
-      const user = await app.logIn(credentials);
+      await app.logIn(credentials);
       //const awsCreds = await getAWSCredentials(user, user?.accessToken);
       // If successful, app.currentUser is the user that just logged in
       unstable_batchedUpdates(() => {
