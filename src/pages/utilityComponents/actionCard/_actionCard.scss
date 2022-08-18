@@ -1,0 +1,36 @@
+.action-card{
+    @include banner-container-styles();
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: calc(max(4%, 1.5rem));
+    cursor: pointer;
+    border: none;
+    width: 47.5%;
+    min-width: 270px;
+    transition: all 0.2s ease-out;
+    text-decoration: none;
+    &:hover{
+        transform: translateY(-5%);
+    }
+    
+}
+.action-card-header{
+    text-align: left;
+    display: flex;
+    align-items: center;
+    color: $dark-blue;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    h2{
+        font-size: 1.3rem;
+        margin-left: 1rem;
+        margin-bottom: 0;
+    }
+}
+.action-card-description{
+    font-family:'Lato','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #555555;
+    font-size: 0.9rem;
+    text-align: left;
+}

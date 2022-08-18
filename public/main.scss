@@ -9,10 +9,11 @@
 @import "../src/pages/searchPage/searchPage";
 @import '../src/pages/recordPage/recordPage';
 @import "./mediaQueries";
-body,html{
+body, html{
     margin: 0;
     min-height: 600px;
     background-color: $white !important;
+    scroll-behavior: unset !important;
 }
 #root{
     position: relative;

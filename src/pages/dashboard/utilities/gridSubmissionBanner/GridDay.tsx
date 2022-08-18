@@ -26,9 +26,9 @@ const GridDay = ({
   
   //adjust when the window is resizing so there is no overflow
   useEffect(() => {
-    if(windowWidth !== offset.left) setOffset({ left: window.pageXOffset, top: window.pageYOffset });
+    if(windowWidth[0] !== offset.left) setOffset({ left: window.pageXOffset, top: window.pageYOffset });
     return () => {};
-  }, [windowWidth, offset.left]);
+  }, [windowWidth[0], offset.left]);
   const onHover = () => {
     unstable_batchedUpdates(() => {
       //we want the most recent position

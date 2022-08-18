@@ -28,11 +28,7 @@ const UpdateRecordDataForm = ({
   const app = useRealmApp();
   const params = useParams();
   const recordId = params.recordId ? params.recordId : "";
-  const { 
-    data, 
-    err, 
-    loading 
-  } = useFetchRecordData({
+  const { data, err, loading } = useFetchRecordData({
     app,
     recordId,
   });
@@ -48,30 +44,42 @@ const UpdateRecordDataForm = ({
     <Suspense fallback={<LoadingIcon entireViewPort={true} />}>
       {recordType === "International Response" &&
       data.record_type === "International Response" ? (
-        <RecordFormWrapper formAction ={'update'} defaultInputs={data}>
+        <RecordFormWrapper formAction={"update"} defaultInputs={data}>
           <InternationalResponseForm defaultInputs={data} />
         </RecordFormWrapper>
       ) : recordType === "Media And Disinformation" &&
         data.record_type === recordType ? (
-        <RecordFormWrapper formAction ={'update'} dateFirstPublished defaultInputs={data}>
+        <RecordFormWrapper
+          formAction={"update"}
+          dateFirstPublished
+          defaultInputs={data}
+        >
           <MediaAndDisInformationForm defaultInputs={data} />
         </RecordFormWrapper>
       ) : recordType === "Protests Abroad" &&
         data.record_type === recordType ? (
-        <RecordFormWrapper formAction ={'update'} defaultInputs={data}>
+        <RecordFormWrapper formAction={"update"} defaultInputs={data}>
           <ProtestsAbroad />
         </RecordFormWrapper>
       ) : recordType === "Refugees And IDPs" &&
         data.record_type === recordType ? (
-        <RecordFormWrapper formAction ={'update'} dateFirstPublished defaultInputs={data}>
+        <RecordFormWrapper
+          formAction={"update"}
+          dateFirstPublished
+          defaultInputs={data}
+        >
           <RefugeesAndIdpsForm defaultInputs={data} />
         </RecordFormWrapper>
       ) : recordType === "Russia" && data.record_type === recordType ? (
-        <RecordFormWrapper formAction ={'update'} defaultInputs={data}>
+        <RecordFormWrapper formAction={"update"} defaultInputs={data}>
           <RussiaForm defaultInputs={data} />
         </RecordFormWrapper>
       ) : recordType === "War Crimes" && data.record_type === recordType ? (
-        <RecordFormWrapper formAction ={'update'} generalEventType defaultInputs={data}>
+        <RecordFormWrapper
+          formAction={"update"}
+          generalEventType
+          defaultInputs={data}
+        >
           <WarCrimesForm defaultInputs={data} />
         </RecordFormWrapper>
       ) : null}
