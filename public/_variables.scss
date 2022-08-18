@@ -64,6 +64,15 @@ $navbar-height: 3.5rem;
     }
   }
 }
+@mixin hide-scroll-bar() {
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+}
 @mixin scroll-bar-styles(
   $width: 0.5rem,
   $height: 0.5rem,
@@ -92,7 +101,7 @@ $navbar-height: 3.5rem;
   min-height: 220px;
   width: 100%;
   background-color: white;
-  box-shadow: 0px 0 1rem rgba(0, 0, 0, 0.08); 
-  border-radius: 1rem; 
+  box-shadow: 0px 0 1rem rgba(0, 0, 0, 0.08);
+  border-radius: 1rem;
   margin-bottom: 2.5rem;
 }

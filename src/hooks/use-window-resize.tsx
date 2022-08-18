@@ -22,7 +22,7 @@ const useWindowResize = (): [number, number] => {
 
     // Remove event listener on cleanup
     return () => cleanup();
-  }, [windowWidth]);
+  }, [windowWidth, windowHeight]);
   return [windowWidth, windowHeight];
 };
 export default useWindowResize;
