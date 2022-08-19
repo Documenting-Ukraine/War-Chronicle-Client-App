@@ -5,6 +5,8 @@ import { RecordSubmissionType } from "../../dashboard/dashboardReducer";
 import { isObject, has } from "lodash";
 import { WritableDraft } from "immer/dist/internal";
 import { RecordFormSearchQuery } from "../../recordForms/types";
+export const oldestFormDate = new Date("1970-01-01 00:00:00 UTC+00")
+
 type FetchRecordFormsProps = {
   app: RealmApp;
   input: {

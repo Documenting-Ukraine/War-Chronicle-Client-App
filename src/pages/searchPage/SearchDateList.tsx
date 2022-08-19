@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import FormInputs from "../utilityComponents/formInputs/FormInputs";
 import { addDays, isBefore, subDays } from "date-fns";
+import { oldestFormDate } from "../../store/reducers/asyncActions/recordFormActions/fetchRecordForms";
 type DateInterval = {
   startDate: Date | string;
   endDate: Date | string;
@@ -40,7 +41,7 @@ const SelectDate = ({
 }) => {
   const namespace = "search-page";
   const [dateStart, setDateStart] = useState<Date>(
-    new Date("1970-01-01 00:00:00 UTC+00")
+    oldestFormDate
   );
   const [dateEnd, setDateEnd] = useState<Date>(new Date());
   const onStartDateDayChange = (value: string, currDate: Date) => {

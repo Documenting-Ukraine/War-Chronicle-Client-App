@@ -15,18 +15,18 @@ const GridDay = ({
   const [isOver, setIsOver] = useState(false);
   const ref = useRef<SVGRectElement>(null);
   const currDay = getDay(dayData);
-  const {windowWidth} = useWindowResize()
+  const { windowWidth } = useWindowResize();
   //this is both to measure the offset, but also to
   //ensure the ref is attacted
   useEffect(() => {
     setOffset({ left: window.pageXOffset, top: window.pageYOffset });
-    return () => {
-    };
+    return () => {};
   }, []);
-  
+
   //adjust when the window is resizing so there is no overflow
   useEffect(() => {
-    if(windowWidth !== offset.left) setOffset({ left: window.pageXOffset, top: window.pageYOffset });
+    if (windowWidth !== offset.left)
+      setOffset({ left: window.pageXOffset, top: window.pageYOffset });
     return () => {};
   }, [windowWidth, offset.left]);
   const onHover = () => {
@@ -42,8 +42,8 @@ const GridDay = ({
   }px + 1rem)`;
   const left = `calc(${rectBoundingRect ? rectBoundingRect.x : 0}px + ${
     offset.left
-    }px  - 5.3rem)`;
-  const appRoot = document.body.querySelector("#root")
+  }px  - 5.3rem)`;
+  const appRoot = document.body.querySelector("#root");
   return (
     <>
       <rect
@@ -80,7 +80,7 @@ const GridDay = ({
             year: "numeric",
           })}
         </div>,
-         appRoot ? appRoot : document.body 
+        appRoot ? appRoot : document.body
       )}
     </>
   );

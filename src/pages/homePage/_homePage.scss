@@ -95,8 +95,8 @@ $namespace: "home-page";
     webkit
   );
   @include prefix(mask-size, 100%, webkit);
-  @include prefix(mask-position, 0 0, 100% 0, webkit);
-  @include prefix(mask-repeat, no-repeat, no-repeat, webkit);
+  @include prefix(mask-position, 0 0 100% 0, webkit);
+  @include prefix(mask-repeat, no-repeat no-repeat, webkit);
   @include hide-scroll-bar;
   padding-top: 15rem;
   padding-bottom: 0;

@@ -9,6 +9,8 @@ import { MediaLink } from "../../../../types/dataTypes/GeneralRecordType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { RecordSubmissionType } from "../../../../store/reducers/dashboard/dashboardReducer";
+import LoadingIcon from "../../../utilityComponents/loadingIcon/LoadingIcon";
+import PageBanner from "../../../utilityComponents/pageBanner/PageBanner";
 export const RecentRow = ({
   title,
   dateSubmitted,
@@ -59,12 +61,14 @@ export const RecentList = ({
   contributionsData,
   headerText,
   headerViewAllLink,
-  contributeNowLink
+  contributeNowLink,
+  loadingState,
 }: {
   headerText: string;
   headerViewAllLink?: string;
   contributionsData: RecordSubmissionType[] | null;
   contributeNowLink: string;
+  loadingState: "success" | "loading" | "failed";
 }) => {
   return (
     <>
@@ -73,7 +77,9 @@ export const RecentList = ({
         {headerViewAllLink && <Link to={headerViewAllLink}>View All</Link>}
       </div>
       <div id="dashboard-recent-banner">
-        {contributionsData && contributionsData.length > 0 ? (
+        {loadingState === "success" &&
+        contributionsData &&
+        contributionsData.length > 0 ? (
           contributionsData.map((record) => {
             const title = record.record_title;
             const type = record.record_type;
@@ -89,14 +95,23 @@ export const RecentList = ({
               />
             );
           })
-        ) : (
+        ) : loadingState === "success" ? (
           <div id="dashboard-recent-row-placeholder">
             No submissions recorded.
-            <Link to ={contributeNowLink}>
-              Contribute Now
-            </Link>
+            <Link to={contributeNowLink}>Contribute Now</Link>
           </div>
-        )}
+        ) : loadingState === "loading" ? (
+          <LoadingIcon />
+        ) : loadingState === "failed" ? (
+          <div id={"dashboard-recent-banner-alert"}>
+            <div className="dashboard-grid-err-alert">
+              <div>
+                Something went wrong. Please try again later or contact{" "}
+                {" " + process.env.REACT_APP_SUPPORT_EMAIL}
+              </div>
+            </div>
+          </div>
+        ) : null}
       </div>
     </>
   );
@@ -105,6 +120,7 @@ const DashboardRecent = (): JSX.Element => {
   const contributions = useSelector(
     (state: RootState) => state.dashboard.contributionsData
   );
+  const loadingState = contributions.status;
   const contributionsData = contributions.data;
   const app = useRealmApp();
   const dispatch = useDispatch();
@@ -150,8 +166,9 @@ const DashboardRecent = (): JSX.Element => {
     <RecentList
       contributionsData={contributionsData}
       headerText={"Your recent contributions"}
-      headerViewAllLink = {"../all-contributions"}
-      contributeNowLink = {`/dashboard/${app?.currentUser?.id}/contribute`}
+      headerViewAllLink={"../all-contributions"}
+      contributeNowLink={`/dashboard/${app?.currentUser?.id}/contribute`}
+      loadingState={loadingState}
     />
   );
 };

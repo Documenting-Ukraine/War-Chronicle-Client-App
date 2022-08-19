@@ -8,7 +8,7 @@ export type SelectedRecord = {
 };
 export type RecordFormSearchQuery = {
   [key: string]: any;
-  value: string;
+  value?: string;
   _ids?: string[];
   categories?: string[];
   containsMedia?: boolean | null;
@@ -16,10 +16,12 @@ export type RecordFormSearchQuery = {
     eventDate?: {
       startDate: Date | string;
       endDate: Date | string;
+      sortBy?: 'oldest' | 'newest'
     };
     recordCreation?: {
       startDate: Date | string;
       endDate: Date | string;
+      sortBy?: 'oldest' | 'newest'
     };
   };
 };
