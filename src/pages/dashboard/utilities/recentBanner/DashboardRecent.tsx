@@ -8,7 +8,8 @@ import { fetchContributions } from "../../../../store/reducers/dashboard/dashboa
 import { MediaLink } from "../../../../types/dataTypes/GeneralRecordType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
-const RecentRow = ({
+import { RecordSubmissionType } from "../../../../store/reducers/dashboard/dashboardReducer";
+export const RecentRow = ({
   title,
   dateSubmitted,
   recordType,
@@ -54,11 +55,59 @@ const RecentRow = ({
     </>
   );
 };
+export const RecentList = ({
+  contributionsData,
+  headerText,
+  headerViewAllLink,
+  contributeNowLink
+}: {
+  headerText: string;
+  headerViewAllLink?: string;
+  contributionsData: RecordSubmissionType[] | null;
+  contributeNowLink: string;
+}) => {
+  return (
+    <>
+      <div id="dashboard-recent-header">
+        <h2>{headerText}</h2>
+        {headerViewAllLink && <Link to={headerViewAllLink}>View All</Link>}
+      </div>
+      <div id="dashboard-recent-banner">
+        {contributionsData && contributionsData.length > 0 ? (
+          contributionsData.map((record) => {
+            const title = record.record_title;
+            const type = record.record_type;
+            const submitted = record.record_creation_date;
+            const mainImage = record.media?.main_image;
+            return (
+              <RecentRow
+                key={record._id}
+                title={title}
+                recordType={type}
+                dateSubmitted={new Date(submitted)}
+                mainImage={mainImage}
+              />
+            );
+          })
+        ) : (
+          <div id="dashboard-recent-row-placeholder">
+            No submissions recorded.
+            <Link to ={contributeNowLink}>
+              Contribute Now
+            </Link>
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
 const DashboardRecent = (): JSX.Element => {
   const contributions = useSelector(
     (state: RootState) => state.dashboard.contributionsData
   );
   const contributionsData = contributions.data;
+  const app = useRealmApp();
+  const dispatch = useDispatch();
   // const contributionsData = [
   //   {
   //     _id: "unique",
@@ -94,44 +143,16 @@ const DashboardRecent = (): JSX.Element => {
   //     warCrime: [],
   //   },
   // ];
-  const app = useRealmApp();
-  const dispatch = useDispatch();
   useEffect(() => {
     if (!contributionsData) dispatch(fetchContributions(app));
   }, [contributionsData, dispatch, app]);
   return (
-    <>
-      <div id="dashboard-recent-header">
-        <h2>Your recent contributions</h2>
-        <Link to="../all-contributions">View All</Link>
-      </div>
-      <div id="dashboard-recent-banner">
-        {contributionsData && contributionsData.length > 0 ? (
-          contributionsData.map((record) => {
-            const title = record.record_title;
-            const type = record.record_type;
-            const submitted = record.record_creation_date;
-            const mainImage = record.media?.main_image;
-            return (
-              <RecentRow
-                key={record._id}
-                title={title}
-                recordType={type}
-                dateSubmitted={new Date(submitted)}
-                mainImage={mainImage}
-              />
-            );
-          })
-        ) : (
-          <div id="dashboard-recent-row-placeholder">
-            No submissions recorded.
-            <Link to={`/dashboard/${app?.currentUser?.id}/contribute`}>
-              Contribute Now
-            </Link>
-          </div>
-        )}
-      </div>
-    </>
+    <RecentList
+      contributionsData={contributionsData}
+      headerText={"Your recent contributions"}
+      headerViewAllLink = {"../all-contributions"}
+      contributeNowLink = {`/dashboard/${app?.currentUser?.id}/contribute`}
+    />
   );
 };
 export default DashboardRecent;
