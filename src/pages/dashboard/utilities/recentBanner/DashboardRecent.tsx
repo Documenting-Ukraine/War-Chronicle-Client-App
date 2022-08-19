@@ -10,7 +10,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { RecordSubmissionType } from "../../../../store/reducers/dashboard/dashboardReducer";
 import LoadingIcon from "../../../utilityComponents/loadingIcon/LoadingIcon";
-import PageBanner from "../../../utilityComponents/pageBanner/PageBanner";
 export const RecentRow = ({
   title,
   dateSubmitted,

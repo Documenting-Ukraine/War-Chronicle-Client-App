@@ -25,7 +25,7 @@ const awsS3UploadMedia = async ({
   for(let file of files) filesMap[file.name] = file
   const {data: fetchSignedUrls} = await axios({
     method: "POST",
-    url: `https://api.archiveofrussianaggression.org/fetch_signed_urls`,
+    url: `${process.env.REACT_APP_API_ENDPOINT}/media/fetch_signed_urls`,
     data: JSON.stringify({
       token: realmToken,
       recordType: recordType,
