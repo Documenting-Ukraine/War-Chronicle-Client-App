@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useWindowWidth from "../../../hooks/use-window-width";
 import { useRealmApp } from "../../../realm/RealmApp";
 import UserDropdown from "../userDropdown/UserDropdown";
+const staticDomain = process.env.REACT_APP_STATIC_FILES_DOMAIN;
 const Navbar = (): JSX.Element => {
   const app = useRealmApp();
   const navigate = useNavigate();
@@ -17,13 +18,15 @@ const Navbar = (): JSX.Element => {
   if (!firstName || !lastName) userName = undefined;
   else userName = firstName + " " + lastName;
   const email = app.currentUser?.customData?.email;
-  const logUserOut = async() =>{
-    await app.logOut()
-    navigate("/forms/login")
-  }
+  const logUserOut = async () => {
+    await app.logOut();
+    navigate("/forms/login");
+  };
   return (
     <nav id="navbar">
-      <div className="flex-grow-1">Navbar</div>
+      <div id="navbar-logo">
+        <Link to="/"><img src = {`${staticDomain}/logo/war-chronicle-logo.png`} alt={"War Chronicle Logo"}/></Link>
+      </div>
       {!smallWindowWidth && app.currentUser && (
         <UserDropdown
           currentUser={app.currentUser}
