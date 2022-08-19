@@ -1,4 +1,5 @@
 $namespace: "home-page";
+
 @keyframes reveal-line {
   0% {
     width: 0;
@@ -43,21 +44,13 @@ $namespace: "home-page";
     z-index: 0;
   }
 }
-// .#{$namespace}-banner-header-container {
-//   position: absolute;
-//   @include padding-row();
-//   display: flex;
-//   justify-content: center;
-//   width: 100%;
-//   z-index: 3;
-// }
 .#{$namespace}-banner-header {
-    pointer-events: none;
+  pointer-events: none;
   position: absolute;
-  left: 0; 
-  right: 0; 
-  margin-left: auto; 
-  margin-right: auto; 
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
   @include padding-row();
   width: min-content;
   color: $white;
@@ -90,22 +83,22 @@ $namespace: "home-page";
 }
 .#{$namespace}-banner-content {
   @include padding-row();
-  padding-top: 15rem;
-  /* Apply the mask image and mask size variables */
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 12rem,
-    black calc(max(30%, 15rem)),
-    black 85%,
-    transparent 95%
+  @include prefix(
+    mask-image,
+    linear-gradient(
+      to bottom,
+      transparent 12rem,
+      black calc(max(30%, 15rem)),
+      black 85%,
+      transparent 95%
+    ),
+    webkit
   );
-  mask-size: 100%;
-  /* Position the content gradient in the top left, and the 
-      scroll gradient in the top right */
-  mask-position: 0 0, 100% 0;
-  /* We don't repeat our mask images */
-  mask-repeat: no-repeat, no-repeat;
+  @include prefix(mask-size, 100%, webkit);
+  @include prefix(mask-position, 0 0, 100% 0, webkit);
+  @include prefix(mask-repeat, no-repeat, no-repeat, webkit);
   @include hide-scroll-bar;
+  padding-top: 15rem;
   padding-bottom: 0;
   display: flex;
   flex-direction: column;
@@ -135,8 +128,6 @@ $namespace: "home-page";
   background-clip: text;
   -webkit-background-clip: text;
   background-attachment: fixed;
-  /* The CSS mask */
-  /* The content mask is a linear gradient from top to bottom */
 }
 .#{$namespace}-banner-summary {
   color: transparent;
@@ -149,7 +140,6 @@ $namespace: "home-page";
 .#{$namespace}-banner-action-cards {
   display: flex;
   justify-content: space-between;
-  //margin-bottom: 3rem;
   margin-bottom: 6vh;
   .action-card {
     height: 220px;
@@ -168,15 +158,14 @@ $namespace: "home-page";
     opacity: 0.8;
   }
 }
-##{$namespace}-recent-submissions-container{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding-top: 4rem;
-    @include padding-row();
-
+##{$namespace}-recent-submissions-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 4rem;
+  @include padding-row();
 }
-##{$namespace}-recent-submissions{
+##{$namespace}-recent-submissions {
   max-width: 1100px;
   min-height: 100vh;
   width: 100%;
