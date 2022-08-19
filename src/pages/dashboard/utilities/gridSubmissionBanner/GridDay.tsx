@@ -15,7 +15,7 @@ const GridDay = ({
   const [isOver, setIsOver] = useState(false);
   const ref = useRef<SVGRectElement>(null);
   const currDay = getDay(dayData);
-  const windowWidth = useWindowResize()
+  const {windowWidth} = useWindowResize()
   //this is both to measure the offset, but also to
   //ensure the ref is attacted
   useEffect(() => {
@@ -26,9 +26,9 @@ const GridDay = ({
   
   //adjust when the window is resizing so there is no overflow
   useEffect(() => {
-    if(windowWidth[0] !== offset.left) setOffset({ left: window.pageXOffset, top: window.pageYOffset });
+    if(windowWidth !== offset.left) setOffset({ left: window.pageXOffset, top: window.pageYOffset });
     return () => {};
-  }, [windowWidth[0], offset.left]);
+  }, [windowWidth, offset.left]);
   const onHover = () => {
     unstable_batchedUpdates(() => {
       //we want the most recent position

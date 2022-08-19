@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import debounce from "lodash/debounce";
-const useWindowResize = (): [number, number] => {
+const useWindowResize = () => {
   const [windowWidth, setWidth] = useState(window.innerWidth);
   const [windowHeight, setHeight] = useState(window.innerHeight)
   useEffect(() => {
@@ -23,6 +23,6 @@ const useWindowResize = (): [number, number] => {
     // Remove event listener on cleanup
     return () => cleanup();
   }, [windowWidth, windowHeight]);
-  return [windowWidth, windowHeight];
+  return {windowWidth, windowHeight};
 };
 export default useWindowResize;

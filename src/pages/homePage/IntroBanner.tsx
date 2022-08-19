@@ -12,15 +12,8 @@ import {
   clearAllBodyScrollLocks,
 } from "body-scroll-lock";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { SwitchTransition, CSSTransition } from "react-transition-group";
-// import useScrollPos from "../../hooks/use-scroll-pos";
-// import Navbar from "../utilityComponents/navbar/Navbar";
-import useWindowResize from "../../hooks/use-window-resize";
 import useScrollListener from "../../hooks/use-scroll-listener";
 import useScrollPos from "../../hooks/use-scroll-pos";
-// function convertRemToPixels(rem: number) {
-//   return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
-// }
 const staticDomain = process.env.REACT_APP_STATIC_FILES_DOMAIN;
 const WelcomeHeader = ({ namespace }: { namespace: string }) => {
   const [mounted, setMounted] = useState(false);
@@ -31,7 +24,7 @@ const WelcomeHeader = ({ namespace }: { namespace: string }) => {
   return (
       <div className={`${namespace}-banner-header ${mounted ? "mounted" : ""}`}>
         <h1>WELCOME TO WAR</h1>
-        <h1>CHRONICLES</h1>
+        <h1>CHRONICLE</h1>
       </div>
   );
 };
