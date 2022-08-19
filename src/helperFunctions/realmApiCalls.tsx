@@ -5,15 +5,13 @@ const realmApiCalls = async (
   method: Method,
   funcName: string
 ) => {
-  const realmURL = process.env.REACT_APP_MONGO_HTTP_ENDPOINT;
-  const secret = process.env.REACT_APP_HTTP_ENDPOINTS_SECRET;
+  const realmURL = process.env.REACT_APP_API_ENDPOINT;
   const isGetMethod = method === "GET" || method === "get";
   const config = {
     method: method,
-    url: `${realmURL}${funcName}`,
+    url: `${realmURL}/public/${funcName}`,
     data: isGetMethod ? {} : data,
     params: {
-      secret: secret,
       data: isGetMethod ? JSON.stringify(data) : undefined,
     },
   };
