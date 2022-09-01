@@ -29,7 +29,7 @@ const SearchQuery = () => {
     const searchQuery: RecordFormSearchQuery = {
       value: searchValue,
       categories: categories,
-      containsMedia: containsMedia,
+      containsMedia: containsMedia === null ? undefined : containsMedia,
       date: dateQuery,
     };
     dispatch(

@@ -159,7 +159,15 @@ const DashboardRecent = (): JSX.Element => {
   //   },
   // ];
   useEffect(() => {
-    if (!contributionsData) dispatch(fetchContributions(app));
+    const _id = app.currentUser?.customData._id 
+    if (!contributionsData) dispatch(fetchContributions({
+      app, 
+      input:{
+        searchQuery:{
+          contributors: [typeof _id === 'string'? _id: ""]
+        }
+      }
+    }));
   }, [contributionsData, dispatch, app]);
   return (
     <RecentList

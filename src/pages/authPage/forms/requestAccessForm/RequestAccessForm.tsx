@@ -68,8 +68,8 @@ const RequestAccessForm = (): JSX.Element => {
       //write async request here
       const result = await realmApiCalls(
         dataPayload,
-        "put",
-        "access_form_submit"
+        "post",
+        "request_access_form_submit"
       );
       const user_exists = result.data.user_exists;
       const request_exists = result.data.result?.upsertedId;

@@ -7,23 +7,27 @@ export type SelectedRecord = {
   data: RecordSubmissionType | null;
 };
 export type RecordFormSearchQuery = {
-  [key: string]: any;
   value?: string;
   _ids?: string[];
   categories?: string[];
-  containsMedia?: boolean | null;
+  containsMedia?: boolean | undefined;
+  contributors?: string[];
   date?: {
     eventDate?: {
       startDate: Date | string;
       endDate: Date | string;
-      sortBy?: 'oldest' | 'newest'
     };
     recordCreation?: {
       startDate: Date | string;
       endDate: Date | string;
-      sortBy?: 'oldest' | 'newest'
     };
   };
+  sortBy?:
+    | "relevance"
+    | "oldest_event_date"
+    | "newest_event_date"
+    | "oldest_creation_date"
+    | "newest_creation_date";
 };
 export type SearchRecordData = {
   data: RecordSubmissionType[];

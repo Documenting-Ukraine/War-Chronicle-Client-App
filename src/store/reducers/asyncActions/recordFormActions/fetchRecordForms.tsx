@@ -5,9 +5,10 @@ import { RecordSubmissionType } from "../../dashboard/dashboardReducer";
 import { isObject, has } from "lodash";
 import { WritableDraft } from "immer/dist/internal";
 import { RecordFormSearchQuery } from "../../recordForms/types";
+import realmApiCalls from "../../../../helperFunctions/realmApiCalls";
 export const oldestFormDate = new Date("1970-01-01 00:00:00 UTC+00");
 
-type FetchRecordFormsProps = {
+export type FetchRecordFormsProps = {
   app: RealmApp;
   input: {
     searchQuery: RecordFormSearchQuery;
@@ -50,11 +51,14 @@ export const fetchRecordForms = createAsyncThunk(
         input
       );
     } else {
-      // const response = await realmApiCalls(input, "get", "search_records_public")
-      //recordFormData = response.data
+      const response = await realmApiCalls(
+        { search_query: JSON.stringify(input) },
+        "get",
+        "search_record_forms"
+      );
+      recordFormData = response.data;
     }
     if (isFetchRecordFormsResult(recordFormData)) return recordFormData;
-
     return null;
   }
 );

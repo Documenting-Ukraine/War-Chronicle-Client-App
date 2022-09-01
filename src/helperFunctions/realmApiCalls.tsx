@@ -7,13 +7,12 @@ const realmApiCalls = async (
 ) => {
   const realmURL = process.env.REACT_APP_API_ENDPOINT;
   const isGetMethod = method === "GET" || method === "get";
+  const url = `${realmURL}/${funcName}`
   const config = {
     method: method,
-    url: `${realmURL}/public/${funcName}`,
+    url: url,
     data: isGetMethod ? {} : data,
-    params: {
-      data: isGetMethod ? JSON.stringify(data) : undefined,
-    },
+    params: isGetMethod ? data : {},
   };
   const response = await axios(config);
   return response;

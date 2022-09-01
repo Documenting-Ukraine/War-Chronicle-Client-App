@@ -5,12 +5,17 @@ import { clearSearchData } from "../../store/reducers/recordForms/recordFormSear
 import { RecentList } from "../dashboard/utilities/recentBanner/DashboardRecent";
 import {
   fetchRecordForms,
-  oldestFormDate,
 } from "../../store/reducers/asyncActions/recordFormActions/fetchRecordForms";
 import { RecordFormSearchQuery } from "../../store/reducers/recordForms/types";
 import { RootState } from "../../store/rootReducer";
 
-const RecentSubmissions = ({ namespace }: { namespace: string }) => {
+const RecentSubmissions = ({
+  namespace,
+  searchQuery
+}: {
+  namespace: string;
+  searchQuery: RecordFormSearchQuery;
+}) => {
   const app = useRealmApp();
   const dispatch = useDispatch();
   const recordForms = useSelector(
@@ -23,16 +28,6 @@ const RecentSubmissions = ({ namespace }: { namespace: string }) => {
     dispatch(clearSearchData({}));
   }, [dispatch]);
   useEffect(() => {
-    const searchQuery: RecordFormSearchQuery = {
-      sortBy: "",
-      date: {
-        recordCreation: {
-          startDate: oldestFormDate,
-          endDate: new Date(),
-          sortBy: "newest",
-        },
-      },
-    };
     dispatch(
       fetchRecordForms({
         app: app,
@@ -41,7 +36,7 @@ const RecentSubmissions = ({ namespace }: { namespace: string }) => {
         },
       })
     );
-  }, [dispatch, app]);
+  }, [dispatch, app, searchQuery]);
 
   return (
     <div id={`${namespace}-recent-submissions-container`}>
@@ -53,7 +48,7 @@ const RecentSubmissions = ({ namespace }: { namespace: string }) => {
               ? `/dashboard/${app.currentUser?.id}/contribute`
               : "/forms/login"
           }
-          loadingState = {loadingState}
+          loadingState={loadingState}
           contributionsData={recordsData}
         />
       </div>

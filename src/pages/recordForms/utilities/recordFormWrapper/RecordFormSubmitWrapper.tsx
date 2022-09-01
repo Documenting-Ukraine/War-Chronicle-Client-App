@@ -40,9 +40,9 @@ const RecordFormSubmitWrapper = ({
   const loadingProgress = additionalFormData.status.loading;
   //prevent scrolling
   useLayoutEffect(() => {
-    if(loadingProgress.status) document.body.style.overflow = 'hidden'
-    else document.body.style.overflow = "visible"
-  }, [loadingProgress.status])
+    if (loadingProgress.status) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "visible";
+  }, [loadingProgress.status]);
   const createSubmission = async (fieldValues: {
     [k: string]: FormDataEntryValue;
   }) => {
@@ -116,6 +116,30 @@ const RecordFormSubmitWrapper = ({
       : undefined;
     const generalInputs = determineSubmissionType(copyState, extractedInputs);
     const additionalInputs = cloneDeep(additionalFormData.data);
+    if (
+      app.currentUser &&
+      typeof app.currentUser.customData.first_name === "string" &&
+      typeof app.currentUser.customData.last_name === "string" &&
+      typeof app.currentUser.customData._id === 'string'
+    ) {
+      const currentSubmissionUserData = {
+        first_name: app.currentUser.customData.first_name,
+        last_name: app.currentUser.customData.last_name,
+        date_first_edited: new Date().toISOString(),
+        _id: app.currentUser.customData._id,
+      };
+      if (
+        additionalInputs.contributors
+      ) {
+        if(additionalInputs.contributors.every(
+          (a) => a._id !== currentSubmissionUserData._id
+        )) additionalInputs.contributors = [
+          ...additionalInputs.contributors,
+          currentSubmissionUserData,
+        ];
+      } else additionalInputs.contributors = [currentSubmissionUserData];
+    }
+
     const submissionObject = {
       recordId: recordFormId,
       generalInputs: generalInputs ? generalInputs : {},

@@ -25,13 +25,13 @@ const awsS3UploadMedia = async ({
   for(let file of files) filesMap[file.name] = file
   const {data: fetchSignedUrls} = await axios({
     method: "POST",
-    url: `${process.env.REACT_APP_API_ENDPOINT}/media/fetch_signed_urls`,
-    data: JSON.stringify({
+    url: `${process.env.REACT_APP_API_ENDPOINT}/upload_record_media`,
+    data: {
       token: realmToken,
       recordType: recordType,
       files: fileNames,
       recordTitle: recordTitle,
-    })
+    }
   })
   if(!Array.isArray(fetchSignedUrls)) return  {uploaded: []}
   const uploadToS3 = fetchSignedUrls.map((data) =>{
