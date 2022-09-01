@@ -16,12 +16,12 @@
     width: 100%;
     padding: 0.5rem !important;
 }
-.login-form-logo{
-    margin-bottom: 1.7rem;
-    background-color: $dark-gray;
-    height: 3rem;
-    width: 100%;
-}
+// .login-form-logo{
+//     margin-bottom: 1.7rem;
+//     background-color: $dark-gray;
+//     height: 3rem;
+//     width: 100%;
+// }
 .login-form-title{
     text-align: center;
     font-size: 1.5rem;
@@ -81,7 +81,7 @@
 }
 //2nd page of form
 .login-guest-form-container{
-    @extend .login-form-container;  
+    @extend .login-form-container; 
     position: relative; 
 }
 .login-guest-form-back-btn{
@@ -97,6 +97,7 @@
     height: 1.7rem;
 }
 .login-guest-form{
+    margin-top: 1rem; 
     min-width: 245px;
 }
 .login-guest-form-row{

@@ -25,7 +25,19 @@ const Navbar = (): JSX.Element => {
   return (
     <nav id="navbar">
       <div id="navbar-logo">
-        <Link to="/"><img src = {`https://${staticDomain}/logo/war-chronicle-logo.png`} alt={"War Chronicle Logo"}/></Link>
+        <Link to="/">
+          {smallWindowWidth && (
+            <span>
+              {/* //War Chronicle */}
+              <div>WAR</div>
+              <div>CHRONICLE</div>
+            </span>
+          )}
+          <img
+            src={`https://${staticDomain}/logo/war-chronicle-logo.png`}
+            alt={"War Chronicle Logo"}
+          />
+        </Link>
       </div>
       {!smallWindowWidth && app.currentUser && (
         <UserDropdown
