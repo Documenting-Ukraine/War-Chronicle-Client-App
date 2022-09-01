@@ -1,0 +1,39 @@
+.app-logo{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    a{
+        display: flex;
+        align-items: center;
+        height: 100%;
+        text-decoration: none;
+    }
+    img{
+        height: 65%;
+        object-fit: contain;
+        object-position: center;
+    }
+    span{
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        font-family: "Lora", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        color: black;
+        font-weight: 800;
+        margin-right: 0.5rem;
+        justify-content: center;
+        padding: 0.5rem 0;
+        div{
+            &:first-child{
+                font-size: 2rem;
+                line-height: 1.9rem;
+            }
+            &:last-child{
+                font-size: 0.8rem;
+                line-height: 1rem;
+            }
+        }
+    }
+}

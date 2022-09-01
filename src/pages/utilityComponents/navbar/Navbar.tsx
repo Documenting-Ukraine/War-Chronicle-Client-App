@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useWindowWidth from "../../../hooks/use-window-width";
 import { useRealmApp } from "../../../realm/RealmApp";
 import UserDropdown from "../userDropdown/UserDropdown";
-const staticDomain = process.env.REACT_APP_STATIC_FILES_DOMAIN;
+import AppLogo from "../logo/AppLogo";
 const Navbar = (): JSX.Element => {
   const app = useRealmApp();
   const navigate = useNavigate();
@@ -24,21 +24,7 @@ const Navbar = (): JSX.Element => {
   };
   return (
     <nav id="navbar">
-      <div id="navbar-logo">
-        <Link to="/">
-          {smallWindowWidth && (
-            <span>
-              {/* //War Chronicle */}
-              <div>WAR</div>
-              <div>CHRONICLE</div>
-            </span>
-          )}
-          <img
-            src={`https://${staticDomain}/logo/war-chronicle-logo.png`}
-            alt={"War Chronicle Logo"}
-          />
-        </Link>
-      </div>
+      <AppLogo />
       {!smallWindowWidth && app.currentUser && (
         <UserDropdown
           currentUser={app.currentUser}
