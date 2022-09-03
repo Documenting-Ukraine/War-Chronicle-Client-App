@@ -21,7 +21,7 @@ const RecordContentCarousel = ({
       navigation
       spaceBetween={40}
       slidesPerView={"auto"}
-      className={"record-form-carousel"}
+      className={`${namespace}-content-carousel`}
     >
       {images &&
         images.map((m) => (
@@ -33,9 +33,7 @@ const RecordContentCarousel = ({
         videos.map((m) => (
           <SwiperSlide className={`${namespace}-caro-media-item`}>
             <video>
-              <source
-                src={m}
-              />
+              <source src={m} />
             </video>
           </SwiperSlide>
         ))}

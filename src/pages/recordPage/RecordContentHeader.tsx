@@ -20,26 +20,34 @@ const validateUserEdit = (app: RealmApp, validateCategories: string[]) => {
   } else return false;
 };
 const RecordContentHeader = ({
-  data, namespace, app
-}:{
-  app: RealmApp,
-  namespace: string,
-  data: RecordSubmissionType
+  data,
+  namespace,
+  app,
+}: {
+  app: RealmApp;
+  namespace: string;
+  data: RecordSubmissionType;
 }) => {
   const updateRoute = replaceSpacesWithDash(data.record_type.toLowerCase());
   return (
     <div className={`${namespace}-content-header`}>
-      <div>{data.record_title}</div>
-      {validateUserEdit(app, [data.record_type]) && (
-        <Link
-          to={`dashboard/${
-            app.currentUser?.id
-          }/forms/${`update-record-${updateRoute}`}/${data._id}`}
-        >
-          Edit Record
-        </Link>
-      )}
+      <div className={`${namespace}-content-category`}>
+        <div className={`${namespace}-content-record-type`}>
+          <h3>Record Type: </h3>
+          <span>{data.record_type}</span>
+        </div>
+        {validateUserEdit(app, [data.record_type]) && (
+          <Link
+            to={`dashboard/${
+              app.currentUser?.id
+            }/forms/${`update-record-${updateRoute}`}/${data._id}`}
+          >
+            Edit Record
+          </Link>
+        )}
+      </div>
+      <h1>{data.record_title}</h1>
     </div>
   );
 };
-export default RecordContentHeader
+export default RecordContentHeader;

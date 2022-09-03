@@ -182,11 +182,9 @@ function App() {
             <Route
               path=":id"
               element={
-                <RequireAuth>
                   <NavWrapper>
                     <RecordPage />
                   </NavWrapper>
-                </RequireAuth>
               }
             ></Route>
           </Route>
