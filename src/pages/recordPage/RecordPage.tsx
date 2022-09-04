@@ -3,12 +3,13 @@ import useFetchRecordData from "../../hooks/use-fetch-record-data";
 import { useRealmApp } from "../../realm/RealmApp";
 import LoadingMessage from "../utilityComponents/loadingMessage/LoadingMessage";
 import PageBanner from "../utilityComponents/pageBanner/PageBanner";
-import RecordContentPage from "./RecordContentPage";
+import RecordPageWrapper from "./RecordPageWrapper";
+// import RecordContentPage from "./RecordContentPage";
 const RecordPage = () => {
   const namespace = "record-pg";
   const params = useParams();
   const app = useRealmApp();
-  const recordId = params.id ? params.id: "";
+  const recordId = params.id ? params.id : "";
   const { data, err, loading } = useFetchRecordData({ app, recordId });
   return (
     <div id={`${namespace}-container`}>
@@ -23,7 +24,11 @@ const RecordPage = () => {
           className={`${namespace}-err-banner`}
         />
       )}
-      {loading === "fullfilled" && data && <RecordContentPage data={data} />}
+      {loading === "fullfilled" && data && (
+        <RecordPageWrapper data={data}>
+          <></>
+        </RecordPageWrapper>
+      )}
     </div>
   );
 };

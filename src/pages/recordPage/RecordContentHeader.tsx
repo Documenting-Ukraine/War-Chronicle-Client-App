@@ -38,7 +38,7 @@ const RecordContentHeader = ({
         </div>
         {validateUserEdit(app, [data.record_type]) && (
           <Link
-            to={`dashboard/${
+            to={`/dashboard/${
               app.currentUser?.id
             }/forms/${`update-record-${updateRoute}`}/${data._id}`}
           >
