@@ -29,13 +29,17 @@ const RecordContentHeader = ({
   data: RecordSubmissionType;
 }) => {
   const updateRoute = replaceSpacesWithDash(data.record_type.toLowerCase());
+  const contributors = data.contributors.reduce(
+    (a, b) => `${a}, ${`${b.first_name} ${b.last_name}`}`,
+    ""
+  );
   return (
-    <div className={`${namespace}-content-header`}>
-      <div className={`${namespace}-content-category`}>
-        <div className={`${namespace}-content-record-type`}>
-          <h3>Record Type: </h3>
-          <span>{data.record_type}</span>
-        </div>
+    <>
+      <div className={`${namespace}-content-header`}>
+        <h1>
+          <span>Id:</span>
+          <span>{" " + data._id.toString()}</span>
+        </h1>
         {validateUserEdit(app, [data.record_type]) && (
           <Link
             to={`/dashboard/${
@@ -46,8 +50,27 @@ const RecordContentHeader = ({
           </Link>
         )}
       </div>
-      <h1>{data.record_title}</h1>
-    </div>
+      <div className={`${namespace}-heading`}>
+        <div className={`${namespace}-heading-row`}>
+          <div id={`${namespace}-heading-record-type`}>
+            <h3>Type: </h3>
+            <span>{data.record_type}</span>
+          </div>
+          <div id={`${namespace}-heading-date-created`}>
+            Added on{" "}
+            {data.record_creation_date.toLocaleString("en-US", {
+              month: "short",
+              day: "2-digit",
+              year: "numeric",
+            })}
+          </div>
+        </div>
+        <div id={`${namespace}-heading-contributors`}>
+          <h3>Contributors:</h3>
+          <span>{contributors.substring(1, contributors.length)}</span>
+        </div>
+      </div>
+    </>
   );
 };
 export default RecordContentHeader;

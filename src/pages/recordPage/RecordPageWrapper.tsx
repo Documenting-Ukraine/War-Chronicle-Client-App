@@ -12,14 +12,12 @@ const RecordPageWrapper = ({
   const namespace = "record-pg";
   const app = useRealmApp();
   return (
-    <>
+    <div id={`${namespace}-wrapper`}>
       <RecordContentHeader app={app} namespace={namespace} data={data} />
-      <RecordContentBody
-        namespace={namespace}
-        data={data}
-        customEls={children}
-      />
-    </>
+      <RecordContentBody namespace={namespace} data={data}>
+        {children}
+      </RecordContentBody>
+    </div>
   );
 };
 export default RecordPageWrapper;

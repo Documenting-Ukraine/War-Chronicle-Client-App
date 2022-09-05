@@ -2,6 +2,10 @@ const ConditionalWrapper = ({
     condition,
     wrapper,
     children
-}: any ) => condition ? wrapper(children) : children
+}: {
+    condition: boolean;
+    wrapper: (children: JSX.Element) => JSX.Element ;
+    children: JSX.Element
+} ) => condition ? wrapper(children) : children
 
 export default ConditionalWrapper

@@ -12,24 +12,24 @@ const RecordPage = () => {
   const recordId = params.id ? params.id : "";
   const { data, err, loading } = useFetchRecordData({ app, recordId });
   return (
-    <div id={`${namespace}-container`}>
-      {loading === "loading" && (
-        <div id={`${namespace}-loading-container`}>
-          <LoadingMessage text={"Fetching you record results"} />
-        </div>
-      )}
-      {loading === "failed" && (
-        <PageBanner
-          bannerMessage={err.message}
-          className={`${namespace}-err-banner`}
-        />
-      )}
-      {loading === "fullfilled" && data && (
-        <RecordPageWrapper data={data}>
-          <></>
-        </RecordPageWrapper>
-      )}
-    </div>
+      <div id={`${namespace}-container`}>
+        {loading === "loading" && (
+          <div id={`${namespace}-loading-container`}>
+            <LoadingMessage text={"Fetching you record results"} />
+          </div>
+        )}
+        {loading === "failed" && (
+          <PageBanner
+            bannerMessage={err.message}
+            className={`${namespace}-err-banner`}
+          />
+        )}
+        {loading === "fullfilled" && data && (
+          <RecordPageWrapper data={data}>
+            <></>
+          </RecordPageWrapper>
+        )}
+      </div>
   );
 };
 export default RecordPage;
