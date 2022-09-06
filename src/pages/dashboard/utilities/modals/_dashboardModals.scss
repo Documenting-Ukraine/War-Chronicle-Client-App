@@ -65,7 +65,7 @@
       }
     }
   }
-  button {
+  .dashboard-popup-modal-submit-btn {
     @include remove-btn-default();
     display: flex;
     justify-content: center;
@@ -255,6 +255,7 @@
   border-radius: 0.5rem;
 }
 .add-user-pop-up {
+  
   .top-spacing {
     margin-top: 2.2rem;
   }
@@ -282,3 +283,28 @@
     top: 100%;
   }
 }
+.add-user-pop-up-success-message{
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  width: 100%;
+  padding: 1.5rem;
+  border: 1px solid $dark-green;
+  border-radius: 0.5rem;
+  color: $dark-green;
+  background-color: $light-green;
+  word-break: break-all; 
+}
+.add-user-pop-up-copy-link {
+    margin-top: 1rem;
+    max-width: 15rem;
+    overflow: hidden;
+    .copy-text-input {
+      width: calc(100% - 3rem);
+      white-space: nowrap;
+    }
+    .copy-text-input-copy-btn{
+      background-color: $dark-blue;
+      color: $white;
+      border: none;
+    }
+  }

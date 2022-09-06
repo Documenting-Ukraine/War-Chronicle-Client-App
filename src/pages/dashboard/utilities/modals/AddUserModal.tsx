@@ -1,19 +1,35 @@
 import validEmail from "../../../../helperFunctions/validateEmail";
-import { useRealmApp } from "../../../../realm/RealmApp";
-import { GeneralDashboardPopUp } from "./general";
 import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
 import removeAddedWhiteSpace from "../../../../helperFunctions/removeWhiteSpace";
-import { useEffect, useState } from "react";
-import { unstable_batchedUpdates } from "react-dom";
 import LoadingIcon from "../../../../pages/utilityComponents/loadingIcon/LoadingIcon";
 import FormInputs from "../../../utilityComponents/formInputs/FormInputs";
+import { useRealmApp } from "../../../../realm/RealmApp";
+import { GeneralDashboardPopUp } from "./general";
+import { useEffect, useState } from "react";
+import { unstable_batchedUpdates } from "react-dom";
 import { categoryDropdownOptions } from "../../../../types/dataTypes/CategoryIconMap";
 import { isOption, Option } from "../../../authPage/data/OccupationList";
-
+import { has } from "lodash";
+import CopyTextInput from "../../../utilityComponents/copyTextInput/CopyTextInput";
 interface NewInviteLinkPayload {
   category_scopes: string[];
   email: string;
   account_type: "admin" | "contributor";
+}
+interface InviteSuccessResponse {
+  error: null;
+  message: string;
+  response: {
+    insertedId?: string;
+    insertedIds?: string[];
+  };
+}
+function isInviteSuccessResponse(e: any): e is InviteSuccessResponse {
+  try {
+    return has(e, "error") && has(e, "message") && has(e, "response");
+  } catch (e) {
+    return false;
+  }
 }
 const AddUserModal = ({
   closePopUp,
@@ -22,14 +38,16 @@ const AddUserModal = ({
 }) => {
   const app = useRealmApp();
   const [isLoading, setIsLoading] = useState(false);
-  const [err, setError] = useState({ err: true, message: "" });
+  const [err, setError] = useState({ err: false, message: "" });
   const [accountType, setAccountType] = useState<"admin" | "contributor">(
     "contributor"
   );
   const [assignedScopes, setAssginedScopes] = useState<Option[]>([]);
-  // const [submitted, setSubmitted] = useState<false | NewInviteLinkPayload[]>(
-  //   false
-  // );
+  const [submitted, setSubmitted] = useState<{
+    insertedId: string;
+    accountType: "admin" | "contributor";
+    email: string;
+  } | null>(null);
 
   useEffect(() => {
     //reset multi values
@@ -66,7 +84,7 @@ const AddUserModal = ({
     if (!validEmail(email)) return;
     if (submitAccountType !== "admin" && submitAccountType !== "contributor")
       return;
-    const payload: { users: NewInviteLinkPayload[] } = {
+    const payload: { users: NewInviteLinkPayload[]; insert_many: boolean } = {
       users: [
         {
           email: email,
@@ -74,20 +92,26 @@ const AddUserModal = ({
           account_type: submitAccountType,
         },
       ],
+      insert_many: false,
     };
     try {
       setIsLoading(true);
-      await app.currentUser?.callFunction("create_invite_link", payload);
+      const result = await app.currentUser?.callFunction(
+        "create_invite_link",
+        payload
+      );
       unstable_batchedUpdates(() => {
         setIsLoading(false);
         setError({
           err: false,
           message: "",
         });
-        // setSubmitted((state) => {
-        //   if (state) return [...state, ...payload.users];
-        //   else return payload.users;
-        // });
+        if (isInviteSuccessResponse(result) && result.response.insertedId)
+          setSubmitted({
+            insertedId: result.response.insertedId,
+            accountType: submitAccountType,
+            email: email,
+          });
       });
     } catch (e) {
       console.error(e);
@@ -124,7 +148,7 @@ const AddUserModal = ({
           <GeneralDashboardPopUp
             index={0}
             onClick={onClosePopUp}
-            overallClassName={"add-user-pop-up"}
+            overallClassName={"request-new-scope-pop-up add-user-pop-up"}
             heading={`Invite New User`}
             btnActionType="add-user"
             btnText="Send Invite"
@@ -133,6 +157,19 @@ const AddUserModal = ({
             alertContent={alertContent}
           >
             <>
+              {submitted && (
+                <div className="add-user-pop-up-success-message">
+                  <div>
+                    Successfully sent {submitted.email} a{submitted.accountType === 'admin'?"n": ''}{" "}
+                    {submitted.accountType} invite link:
+                  </div>
+                  <CopyTextInput
+                    className="add-user-pop-up-copy-link"
+                    textType="link"
+                    text={`https://warchronicle.org/forms/invite-links/${submitted.insertedId}`}
+                  />
+                </div>
+              )}
               {err.err && (
                 <div className="request-scope-pop-up-err">{err.message}</div>
               )}

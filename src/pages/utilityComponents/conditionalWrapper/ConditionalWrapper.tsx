@@ -3,7 +3,7 @@ const ConditionalWrapper = ({
     wrapper,
     children
 }: {
-    condition: boolean;
+    condition?: boolean;
     wrapper: (children: JSX.Element) => JSX.Element ;
     children: JSX.Element
 } ) => condition ? wrapper(children) : children

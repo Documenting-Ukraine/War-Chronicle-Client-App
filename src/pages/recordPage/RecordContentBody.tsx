@@ -1,9 +1,7 @@
 import { RecordSubmissionType } from "../../types";
 import ConditionalWrapper from "../utilityComponents/conditionalWrapper/ConditionalWrapper";
-
-const RecordCarouselMedia = () => {
-  return <div></div>;
-};
+import RecordMediaCarousel from "./RecordMediaCarousel";
+const googleAPIRoute = "https://www.google.com/maps/search/?api=1&query=";
 const RecordContentDate = ({
   date,
   prefix,
@@ -16,6 +14,7 @@ const RecordContentDate = ({
   return (
     <span className={`${namespace}-date-item`}>
       {prefix}
+      <br />
       {new Date(date).toLocaleString("en-us", {
         month: "short",
         day: "2-digit",
@@ -64,11 +63,24 @@ const RecordContentBody = ({
       data.russian_record_type === "Protests in Russia")
       ? data.date_first_published
       : null;
-
+  const address =
+    data.record_type === "War Crimes" ||
+    (data.record_type === "Russia" &&
+      data.russian_record_type === "Protests in Russia")
+      ? data.address
+      : null;
+  const protestAbroadAddress =
+    data.record_type === "Protests Abroad" ? data.address : null;
+  const locationCoordinates = address
+    ? `${address.latitude},${address.longitude}`
+    : protestAbroadAddress
+    ? `${protestAbroadAddress.latitude},${protestAbroadAddress.longitude}`
+    : null;
+  const locationAddress = address ? `${address.oblast},${address.city}` : null;
   return (
     <div className={`${namespace}-content-body`}>
       <div className={`${namespace}-content-body-intro-container`}>
-        <RecordCarouselMedia />
+        <RecordMediaCarousel namespace={namespace} media={data.media} />
         <div className={`${namespace}-content-body-intro-content`}>
           <h2>{data.record_title}</h2>
           <ConditionalWrapper
@@ -84,7 +96,7 @@ const RecordContentBody = ({
                 <RecordContentDate
                   namespace={namespace}
                   date={firstPublished}
-                  prefix={"Published on "}
+                  prefix={"Reported on "}
                 />
               )}
               {eventOccurred && (
@@ -96,11 +108,30 @@ const RecordContentBody = ({
               )}
             </>
           </ConditionalWrapper>
-
-          {/* <h5>Description:</h5> */}
           <p>{data.description}</p>
         </div>
       </div>
+      {(locationCoordinates || locationAddress) && (
+        <RecordContentDataRow heading="Location:" namespace={namespace}>
+          <ul>
+            {locationCoordinates && (
+              <li>
+                <a href={`${googleAPIRoute}${encodeURI(locationCoordinates)}`}>
+                  Coordinates
+                </a>
+              </li>
+            )}
+            {locationAddress && (
+              <li>
+                <a href={`${googleAPIRoute}${encodeURI(locationAddress)}`}>
+                  Address
+                </a>
+              </li>
+            )}
+          </ul>
+        </RecordContentDataRow>
+      )}
+
       {children}
       <RecordContentDataRow namespace={namespace} heading="Sources:">
         <ol>

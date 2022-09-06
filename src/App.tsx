@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import NavWrapper from "./pages/utilityComponents/navWrapper/NavWrapper";
 import LoadingIcon from "./pages/utilityComponents/loadingIcon/LoadingIcon";
 import {
-  RequireAuth,
   RequireNonGuestAndOwner,
   RequireNonGuestAccount,
   RequireNoUser,

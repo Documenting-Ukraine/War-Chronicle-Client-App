@@ -46,7 +46,7 @@ export const GeneralDashboardPopUp = ({
         <button
           data-action-type={btnActionType}
           onClick={onClick}
-          className={btnClass}
+          className={`dashboard-popup-modal-submit-btn ${btnClass ? btnClass : ''}`}
           type="submit"
         >
           {btnText}
