@@ -1,6 +1,6 @@
 import { RecordSubmissionType } from "../../types";
 import ConditionalWrapper from "../utilityComponents/conditionalWrapper/ConditionalWrapper";
-import RecordMediaCarousel from "./RecordMediaCarousel";
+import RecordPageMedia from "./RecordPageMedia";
 const googleAPIRoute = "https://www.google.com/maps/search/?api=1&query=";
 const RecordContentDate = ({
   date,
@@ -80,7 +80,7 @@ const RecordContentBody = ({
   return (
     <div className={`${namespace}-content-body`}>
       <div className={`${namespace}-content-body-intro-container`}>
-        <RecordMediaCarousel namespace={namespace} media={data.media} />
+        <RecordPageMedia namespace={namespace} media={data.media} />
         <div className={`${namespace}-content-body-intro-content`}>
           <h2>{data.record_title}</h2>
           <ConditionalWrapper
