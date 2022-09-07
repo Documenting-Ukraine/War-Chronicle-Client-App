@@ -77,6 +77,10 @@ const useFetchRecordData = ({
         date_first_edited: new Date(),
       },
     ],
+    media:{
+      images: ["image.png", "image.png", "image.png", "image.png"],
+      videos: ["video.mp4", "video1.mp4"]
+    },
     key_actor: {
       actor_type: "Private",
       actor_name: "The world",
@@ -89,7 +93,7 @@ const useFetchRecordData = ({
       city: "Alchevsk",
     },
     description:
-      "New world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world Test",
+      "New world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world Test, New world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world Test",
     evidence: [
       {
         _id: "rt4gt4t",

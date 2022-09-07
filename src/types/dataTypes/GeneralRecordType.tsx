@@ -20,6 +20,8 @@ export type MediaLink = string;
 export type Media = {
   images?: MediaLink[];
   videos?: MediaLink[];
+  youtube_links?: MediaLink[];
+  general_links?: MediaLink[];
   main_image?: MediaLink;
 };
 export type Evidence = {

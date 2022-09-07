@@ -80,7 +80,6 @@ const RecordContentBody = ({
   return (
     <div className={`${namespace}-content-body`}>
       <div className={`${namespace}-content-body-intro-container`}>
-        <RecordPageMedia namespace={namespace} media={data.media} />
         <div className={`${namespace}-content-body-intro-content`}>
           <h2>{data.record_title}</h2>
           <ConditionalWrapper
@@ -108,7 +107,10 @@ const RecordContentBody = ({
               )}
             </>
           </ConditionalWrapper>
-          <p>{data.description}</p>
+          <div className={`${namespace}-content-body-intro-content-row`}>
+            <RecordPageMedia namespace={namespace} media={data.media} />
+            <p>{data.description}</p>
+          </div>
         </div>
       </div>
       {(locationCoordinates || locationAddress) && (
