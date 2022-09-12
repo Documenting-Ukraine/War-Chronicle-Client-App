@@ -1,23 +1,33 @@
-import { RecordSubmissionType } from "../../types";
+import { RecordSubmissionType } from "../../../types";
+import {
+  LazyLoadComponent,
+  ScrollPosition,
+  trackWindowScroll,
+} from "react-lazy-load-image-component";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { MediaLink } from "../../types/dataTypes/GeneralRecordType";
+import { MediaLink } from "../../../types/dataTypes/GeneralRecordType";
 import { useEffect, useState } from "react";
+import LoadingIcon from "../../utilityComponents/loadingIcon/LoadingIcon";
 const mediaFileDomain = `https://${process.env.REACT_APP_MEDIA_FILES_DOMAIN}`;
 const MediaFile = ({
   type,
   link,
   className,
   wrapper,
+  scrollPosition,
+  controls = false
 }: {
+  scrollPosition?: ScrollPosition;
   type?: "image" | "video";
   link?: string;
   className?: string;
   wrapper?: (e: JSX.Element) => JSX.Element;
+  controls?: boolean
 }) => {
   const mediaType =
     type === "image" ? (
@@ -28,19 +38,39 @@ const MediaFile = ({
         className={className ? className : ""}
       />
     ) : type === "video" ? (
-      <video key={link} className={className ? className : ""}>
+      <video key={link} className={className ? className : ""} controls={controls}>
         <source src={link} />
       </video>
     ) : null;
-  if (wrapper && mediaType) return wrapper(mediaType);
-  else return <>{mediaType}</>;
+  if (wrapper && mediaType)
+    return wrapper(
+      <LazyLoadComponent
+        placeholder={<LoadingIcon />}
+        scrollPosition={scrollPosition}
+        useIntersectionObserver
+      >
+        {mediaType}
+      </LazyLoadComponent>
+    );
+  else
+    return (
+      <LazyLoadComponent
+        placeholder={<LoadingIcon />}
+        scrollPosition={scrollPosition}
+        useIntersectionObserver
+      >
+        {mediaType}
+      </LazyLoadComponent>
+    );
 };
 const MediaPresentation = ({
   namespace,
   media,
+  scrollPosition,
 }: {
   namespace: string;
   media?: { type: "image" | "video"; link: MediaLink }[];
+  scrollPosition: ScrollPosition;
 }) => {
   const [currMediaIdx, setCurrMediaIdx] = useState(0);
   const currMedia = media && media[currMediaIdx];
@@ -64,6 +94,8 @@ const MediaPresentation = ({
         wrapper={(children: JSX.Element) => (
           <div className="main-media-file">{children}</div>
         )}
+        scrollPosition={scrollPosition}
+        controls
       />
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y]}
@@ -79,17 +111,21 @@ const MediaPresentation = ({
               idx === currMediaIdx ? "active-media" : ""
             }`}
           >
-            <MediaFile type={m.type} link={m.link} />
+            <MediaFile
+              scrollPosition={scrollPosition}
+              type={m.type}
+              link={m.link}
+            />
           </SwiperSlide>
         ))}
       </Swiper>
       <div className={`${namespace}-media-caption`}>
-        {currMediaIdx+1} of {media.length} media files
+        {currMediaIdx + 1} of {media.length} media files
       </div>
     </div>
   );
 };
-
+const OptimizedMediaPresentation = trackWindowScroll(MediaPresentation);
 const RecordPageMedia = ({
   media,
   namespace,
@@ -108,6 +144,6 @@ const RecordPageMedia = ({
     ? videos.map((v) => ({ type: "video", link: `${mediaFileDomain}/${v}` }))
     : [];
   const allMedia = [...typedImages, ...typedVideos];
-  return <MediaPresentation namespace={namespace} media={allMedia} />;
+  return <OptimizedMediaPresentation namespace={namespace} media={allMedia} />;
 };
 export default RecordPageMedia;

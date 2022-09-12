@@ -37,7 +37,7 @@ export const isMunitionMineType = (
 };
 export const munitionType = (
   title: typeof munitionTypeList[number],
-  subTypes?: typeof MunitionMineList[number]
+  subTypes?: typeof MunitionMineList[number] | string
 ) => {
   if (subTypes)
     return {

@@ -1,7 +1,7 @@
-import { useRealmApp } from "../../realm/RealmApp";
-import { RecordSubmissionType } from "../../types";
-import RecordContentBody from "./RecordContentBody";
-import RecordContentHeader from "./RecordContentHeader";
+import { useRealmApp } from "../../../realm/RealmApp";
+import { RecordSubmissionType } from "../../../types";
+import RecordContentBody from "../RecordContentBody";
+import RecordContentHeader from "../RecordContentHeader";
 const RecordPageWrapper = ({
   children,
   data,

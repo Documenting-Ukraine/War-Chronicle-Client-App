@@ -3,7 +3,7 @@ import useFetchRecordData from "../../hooks/use-fetch-record-data";
 import { useRealmApp } from "../../realm/RealmApp";
 import LoadingMessage from "../utilityComponents/loadingMessage/LoadingMessage";
 import PageBanner from "../utilityComponents/pageBanner/PageBanner";
-import RecordPageWrapper from "./RecordPageWrapper";
+import RecordPageWrapper from "./utilities/RecordPageWrapper";
 // import RecordContentPage from "./RecordContentPage";
 const RecordPage = () => {
   const namespace = "record-pg";

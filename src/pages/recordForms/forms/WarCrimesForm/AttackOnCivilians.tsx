@@ -31,21 +31,23 @@ const AttacksOnCivilians = ({
       ? defaultInputs?.munition?.munition_type
       : "Mine, Booby-Trap or Other Device"
   );
-  const [munitionSubType, setMunitionSubType] = useState<
-    typeof MunitionMineList[number] | undefined
-  >(
+  const [munitionSubType, setMunitionSubType] = useState<string | undefined>(
     attackOnCiviliansType
       ? defaultInputs?.munition?.munition_sub_types
       : undefined
   );
+  const [customMunitionSubType, setCustomMunitionSubType] = useState("");
   useEffect(() => {
     updateStoreProps({
       munition: {
         munition_type: munitionType,
-        munition_sub_types: munitionSubType,
+        munition_sub_types:
+          munitionSubType === "Other type of device"
+            ? customMunitionSubType
+            : munitionSubType,
       },
     });
-  }, [munitionType, munitionSubType, updateStoreProps]);
+  }, [munitionType, munitionSubType, updateStoreProps, customMunitionSubType]);
 
   return (
     <>
@@ -86,6 +88,20 @@ const AttacksOnCivilians = ({
               setMunitionSubType(e.value);
           }}
           required
+        />
+      )}
+      {munitionSubType === "Other type of device" && (
+        <FormInputs
+          title={"Custom Sub Type"}
+          name="custom-munition-sub-type"
+          defaultValue={customMunitionSubType}
+          customValidation={(e) => {
+            setCustomMunitionSubType(e);
+            return {
+              err: false,
+              message: "",
+            };
+          }}
         />
       )}
     </>

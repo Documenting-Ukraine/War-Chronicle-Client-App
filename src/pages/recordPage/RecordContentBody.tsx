@@ -1,44 +1,10 @@
 import { RecordSubmissionType } from "../../types";
 import ConditionalWrapper from "../utilityComponents/conditionalWrapper/ConditionalWrapper";
-import RecordPageMedia from "./RecordPageMedia";
+import RecordPageMedia from "./utilities/RecordPageMedia";
+import RecordContentDataRow from "./utilities/RecordContentDataRow";
+import RecordContentDate from "./utilities/RecordContentDate";
 const googleAPIRoute = "https://www.google.com/maps/search/?api=1&query=";
-const RecordContentDate = ({
-  date,
-  prefix,
-  namespace,
-}: {
-  date: string | Date;
-  prefix: string;
-  namespace: string;
-}) => {
-  return (
-    <span className={`${namespace}-date-item`}>
-      {prefix}
-      <br />
-      {new Date(date).toLocaleString("en-us", {
-        month: "short",
-        day: "2-digit",
-        year: "numeric",
-      })}
-    </span>
-  );
-};
-const RecordContentDataRow = ({
-  heading,
-  children,
-  namespace,
-}: {
-  heading: string;
-  children: JSX.Element;
-  namespace: string;
-}) => {
-  return (
-    <div className={`${namespace}-data-row`}>
-      <h4>{heading}</h4>
-      <div className={`${namespace}-data-row-body`}>{children}</div>
-    </div>
-  );
-};
+
 const RecordContentBody = ({
   data,
   namespace,
