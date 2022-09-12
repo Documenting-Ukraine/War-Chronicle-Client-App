@@ -1,9 +1,79 @@
-@mixin record-page-sm {
-    
+$namespace: "record-pg";
+@mixin record-pg-md {
+  .#{$namespace}-content-body-intro-content-row {
+    flex-direction: column;
+    justify-content: start;
+    align-items: stretch;
+    p {
+      width: 100%;
+      margin-bottom: 0.2rem;
+    }
+  }
+  .#{$namespace}-media-presentation {
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+    align-self: center;
+    width: 100%;
+    margin-right: 0;
+  }
+  .#{$namespace}-media-carousel {
+    width: calc(100vw - #{$record-pg-padding * 2});
+  }
 }
-@mixin record-page-md {
-    
-}
-@mixin record-pg-lg {
-    
+@mixin record-pg-sm {
+  ##{$namespace}-wrapper {
+    font-size: 0.9rem;
+    padding: $record-pg-padding calc(#{$record-pg-padding} / 2);
+  }
+  .#{$namespace}-content-header {
+    flex-direction: column;
+    justify-content: start;
+    align-items: stretch;
+    h1 {
+      width: 100%;
+      text-align: start;
+      font-size: 1.5rem;
+    }
+    a {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+    }
+  }
+  .#{$namespace}-heading {
+    h3 {
+      font-size: 1rem;
+    }
+  }
+  ##{$namespace}-heading-record-type {
+    display: flex;
+    align-items: center;
+    h3 {
+      margin-bottom: 0;
+    }
+  }
+  .#{$namespace}-heading-row {
+    flex-direction: column;
+    justify-content: start;
+    align-items: stretch;
+  }
+  ##{$namespace}-heading-date-created {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+  }
+  .#{$namespace}-date-item {
+    font-size: 0.8rem;
+  }
+  .#{$namespace}-content-body-intro-content {
+    h2 {
+      font-size: 1.3rem;
+    }
+  }
+  .#{$namespace}-content-body-intro-content-row {
+    margin-top: 0rem;
+  }
+  .#{$namespace}-media-carousel {
+    width: calc(100vw - #{$record-pg-padding});
+  }
 }

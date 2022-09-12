@@ -1,4 +1,5 @@
 $namespace: "record-pg";
+$record-pg-padding: 3rem;
 ##{$namespace}-container {
   display: flex;
   flex-direction: column;
@@ -21,7 +22,7 @@ $namespace: "record-pg";
   color: $dark-red;
 }
 ##{$namespace}-wrapper {
-  padding: 3rem;
+  padding: $record-pg-padding;
   max-width: 1200px;
   width: 100%;
 }
@@ -46,6 +47,7 @@ $namespace: "record-pg";
     color: $darkest-gray;
   }
   a {
+    text-align: center;
     background-color: $dark-blue;
     color: $white;
     text-decoration: none;
@@ -188,6 +190,7 @@ $namespace: "record-pg";
   }
 }
 .#{$namespace}-caro-media-item {
+  cursor: pointer;
   position: relative;
   width: 5rem !important;
   height: 4rem;

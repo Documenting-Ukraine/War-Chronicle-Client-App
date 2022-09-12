@@ -13,6 +13,7 @@
   @include record-form-pg-md;
   @include record-item-md;
   @include home-pg-lg;
+  @include record-pg-md;
 }
 
 @media (max-width: 768px) {
@@ -30,6 +31,7 @@
   @include about-pg-sm;
   @include search-pg-sm;
   @include home-pg-sm;
+  @include record-pg-sm;
 }
 
 @media (any-hover: hover) {

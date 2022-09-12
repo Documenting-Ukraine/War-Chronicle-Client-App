@@ -68,7 +68,6 @@ const MediaPresentation = ({
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y]}
         navigation
-        //spaceBetween={5}
         slidesPerView={"auto"}
         className={`${namespace}-media-carousel`}
       >
