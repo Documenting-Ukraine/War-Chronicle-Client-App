@@ -1,6 +1,6 @@
 import categoryIconMap from "../../../types/dataTypes/CategoryIconMap";
 const allCategories = Object.keys(categoryIconMap);
-const mapRecordFormRoute = (prefix: string) =>
+export const mapRecordFormRoute = (prefix: string) =>
   allCategories.map((category) => {
     //this is for routing, as urls cannot have spaces
     const newCategory = category.replace(/ /g, "-").toLowerCase();

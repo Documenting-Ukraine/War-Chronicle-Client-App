@@ -85,7 +85,7 @@ const MediaPresentation = ({
       if (node) node.style.overflow = "";
     };
   }, []);
-  if (!media) return <></>;
+  if (!media || media.length < 1) return <></>;
   return (
     <div className={`${namespace}-media-presentation`}>
       <MediaFile

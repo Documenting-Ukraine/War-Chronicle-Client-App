@@ -5,7 +5,6 @@ import { GoogleSignUp, GoogleLogin } from "../../../types/index";
 import { GoogleCredientals } from "../../../types/auth/GoogleAuth";
 //eslint ignore next-line
 declare const google: any;
-
 const GoogleBtn = ({
   btnType,
   customSuccessCallback,

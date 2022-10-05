@@ -120,7 +120,7 @@ const RecordFormSubmitWrapper = ({
       app.currentUser &&
       typeof app.currentUser.customData.first_name === "string" &&
       typeof app.currentUser.customData.last_name === "string" &&
-      typeof app.currentUser.customData._id === 'string'
+      typeof app.currentUser.customData._id === "string"
     ) {
       const currentSubmissionUserData = {
         first_name: app.currentUser.customData.first_name,
@@ -128,15 +128,16 @@ const RecordFormSubmitWrapper = ({
         date_first_edited: new Date().toISOString(),
         _id: app.currentUser.customData._id,
       };
-      if (
-        additionalInputs.contributors
-      ) {
-        if(additionalInputs.contributors.every(
-          (a) => a._id !== currentSubmissionUserData._id
-        )) additionalInputs.contributors = [
-          ...additionalInputs.contributors,
-          currentSubmissionUserData,
-        ];
+      if (additionalInputs.contributors) {
+        if (
+          additionalInputs.contributors.every(
+            (a) => a._id !== currentSubmissionUserData._id
+          )
+        )
+          additionalInputs.contributors = [
+            ...additionalInputs.contributors,
+            currentSubmissionUserData,
+          ];
       } else additionalInputs.contributors = [currentSubmissionUserData];
     }
 
@@ -177,9 +178,9 @@ const RecordFormSubmitWrapper = ({
                     })
                   );
                   navigate(
-                    `/records/${
-                      res.response.new_document.record_type
-                    }/${res.response.new_document._id.toString()}`
+                    `/records/${res.response.new_document.record_type
+                      .replace(/ /g, "-")
+                      .toLowerCase()}/${res.response.new_document._id.toString()}`
                   );
                 }
               },

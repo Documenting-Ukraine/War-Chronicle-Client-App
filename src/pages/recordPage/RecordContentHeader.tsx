@@ -31,10 +31,10 @@ const RecordContentHeader = ({
 }) => {
   const smallWidth = useWindowWidth(576);
   const updateRoute = replaceSpacesWithDash(data.record_type.toLowerCase());
-  const contributors = data.contributors.reduce(
+  const contributors = data.contributors ? data.contributors.reduce(
     (a, b) => `${a}, ${`${b.first_name} ${b.last_name}`}`,
     ""
-  );
+  ) : "";
   const addedOnEl = (
     <div id={`${namespace}-heading-date-created`}>
       Added on{" "}

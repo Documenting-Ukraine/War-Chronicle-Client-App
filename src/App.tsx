@@ -179,7 +179,7 @@ function App() {
           <Route path="records/*">
             <Route index element={<Navigate to={"/search"}></Navigate>} />
             <Route
-              path=":id"
+              path=":recordType/:id"
               element={
                   <NavWrapper>
                     <RecordPage />
