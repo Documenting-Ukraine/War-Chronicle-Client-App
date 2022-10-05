@@ -1,0 +1,23 @@
+$namespace: "record-pg";
+.landmark-data-container {
+  .#{$namespace}-data-row > h4 {
+    font-size: 1rem;
+  }
+  .#{$namespace}-data-row {
+    margin: 0;
+  }
+  ul {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+  .#{$namespace}-data-row-body {
+    font-size: 0.9rem;
+    h4 {
+      font-size: 0.9rem;
+    }
+  }
+  .#{$namespace}-content-list-item {
+    margin-bottom: 0.5rem;
+  }
+}

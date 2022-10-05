@@ -74,7 +74,7 @@ const Footer = (): JSX.Element => {
         </div>
         <div className="footer-contact-column">
           <FooterContactRow textContent="Location:" icon={faLocationDot}>
-            <a href={locationURL} target={'_blank'} rel="noreferrer">{location}</a>
+            <a href={locationURL} target={'_blank'} rel="noreferrer noopener">{location}</a>
           </FooterContactRow>
           <FooterContactRow textContent="Contact Us: " icon={faEnvelope}>
             <a href={`mailto:${process.env.REACT_APP_SUPPORT_EMAIL}`}>

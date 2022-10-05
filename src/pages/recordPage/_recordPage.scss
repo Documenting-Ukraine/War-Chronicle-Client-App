@@ -196,10 +196,10 @@ $record-pg-padding: 3rem;
   height: 4rem;
   border-radius: 1rem;
   margin: 0 5px;
-  &:first-child{
+  &:first-child {
     margin-left: 10px;
   }
-  &:last-child{
+  &:last-child {
     margin-right: 10px;
   }
   &.active-media {
@@ -217,7 +217,7 @@ $record-pg-padding: 3rem;
     }
   }
 }
-.#{$namespace}-media-caption{
+.#{$namespace}-media-caption {
   color: $darkest-gray;
 }
 .#{$namespace}-content-event-dates {
@@ -230,6 +230,7 @@ $record-pg-padding: 3rem;
   font-size: 0.85rem;
 }
 .#{$namespace}-data-row {
+  margin-top: 1rem;
   h4 {
     color: $darkest-gray;
     font-size: 1.2rem;
@@ -237,3 +238,16 @@ $record-pg-padding: 3rem;
     font-weight: 600;
   }
 }
+.#{$namespace}-content-list-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1rem;
+  h4 {
+    font-size: 1rem;
+    margin: 0;
+    margin-right: 0.3rem;
+  }
+}
+//war crime page
+@import "./recordTypes/WarCrimes/warCrimesPage";

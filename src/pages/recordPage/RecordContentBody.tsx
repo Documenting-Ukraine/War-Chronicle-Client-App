@@ -38,9 +38,13 @@ const RecordContentBody = ({
   const protestAbroadAddress =
     data.record_type === "Protests Abroad" ? data.address : null;
   const locationCoordinates = address
-    ? `${address.latitude},${address.longitude}`
+    ? address.latitude && address.longitude
+      ? `${address.latitude},${address.longitude}`
+      : null
     : protestAbroadAddress
-    ? `${protestAbroadAddress.latitude},${protestAbroadAddress.longitude}`
+    ? protestAbroadAddress.latitude && protestAbroadAddress.longitude
+      ? `${protestAbroadAddress.latitude},${protestAbroadAddress.longitude}`
+      : null
     : null;
   const locationAddress = address ? `${address.oblast},${address.city}` : null;
   return (
@@ -84,14 +88,22 @@ const RecordContentBody = ({
           <ul>
             {locationCoordinates && (
               <li>
-                <a href={`${googleAPIRoute}${encodeURI(locationCoordinates)}`}>
+                <a
+                  target={"_blank"}
+                  rel="noreferrer noopener"
+                  href={`${googleAPIRoute}${encodeURI(locationCoordinates)}`}
+                >
                   Coordinates
                 </a>
               </li>
             )}
             {locationAddress && (
               <li>
-                <a href={`${googleAPIRoute}${encodeURI(locationAddress)}`}>
+                <a
+                  target={"_blank"}
+                  rel="noreferrer noopener"
+                  href={`${googleAPIRoute}${encodeURI(locationAddress)}`}
+                >
                   Address
                 </a>
               </li>

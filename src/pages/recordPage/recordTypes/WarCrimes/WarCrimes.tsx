@@ -1,9 +1,10 @@
-import { WarCrimes } from "../../../types";
+import { WarCrimes } from "../../../../types";
 import {
   AttacksOnCivilians,
   DestructionOfCulture,
-} from "../../../types/dataTypes/docTypes/WarCrimes";
-import RecordContentDataRow from "../utilities/RecordContentDataRow";
+} from "../../../../types/dataTypes/docTypes/WarCrimes";
+import RecordContentDataRow from "../../utilities/RecordContentDataRow";
+import RecordContentListItem from "../../utilities/RecordContentListItem";
 const AttacksOnCiviliansPage = ({ data }: { data: AttacksOnCivilians }) => {
   const munitionData = data.munition;
   return (
@@ -23,43 +24,46 @@ const AttacksOnCiviliansPage = ({ data }: { data: AttacksOnCivilians }) => {
     </>
   );
 };
+
 const DestructionOfCulturePage = ({ data }: { data: DestructionOfCulture }) => {
   const { key_actor, objects_of_culture } = data;
   const { actor_name, actor_type } = key_actor;
   const { object_type, object_name, landmark } = objects_of_culture;
   return (
     <>
-      <RecordContentDataRow heading="Key Actor">
-        <div className="key-actor-data-container">
-          <RecordContentDataRow heading="Actor Type">
-            <>{actor_type}</>
-          </RecordContentDataRow>
-          <RecordContentDataRow heading="Actor Name">
-            <>{actor_name}</>
-          </RecordContentDataRow>
-        </div>
+      <RecordContentDataRow heading="Key Actor:">
+        <ul className="key-actor-data-container">
+          <RecordContentListItem heading="Actor Type:">
+            {actor_type}
+          </RecordContentListItem>
+          <RecordContentListItem heading="Actor Name:">
+            {actor_name}
+          </RecordContentListItem>
+        </ul>
       </RecordContentDataRow>
-      <RecordContentDataRow heading="Objects of Culture">
-        <div className="objects-of-culture-container">
-          <RecordContentDataRow heading="Object Type">
-            <>{object_type}</>
-          </RecordContentDataRow>
-          <RecordContentDataRow heading="Object Name">
-            <>{object_name}</>
-          </RecordContentDataRow>
+      <RecordContentDataRow heading="Objects of Culture:">
+        <ul className="objects-of-culture-container">
+          <RecordContentListItem heading="Object Type:">
+            {object_type}
+          </RecordContentListItem>
+          <RecordContentListItem heading="Object Name:">
+            {object_name}
+          </RecordContentListItem>
           {landmark && (
-            <RecordContentDataRow heading="Landmark">
-              <div className="landmark-data-container">
-                <RecordContentDataRow heading="Landmark Type">
-                  <>{landmark.landmark_type}</>
-                </RecordContentDataRow>
-                <RecordContentDataRow heading="Landmark Significance">
-                  <>{landmark.landmark_significance} </>
-                </RecordContentDataRow>
-              </div>
-            </RecordContentDataRow>
+            <li className="landmark-data-container">
+              <RecordContentDataRow heading="Landmark:">
+                <ul>
+                  <RecordContentListItem heading="Landmark Type:">
+                    {landmark.landmark_type}
+                  </RecordContentListItem>
+                  <RecordContentListItem heading="Landmark Significance:">
+                    {landmark.landmark_significance}
+                  </RecordContentListItem>
+                </ul>
+              </RecordContentDataRow>
+            </li>
           )}
-        </div>
+        </ul>
       </RecordContentDataRow>
     </>
   );
