@@ -134,7 +134,7 @@ $namespace: "home-page";
   font-size: 175%;
   line-height: 250%;
   font-family: "Lato", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  height: 75vh;
+  min-height: 75vh;
   margin: 0;
 }
 .#{$namespace}-banner-action-cards {

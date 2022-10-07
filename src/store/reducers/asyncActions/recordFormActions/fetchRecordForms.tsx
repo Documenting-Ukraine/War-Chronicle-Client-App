@@ -6,6 +6,7 @@ import { isObject, has } from "lodash";
 import { WritableDraft } from "immer/dist/internal";
 import { RecordFormSearchQuery } from "../../recordForms/types";
 import realmApiCalls from "../../../../helperFunctions/realmApiCalls";
+import serializeObjects from "../../utlilites/serializeObjects";
 export const oldestFormDate = new Date("1970-01-01 00:00:00 UTC+00");
 
 export type FetchRecordFormsProps = {
@@ -33,10 +34,19 @@ export const isFetchRecordFormsResult = (
       has(e, "results") &&
       has(e, "prev_search") &&
       has(e, "idx_counter");
+
     return hasKeys && isObj;
   } catch (e) {
     return false;
   }
+};
+export const serializeResults = (e: WritableDraft<FetchRecordFormsResult>) => {
+  if (!e.results) return e;
+  const newData = e.results.map((a) => serializeObjects(a));
+  const newResults = { ...e };
+  newResults.results = newData;
+  if (isFetchRecordFormsResult(newResults)) return newResults;
+  else return e;
 };
 export const fetchRecordForms = createAsyncThunk(
   "recordForms/fetchRecordForms",
@@ -58,7 +68,8 @@ export const fetchRecordForms = createAsyncThunk(
       );
       recordFormData = response.data;
     }
-    if (isFetchRecordFormsResult(recordFormData)) return recordFormData;
+    if (isFetchRecordFormsResult(recordFormData))
+      return serializeResults(recordFormData);
     return null;
   }
 );

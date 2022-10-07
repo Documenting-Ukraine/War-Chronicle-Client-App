@@ -18,7 +18,9 @@ const RecordContentListItem = ({
             href={url}
             target={"_blank"}
             rel="noreferrer noopener"
-          ></a>
+          >
+            {children}
+          </a>
         ) : (
           <div className={`${namespace}-content-list-item-body`}>
             {children}

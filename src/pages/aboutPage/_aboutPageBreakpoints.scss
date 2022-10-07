@@ -1,12 +1,17 @@
-$namespace: "about-pg";
 @mixin about-pg-lg {
+  $namespace: "about-pg";
+
 }
 @mixin about-pg-md {
+  $namespace: "about-pg";
+
   ##{$namespace}-explore-header{
     justify-content: center;
   }
 }
 @mixin about-pg-sm {
+  $namespace: "about-pg";
+
   ##{$namespace}-contributors-container {
     padding: 2.5rem 0;
     h3 {

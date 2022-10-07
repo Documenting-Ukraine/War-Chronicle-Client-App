@@ -1,5 +1,6 @@
-$namespace: "record-pg";
 @mixin record-pg-md {
+  $namespace: "record-pg";
+  $record-pg-padding: 3rem;
   .#{$namespace}-content-body-intro-content-row {
     flex-direction: column;
     justify-content: start;
@@ -22,6 +23,8 @@ $namespace: "record-pg";
   }
 }
 @mixin record-pg-sm {
+  $namespace: "record-pg";
+  $record-pg-padding: 3rem;
   ##{$namespace}-wrapper {
     font-size: 0.9rem;
     padding: $record-pg-padding calc(#{$record-pg-padding} / 2);
@@ -76,4 +79,4 @@ $namespace: "record-pg";
   .#{$namespace}-media-carousel {
     width: calc(100vw - #{$record-pg-padding});
   }
-}
+} ;
