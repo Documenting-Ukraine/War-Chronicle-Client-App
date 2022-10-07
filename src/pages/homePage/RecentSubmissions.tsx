@@ -37,7 +37,7 @@ const RecentSubmissions = ({
       })
     );
   }, [dispatch, app, searchQuery]);
-
+  console.log(recordsData)
   return (
     <div id={`${namespace}-recent-submissions-container`}>
       <div id={`${namespace}-recent-submissions`}>

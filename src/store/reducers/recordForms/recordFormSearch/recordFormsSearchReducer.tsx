@@ -3,6 +3,8 @@ import { LoadingStatus, RecordFormReducerProps } from "../types";
 import { fetchRecordForms } from "../../asyncActions/recordFormActions/fetchRecordForms";
 import { deleteRecordForms } from "../../asyncActions/recordFormActions/deleteRecordForms";
 import { cloneDeep } from "lodash";
+import { WritableDraft } from "immer/dist/internal";
+import { FetchRecordFormsResult } from "../../asyncActions/recordFormActions/fetchRecordForms";
 const updateLoadingState = (
   state: RecordFormReducerProps,
   loading: LoadingStatus["status"],
@@ -23,30 +25,30 @@ export const recordFormSearchSlice = createSlice({
       data: [],
       idx_counter: 0,
       pagination_end: false,
-      prev_search: {value: '', categories: []},
+      prev_search: { value: "", categories: [] },
       status: "success",
     },
     selected_record: {
       status: "success",
       data: null,
-    }
+    },
   } as RecordFormReducerProps,
   reducers: {
-    clearSearchData(state, action){
+    clearSearchData(state, action) {
       return {
         searched_data: {
           data: [],
           idx_counter: 0,
           pagination_end: false,
-          prev_search: {value: '', categories: []},
+          prev_search: { value: "", categories: [] },
           status: "success",
         },
         selected_record: {
           status: "success",
           data: null,
-        }
-      }
-    }
+        },
+      };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchRecordForms.pending, (state, action) => {
@@ -61,21 +63,27 @@ export const recordFormSearchSlice = createSlice({
       if (!response) return updateLoadingState(newState, "failed", "fetch");
       const results = response.results;
       const currIdxCounter = state.searched_data.idx_counter;
-      //pagination logic
-      if (response.idx_counter <= currIdxCounter) {
+      const currentData = newState.searched_data.data;
+
+      const updateResults = (
+        data: WritableDraft<FetchRecordFormsResult>["results"]
+      ) => {
         //update searched data
-        const currentData = newState.searched_data.data;
         newState.searched_data = {
           ...newState.searched_data,
           ...response,
-          data: results ? [...currentData, ...results] : [],
+          data: data ? data : [],
         };
         //update selected data
         newState.selected_record.data =
           results && results.length > 0 ? results[0] : null;
-      }
+        return newState;
+      };
+      //pagination logic
+      if (response.idx_counter > currIdxCounter)
+        updateResults(results ? [...currentData, ...results] : []);
+      else updateResults(results);
       return updateLoadingState(newState, "success", "fetch");
-      //if (!results) return updateLoadingState(state, "success", "fetch");
     });
     builder.addCase(deleteRecordForms.pending, (state, action) => {
       return updateLoadingState(state, "loading", "delete");
