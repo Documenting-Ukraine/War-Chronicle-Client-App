@@ -10,11 +10,13 @@ export const RecentRow = ({
   dateSubmitted,
   recordType,
   mainImage,
+  url,
 }: {
   title: string;
   dateSubmitted: Date;
   recordType: string;
   mainImage?: MediaLink | undefined;
+  url: string;
 }) => {
   const dateFormat = dateSubmitted.toLocaleDateString("en-us", {
     month: "short",
@@ -22,34 +24,30 @@ export const RecentRow = ({
     year: "numeric",
   });
   return (
-    <>
-      <div className="recent-list-row-item">
-        <div className="d-flex align-items-center">
-          <div className="recent-list-item-image">
-            {!mainImage ? (
-              <FontAwesomeIcon icon={faImage} />
-            ) : (
-              <img
-                src={mainImage}
-                alt={""}
-                //src={mainImage.local_url}
-                //alt={mainImage?.description}
-              />
-            )}
-          </div>
-          <div className="recent-list-item-left">
-            <div className="recent-list-item-title">{title}</div>
-            <div className="recent-list-record-type">
-              Category: {recordType}
-            </div>
-          </div>
+    <Link to={url} className="recent-list-row-item">
+      <div className="d-flex align-items-center">
+        <div className="recent-list-item-image">
+          {!mainImage ? (
+            <FontAwesomeIcon icon={faImage} />
+          ) : (
+            <img
+              src={mainImage}
+              alt={""}
+              //src={mainImage.local_url}
+              //alt={mainImage?.description}
+            />
+          )}
         </div>
-        <div className="recent-list-date-submitted">
-          <div>{"Submitted on "}</div>
-          <div>{dateFormat}</div>
+        <div className="recent-list-item-left">
+          <div className="recent-list-item-title">{title}</div>
+          <div className="recent-list-record-type">Category: {recordType}</div>
         </div>
       </div>
-    </>
+      <div className="recent-list-date-submitted">
+        <div>{"Submitted on "}</div>
+        <div>{dateFormat}</div>
+      </div>
+    </Link>
   );
 };
 export const RecentList = ({
@@ -80,9 +78,12 @@ export const RecentList = ({
             const type = record.record_type;
             const submitted = record.record_creation_date;
             const mainImage = record.media?.main_image;
+            const routeType = type.replace(/ /g, "-").toLowerCase();
+            const url = `/records/${routeType}/${record._id.toString()}`;
             return (
               <RecentRow
                 key={record._id}
+                url={url}
                 title={title}
                 recordType={type}
                 dateSubmitted={new Date(submitted)}

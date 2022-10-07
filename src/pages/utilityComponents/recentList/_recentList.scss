@@ -21,6 +21,7 @@
 }
 
 .recent-list-row-item {
+  text-decoration: none;
   width: 100%;
   padding: 1rem 1.5rem;
   position: relative;
@@ -83,7 +84,6 @@
   color: $dark-gray;
   font-weight: 400;
   font-size: 0.75rem;
-
 }
 .recent-list-banner {
   @include banner-container-styles();
