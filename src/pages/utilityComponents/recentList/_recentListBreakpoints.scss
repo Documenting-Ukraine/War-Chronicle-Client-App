@@ -1,0 +1,16 @@
+@mixin recent-list-md {
+}
+@mixin recent-list-sm {
+  .recent-list-row-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .recent-list-date-submitted {
+    flex-direction: row;
+    margin-top: 0.6rem;
+    align-self: center;
+    div:first-child {
+      margin-right: 0.15rem;
+    }
+  }
+}

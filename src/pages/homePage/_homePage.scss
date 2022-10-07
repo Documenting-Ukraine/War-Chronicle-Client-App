@@ -164,6 +164,7 @@ $namespace: "home-page";
   justify-content: center;
   padding-top: 4rem;
   @include padding-row();
+  padding-bottom: 4.5rem;
 }
 ##{$namespace}-recent-submissions {
   max-width: 1100px;

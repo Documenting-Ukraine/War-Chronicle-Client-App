@@ -24,6 +24,7 @@
   @include about-pg-md;
   @include search-pg-md;
   @include home-pg-md;
+  @include recent-list-md;
 }
 
 @media (max-width: 575px) {
@@ -33,6 +34,7 @@
   @include search-pg-sm;
   @include home-pg-sm;
   @include record-pg-sm;
+  @include recent-list-sm;
 }
 
 @media (any-hover: hover) {

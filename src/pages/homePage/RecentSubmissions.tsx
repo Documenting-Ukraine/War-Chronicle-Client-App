@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRealmApp } from "../../realm/RealmApp";
 import { clearSearchData } from "../../store/reducers/recordForms/recordFormSearch/recordFormsSearchReducer";
-import { RecentList } from "../dashboard/utilities/recentBanner/DashboardRecent";
+import RecentList from "../utilityComponents/recentList/RecentList";
 import {
   fetchRecordForms,
 } from "../../store/reducers/asyncActions/recordFormActions/fetchRecordForms";
