@@ -18,8 +18,10 @@ import {
   Russia,
   WarCrimes,
   UserDocument,
+  ProtestsAbroad
 } from "./dataTypes/index";
 export type {
+  ProtestsAbroad,
   RecordSubmissionType,
   InternationalResponse,
   MediaAndDisInformation,

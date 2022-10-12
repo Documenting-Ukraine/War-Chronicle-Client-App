@@ -21,6 +21,14 @@
   .#{$namespace}-media-carousel {
     width: calc(100vw - #{$record-pg-padding * 2});
   }
+  .#{$namespace}-content-body-data-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    & > .#{$namespace}-data-row {
+      min-width: 100%;
+    }
+  }
 }
 @mixin record-pg-sm {
   $namespace: "record-pg";

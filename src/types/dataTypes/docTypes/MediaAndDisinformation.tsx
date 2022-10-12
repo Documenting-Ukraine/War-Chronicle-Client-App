@@ -1,3 +1,4 @@
+
 import { GeneralRecordType } from "../GeneralRecordType";
 import { isInList } from "../DataLists";
 export const MediaRegion = ["Russia", "China", "Ukraine", "Western"] as const;
@@ -14,7 +15,7 @@ type MediaAndDisInfoGeneral = GeneralRecordType & {
   record_type: "Media And Disinformation";
   media_type: typeof MediaType[number];
   media_region: typeof MediaRegion[number];
-  custom_media_type: string;
+  custom_media_type?: string;
   media_title: string;
   primary_language: string;
   hosting_outlet: string;

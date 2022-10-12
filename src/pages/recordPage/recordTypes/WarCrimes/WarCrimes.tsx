@@ -10,16 +10,16 @@ const AttacksOnCiviliansPage = ({ data }: { data: AttacksOnCivilians }) => {
   return (
     <>
       <RecordContentDataRow heading="Munition">
-        <div className="munition-data-container">
-          <RecordContentDataRow heading="Munition Type">
+        <ul className="munition-data-container">
+          <RecordContentListItem heading="Type">
             <>{munitionData.munition_type}</>
-          </RecordContentDataRow>
+          </RecordContentListItem>
           {munitionData.munition_sub_types && (
-            <RecordContentDataRow heading="Munition Sub-Type">
+            <RecordContentListItem heading="Sub-Type">
               <>{munitionData.munition_sub_types}</>
-            </RecordContentDataRow>
+            </RecordContentListItem>
           )}
-        </div>
+        </ul>
       </RecordContentDataRow>
     </>
   );
@@ -31,6 +31,30 @@ const DestructionOfCulturePage = ({ data }: { data: DestructionOfCulture }) => {
   const { object_type, object_name, landmark } = objects_of_culture;
   return (
     <>
+      <RecordContentDataRow heading="Objects of Culture:">
+        <ul className="objects-of-culture-container">
+          <RecordContentListItem heading="Type:">
+            {object_type}
+          </RecordContentListItem>
+          <RecordContentListItem heading="Name:">
+            {object_name}
+          </RecordContentListItem>
+          {landmark && (
+            <li className="landmark-data-container">
+              <RecordContentDataRow heading="Landmark:">
+                <ul>
+                  <RecordContentListItem heading="Type:">
+                    {landmark.landmark_type}
+                  </RecordContentListItem>
+                  <RecordContentListItem heading="Significance:">
+                    {landmark.landmark_significance}
+                  </RecordContentListItem>
+                </ul>
+              </RecordContentDataRow>
+            </li>
+          )}
+        </ul>
+      </RecordContentDataRow>
       <RecordContentDataRow heading="Key Actor:">
         <ul className="key-actor-data-container">
           <RecordContentListItem heading="Actor Type:">
@@ -39,30 +63,6 @@ const DestructionOfCulturePage = ({ data }: { data: DestructionOfCulture }) => {
           <RecordContentListItem heading="Actor Name:">
             {actor_name}
           </RecordContentListItem>
-        </ul>
-      </RecordContentDataRow>
-      <RecordContentDataRow heading="Objects of Culture:">
-        <ul className="objects-of-culture-container">
-          <RecordContentListItem heading="Object Type:">
-            {object_type}
-          </RecordContentListItem>
-          <RecordContentListItem heading="Object Name:">
-            {object_name}
-          </RecordContentListItem>
-          {landmark && (
-            <li className="landmark-data-container">
-              <RecordContentDataRow heading="Landmark:">
-                <ul>
-                  <RecordContentListItem heading="Landmark Type:">
-                    {landmark.landmark_type}
-                  </RecordContentListItem>
-                  <RecordContentListItem heading="Landmark Significance:">
-                    {landmark.landmark_significance}
-                  </RecordContentListItem>
-                </ul>
-              </RecordContentDataRow>
-            </li>
-          )}
         </ul>
       </RecordContentDataRow>
     </>

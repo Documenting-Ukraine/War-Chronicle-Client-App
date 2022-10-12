@@ -92,7 +92,6 @@ $record-pg-padding: 3rem;
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin-bottom: 2rem;
 }
 .#{$namespace}-content-body-intro-content {
   display: flex;
@@ -249,5 +248,18 @@ $record-pg-padding: 3rem;
     margin-right: 0.3rem;
   }
 }
+.#{$namespace}-content-body-data-container{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  & > .#{$namespace}-data-row{
+    min-width: 50%;
+  }
+}
 //war crime page
 @import "./recordTypes/WarCrimes/warCrimesPage";
+@import "./recordTypes/MediaAndDisinformation/mediaAndDisinformationPage";
+@import "./recordTypes/ProtestsAbroad/protestAbroadPage";
+@import "./recordTypes/RefugeesAndIDPs/refugeesAndIDPsPage";
+@import "./recordTypes/Russia/russiaPage";
+@import "./recordTypes/InternationalResponse/internationalResponsePage";

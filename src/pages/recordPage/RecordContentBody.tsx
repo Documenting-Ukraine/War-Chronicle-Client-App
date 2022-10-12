@@ -83,6 +83,9 @@ const RecordContentBody = ({
           </div>
         </div>
       </div>
+      <div className={`${namespace}-content-body-data-container`}>
+        {children}
+      </div>
       {(locationCoordinates || locationAddress) && (
         <RecordContentDataRow heading="Location:" namespace={namespace}>
           <ul>
@@ -111,8 +114,6 @@ const RecordContentBody = ({
           </ul>
         </RecordContentDataRow>
       )}
-
-      {children}
       <RecordContentDataRow namespace={namespace} heading="Sources:">
         <ol>
           {data.evidence.map((ev) => (

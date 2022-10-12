@@ -14,12 +14,6 @@ type RecordSubmissionType =
   | Russia
   | WarCrimes
   | ProtestsAbroad;
-// type RecordSubmissionProps = InternationalResponse
-// & MediaAndDisInformation
-// & RefugeesAndIdps
-// & Russia
-// & WarCrimes
-// & ProtestsAbroad;
 type UserDocument = {
   _id: string;
   occupation: string;
@@ -71,6 +65,7 @@ export function isUserDocument(arg: any): arg is UserDocument {
   }
 }
 export type {
+  ProtestsAbroad,
   RecordSubmissionType,
   InternationalResponse,
   MediaAndDisInformation,

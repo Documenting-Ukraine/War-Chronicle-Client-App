@@ -27,7 +27,7 @@ type Aid = {
   aid_sent: typeof BooleanDropdownOptions[number];
   aid_recipient: string;
   date_aid_is_announced: Date | string;
-  date_aid_is_sent: Date | string;
+  date_aid_is_sent?: Date | string;
   aid_valuation: number;
   sub_aid_types: string;
 };
