@@ -35,11 +35,14 @@ const RecordFormSearch = (): JSX.Element => {
         className="record-form-similar-records"
       >
         <>
-          {status === "loading" &&
-            <PopUpBg fullViewport={false} className={"record-form-similar-records-loading-icon"}>
+          {status === "loading" && (
+            <PopUpBg
+              fullViewport={false}
+              className={"record-form-similar-records-loading-icon"}
+            >
               <LoadingIcon backgroundColor="white" />
             </PopUpBg>
-          }
+          )}
 
           {similarRecords.map((record) => (
             <RecordItem

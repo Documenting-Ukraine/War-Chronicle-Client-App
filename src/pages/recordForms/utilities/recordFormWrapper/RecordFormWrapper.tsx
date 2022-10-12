@@ -1,5 +1,8 @@
 import { useParams } from "react-router";
-import { grabCreateRecordFormType, grabUpdateRecordFormType } from "../../data/recordFormRoutes";
+import {
+  grabCreateRecordFormType,
+  grabUpdateRecordFormType,
+} from "../../data/recordFormRoutes";
 import RecordFormBox from "./RecordFormBox";
 import RecordFormSearch from "./RecordFormSearch";
 import React, { useEffect, useLayoutEffect, useState, useMemo } from "react";
@@ -54,8 +57,9 @@ const RecordFormWrapper = ({
   const params = useParams();
   const route = params["*"];
   const createRouteFormType = route ? grabCreateRecordFormType(route) : "Form";
-  const updateRouteFormType = route ? grabUpdateRecordFormType(route) : 'Form';
-  const formType = formAction === "create-new" ? createRouteFormType : updateRouteFormType
+  const updateRouteFormType = route ? grabUpdateRecordFormType(route) : "Form";
+  const formType =
+    formAction === "create-new" ? createRouteFormType : updateRouteFormType;
   const mediumWindowWidth = useWindowWidth(992);
   const [title, setTitle] = useState(
     defaultInputs?.record_title ? defaultInputs.record_title : ""
@@ -65,6 +69,11 @@ const RecordFormWrapper = ({
   //clear search history
   useLayoutEffect(() => {
     dispatch(clearSearchData({}));
+  }, [dispatch]);
+  useEffect(() => {
+    return () => {
+      dispatch(clearSearchData({}));
+    };
   }, [dispatch]);
   const eventRecordType =
     defaultInputs?.record_type !== "War Crimes" &&

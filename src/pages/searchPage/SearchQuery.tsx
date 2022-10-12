@@ -1,6 +1,6 @@
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchRecordForms } from "../../store/reducers/asyncActions/recordFormActions/fetchRecordForms";
 import { useRealmApp } from "../../realm/RealmApp";
@@ -9,6 +9,7 @@ import { CategoriesList } from "../../types/dataTypes/CategoryIconMap";
 import FormInputs from "../utilityComponents/formInputs/FormInputs";
 import { isOption, transformSingleList } from "../authPage/data/OccupationList";
 import { SearchDateList } from "./SearchDateList";
+import { clearSearchData } from "../../store/reducers/recordForms/recordFormSearch/recordFormsSearchReducer";
 type DateInterval = {
   startDate: Date | string;
   endDate: Date | string;
@@ -25,6 +26,11 @@ const SearchQuery = () => {
   const [dateQuery, setDateQuery] = useState<RecordFormSearchQuery["date"]>();
   const [containsMedia, setContainsMedia] = useState<boolean | null>(null);
   const [categories, setCategories] = useState<string[]>([...CategoriesList]);
+  useEffect(() => {
+    return () => {
+      dispatch(clearSearchData({}));
+    };
+  }, [dispatch])
   const onSearch = () => {
     const searchQuery: RecordFormSearchQuery = {
       value: searchValue,

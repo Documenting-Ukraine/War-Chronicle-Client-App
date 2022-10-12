@@ -78,7 +78,7 @@ export const RecentList = ({
             const type = record.record_type;
             const submitted = record.record_creation_date;
             const mainImage = record.media?.main_image;
-            const routeType = type.replace(/ /g, "-").toLowerCase();
+            const routeType = type?.replace(/ /g, "-").toLowerCase();
             const url = `/records/${routeType}/${record._id.toString()}`;
             return (
               <RecentRow

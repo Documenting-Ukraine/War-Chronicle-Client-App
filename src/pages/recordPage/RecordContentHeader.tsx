@@ -6,6 +6,8 @@ import { isUserCustomData } from "../../types/dataTypes";
 import { CategoriesList } from "../../types/dataTypes/CategoryIconMap";
 import { isItemInList } from "../../types/dataTypes/DataLists";
 import useWindowWidth from "../../hooks/use-window-width";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-regular-svg-icons";
 const validateUserEdit = (app: RealmApp, validateCategories: string[]) => {
   if (!app.currentUser) return false;
   const data = app.currentUser.customData;
@@ -58,7 +60,7 @@ const RecordContentHeader = ({
               app.currentUser?.id
             }/forms/${`update-record-${updateRoute}`}/${data._id}`}
           >
-            Edit Record
+            <FontAwesomeIcon icon={faEdit} />Edit
           </Link>
         )}
       </div>

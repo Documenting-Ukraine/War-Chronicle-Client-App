@@ -16,6 +16,9 @@ const SearchPage = (): JSX.Element => {
   //on page mount clear store data to refresh
   useEffect(() => {
     dispatch(clearSearchData({}));
+    return () => {
+      dispatch(clearSearchData({}))
+    }
   }, [dispatch]);
   const namespace = "search-page";
   return (

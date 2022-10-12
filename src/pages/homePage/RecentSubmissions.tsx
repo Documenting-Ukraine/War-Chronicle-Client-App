@@ -3,15 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRealmApp } from "../../realm/RealmApp";
 import { clearSearchData } from "../../store/reducers/recordForms/recordFormSearch/recordFormsSearchReducer";
 import RecentList from "../utilityComponents/recentList/RecentList";
-import {
-  fetchRecordForms,
-} from "../../store/reducers/asyncActions/recordFormActions/fetchRecordForms";
+import { fetchRecordForms } from "../../store/reducers/asyncActions/recordFormActions/fetchRecordForms";
 import { RecordFormSearchQuery } from "../../store/reducers/recordForms/types";
 import { RootState } from "../../store/rootReducer";
 
 const RecentSubmissions = ({
   namespace,
-  searchQuery
+  searchQuery,
 }: {
   namespace: string;
   searchQuery: RecordFormSearchQuery;
@@ -26,6 +24,9 @@ const RecentSubmissions = ({
   //clear previous searched on mount
   useEffect(() => {
     dispatch(clearSearchData({}));
+    return () => {
+      dispatch(clearSearchData({}));
+    };
   }, [dispatch]);
   useEffect(() => {
     dispatch(
@@ -37,7 +38,6 @@ const RecentSubmissions = ({
       })
     );
   }, [dispatch, app, searchQuery]);
-  console.log(recordsData)
   return (
     <div id={`${namespace}-recent-submissions-container`}>
       <div id={`${namespace}-recent-submissions`}>
