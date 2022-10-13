@@ -1,0 +1,46 @@
+$namespace: "categories-pg";
+$container-height: calc(100vh - #{$navbar-height});
+.#{$namespace} {
+  min-height: $container-height;
+  width: 100%;
+}
+.#{$namespace}-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-bottom: 2rem;
+}
+.#{$namespace}-category-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+  margin: 1rem 1.5%;
+  //height: 100%;
+  .#{$namespace}-contribute-link {
+    border-top: 1px solid $lightest-gray;
+    display: flex;
+    width: 100%;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    height: 2.5rem;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    box-shadow:  0rem 0.5rem 0.5rem rgb(0 0 0 / 3%);
+    a {
+      font-size: 1rem;
+      text-decoration: none;
+    }
+  }
+  .recent-list-header {
+    display: flex;
+    justify-content: center;
+  }
+  .recent-list-banner {
+    overflow: auto;
+    max-height: calc(#{$container-height} / 2);
+    justify-content: unset;
+  }
+}

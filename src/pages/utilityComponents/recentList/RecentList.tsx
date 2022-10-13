@@ -56,7 +56,11 @@ export const RecentList = ({
   headerViewAllLink,
   contributeNowLink,
   loadingState,
+  bannerStyles,
+  headerStyles
 }: {
+  headerStyles?: { [key: string]: string };
+  bannerStyles?: { [key: string]: string };
   headerText: string;
   headerViewAllLink?: string;
   contributionsData: RecordSubmissionType[] | null;
@@ -65,11 +69,11 @@ export const RecentList = ({
 }) => {
   return (
     <>
-      <div className="recent-list-header">
+      <div className="recent-list-header" style={headerStyles}>
         <h2>{headerText}</h2>
         {headerViewAllLink && <Link to={headerViewAllLink}>View All</Link>}
       </div>
-      <div className="recent-list-banner">
+      <div className="recent-list-banner" style={bannerStyles}>
         {loadingState === "success" &&
         contributionsData &&
         contributionsData.length > 0 ? (

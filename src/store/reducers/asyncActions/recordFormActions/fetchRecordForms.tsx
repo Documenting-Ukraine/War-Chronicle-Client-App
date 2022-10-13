@@ -48,28 +48,29 @@ export const serializeResults = (e: WritableDraft<FetchRecordFormsResult>) => {
   if (isFetchRecordFormsResult(newResults)) return newResults;
   else return e;
 };
+export const fetchRecordFormData = async ({
+  app,
+  input,
+}: FetchRecordFormsProps): Promise<WritableDraft<FetchRecordFormsResult> | null> => {
+  let recordFormData: any;
+  if (app.currentUser) {
+    recordFormData = await app.currentUser?.callFunction(
+      "search_records_public",
+      input
+    );
+  } else {
+    const response = await realmApiCalls(
+      { search_query: JSON.stringify(input) },
+      "get",
+      "search_record_forms"
+    );
+    recordFormData = response.data;
+  }
+  if (isFetchRecordFormsResult(recordFormData))
+    return serializeResults(recordFormData);
+  return null;
+};
 export const fetchRecordForms = createAsyncThunk(
   "recordForms/fetchRecordForms",
-  async ({
-    app,
-    input,
-  }: FetchRecordFormsProps): Promise<WritableDraft<FetchRecordFormsResult> | null> => {
-    let recordFormData: any;
-    if (app.currentUser) {
-      recordFormData = await app.currentUser?.callFunction(
-        "search_records_public",
-        input
-      );
-    } else {
-      const response = await realmApiCalls(
-        { search_query: JSON.stringify(input) },
-        "get",
-        "search_record_forms"
-      );
-      recordFormData = response.data;
-    }
-    if (isFetchRecordFormsResult(recordFormData))
-      return serializeResults(recordFormData);
-    return null;
-  }
+  fetchRecordFormData
 );
