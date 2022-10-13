@@ -22,10 +22,10 @@ const WelcomeHeader = ({ namespace }: { namespace: string }) => {
     setMounted(true);
   }, []);
   return (
-      <div className={`${namespace}-banner-header ${mounted ? "mounted" : ""}`}>
-        <h1>WELCOME TO WAR</h1>
-        <h1>CHRONICLE</h1>
-      </div>
+    <div className={`${namespace}-banner-header ${mounted ? "mounted" : ""}`}>
+      <h1>WELCOME TO WAR</h1>
+      <h1>CHRONICLE</h1>
+    </div>
   );
 };
 const WelcomeSummary = ({ namespace }: { namespace: string }) => {
@@ -62,7 +62,6 @@ const IntroBanner = ({ namespace }: { namespace: string }) => {
   const introBannerEl = useRef<HTMLDivElement>(null);
   const windowTop = useScrollPos({ yScrollPos: 5 });
   const { yScrollEnd } = useScrollListener(introBannerEl);
-
   useEffect(() => {
     if (!yScrollEnd && !windowTop) disableBodyScroll(document.body);
     else enableBodyScroll(document.body);
