@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { useParams } from "react-router";
-import useFetchRecordData from "../../hooks/use-fetch-record-data";
+import useFetchRecordData from "../../hooks/use-fetch-record-data-redux";
 import { useRealmApp } from "../../realm/RealmApp";
 import { CategoriesList } from "../../types/dataTypes/CategoryIconMap";
 import LoadingIcon from "../utilityComponents/loadingIcon/LoadingIcon";

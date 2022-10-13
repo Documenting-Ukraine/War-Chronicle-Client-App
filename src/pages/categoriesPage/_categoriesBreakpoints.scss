@@ -1,0 +1,14 @@
+@mixin categories-pg-md {
+  $namespace: "categories-pg";
+  .#{$namespace}-category-list {
+    width: 100%;
+    margin: 1rem 5%;
+  }
+}
+@mixin categories-pg-sm {
+  $namespace: "categories-pg";
+  .#{$namespace}-category-list {
+    margin: 1rem 3%;
+    min-width: 300px;
+  }
+}

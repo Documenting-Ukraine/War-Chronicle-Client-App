@@ -1,6 +1,8 @@
 $namespace: "categories-pg";
 $container-height: calc(100vh - #{$navbar-height});
 .#{$namespace} {
+  display: flex;
+  flex-direction: column;
   min-height: $container-height;
   width: 100%;
 }
@@ -17,7 +19,7 @@ $container-height: calc(100vh - #{$navbar-height});
   align-items: center;
   width: 30%;
   margin: 1rem 1.5%;
-  //height: 100%;
+  min-width: 350px;
   .#{$namespace}-contribute-link {
     border-top: 1px solid $lightest-gray;
     display: flex;
@@ -28,7 +30,8 @@ $container-height: calc(100vh - #{$navbar-height});
     height: 2.5rem;
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
-    box-shadow:  0rem 0.5rem 0.5rem rgb(0 0 0 / 3%);
+    box-shadow: 0rem 0.5rem 0.5rem rgba(0, 0, 0, 0.03);
+
     a {
       font-size: 1rem;
       text-decoration: none;

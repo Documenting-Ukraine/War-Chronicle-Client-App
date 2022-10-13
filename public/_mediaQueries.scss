@@ -1,13 +1,12 @@
 @import "../src/pages/utilityComponents/utilitiesBreakpoints";
 @import "../src/pages/dashboard/dashboardBreakpoints";
 @import "../src/pages/recordForms/recordFormPageBreakpoints";
-@import '../src/pages/aboutPage/aboutPageBreakpoints';
-@import '../src/pages/searchPage/searchPageBreakpoints';
-@import '../src/pages/homePage/homePageBreakpoints';
+@import "../src/pages/aboutPage/aboutPageBreakpoints";
+@import "../src/pages/searchPage/searchPageBreakpoints";
+@import "../src/pages/homePage/homePageBreakpoints";
 @import "../src/pages/recordPage/recordPageBreakpoints";
-
+@import "../src/pages/categoriesPage/categoriesBreakpoints";
 @media (min-width: 992px) {
-
 }
 
 @media (max-width: 992px) {
@@ -25,6 +24,7 @@
   @include search-pg-md;
   @include home-pg-md;
   @include recent-list-md;
+  @include categories-pg-md;
 }
 
 @media (max-width: 575px) {
@@ -35,8 +35,8 @@
   @include home-pg-sm;
   @include record-pg-sm;
   @include recent-list-sm;
+  @include categories-pg-sm;
 }
 
 @media (any-hover: hover) {
-
 }

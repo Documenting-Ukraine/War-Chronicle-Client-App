@@ -1,126 +1,63 @@
+import { useRealmApp } from "../realm/RealmApp";
 import { useEffect, useState } from "react";
-import { unstable_batchedUpdates } from "react-dom";
+import { CategoriesList } from "../types/dataTypes/CategoryIconMap";
 import { RecordSubmissionType } from "../types";
-import { RealmApp } from "../realm/RealmApp";
-import { isFetchRecordFormsResult } from "../store/reducers/asyncActions/recordFormActions/fetchRecordForms";
-export const fetchPageData = async (
-  recordId: string | undefined,
-  app: RealmApp
-) => {
-  if (!recordId) throw Error("Invalid record id");
-  const input = {
-    searchQuery: {
-      _ids: [recordId],
-    },
-  };
-  const data = await app.currentUser?.callFunction(
-    "search_records_public",
-    input
-  );
-  if (isFetchRecordFormsResult(data) && data.results && data.results.length > 0)
-    return data.results[0];
-  else throw Error("Could not find the record");
-};
-export const useFetchRecordData = ({
-  app,
-  recordId,
-}: {
-  app: RealmApp;
-  recordId: string;
-}) => {
-  const [data, setData] = useState<RecordSubmissionType | null>(null);
-  const [loading, setLoading] = useState<"loading" | "failed" | "fullfilled">(
+import { RecordFormSearchQuery } from "../store/reducers/recordForms/types";
+import { unstable_batchedUpdates } from "react-dom";
+import { fetchRecordFormData } from "../store/reducers/asyncActions/recordFormActions/fetchRecordForms";
+const categories: [typeof CategoriesList[number], RecordSubmissionType[]][] =
+  CategoriesList.map((str) => [str, []]);
+const defaultData = Object.fromEntries(categories);
+/*
+ *
+ * When you want to fetch data but not store it in
+ * the redux store
+ */
+const useFetchRecordData = () => {
+  const app = useRealmApp();
+  //holds all searched data that can be looked up with a key
+  const [data, setData] = useState(defaultData);
+  const [status, setStatus] = useState<"loading" | "success" | "failed">(
     "loading"
   );
-  const [err, setErr] = useState({ err: false, message: "" });
-
   useEffect(() => {
-    fetchPageData(recordId, app)
-      .then((payload) => {
+    const searchResults = async (category: typeof CategoriesList[number]) => {
+      const input: { searchQuery: RecordFormSearchQuery } = {
+        searchQuery: {
+          categories: [category],
+          sortBy: "newest_creation_date",
+        },
+      };
+      try {
+        const data = await fetchRecordFormData({ app, input });
+        if (!data) return [];
+        if (!data.results) return [];
+        const results = data.results;
+        return results;
+      } catch (e) {
+        console.trace();
+        throw e;
+      }
+    };
+    //fetch all data
+    setStatus("loading");
+    const results = CategoriesList.map((category) => searchResults(category));
+    Promise.all(results)
+      .then((data) => {
+        const newStateArray = data.map((result, idx) => [
+          CategoriesList[idx],
+          result,
+        ]);
         unstable_batchedUpdates(() => {
-          setData(payload);
-          setLoading("fullfilled");
+          setData(Object.fromEntries(newStateArray));
+          setStatus("success");
         });
       })
       .catch((e) => {
+        setStatus("failed");
         console.error(e);
-        unstable_batchedUpdates(() => {
-          setErr({ err: true, message: e.message });
-          setLoading("failed");
-        });
       });
-  }, [app, recordId]);
-  return {
-    data,
-    loading,
-    err,
-  };
+  }, [app]);
+  return { data, status, setData, setStatus };
 };
-// const useTestFetchRecordData = ({
-//   app,
-//   recordId,
-// }: {
-//   app: RealmApp;
-//   recordId: string;
-// }) => {
-//   const [loading, setLoading] = useState<"loading" | "failed" | "fullfilled">(
-//     "fullfilled"
-//   );
-//   const [err, setErr] = useState({ err: false, message: "" });
-//   const [data, setData] = useState<RecordSubmissionType | null>({
-//     _id: "434353",
-//     record_type: "War Crimes",
-//     record_title: "War Crimes",
-//     war_crime: "Destruction of Culture",
-//     contributors: [
-//       {
-//         first_name: "Arky",
-//         last_name: "Asmal",
-//         _id: "ewrw4t",
-//         date_first_edited: new Date(),
-//       },
-//     ],
-//     media:{
-//       images: ["image.png", "image.png", "image.png", "image.png"],
-//       videos: ["video.mp4", "video1.mp4"]
-//     },
-//     key_actor: {
-//       actor_type: "Private",
-//       actor_name: "The world",
-//     },
-//     record_creation_date: new Date(),
-//     date_first_published: new Date(),
-//     date_event_occurred: new Date(),
-//     address: {
-//       oblast: "Cherkasy",
-//       city: "Alchevsk",
-//     },
-//     description:
-//       "New world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world Test, New world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world TestNew world Test",
-//     evidence: [
-//       {
-//         _id: "rt4gt4t",
-//         description: "Hello",
-//         url: "Cool beans",
-//       },
-//     ],
-//     objects_of_culture: {
-//       object_type: "Landmark",
-//       object_name: "The end of time",
-//       landmark: {
-//         landmark_type: "Archaeological",
-//         landmark_significance: "The End ",
-//       },
-//     },
-//   });
-//   return {
-//     data,
-//     loading,
-//     err,
-//   };
-// };
-// export default useTestFetchRecordData
 export default useFetchRecordData;
-/* Real logic
-
-*/

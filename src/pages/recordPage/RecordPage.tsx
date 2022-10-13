@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import useFetchRecordData from "../../hooks/use-fetch-record-data";
+import useFetchRecordData from "../../hooks/use-fetch-record-data-redux";
 import { useRealmApp } from "../../realm/RealmApp";
 import LoadingMessage from "../utilityComponents/loadingMessage/LoadingMessage";
 import PageBanner from "../utilityComponents/pageBanner/PageBanner";

@@ -15,7 +15,8 @@ const ParticlesBackground = ({ children }: { children: JSX.Element }) => {
               //value: "#2c6bac"
               //value: "#41516c"
               //value: "#3277f7",
-              value: "#b7d9fd",
+              //value: "#b7d9fd",
+              value: "#093552"
             },
             image: "",
             position: "50% 50%",

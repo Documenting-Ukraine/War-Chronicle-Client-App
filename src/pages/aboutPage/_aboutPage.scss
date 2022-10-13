@@ -15,70 +15,6 @@ $namespace: "about-pg";
   align-items: center;
 }
 
-##{$namespace}-about-us {
-  position: relative;
-  width: 100%;
-  & > * {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    padding: 2.5rem 4%;
-  }
-}
-##{$namespace}-about-header {
-  font-size: 3rem;
-  display: flex;
-  justify-content: center;
-  background-color: $darkest-blue;
-  color: $white;
-  margin: 0;
-}
-##{$namespace}-about-img {
-  padding-top: 1rem;
-  padding-bottom: 2rem;
-  position: relative;
-  width: 100%;
-  height: 25rem;
-  display: flex;
-  align-items: center;
-  min-height: 10rem;
-  &::before {
-    position: absolute;
-    content: "";
-    background-color: $darkest-blue;
-    height: 50%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1;
-  }
-  &::after {
-    position: absolute;
-    content: "";
-    background-color: $off-white;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    z-index: 1;
-  }
-  img {
-    max-width: 1050px;
-    width: 100%;
-    height: 100%;
-    color: $white;
-    object-fit: cover;
-    object-position: center;
-    z-index: 2;
-  }
-}
-##{$namespace}-about-summary {
-  background-color: $off-white;
-  p {
-    max-width: 1050px;
-    line-height: 250%;
-  }
-}
 ##{$namespace}-contributors-container {
   padding: 2.5rem 0;
   width: 100%;
@@ -140,7 +76,7 @@ $namespace: "about-pg";
     color: $white;
   }
 }
-##{$namespace}-explore-header{
+##{$namespace}-explore-header {
   display: flex;
   padding: 0 3%;
   width: 100%;
@@ -169,7 +105,7 @@ $namespace: "about-pg";
     height: 6.5rem;
   }
   .#{$sub-namespace}-img {
-    border-radius: 0.3rem 0 0 0.3rem ;
+    border-radius: 0.3rem 0 0 0.3rem;
     background-color: $lighter-blue;
     display: flex;
     min-width: 4rem;
@@ -187,16 +123,16 @@ $namespace: "about-pg";
     justify-content: space-around;
     flex-grow: 1;
     h5 {
-        padding-top: 0.5rem;
-        padding-bottom: 1rem;
-        font-weight: 600;
-        margin: 0;
-        font-size: 1.2rem;
+      padding-top: 0.5rem;
+      padding-bottom: 1rem;
+      font-weight: 600;
+      margin: 0;
+      font-size: 1.2rem;
     }
     p {
-        color: $darkest-gray;
-        font-size: 0.8rem;
-        margin: 0;
+      color: $darkest-gray;
+      font-size: 0.8rem;
+      margin: 0;
     }
   }
 }

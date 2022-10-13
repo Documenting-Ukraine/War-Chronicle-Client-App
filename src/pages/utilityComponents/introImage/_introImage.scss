@@ -1,0 +1,43 @@
+$namespace: "intro-image";
+.#{$namespace}-container {
+  position: relative;
+  width: 100%;
+  & > * {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 2.5rem 4%;
+  }
+}
+.#{$namespace}-header {
+  font-size: 3rem;
+  display: flex;
+  justify-content: center;
+  color: $white;
+  margin: 0;
+}
+.#{$namespace}-img {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  position: relative;
+  width: 100%;
+  height: 25rem;
+  display: flex;
+  align-items: center;
+  min-height: 10rem;
+  img {
+    max-width: 1050px;
+    width: 100%;
+    height: 100%;
+    color: white;
+    object-fit: cover;
+    object-position: center;
+    z-index: 2;
+  }
+}
+.#{$namespace}-summary {
+  p {
+    max-width: 1050px;
+    line-height: 250%;
+  }
+}

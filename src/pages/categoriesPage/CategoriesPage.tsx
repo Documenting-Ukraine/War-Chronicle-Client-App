@@ -1,70 +1,44 @@
 import { useRealmApp } from "../../realm/RealmApp";
 import RecentList from "../utilityComponents/recentList/RecentList";
 import { CategoriesList } from "../../types/dataTypes/CategoryIconMap";
-import { useEffect, useState } from "react";
-import { RecordSubmissionType } from "../../types";
-import { fetchRecordFormData } from "../../store/reducers/asyncActions/recordFormActions/fetchRecordForms";
-import { RecordFormSearchQuery } from "../../store/reducers/recordForms/types";
-import { unstable_batchedUpdates } from "react-dom";
 import { Link } from "react-router-dom";
-
-const categories: [typeof CategoriesList[number], RecordSubmissionType[]][] =
-  CategoriesList.map((str) => [str, []]);
-const defaultData = Object.fromEntries(categories);
+import useFetchRecordData from "../../hooks/use-fetch-record-data";
+import IntroImage from "../utilityComponents/introImage/IntroImage";
 const namespace = "categories-pg";
+const staticDomain = process.env.REACT_APP_STATIC_FILES_DOMAIN;
 const CategoriesPage = () => {
   const app = useRealmApp();
-  //holds all searched data that can be looked up with a key
-  const [data, setData] = useState(defaultData);
-  const [status, setStatus] = useState<"loading" | "success" | "failed">(
-    "loading"
-  );
-  useEffect(() => {
-    const searchResults = async (category: typeof CategoriesList[number]) => {
-      const input: { searchQuery: RecordFormSearchQuery } = {
-        searchQuery: {
-          categories: [category],
-          sortBy: "newest_creation_date",
-        },
-      };
-      try {
-        const data = await fetchRecordFormData({ app, input });
-        if (!data) return [];
-        if (!data.results) return [];
-        const results = data.results;
-        return results;
-      } catch (e) {
-        console.trace();
-        throw e;
-      }
-    };
-    //fetch all data
-    setStatus("loading");
-    const results = CategoriesList.map((category) => searchResults(category));
-    Promise.all(results)
-      .then((data) => {
-        const newStateArray = data.map((result, idx) => [
-          CategoriesList[idx],
-          result,
-        ]);
-        unstable_batchedUpdates(() => {
-          setData(Object.fromEntries(newStateArray));
-          setStatus("success");
-        });
-      })
-      .catch((e) => {
-        setStatus("failed");
-        console.error(e);
-      });
-  }, [app]);
+  const { data, status } = useFetchRecordData();
   return (
     <div className={namespace}>
+      <IntroImage
+        heading="Categories"
+        imgData={{
+          link: `https://${staticDomain}/about-pg/burned-building.jpg`,
+          description: "Burned building in Ukraine",
+        }}
+        backgroundColors={["#093552", "rgb(249, 249, 249)"]}
+      />
       <div className={`${namespace}-container`}>
         {CategoriesList.map((category) => {
           const contributeLink = `/dashboard/${
             app?.currentUser?.id
           }/forms/create-new-${category.replace(/ /g, "-").toLowerCase()}`;
           const dataEmpty = data[category].length > 0;
+          const dataEmptyStyles: { [key: string]: string } = dataEmpty
+            ? {
+                borderBottomLeftRadius: "0",
+                borderBottomRightRadius: "0",
+              }
+            : {};
+          const loadingStyles = {
+            overflow: status === "loading" ? "hidden" : "",
+          };
+          const bannerStyles: { [key: string]: string } = {
+            ...loadingStyles,
+            ...dataEmptyStyles,
+          };
+
           return (
             <div key={category} className={`${namespace}-category-list`}>
               <RecentList
@@ -72,14 +46,7 @@ const CategoriesPage = () => {
                 loadingState={status}
                 contributionsData={data[category]}
                 contributeNowLink={contributeLink}
-                bannerStyles={
-                  dataEmpty
-                    ? {
-                        borderBottomLeftRadius: "0",
-                        borderBottomRightRadius: "0",
-                      }
-                    : undefined
-                }
+                bannerStyles={bannerStyles}
               />
               {dataEmpty && (
                 <div className={`${namespace}-contribute-link`}>
