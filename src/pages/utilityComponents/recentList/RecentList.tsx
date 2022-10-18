@@ -50,6 +50,18 @@ export const RecentRow = ({
     </Link>
   );
 };
+const RecentListAlert = () => {
+  return (
+    <div className="recent-list-banner-alert">
+      <div className="grid-err-alert">
+        <div>
+          Something went wrong. Please try again later or contact{" "}
+          {" " + process.env.REACT_APP_SUPPORT_EMAIL}
+        </div>
+      </div>
+    </div>
+  );
+};
 export const RecentList = ({
   contributionsData,
   headerText,
@@ -57,7 +69,8 @@ export const RecentList = ({
   contributeNowLink,
   loadingState,
   bannerStyles,
-  headerStyles
+  headerStyles,
+  pagination,
 }: {
   headerStyles?: { [key: string]: string };
   bannerStyles?: { [key: string]: string };
@@ -66,7 +79,31 @@ export const RecentList = ({
   contributionsData: RecordSubmissionType[] | null;
   contributeNowLink: string;
   loadingState: "success" | "loading" | "failed";
+  pagination?: boolean;
 }) => {
+  const dataRows = contributionsData
+    ? contributionsData.map((record) => {
+        const title = record.record_title;
+        const type = record.record_type;
+        const submitted = record.record_creation_date;
+        const mainImage = record.media?.main_image;
+        const routeType = type?.replace(/ /g, "-").toLowerCase();
+        const url = `/records/${routeType}/${record._id.toString()}`;
+        return (
+          <RecentRow
+            key={record._id}
+            url={url}
+            title={title}
+            recordType={type}
+            dateSubmitted={new Date(submitted)}
+            mainImage={mainImage}
+          />
+        );
+      })
+    : [];
+  const dataEmpty =
+    !contributionsData || (contributionsData && contributionsData.length <= 0);
+
   return (
     <>
       <div className="recent-list-header" style={headerStyles}>
@@ -74,43 +111,29 @@ export const RecentList = ({
         {headerViewAllLink && <Link to={headerViewAllLink}>View All</Link>}
       </div>
       <div className="recent-list-banner" style={bannerStyles}>
-        {loadingState === "success" &&
-        contributionsData &&
-        contributionsData.length > 0 ? (
-          contributionsData.map((record) => {
-            const title = record.record_title;
-            const type = record.record_type;
-            const submitted = record.record_creation_date;
-            const mainImage = record.media?.main_image;
-            const routeType = type?.replace(/ /g, "-").toLowerCase();
-            const url = `/records/${routeType}/${record._id.toString()}`;
-            return (
-              <RecentRow
-                key={record._id}
-                url={url}
-                title={title}
-                recordType={type}
-                dateSubmitted={new Date(submitted)}
-                mainImage={mainImage}
-              />
-            );
-          })
+        {loadingState === "success" && !dataEmpty ? (
+          dataRows
         ) : loadingState === "success" ? (
           <div className="recent-list-row-placeholder">
             No submissions recorded.
             <Link to={contributeNowLink}>Contribute Now</Link>
           </div>
+        ) : loadingState === "loading" && !dataEmpty && pagination ? (
+          <>
+            {dataRows}
+            <div className="recent-list-loading-icon">
+              <LoadingIcon width={"3rem"} />
+            </div>
+          </>
         ) : loadingState === "loading" ? (
           <LoadingIcon />
+        ) : loadingState === "failed" && !pagination && !dataEmpty ? (
+          <>
+            {dataRows}
+            <RecentListAlert />
+          </>
         ) : loadingState === "failed" ? (
-          <div className="recent-list-banner-alert">
-            <div className="grid-err-alert">
-              <div>
-                Something went wrong. Please try again later or contact{" "}
-                {" " + process.env.REACT_APP_SUPPORT_EMAIL}
-              </div>
-            </div>
-          </div>
+          <RecentListAlert />
         ) : null}
       </div>
     </>

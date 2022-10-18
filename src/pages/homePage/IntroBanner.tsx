@@ -67,7 +67,6 @@ const IntroBanner = ({ namespace }: { namespace: string }) => {
     else enableBodyScroll(document.body);
     return () => clearAllBodyScrollLocks();
   }, [yScrollEnd, windowTop]);
-  console.log(windowTop, yScrollEnd)
   return (
     <>
       <div className={`${namespace}-intro-banner`}>

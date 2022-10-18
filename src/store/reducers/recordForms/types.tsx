@@ -1,5 +1,6 @@
+import { isObject } from "lodash";
 import { RecordSubmissionType } from "../../../types";
-import { CategoriesList } from "../../../types/dataTypes/CategoryIconMap";
+// import { CategoriesList } from "../../../types/dataTypes/CategoryIconMap";
 
 export type LoadingStatus = { status: "loading" | "success" | "failed" };
 
@@ -29,6 +30,13 @@ export type RecordFormSearchQuery = {
     | "oldest_creation_date"
     | "newest_creation_date";
 };
+export function isSearchQuery(e: any): e is RecordFormSearchQuery {
+  try {
+    return isObject(e) && !Array.isArray(e);
+  } catch (a) {
+    return false;
+  }
+}
 export type SearchRecordData = {
   data: RecordSubmissionType[];
   pagination_end: boolean;
