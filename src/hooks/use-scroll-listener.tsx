@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { RefObject } from "react";
 import { debounce } from "lodash";
 const checkScrollEnd = (el: HTMLElement) => {
-    return el.scrollTop + el.offsetHeight >= el.scrollHeight - 1
+    return Math.ceil(el.scrollTop + el.offsetHeight) >= el.scrollHeight - 1
 }
 const useScrollListener = (el: RefObject<HTMLElement | null>) => {
   const defaultNode = el.current;
