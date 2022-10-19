@@ -6,6 +6,7 @@ import useFetchRecordData from "../../hooks/use-fetch-record-data";
 import IntroImage from "../utilityComponents/introImage/IntroImage";
 import { RecordFormSearchQuery } from "../../store/reducers/recordForms/types";
 import { RecordSubmissionType } from "../../types";
+import { DebouncedFunc } from "lodash";
 const namespace = "categories-pg";
 const staticDomain = process.env.REACT_APP_STATIC_FILES_DOMAIN;
 const searchQuery = (
@@ -16,30 +17,57 @@ const searchQuery = (
 });
 const CategoriesPage = () => {
   const app = useRealmApp();
-  const { data: warCrimeData, status: warCrimeStatus } = useFetchRecordData({
+  const {
+    data: warCrimeData,
+    status: warCrimeStatus,
+    debouncedNextPagination: warCrimeNextPagination,
+    paginationEnd: warCrimePaginationEnd,
+  } = useFetchRecordData({
     searchQuery: JSON.stringify(searchQuery("War Crimes")),
     pagination: true,
   });
-  const { data: refugeesData, status: refugeesStatus } = useFetchRecordData({
+  const {
+    data: refugeesData,
+    status: refugeesStatus,
+    debouncedNextPagination: refugeesNextPagination,
+    paginationEnd: refugeesPaginationEnd,
+  } = useFetchRecordData({
     searchQuery: JSON.stringify(searchQuery("Refugees And IDPs")),
     pagination: true,
   });
-  const { data: internationalData, status: internationalStatus } =
-    useFetchRecordData({
-      searchQuery: JSON.stringify(searchQuery("International Response")),
-      pagination: true,
-    });
-  const { data: mediaAndDisInfoData, status: mediaAndDisInfoStatus } =
-    useFetchRecordData({
-      searchQuery: JSON.stringify(searchQuery("Media And Disinformation")),
-      pagination: true,
-    });
-  const { data: protestAbroadData, status: protestAbroadStatus } =
-    useFetchRecordData({
-      searchQuery: JSON.stringify(searchQuery("Protests Abroad")),
-      pagination: true,
-    });
-  const { data: russianData, status: russianStatus } = useFetchRecordData({
+  const {
+    data: internationalData,
+    status: internationalStatus,
+    debouncedNextPagination: internationalNextPagination,
+    paginationEnd: internationalPaginationEnd,
+  } = useFetchRecordData({
+    searchQuery: JSON.stringify(searchQuery("International Response")),
+    pagination: true,
+  });
+  const {
+    data: mediaAndDisInfoData,
+    status: mediaAndDisInfoStatus,
+    debouncedNextPagination: mediaAndDisNextPagination,
+    paginationEnd: mediaAndDisPaginationEnd,
+  } = useFetchRecordData({
+    searchQuery: JSON.stringify(searchQuery("Media And Disinformation")),
+    pagination: true,
+  });
+  const {
+    data: protestAbroadData,
+    status: protestAbroadStatus,
+    debouncedNextPagination: protestAbroadNextPagination,
+    paginationEnd: protestsAbroadPaginationEnd,
+  } = useFetchRecordData({
+    searchQuery: JSON.stringify(searchQuery("Protests Abroad")),
+    pagination: true,
+  });
+  const {
+    data: russianData,
+    status: russianStatus,
+    debouncedNextPagination: russiaNextPagination,
+    paginationEnd: russiaPaginationEnd,
+  } = useFetchRecordData({
     searchQuery: JSON.stringify(searchQuery("Russia")),
     pagination: true,
   });
@@ -47,25 +75,47 @@ const CategoriesPage = () => {
     [key: string]: {
       data: RecordSubmissionType[];
       status: "loading" | "failed" | "success";
+      nextPagination?: DebouncedFunc<
+        (e: React.UIEvent<HTMLElement, UIEvent>) => Promise<void>
+      >;
+      paginationEnd?: boolean;
     };
   } = {
-    "War Crimes": { status: warCrimeStatus, data: warCrimeData },
+    "War Crimes": {
+      status: warCrimeStatus,
+      data: warCrimeData,
+      nextPagination: warCrimeNextPagination,
+      paginationEnd: warCrimePaginationEnd,
+    },
     "Refugees And IDPs": {
       status: refugeesStatus,
       data: refugeesData,
+      nextPagination: refugeesNextPagination,
+      paginationEnd: refugeesPaginationEnd,
     },
-    "Protests Abroad": { status: protestAbroadStatus, data: protestAbroadData },
+    "Protests Abroad": {
+      status: protestAbroadStatus,
+      data: protestAbroadData,
+      nextPagination: protestAbroadNextPagination,
+      paginationEnd: protestsAbroadPaginationEnd,
+    },
     "Media And Disinformation": {
       status: mediaAndDisInfoStatus,
       data: mediaAndDisInfoData,
+      nextPagination: mediaAndDisNextPagination,
+      paginationEnd: mediaAndDisPaginationEnd,
     },
     "International Response": {
       status: internationalStatus,
       data: internationalData,
+      nextPagination: internationalNextPagination,
+      paginationEnd: internationalPaginationEnd,
     },
     Russia: {
       status: russianStatus,
       data: russianData,
+      nextPagination: russiaNextPagination,
+      paginationEnd: russiaPaginationEnd,
     },
   };
 
@@ -92,7 +142,11 @@ const CategoriesPage = () => {
               }
             : {};
           const loadingStyles = {
-            overflow: data[category].status === "loading" ? "hidden" : "",
+            overflow:
+              data[category].status === "loading" &&
+              data[category].data.length <= 0
+                ? "hidden"
+                : "",
           };
           const bannerStyles: { [key: string]: string } = {
             ...loadingStyles,
@@ -102,6 +156,8 @@ const CategoriesPage = () => {
           return (
             <div key={category} className={`${namespace}-category-list`}>
               <RecentList
+                onScrollListener={data[category].nextPagination}
+                paginationEnd={data[category].paginationEnd}
                 headerText={category}
                 loadingState={data[category].status}
                 contributionsData={data[category].data}

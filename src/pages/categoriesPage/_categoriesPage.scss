@@ -11,7 +11,7 @@ $container-height: calc(100vh - #{$navbar-height});
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding-bottom: 2rem;
+  padding-bottom: 4rem;
 }
 .#{$namespace}-category-list {
   display: flex;

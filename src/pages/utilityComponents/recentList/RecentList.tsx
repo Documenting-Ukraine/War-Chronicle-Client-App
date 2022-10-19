@@ -63,15 +63,19 @@ const RecentListAlert = () => {
   );
 };
 export const RecentList = ({
+  onScrollListener,
   contributionsData,
   headerText,
   headerViewAllLink,
   contributeNowLink,
+  paginationEnd,
   loadingState,
   bannerStyles,
   headerStyles,
   pagination,
 }: {
+  paginationEnd?: boolean;
+  onScrollListener?: (e: React.UIEvent<HTMLElement, UIEvent>) => void;
   headerStyles?: { [key: string]: string };
   bannerStyles?: { [key: string]: string };
   headerText: string;
@@ -103,16 +107,39 @@ export const RecentList = ({
     : [];
   const dataEmpty =
     !contributionsData || (contributionsData && contributionsData.length <= 0);
-
   return (
     <>
       <div className="recent-list-header" style={headerStyles}>
         <h2>{headerText}</h2>
         {headerViewAllLink && <Link to={headerViewAllLink}>View All</Link>}
       </div>
-      <div className="recent-list-banner" style={bannerStyles}>
+      <div
+        className="recent-list-banner"
+        style={bannerStyles}
+        onScroll={onScrollListener}
+      >
         {loadingState === "success" && !dataEmpty ? (
-          dataRows
+          <>
+            {dataRows}
+            {pagination && (
+              <div className="recent-list-loading-icon">
+                {paginationEnd && (
+                  <div
+                    style={{
+                      height: "3rem",
+                      width: "100%",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      display: "flex",
+                      opacity: 0.8
+                    }}
+                  >
+                    No more results
+                  </div>
+                )}
+              </div>
+            )}
+          </>
         ) : loadingState === "success" ? (
           <div className="recent-list-row-placeholder">
             No submissions recorded.

@@ -1,13 +1,13 @@
 import { RealmApp, useRealmApp } from "../realm/RealmApp";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { RecordSubmissionType } from "../types";
-import { RefObject } from "react";
 import {
   RecordFormSearchQuery,
   isSearchQuery,
 } from "../store/reducers/recordForms/types";
 import { unstable_batchedUpdates } from "react-dom";
 import { fetchRecordFormData } from "../store/reducers/asyncActions/recordFormActions/fetchRecordForms";
+import { debounce } from "lodash";
 // import { CategoriesList } from "../types/dataTypes/CategoryIconMap";
 // const categories: [typeof CategoriesList[number], RecordSubmissionType[]][] =
 //   CategoriesList.map((str) => [str, []]);
@@ -25,30 +25,81 @@ const searchResults = async ({
   app: RealmApp;
   searchQuery: RecordFormSearchQuery;
   idxCounter?: number;
-}) =>
-  // category: typeof CategoriesList[number],
-  // app: RealmApp,
-  // pageNum?: number
-  {
-    const input = { searchQuery, idx_counter: idxCounter };
-
-    // if (pageNum) input.searchQuery.idxCounter = pageNum;
-    try {
-      const data = await fetchRecordFormData({ app, input });
-      if (!data) return [];
-      if (!data.results) return [];
-      const results = data.results;
-      return results;
-    } catch (e) {
-      console.trace();
-      throw e;
-    }
-  };
+}) => {
+  const input = { searchQuery, idx_counter: idxCounter };
+  try {
+    const data = await fetchRecordFormData({ app, input });
+    if (!data) return { paginationEnd: false, results: [] };
+    if (!data.results)
+      return { paginationEnd: data.pagination_end, results: [] };
+    return { paginationEnd: data.pagination_end, results: data.results };
+  } catch (e) {
+    console.trace();
+    throw e;
+  }
+};
 const validateQuery = (searchQuery: string) => {
   let query: RecordFormSearchQuery = {};
   const parsedQuery = JSON.parse(searchQuery);
   if (isSearchQuery(parsedQuery)) query = parsedQuery;
   return query;
+};
+const nextPagination = async ({
+  app,
+  e,
+  searchQuery,
+  paginationEnd,
+  pageNum,
+  status,
+  pagination,
+  setStatus,
+  setData,
+  setPageNum,
+  setPaginationEnd,
+}: {
+  app: RealmApp;
+  searchQuery: string;
+  paginationEnd?: boolean;
+  pageNum: number;
+  status?: "loading" | "success" | "failed";
+  pagination?: boolean;
+  e: React.UIEvent<HTMLElement, UIEvent>;
+  setStatus: React.Dispatch<
+    React.SetStateAction<"loading" | "success" | "failed">
+  >;
+  setData: React.Dispatch<React.SetStateAction<RecordSubmissionType[]>>;
+  setPageNum: React.Dispatch<React.SetStateAction<number>>;
+  setPaginationEnd: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  if (!pagination) return;
+  if (status === "loading") return;
+  const el = e.target as HTMLDivElement;
+  //we take the height of the last element, and load the new items when we
+  // reach the last item to have a smoother pagination experience
+  const childEl = el.lastChild as HTMLAnchorElement;
+  const childHeight = childEl.offsetHeight;
+  //ignore all events that happens prior to this
+  if (el.scrollTop === 0 || el.offsetHeight - childHeight > el.scrollTop)
+    return;
+  if (paginationEnd) return;
+  setStatus("loading");
+  try {
+    const result = await searchResults({
+      app,
+      searchQuery: validateQuery(searchQuery),
+      idxCounter: pageNum + 1,
+    });
+    unstable_batchedUpdates(() => {
+      setData((data: RecordSubmissionType[]) => [...data, ...result.results]);
+      setPageNum((state: number) => state + 1);
+      setPaginationEnd(result.paginationEnd);
+      setStatus("success");
+    });
+  } catch (e) {
+    console.error(e);
+    console.trace();
+    setStatus("failed");
+  }
 };
 const useFetchRecordData = ({
   pagination,
@@ -64,28 +115,29 @@ const useFetchRecordData = ({
     "loading"
   );
   const [pageNum, setPageNum] = useState(0);
-  const nextPagination = async (e: HTMLElement) => {
-    if (status === "loading") return;
-    const elHeight = e.offsetHeight 
-    
-    setStatus("loading");
-    try {
-      const result = await searchResults({
-        app,
-        searchQuery: validateQuery(searchQuery),
-        idxCounter: pageNum + 1,
-      });
-      unstable_batchedUpdates(() => {
-        setData((data) => [...data, ...result]);
-        setStatus("success");
-        setPageNum((state) => state + 1);
-      });
-    } catch (e) {
-      console.error(e);
-      console.trace();
-      setStatus("failed");
-    }
-  };
+  const [paginationEnd, setPaginationEnd] = useState(false);
+  const debouncedNextPagination = useMemo(
+    () =>
+      debounce(
+        (e) =>
+          nextPagination({
+            e,
+            app,
+            searchQuery,
+            paginationEnd,
+            pageNum,
+            status,
+            pagination,
+            setStatus,
+            setData,
+            setPageNum,
+            setPaginationEnd,
+          }),
+        100
+      ),
+    [paginationEnd, pageNum, status, pagination, app, searchQuery]
+  );
+
   //on mount
   useEffect(() => {
     //fetch all data
@@ -98,8 +150,9 @@ const useFetchRecordData = ({
       })
         .then((data) => {
           unstable_batchedUpdates(() => {
-            setData(data);
+            setData(data.results);
             setStatus("success");
+            if (pagination) setPaginationEnd(data.paginationEnd);
           });
         })
         .catch((e) => {
@@ -110,7 +163,15 @@ const useFetchRecordData = ({
       setStatus("failed");
       console.trace();
     }
-  }, [app, searchQuery]);
-  return { data, status, setData, setStatus, nextPagination };
+  }, [app, searchQuery, pagination]);
+  return {
+    data,
+    status,
+    setData,
+    setStatus,
+    nextPagination,
+    debouncedNextPagination,
+    paginationEnd,
+  };
 };
 export default useFetchRecordData;
