@@ -44,16 +44,21 @@ const RecordFormSearch = (): JSX.Element => {
             </PopUpBg>
           )}
 
-          {similarRecords.map((record) => (
-            <RecordItem
-              key={record._id}
-              id={record._id}
-              title={record.record_title}
-              recordType={record.record_type}
-              description={record.description}
-              creationDate={record.record_creation_date}
-            />
-          ))}
+          {similarRecords
+            .sort((a, b) => {
+              if (a.score && b.score) return a.score > b.score ? 1 : -1;
+              else return -1;
+            })
+            .map((record) => (
+              <RecordItem
+                key={record._id}
+                id={record._id}
+                title={record.record_title}
+                recordType={record.record_type}
+                description={record.description}
+                creationDate={record.record_creation_date}
+              />
+            ))}
           {similarRecords.length <= 0 && (
             <div className="d-flex w-100 h-100 justify-content-center align-items-center flex-grow-1">
               No records found.

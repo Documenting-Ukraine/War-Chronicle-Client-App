@@ -43,6 +43,7 @@ export interface GeneralRecordType {
   description: string;
   evidence: ArrayOneOrMore<Evidence>;
   contributors: Contributors[];
+  score?: number;
 }
 export type GeneralEventType = GeneralRecordType & {
   date_first_published?: Date | string;
