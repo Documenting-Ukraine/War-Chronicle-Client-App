@@ -11,7 +11,7 @@ export const isProtestAbroadRegion = (
 ): e is typeof ProtestAbroadRegion[number] => isInList(e, ProtestAbroadRegion);
 export type ProtestsAbroadAddress = Omit<
 Address, "oblast" | 'city'
->;
+> & {[key: string]: string};
 export type ProtestsAbroadGeneral = Omit<GeneralEventType, "address"> & {
   record_type: "Protests Abroad";
   protest_location: typeof ProtestAbroadRegion[number];

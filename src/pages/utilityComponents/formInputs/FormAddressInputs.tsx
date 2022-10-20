@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   isOblastKey,
   OblastList,
-  OblastRegion,
+  // OblastRegion,
 } from "../../../types/dataTypes/OblastRegionType";
 import { MultiValue } from "react-select";
 import {
@@ -13,13 +13,14 @@ import {
 } from "../../../pages/authPage/data/OccupationList";
 import FormInputs, { CustomFormInputs } from "./FormInputs";
 import { Address } from "../../../types/dataTypes/GeneralRecordType";
+import { ProtestsAbroadAddress } from "../../../types/dataTypes/docTypes/ProtestsAbroad";
 const OblastKeys = Object.keys(OblastList);
 const FormAddressInputs = ({
   defaultAddress,
 }: {
-  defaultAddress?: Address;
+  defaultAddress?: Address | ProtestsAbroadAddress;
 }) => {
-  const [oblast, setOblast] = useState<keyof OblastRegion | undefined>(
+  const [oblast, setOblast] = useState<string | undefined>(
     defaultAddress ? defaultAddress.oblast : undefined
   );
   const [city, setCity] = useState<string>(

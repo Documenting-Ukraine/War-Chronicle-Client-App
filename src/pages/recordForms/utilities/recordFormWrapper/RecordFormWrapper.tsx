@@ -75,14 +75,19 @@ const RecordFormWrapper = ({
       dispatch(clearSearchData({}));
     };
   }, [dispatch]);
+
   const eventRecordType =
-    defaultInputs?.record_type !== "War Crimes" &&
-    defaultInputs?.record_type !== "Protests Abroad" &&
-    defaultInputs?.record_type !== "Russia";
+    defaultInputs?.record_type === "War Crimes" ||
+    defaultInputs?.record_type === "Protests Abroad";
   const russianEventRecordType =
     defaultInputs?.record_type === "Russia" &&
     defaultInputs.russian_record_type === "Protests in Russia";
-  const eventType = !eventRecordType && russianEventRecordType;
+  // const eventRecordType =
+  //   defaultInputs?.record_type !== "War Crimes" &&
+  //   defaultInputs?.record_type !== "Protests Abroad" &&
+  //   defaultInputs?.record_type !== "Russia";
+  //const eventType = !eventRecordType && russianEventRecordType;
+  const eventType = eventRecordType || russianEventRecordType;
   useEffect(() => {
     const charLenBeforeSearch = 4;
     if (removeAddedWhiteSpace(title).length >= charLenBeforeSearch) {
@@ -143,7 +148,7 @@ const RecordFormWrapper = ({
                   defaultValue={
                     defaultInputs
                       ? new Date(
-                          eventType
+                          eventType && defaultInputs.date_first_published
                             ? defaultInputs.date_first_published
                             : new Date()
                         )
@@ -168,7 +173,7 @@ const RecordFormWrapper = ({
                     defaultValue={
                       defaultInputs
                         ? new Date(
-                            eventType
+                            eventType && defaultInputs.date_first_published
                               ? defaultInputs.date_first_published
                               : new Date()
                           )
@@ -182,7 +187,7 @@ const RecordFormWrapper = ({
                     defaultValue={
                       defaultInputs
                         ? new Date(
-                            eventType
+                            eventType && defaultInputs.date_event_occurred
                               ? defaultInputs.date_event_occurred
                               : new Date()
                           )

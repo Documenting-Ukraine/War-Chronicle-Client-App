@@ -18,7 +18,7 @@ import awsS3UploadMedia from "../utilityFuncs/awsS3UploadMedia";
 import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
 import LoadingMessage from "../../../utilityComponents/loadingMessage/LoadingMessage";
 import PageBanner from "../../../utilityComponents/pageBanner/PageBanner";
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 const RecordFormSubmitWrapper = ({
   recordType,
   children,
@@ -43,6 +43,10 @@ const RecordFormSubmitWrapper = ({
     if (loadingProgress.status) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "visible";
   }, [loadingProgress.status]);
+  //clean up side effect
+  useEffect(() =>{
+    return () => {document.body.style.overflow = 'visible'};
+  }, [])
   const createSubmission = async (fieldValues: {
     [k: string]: FormDataEntryValue;
   }) => {
@@ -146,6 +150,7 @@ const RecordFormSubmitWrapper = ({
       generalInputs: generalInputs ? generalInputs : {},
       additionalInputs,
     };
+    console.log(submissionObject)
     return submissionObject;
   };
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {

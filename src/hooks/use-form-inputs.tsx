@@ -10,9 +10,9 @@ const useFormInputs = ({
   customDropdownFunc,
   required,
   isMulti,
-  defaultMultiDropDownValue
+  defaultMultiDropDownValue,
 }: {
-  defaultMultiDropDownValue?: Option[],
+  defaultMultiDropDownValue?: Option[];
   controlledValue?: string;
   customDropdownFunc?: (e: MultiValue<Option> | Option | null) => void;
   validateFunc?: (str: string) => { err: boolean; message: string };
@@ -30,7 +30,21 @@ const useFormInputs = ({
   );
   const [err, setErr] = useState({ err: false, message: "" });
   const [touched, setTouched] = useState(false);
-  const [multiValue, setMultiValue] = useState<Option[]>(defaultMultiDropDownValue ? defaultMultiDropDownValue: []);
+  const [multiValue, setMultiValue] = useState<Option[]>(
+    defaultMultiDropDownValue ? defaultMultiDropDownValue : []
+  );
+  useEffect(() => {
+    if (customDropdownFunc && isOption(defaultValue)) {
+      customDropdownFunc(defaultValue);
+    } else if (typeof defaultValue === "string" && validateFunc) {
+      validateFunc(defaultValue);
+    } else if (defaultMultiDropDownValue && customDropdownFunc) {
+      customDropdownFunc(defaultMultiDropDownValue);
+    }
+    //We can ignore this dependency array because we only want an update on mount
+    //since its a default value
+    //eslint-disable-next-line
+  }, [defaultValue]);
   //run validating function
   useEffect(() => {
     if (touched) {

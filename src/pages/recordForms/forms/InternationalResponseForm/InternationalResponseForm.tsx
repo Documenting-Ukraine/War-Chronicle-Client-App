@@ -45,7 +45,12 @@ const InternationalResponseForm = ({
         name={"resolution"}
         inputType={"text"}
         required
-        defaultValue={responseType}
+        defaultValue={
+          defaultInputs?.international_response_type ===
+          "United Nations Resolution"
+            ? defaultInputs.resolution_name
+            : ""
+        }
         customValidation={(e) => {
           updateStoreProps({
             resolution_name: e,
@@ -55,7 +60,8 @@ const InternationalResponseForm = ({
       />
     </>
   );
-  const combatType = defaultInputs?.international_response_type === "Combat Permission"
+  const combatType =
+    defaultInputs?.international_response_type === "Combat Permission";
   const combatPermissionEl = (
     <>
       <FormDateInputs
@@ -78,7 +84,9 @@ const InternationalResponseForm = ({
         name={"numberOfVolunteers"}
         inputType={"number"}
         required={false}
-        defaultValue={combatType ? defaultInputs?.num_of_volunteers?.toString(): undefined}
+        defaultValue={
+          combatType ? defaultInputs?.num_of_volunteers?.toString() : undefined
+        }
         customValidation={(e) => {
           updateStoreProps({
             num_of_volunteers: parseInt(e),

@@ -45,7 +45,7 @@ export interface GeneralRecordType {
   contributors: Contributors[];
 }
 export type GeneralEventType = GeneralRecordType & {
-  date_first_published: Date | string;
-  date_event_occurred: Date | string;
+  date_first_published?: Date | string;
+  date_event_occurred?: Date | string;
   address: Address;
 };
