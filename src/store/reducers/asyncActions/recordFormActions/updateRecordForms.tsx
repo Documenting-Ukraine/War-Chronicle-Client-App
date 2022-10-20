@@ -5,9 +5,11 @@ import { RecordSubmissionType } from "../../dashboard/dashboardReducer";
 import { WritableDraft } from "immer/dist/internal";
 import { FormSubmssionProps } from "../../recordForms/recordFormSubmission/recordFormSubmissionReducer";
 import { isErrorResponseData } from "../../../../types/generics/CustomHTTPTypes";
+import serializeObjects from "../../utlilites/serializeObjects";
 export type UpdateRecordFormResults = {
   error: null;
   response: {
+    insertedId?: string;
     record_id?: string;
     new_document: Pick<RecordSubmissionType, "_id" | "record_type"> &
       FormSubmssionProps;
@@ -35,6 +37,17 @@ export const isUpdateRecordFormResults = (
     return false;
   }
 };
+export const isUpdateRecordResponse = (
+  e: any
+): e is UpdateRecordFormResults["response"] => {
+  try {
+    const isObj = isObject(e);
+    const hasKeys = has(e, "new_document");
+    return isObj && hasKeys;
+  } catch (e) {
+    return false;
+  }
+};
 export const updateRecordForm = createAsyncThunk(
   "recordForms/updateRecordForm",
   async ({
@@ -50,19 +63,20 @@ export const updateRecordForm = createAsyncThunk(
         input
       );
       if (isUpdateRecordFormResults(updateRecordForm)) {
-        const newDoc = {
-          ...updateRecordForm,
-          response: {
-            ...updateRecordForm.response,
-            new_document: {
-              ...updateRecordForm.response.new_document,
-              _id: updateRecordForm.response.new_document._id.toString(),
+        let serializedData = {};
+        if (isObject(updateRecordForm.response))
+          serializedData = serializeObjects(updateRecordForm.response, true);
+        if (isUpdateRecordResponse(serializedData)) {
+          const newDoc = {
+            ...updateRecordForm,
+            response: {
+              ...serializedData,
+              record_id: serializedData.insertedId,
             },
-            record_id: updateRecordForm.response.record_id?.toString(),
-          },
-        };
-        if (callback) callback(newDoc);
-        return newDoc;
+          };
+          if (callback) callback(newDoc);
+          return newDoc;
+        }
       } else if (isErrorResponseData(updateRecordForm)) throw updateRecordForm;
       return null;
     } catch (e) {

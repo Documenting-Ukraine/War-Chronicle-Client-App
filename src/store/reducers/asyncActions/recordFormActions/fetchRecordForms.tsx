@@ -42,7 +42,7 @@ export const isFetchRecordFormsResult = (
 };
 export const serializeResults = (e: WritableDraft<FetchRecordFormsResult>) => {
   if (!e.results) return e;
-  const newData = e.results.map((a) => serializeObjects(a));
+  const newData = e.results.map((a) => serializeObjects(a, true));
   const newResults = { ...e };
   newResults.results = newData;
   if (isFetchRecordFormsResult(newResults)) return newResults;

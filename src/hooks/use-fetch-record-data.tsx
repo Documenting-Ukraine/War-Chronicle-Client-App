@@ -73,6 +73,7 @@ const nextPagination = async ({
 }) => {
   if (!pagination) return;
   if (status === "loading") return;
+  if (paginationEnd) return;
   const el = e.target as HTMLDivElement;
   //we take the height of the last element, and load the new items when we
   // reach the last item to have a smoother pagination experience
@@ -81,7 +82,6 @@ const nextPagination = async ({
   //ignore all events that happens prior to this
   if (el.scrollTop === 0 || el.offsetHeight - childHeight > el.scrollTop)
     return;
-  if (paginationEnd) return;
   setStatus("loading");
   try {
     const result = await searchResults({
@@ -133,7 +133,7 @@ const useFetchRecordData = ({
             setPageNum,
             setPaginationEnd,
           }),
-        100
+        150
       ),
     [paginationEnd, pageNum, status, pagination, app, searchQuery]
   );
