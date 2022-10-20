@@ -24,8 +24,13 @@
       line-height: 1.3rem;
       overflow: hidden;
       margin: 1rem 0;
+      margin-top: 0.5rem;
       color: $darkest-gray;
       font-size: 0.9rem;
+      b{
+        font-weight: 600;
+        opacity: 0.9;
+      }
     }
     .record-item-footer {
       display: flex;

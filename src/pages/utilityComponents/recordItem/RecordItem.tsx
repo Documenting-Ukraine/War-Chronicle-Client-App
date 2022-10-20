@@ -24,17 +24,23 @@ const RecordItem = ({
   recordType,
 }: RecordItemProps) => {
   return (
-    <Link to={`/search/records/${id}`} className="record-form-record-item">
-
+    <Link
+      to={`/search/records/${id.toString()}`}
+      className="record-form-record-item"
+    >
       <h5 className="record-item-heading">{title}</h5>
-      <p className="record-item-body">{description}</p>
+      <p className="record-item-body">
+        <b>{"Description: "}</b>
+        <br />
+        {description}
+      </p>
       <div className="record-item-footer">
-      <div className="record-item-type">
-        <span>
-          <b>Category: </b>
-          {recordType}
-        </span>
-      </div>
+        <div className="record-item-type">
+          <span>
+            <b>Category: </b>
+            {recordType}
+          </span>
+        </div>
         <div>
           Created on{" "}
           {new Date(creationDate).toLocaleDateString("en-us", {

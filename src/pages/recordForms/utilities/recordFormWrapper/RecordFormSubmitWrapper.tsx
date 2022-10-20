@@ -150,7 +150,6 @@ const RecordFormSubmitWrapper = ({
       generalInputs: generalInputs ? generalInputs : {},
       additionalInputs,
     };
-    console.log(submissionObject)
     return submissionObject;
   };
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
