@@ -66,8 +66,11 @@ export const fetchRecordFormData = async ({
     );
     recordFormData = response.data;
   }
-  if (isFetchRecordFormsResult(recordFormData))
-    return serializeResults(recordFormData);
+
+  if (isFetchRecordFormsResult(recordFormData)) {
+    const data = serializeObjects(recordFormData, true);
+    if(isFetchRecordFormsResult(data)) return data //console.log(data)
+  }
   return null;
 };
 export const fetchRecordForms = createAsyncThunk(

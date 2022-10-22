@@ -3,70 +3,50 @@ import { useSelector } from "react-redux";
 import { useRealmApp } from "../../../../realm/RealmApp";
 import { RootState } from "../../../../store/rootReducer";
 import { useDispatch } from "react-redux";
-import { fetchContributions } from "../../../../store/reducers/dashboard/dashboardReducer";
 import RecentList from "../../../utilityComponents/recentList/RecentList";
+import { fetchRecordForms } from "../../../../store/reducers/asyncActions/recordFormActions/fetchRecordForms";
+import { clearSearchData } from "../../../../store/reducers/recordForms/recordFormSearch/recordFormsSearchReducer";
 
 const DashboardRecent = (): JSX.Element => {
-  const contributions = useSelector(
-    (state: RootState) => state.dashboard.contributionsData
+  const recordForms = useSelector(
+    (state: RootState) => state.recordForms.search.searched_data
   );
-  const loadingState = contributions.status;
-  const contributionsData = contributions.data;
+  const recordFormData = recordForms.data;
+  const recordFormPagination = recordForms.pagination_end;
+  const recordFormLoadingState = recordForms.status;
   const app = useRealmApp();
   const dispatch = useDispatch();
-  // const contributionsData = [
-  //   {
-  //     _id: "unique",
-  //     recordTitle: "hello",
-  //     recordCreationDate: new Date(),
-  //     media: {
-  //       mainImage: undefined,
-  //     },
-  //     description: "hello",
-  //     recordType: "War Crimes",
-  //     warCrime: [],
-  //   },
-  //   {
-  //     _id: "unique1",
-  //     recordTitle: "hello",
-  //     recordCreationDate: new Date(),
-  //     media: {
-  //       mainImage: undefined,
-  //     },
-  //     description: "hello",
-  //     recordType: "War Crimes",
-  //     warCrime: [],
-  //   },
-  //   {
-  //     _id: "unique2",
-  //     recordTitle: "hello",
-  //     recordCreationDate: new Date(),
-  //     media: {
-  //       mainImage: undefined,
-  //     },
-  //     description: "hello",
-  //     recordType: "War Crimes",
-  //     warCrime: [],
-  //   },
-  // ];
+  //clear any old data
   useEffect(() => {
-    const _id = app.currentUser?.customData._id 
-    if (!contributionsData) dispatch(fetchContributions({
-      app, 
-      input:{
-        searchQuery:{
-          contributors: [typeof _id === 'string'? _id: ""]
-        }
-      }
-    }));
-  }, [contributionsData, dispatch, app]);
+    dispatch(clearSearchData({}));
+    return () => {
+      dispatch(clearSearchData({}));
+    };
+  }, [app, dispatch]);
+
+  useEffect(() => {
+    const _id = app.currentUser?.customData.user_id;
+    //we set this restriction so it doesn't continously fetch
+    //data that is incorrect
+    if (recordFormData.length <= 0 && !recordFormPagination)
+      dispatch(
+        fetchRecordForms({
+          app,
+          input: {
+            searchQuery: {
+              contributors: [typeof _id === "string" ? _id : ""],
+            },
+          },
+        })
+      );
+  }, [recordFormData, recordFormPagination, dispatch, app]);
   return (
     <RecentList
-      contributionsData={contributionsData}
+      contributionsData={recordFormData}
       headerText={"Your recent contributions"}
       headerViewAllLink={"../all-contributions"}
       contributeNowLink={`/dashboard/${app?.currentUser?.id}/contribute`}
-      loadingState={loadingState}
+      loadingState={recordFormLoadingState}
     />
   );
 };

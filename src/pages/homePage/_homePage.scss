@@ -120,8 +120,8 @@ $namespace: "home-page";
   flex-direction: column;
   margin-top: 1rem;
   background-image: linear-gradient(
-    transparent 20%,
-    currentColor 30%,
+    transparent 10%,
+    currentColor 20%,
     currentColor 80%,
     transparent 90%
   );
@@ -130,16 +130,19 @@ $namespace: "home-page";
   background-attachment: fixed;
 }
 .#{$namespace}-banner-summary {
+  // margin: auto;
   color: transparent;
   font-size: 175%;
   line-height: 250%;
   font-family: "Lato", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  min-height: 75vh;
+  // min-height: 5vh;
+  min-height: 70vh;
   margin: 0;
 }
 .#{$namespace}-banner-action-cards {
   display: flex;
   justify-content: space-between;
+    // min-height: 50vh;
   margin-bottom: 6vh;
   .action-card {
     height: 220px;
@@ -168,6 +171,6 @@ $namespace: "home-page";
 }
 ##{$namespace}-recent-submissions {
   max-width: 1100px;
-  min-height: 100vh;
+  //min-height: 100vh;
   width: 100%;
 }

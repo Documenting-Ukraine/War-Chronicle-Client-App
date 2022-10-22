@@ -1,24 +1,50 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RealmApp } from "../../../realm/RealmApp";
-export interface ActivityDataTemplate {
-  [key: string]: number;
+import { has } from "lodash";
+export interface ActivityData {
+  _id: string;
+  user_first_name: string;
+  user_last_name: string;
+  user_id: string;
+  edit_type: "create" | "edit";
+  record_form_id: string;
+  edit_date: Date | string;
 }
-
-function isActivtyData(arg: any): arg is ActivityDataTemplate {
+export interface ActivityDataTemplate {
+  data: ActivityData[];
+}
+export function isActivtyData(arg: any): arg is ActivityData {
   if (!arg) return false;
-  const keys = Object.keys(arg[0]);
-  const check = keys.every(
-    (key) => typeof arg[key] === "number" && typeof key === "string"
-  );
-  return check;
+  try {
+    const check =
+      has(arg, "_id") &&
+      has(arg, "user_first_name") &&
+      has(arg, "user_last_name") &&
+      has(arg, "user_id") &&
+      has(arg, "edit_type") &&
+      has(arg, "record_form_id") &&
+      has(arg, "edit_date");
+    return check;
+  } catch (e) {
+    return false;
+  }
+}
+export function isActivtyDataTemplate(arg: any): arg is ActivityDataTemplate {
+  if (!arg) return false;
+  try {
+    const check = has(arg, "data");
+    return check;
+  } catch (e) {
+    return false;
+  }
 }
 export const fetchActivityData = createAsyncThunk(
   "dashboard/fetchActivityData",
   async (app: RealmApp): Promise<ActivityDataTemplate | null> => {
     const userData = await app.currentUser?.callFunction(
-      "read_past_year_activity"
+      "search_contributions"
     );
-    if (isActivtyData(userData)) return userData;
+    if (isActivtyDataTemplate(userData)) return userData;
     return null;
   }
 );

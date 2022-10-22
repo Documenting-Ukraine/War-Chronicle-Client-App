@@ -2,14 +2,14 @@ import { MonthDataTemplate } from "./helperFunc/calculateDays";
 import GridDay from "./GridDay";
 import { add, isBefore, endOfMonth, endOfWeek } from "date-fns";
 import React from "react";
-import { ActivityDataTemplate } from "../../../../store/reducers/dashboard/dashboardReducer";
+import { ActivityData } from "../../../../store/reducers/asyncActions/fetchActivityData";
 const GridMonth = ({
   monthData,
   activityData,
   lastMonth,
 }: {
   monthData: MonthDataTemplate,
-  activityData: ActivityDataTemplate,
+  activityData: ActivityData[],
   lastMonth ?: Date | null
 }) => {
   const weekArr: React.SVGProps<SVGGElement>[] = [];
