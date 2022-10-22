@@ -1,6 +1,6 @@
 import calculateDays from "./helperFunc/calculateDays";
 import GridMonth from "./GridMonth";
-import { endOfMonth, differenceInCalendarWeeks, startOfMonth } from "date-fns";
+import { endOfMonth, differenceInCalendarWeeks, startOfMonth, subMonths } from "date-fns";
 import { memo, useEffect, useMemo, useState } from "react";
 import { fetchActivityData } from "../../../../store/reducers/dashboard/dashboardReducer";
 import { RootState } from "../../../../store/rootReducer";
@@ -48,10 +48,9 @@ const GridSumbissionBanner = (): JSX.Element => {
   }, [pastYearData]);
   const { dataTemplate, startDate, endDate } = calculateDays();
   let weekAccumulator = -differenceInCalendarWeeks(
-    endOfMonth(startDate),
-    startDate
-  );
-
+    startDate,
+    startOfMonth(subMonths(startDate, 1))
+  )
   return (
     <div id="dashboard-grid-banner">
       {status === "loading" && (
@@ -72,7 +71,7 @@ const GridSumbissionBanner = (): JSX.Element => {
         </div>
       )}
       <div id="dashboard-grid">
-        {!pastYearData && status === "success" && (
+        {pastYearData && status === "success" && (
           <svg
             id="dashboard-inner-grid"
             viewBox={`0 0 ${
@@ -87,6 +86,7 @@ const GridSumbissionBanner = (): JSX.Element => {
                 weekAccumulator +
                 1;
               const overallX = calenderWeekDiff * 103;
+              console.log(currMonthStart, lastMonthStart, calenderWeekDiff)
               const currDate = new Date(
                 data.year,
                 data.month,
