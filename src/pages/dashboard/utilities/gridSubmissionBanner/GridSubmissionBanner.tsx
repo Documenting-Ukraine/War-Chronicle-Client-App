@@ -1,39 +1,52 @@
 import calculateDays from "./helperFunc/calculateDays";
 import GridMonth from "./GridMonth";
 import { endOfMonth, differenceInCalendarWeeks, startOfMonth } from "date-fns";
-import { memo, useEffect } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { fetchActivityData } from "../../../../store/reducers/dashboard/dashboardReducer";
 import { RootState } from "../../../../store/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { useRealmApp } from "../../../../realm/RealmApp";
 import LoadingIcon from "../../../utilityComponents/loadingIcon/LoadingIcon";
+import generateMapOfActivities from "./helperFunc/generateMapOfActivity";
+const monthNames = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 const GridSumbissionBanner = (): JSX.Element => {
   const activityData = useSelector(
     (state: RootState) => state.dashboard.pastYearActivityData
   );
-  const pastYearData = activityData.data;
-  const status = activityData.status
+  const pastYearData = useMemo(
+    () => (activityData.data ? activityData.data.data : []),
+    [activityData.data]
+  );
+  const status = activityData.status;
   const app = useRealmApp();
   const dispatch = useDispatch();
-
+  const [calculatedData, setCalculatedData] = useState<{
+    [key: string]: number;
+  }>({});
   useEffect(() => {
     if (!pastYearData) dispatch(fetchActivityData(app));
   }, [dispatch, pastYearData, app]);
+  useEffect(() => {
+    generateMapOfActivities(pastYearData)
+      .then((newResults) => {
+        setCalculatedData(newResults);
+      })
+      .catch((e) => console.error(e));
+  }, [pastYearData]);
   const { dataTemplate, startDate, endDate } = calculateDays();
-  const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
   let weekAccumulator = -differenceInCalendarWeeks(
     endOfMonth(startDate),
     startDate
@@ -95,7 +108,7 @@ const GridSumbissionBanner = (): JSX.Element => {
                 >
                   <GridMonth
                     monthData={data}
-                    activityData={{}}
+                    activityData={calculatedData}
                     lastMonth={last}
                   />
                   <text y={880} x={alignTextX} className="month-name">
