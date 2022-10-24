@@ -74,6 +74,10 @@ $namespace: "about-pg";
     border-radius: 0.3rem;
     background-color: $darkest-blue;
     color: $white;
+    transition: transform 0.2s ease-out;
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 }
 ##{$namespace}-explore-header {
@@ -96,6 +100,10 @@ $namespace: "about-pg";
     padding: 3%;
     width: calc(100% / 3);
     min-width: 15rem;
+    transition: transform 0.2s ease-out;
+    &:hover {
+      transform: scale(1.05) translateY(-5%);
+    }
   }
   .#{$sub-namespace} {
     text-decoration: none;
