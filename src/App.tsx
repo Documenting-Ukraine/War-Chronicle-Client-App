@@ -7,7 +7,9 @@ import {
   RequireNonGuestAccount,
   RequireNoUser,
 } from "./pages/utilityComponents/protectedRoute/ProtectedRoute";
-const CategoriesPage = React.lazy(() => import("./pages/categoriesPage/CategoriesPage")) ;
+const CategoriesPage = React.lazy(
+  () => import("./pages/categoriesPage/CategoriesPage")
+);
 const FormPage = React.lazy(() => import("./pages/authPage/FormPage"));
 const HomePage = React.lazy(() => import("./pages/homePage/HomePage"));
 const AboutPage = React.lazy(() => import("./pages/aboutPage/AboutPage"));
@@ -134,6 +136,16 @@ function App() {
               </Route>
             </Route>
             <Route
+              path="all-contributions"
+              element={
+                <RequireNonGuestAndOwner path="/dashboard">
+                  <NavWrapper>
+                    <DashboardSubpages subPageType="user-contributions" />
+                  </NavWrapper>
+                </RequireNonGuestAndOwner>
+              }
+            />
+            <Route
               path="forms/*"
               element={
                 <RequireNonGuestAccount>
@@ -182,9 +194,9 @@ function App() {
             <Route
               path=":recordType/:id"
               element={
-                  <NavWrapper>
-                    <RecordPage />
-                  </NavWrapper>
+                <NavWrapper>
+                  <RecordPage />
+                </NavWrapper>
               }
             ></Route>
           </Route>

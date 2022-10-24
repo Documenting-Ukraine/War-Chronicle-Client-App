@@ -76,7 +76,7 @@ const CategoriesPage = () => {
       data: RecordSubmissionType[];
       status: "loading" | "failed" | "success";
       nextPagination?: DebouncedFunc<
-        (e: React.UIEvent<HTMLElement, UIEvent>) => Promise<void>
+        (e: React.UIEvent<HTMLElement, UIEvent>) => Promise<any>
       >;
       paginationEnd?: boolean;
     };

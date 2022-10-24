@@ -55,7 +55,7 @@ const RecentListAlert = () => {
     <div className="recent-list-banner-alert">
       <div className="grid-err-alert">
         <div>
-          Something went wrong. Please try again later or contact{" "}
+          Something went wrong. Please refresh and try again or contact{" "}
           {" " + process.env.REACT_APP_SUPPORT_EMAIL}
         </div>
       </div>

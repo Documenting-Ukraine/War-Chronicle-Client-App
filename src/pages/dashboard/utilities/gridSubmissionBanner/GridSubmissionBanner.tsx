@@ -1,6 +1,6 @@
 import calculateDays from "./helperFunc/calculateDays";
 import GridMonth from "./GridMonth";
-import { endOfMonth, differenceInCalendarWeeks, startOfMonth, subMonths } from "date-fns";
+import { differenceInCalendarWeeks, startOfMonth, subMonths } from "date-fns";
 import { memo, useEffect, useMemo, useState } from "react";
 import { fetchActivityData } from "../../../../store/reducers/dashboard/dashboardReducer";
 import { RootState } from "../../../../store/rootReducer";
@@ -50,7 +50,7 @@ const GridSumbissionBanner = (): JSX.Element => {
   let weekAccumulator = -differenceInCalendarWeeks(
     startDate,
     startOfMonth(subMonths(startDate, 1))
-  )
+  );
   return (
     <div id="dashboard-grid-banner">
       {status === "loading" && (
@@ -65,7 +65,7 @@ const GridSumbissionBanner = (): JSX.Element => {
       {status === "failed" && (
         <div className="dashboard-grid-err-alert">
           <div>
-            Something went wrong. Please try again later or contact{" "}
+            Something went wrong. Please refresh and try again or contact{" "}
             {" " + process.env.REACT_APP_SUPPORT_EMAIL}
           </div>
         </div>
@@ -86,7 +86,6 @@ const GridSumbissionBanner = (): JSX.Element => {
                 weekAccumulator +
                 1;
               const overallX = calenderWeekDiff * 103;
-              console.log(currMonthStart, lastMonthStart, calenderWeekDiff)
               const currDate = new Date(
                 data.year,
                 data.month,

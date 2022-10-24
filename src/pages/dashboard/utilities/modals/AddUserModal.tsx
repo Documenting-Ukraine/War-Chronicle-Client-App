@@ -119,7 +119,7 @@ const AddUserModal = ({
         setIsLoading(false);
         setError({
           err: true,
-          message: `Something went wrong. We could not process your request. Please try again in a few minutes, or contact ${process.env.REACT_APP_SUPPORT_EMAIL}`,
+          message: `Something went wrong. We could not process your request. Please refresh and try again or contact ${process.env.REACT_APP_SUPPORT_EMAIL}`,
         });
       });
     }

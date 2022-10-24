@@ -136,7 +136,7 @@ const DashboardUserList = () => {
       </div>
       {userListStatus === "failed" && (
         <div className={`dashboard-user-search-alert`}>
-          Something went wrong. Please try again later, or contact
+          Something went wrong. Please refresh and try again, or contact
           {" " + process.env.REACT_APP_SUPPORT_EMAIL}
         </div>
       )}

@@ -44,6 +44,15 @@ const validateQuery = (searchQuery: string) => {
   if (isSearchQuery(parsedQuery)) query = parsedQuery;
   return query;
 };
+const scrollEventBottom = (e: React.UIEvent<HTMLElement, UIEvent>) => {
+  const el = e.target as HTMLDivElement;
+  //we take the height of the last element, and load the new items when we
+  // reach the last item to have a smoother pagination experience
+  const childEl = el.lastChild as HTMLAnchorElement;
+  const childHeight = childEl.offsetHeight;
+  //ignore all events that happens prior to this
+  return el.scrollTop === 0 || el.offsetHeight - childHeight > el.scrollTop;
+};
 const nextPagination = async ({
   app,
   e,
@@ -63,7 +72,7 @@ const nextPagination = async ({
   pageNum: number;
   status?: "loading" | "success" | "failed";
   pagination?: boolean;
-  e: React.UIEvent<HTMLElement, UIEvent>;
+  e?: React.UIEvent<HTMLElement, UIEvent>;
   setStatus: React.Dispatch<
     React.SetStateAction<"loading" | "success" | "failed">
   >;
@@ -74,14 +83,8 @@ const nextPagination = async ({
   if (!pagination) return;
   if (status === "loading") return;
   if (paginationEnd) return;
-  const el = e.target as HTMLDivElement;
-  //we take the height of the last element, and load the new items when we
-  // reach the last item to have a smoother pagination experience
-  const childEl = el.lastChild as HTMLAnchorElement;
-  const childHeight = childEl.offsetHeight;
-  //ignore all events that happens prior to this
-  if (el.scrollTop === 0 || el.offsetHeight - childHeight > el.scrollTop)
-    return;
+  //only perform this if a scroll event is passed
+  if (e && scrollEventBottom(e)) return;
   setStatus("loading");
   try {
     const result = await searchResults({
@@ -95,8 +98,9 @@ const nextPagination = async ({
       setPaginationEnd(result.paginationEnd);
       setStatus("success");
     });
-  } catch (e) {
-    console.error(e);
+    return result;
+  } catch (err) {
+    console.error(err);
     console.trace();
     setStatus("failed");
   }
@@ -119,7 +123,7 @@ const useFetchRecordData = ({
   const debouncedNextPagination = useMemo(
     () =>
       debounce(
-        (e) =>
+        (e?: React.UIEvent<HTMLElement, UIEvent>) =>
           nextPagination({
             e,
             app,

@@ -69,7 +69,7 @@ export const fetchRecordFormData = async ({
 
   if (isFetchRecordFormsResult(recordFormData)) {
     const data = serializeObjects(recordFormData, true);
-    if(isFetchRecordFormsResult(data)) return data //console.log(data)
+    if(isFetchRecordFormsResult(data)) return data 
   }
   return null;
 };
