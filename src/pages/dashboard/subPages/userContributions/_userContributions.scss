@@ -21,10 +21,11 @@ $namespace: "dashboard-all-contributions";
   background-color: $dark-blue;
   font-size: 1.1rem;
   color: white;
-  padding: 0.2rem 0.7rem;
+  padding: 0.3rem 0.8rem;
   border: 1px solid $white;
   border-radius: 0.4rem;
   transition: all ease-in 0.2s;
+  margin-bottom: 1.5rem;
   &:hover {
     color: rgba(255, 255, 255, 0.8);
     transform: scale(1.05);

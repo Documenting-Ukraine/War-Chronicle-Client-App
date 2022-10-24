@@ -1,0 +1,6 @@
+@mixin user-contributions-sm {
+  $namespace: "dashboard-all-contributions";
+  .#{$namespace}-back-btn {
+    align-self: center;
+  }
+}

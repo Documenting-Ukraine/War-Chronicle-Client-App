@@ -1,3 +1,4 @@
+@import "./subPages/userContributions/userContributionsBreakPoints";
 @mixin dashboard-sm {
   .dashboard-user-column {
     &.Name {
@@ -6,7 +7,7 @@
         justify-content: start;
       }
     }
-  };
+  }
   // #dashboard-review-requests-title {
   //   font-size: 1.5rem;
   //   margin-bottom: 1.6rem;
@@ -22,7 +23,7 @@
   }
   .dashboard-request-card-action-btns {
     width: 100%;
-    button{
+    button {
       width: 100%;
       font-size: 0.85rem;
     }
@@ -31,6 +32,7 @@
     padding: 1rem 1rem;
     font-size: 1rem;
   }
+  @include user-contributions-sm;
 }
 @mixin dashboard-md {
   .dashboard-action-cards {
@@ -44,26 +46,26 @@
   }
   #dashboard-user-search {
     width: 100%;
-  };
+  }
   // #dashboard-review-requests-inner {
   //   padding: 0 1rem;
   // }
   // #dashboard-review-requests-header {
   //   padding-bottom: 1rem;
   // }
-  .dashboard-request-card-content{
+  .dashboard-request-card-content {
     flex-direction: column;
   }
-  .dashboard-request-card-general-info{
+  .dashboard-request-card-general-info {
     width: 100%;
   }
-  .dashboard-request-card-purpose-container{
+  .dashboard-request-card-purpose-container {
     width: 100%;
     .purpose-expand-btn {
       justify-content: center;
     }
   }
-  .dashboard-request-card-footer{
+  .dashboard-request-card-footer {
     justify-content: center;
     padding-bottom: 1rem;
   }
