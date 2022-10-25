@@ -22,12 +22,12 @@ const termsData = {
   heading: "Terms",
   links: [
     {
-      route: "/policies",
+      route: "/terms/#privacy-policy",
       textContent: "Privacy Policy",
       externalLink: false,
     },
     {
-      route: "/policies",
+      route: "/terms/#cookie-policy",
       textContent: "Cookie Policy",
       externalLink: false,
     },

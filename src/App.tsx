@@ -7,6 +7,9 @@ import {
   RequireNonGuestAccount,
   RequireNoUser,
 } from "./pages/utilityComponents/protectedRoute/ProtectedRoute";
+const TermsAndConditions = React.lazy(
+  () => import("./pages/termsAndConditionsPage/TermsAndConditions")
+);
 const CategoriesPage = React.lazy(
   () => import("./pages/categoriesPage/CategoriesPage")
 );
@@ -60,6 +63,7 @@ function App() {
               </NavWrapper>
             }
           />
+          <Route path={"terms/*"} element={<TermsAndConditions />} />
           <Route path="/dashboard/:id">
             <Route
               index
