@@ -17,18 +17,28 @@ const PolicyBody = ({
     </div>
   );
 };
+const TermsContainer = ({ children }: { children?: string | JSX.Element }) => {
+  return (
+    <div id={`${namespace}-terms-container`}>
+      <div id={`${namespace}-terms-header`}>
+        <FontAwesomeIcon icon={faFileContract} />
+        <h1>Terms and Conditions</h1>
+      </div>
+      {typeof children === "string" ? <p>{children}</p> : children}
+    </div>
+  );
+};
 const TermsAndConditions = () => {
   return (
-    <div>
-      <div>
-        <div>
-          <FontAwesomeIcon icon={faFileContract} />
-          <h1>Terms and Conditions</h1>
-        </div>
-        <p></p>
+    <div id={`${namespace}-pg`}>
+      <div id={`${namespace}-pg-container`}>
+        <TermsContainer></TermsContainer>
+        <PolicyBody id={"cookie-policy"} heading={"Cookie Policy"}></PolicyBody>
+        <PolicyBody
+          id={"privacy-policy"}
+          heading={"Privacy Policy"}
+        ></PolicyBody>
       </div>
-      <PolicyBody id={"cookie-policy"} heading={"Cookie Policy"}></PolicyBody>
-      <PolicyBody id={"privacy-policy"} heading={"Privacy Policy"}></PolicyBody>
     </div>
   );
 };
