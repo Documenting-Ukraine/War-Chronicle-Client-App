@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 export const ActionCard = ({
   header,
@@ -16,6 +16,7 @@ export const ActionCard = ({
   onClick?: () => void;
   linkRoute?: string;
 }) => {
+  const navigate = useNavigate();
   const content = (
     <>
       <div className="action-card-header">
@@ -33,7 +34,13 @@ export const ActionCard = ({
         </button>
       )}
       {type === "link" && (
-        <Link to={linkRoute ? linkRoute : ""} className="action-card">
+        <Link
+          to={linkRoute ? linkRoute : ""}
+          className="action-card"
+          onClick={(e) => {
+            if (onClick) onClick();
+          }}
+        >
           {content}
         </Link>
       )}

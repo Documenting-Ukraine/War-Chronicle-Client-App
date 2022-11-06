@@ -55,11 +55,9 @@ const MediaAndDisinformationPage = ({
         </RecordContentDataRow>
       )}
       {data.notes && (
-        <li className="w-100">
-          <RecordContentDataRow heading="Notes: ">
-            <>{data.notes}</>
-          </RecordContentDataRow>
-        </li>
+        <RecordContentDataRow heading="Notes: ">
+          <>{data.notes}</>
+        </RecordContentDataRow>
       )}
     </>
   );

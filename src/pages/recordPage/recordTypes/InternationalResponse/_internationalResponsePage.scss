@@ -1,0 +1,14 @@
+$generalNamespace: "record-pg";
+$currNamespace: "international-pg";
+.#{$currNamespace}-permission-granted {
+  display: flex;
+  align-items: center;
+  .#{$generalNamespace}-date-item {
+    font-style: normal;
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    color: $darkest-gray;
+    line-height: 1.4rem;
+  }
+}

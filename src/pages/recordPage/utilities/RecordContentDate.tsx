@@ -1,8 +1,10 @@
 export const RecordContentDate = ({
+  lineSpace = true,
   date,
   prefix,
   namespace,
 }: {
+  lineSpace?: boolean;
   date: string | Date;
   prefix: string;
   namespace: string;
@@ -10,7 +12,7 @@ export const RecordContentDate = ({
   return (
     <span className={`${namespace}-date-item`}>
       {prefix}
-      <br />
+      {lineSpace && <br />}
       {new Date(date).toLocaleString("en-us", {
         month: "short",
         day: "2-digit",

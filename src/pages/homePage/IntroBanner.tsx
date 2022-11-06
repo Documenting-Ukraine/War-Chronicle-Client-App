@@ -44,12 +44,14 @@ const WelcomeActions = ({ namespace }: { namespace: string }) => {
   return (
     <div className={`${namespace}-banner-action-cards`}>
       <ActionCard
+        linkRoute="/search"
         icon={faSearch}
         header="Search Archive"
         type="link"
         description="View and search the war archive. Updated daily with verified content."
       />
       <ActionCard
+        linkRoute={`/forms/join`}
         icon={faPeopleGroup}
         header="Become a Contributor"
         type="link"

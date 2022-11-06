@@ -8,14 +8,15 @@ import {
 import RecordContentDataRow from "../../utilities/RecordContentDataRow";
 import RecordContentDate from "../../utilities/RecordContentDate";
 import RecordContentListItem from "../../utilities/RecordContentListItem";
-const namespace = "record-pg";
+const generalNamespace = "record-pg";
+const internationalNamespace = "international-pg";
 const AidForm = (data: MilitaryAid | HumanitarianAid) => {
   return (
     <>
       <RecordContentDataRow heading="Aid: ">
         <ul>
           <RecordContentListItem heading="Type: ">
-            {data.general_aid_type}
+            {data.international_response_type}
           </RecordContentListItem>
 
           <RecordContentListItem heading="Valuation: ">
@@ -25,25 +26,28 @@ const AidForm = (data: MilitaryAid | HumanitarianAid) => {
             <RecordContentDate
               date={data.date_aid_is_announced}
               prefix={""}
-              namespace={namespace}
+              lineSpace={false}
+              namespace={generalNamespace}
             />
           </RecordContentListItem>
         </ul>
       </RecordContentDataRow>
       <RecordContentDataRow heading="Has Aid Been Recieved? ">
-        <>
-          {data.aid_sent === "Yes" && data.date_aid_is_sent ? (
-            <RecordContentDate
-              date={data.date_aid_is_sent}
-              prefix={"Sent on"}
-              namespace={namespace}
-            />
-          ) : data.aid_sent === "No" ? (
-            "Aid Not Sent"
-          ) : (
-            "N/A"
+        <ul>
+          <RecordContentListItem heading="Aid Sent: ">
+            {data.aid_sent ? data.aid_sent : "N/A"}
+          </RecordContentListItem>
+          {data.aid_sent === "Yes" && data.date_aid_is_sent && (
+            <RecordContentListItem heading="Date Sent: ">
+              <RecordContentDate
+                date={data.date_aid_is_sent}
+                prefix={""}
+                lineSpace={false}
+                namespace={generalNamespace}
+              />
+            </RecordContentListItem>
           )}
-        </>
+        </ul>
       </RecordContentDataRow>
     </>
   );
@@ -68,20 +72,28 @@ const CombatPermissionForm = (data: CombatPermission) => {
         </ul>
       </RecordContentDataRow>
       <RecordContentDataRow heading="Citizens Granted Combat Permission?">
-        <>
+        <ul>
+          <RecordContentListItem heading="Permission Granted: ">
+            <>
+              {data.permission_granted_to_citizens
+                ? data.permission_granted_to_citizens
+                : "N/A"}
+            </>
+          </RecordContentListItem>
           {data.permission_granted_to_citizens === "Yes" &&
-          data.date_permission_granted ? (
-            <RecordContentDate
-              date={data.date_permission_granted}
-              prefix={"Permission Granted On"}
-              namespace={namespace}
-            />
-          ) : data.permission_granted_to_citizens === "No" ? (
-            "Permission Not Granted"
-          ) : (
-            "N/A"
-          )}
-        </>
+            data.date_permission_granted && (
+              <RecordContentListItem heading="Date Granted: ">
+                <div className={`${internationalNamespace}-permission-granted`}>
+                  <RecordContentDate
+                    lineSpace={false}
+                    date={data.date_permission_granted}
+                    prefix={""}
+                    namespace={generalNamespace}
+                  />
+                </div>
+              </RecordContentListItem>
+            )}
+        </ul>
       </RecordContentDataRow>
     </>
   );
