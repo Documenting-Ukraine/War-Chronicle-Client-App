@@ -196,6 +196,10 @@ function App() {
           <Route path="records/*">
             <Route index element={<Navigate to={"/search"}></Navigate>} />
             <Route
+              path=":recordType"
+              element={<Navigate to={"/search"}></Navigate>}
+            />
+            <Route
               path=":recordType/:id"
               element={
                 <NavWrapper>
