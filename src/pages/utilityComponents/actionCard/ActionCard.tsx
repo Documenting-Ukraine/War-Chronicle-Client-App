@@ -16,7 +16,6 @@ export const ActionCard = ({
   onClick?: () => void;
   linkRoute?: string;
 }) => {
-  const navigate = useNavigate();
   const content = (
     <>
       <div className="action-card-header">
