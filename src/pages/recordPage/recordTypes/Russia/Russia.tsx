@@ -10,7 +10,7 @@ import RecordContentDate from "../../utilities/RecordContentDate";
 import RecordContentListItem from "../../utilities/RecordContentListItem";
 const SanctionsPage = ({ data }: { data: Sanctions }) => {
   const countriesInvolved = data.countries
-    ? data.countries.reduce((a, b) => `${a}, ${b}`, "")
+    ? data.countries.reduce((a, b) => `${a}, ${b}`)
     : "";
   return (
     <>
@@ -49,7 +49,7 @@ const CorporationsPage = ({ data }: { data: Corporations }) => {
       </RecordContentDataRow>
       <RecordContentDataRow heading="Response: ">
         <ul>
-          <RecordContentListItem heading="Type">
+          <RecordContentListItem heading="Type: ">
             {data.russian_record_response_type}
           </RecordContentListItem>
           {data.russian_record_response_type === "Other" &&
@@ -59,7 +59,7 @@ const CorporationsPage = ({ data }: { data: Corporations }) => {
               </RecordContentListItem>
             )}
           {data.donation_valuation && (
-            <RecordContentListItem heading="Donation Value: ">
+            <RecordContentListItem heading="Donation or Asset Value: ">
               {data.donation_valuation?.toString()}
             </RecordContentListItem>
           )}
@@ -83,7 +83,7 @@ const SportsAndCulturePage = ({ data }: { data: SportsAndCulture }) => {
       </RecordContentDataRow>
       <RecordContentDataRow heading="Response: ">
         <ul>
-          <RecordContentListItem heading="Type">
+          <RecordContentListItem heading="Type: ">
             {data.russian_record_response_type}
           </RecordContentListItem>
           {data.russian_record_response_type === "Other" &&
@@ -112,7 +112,7 @@ const SportsAndCulturePage = ({ data }: { data: SportsAndCulture }) => {
 const ProtestsInRussiaPage = ({ data }: { data: ProtestsInRussia }) => {
   return (
     <>
-      <RecordContentDataRow heading="Protest Info">
+      <RecordContentDataRow heading="Protest Info: ">
         <ul>
           {data.num_of_protesters && (
             <RecordContentListItem heading="Number of Protesters: ">
@@ -125,7 +125,7 @@ const ProtestsInRussiaPage = ({ data }: { data: ProtestsInRussia }) => {
             </RecordContentListItem>
           )}
           {data.num_of_hospitalizations && (
-            <RecordContentListItem heading="Number of Hospitalizations">
+            <RecordContentListItem heading="Number of Hospitalizations: ">
               {data.num_of_hospitalizations.toString()}
             </RecordContentListItem>
           )}

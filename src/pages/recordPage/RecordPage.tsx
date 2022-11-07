@@ -47,14 +47,19 @@ const RecordPage = () => {
     // date_first_published: new Date(),
     // date_event_occurred: new Date(),
     //end of event type
-    record_type: "Refugees And IDPs",
-    date_first_published: new Date(),
-    refugees_and_idps_type: "Refugees",
-    total_num_of_refugees: 100000,
-    host_country: {
-      country_name: "US",
-      refugees_in_host_country: 10000,
-    }
+    record_type: "Russia",
+    // date_first_published: new Date(),
+    notes: "hello the world ends",
+    russian_record_type: "Corporation Responses",
+    corporation_name: "Hello",
+    corporation_industry: "hello",
+    date_of_first_response: new Date(),
+    date_of_most_recent_response: new Date(),
+    russian_record_response_type: "Removal of Assets",
+    russian_record_custom_response_type: "Cool",
+    donation_valuation: 100000,
+    // refugees_and_idps_type: "IDPs",
+    // total_num_of_idps: 1000
   };
   let formTypeDataInputs = <></>;
   switch (data?.record_type) {
@@ -70,12 +75,12 @@ const RecordPage = () => {
     // case "Protests Abroad":
     //   formTypeDataInputs = <ProtestsAbroadPage data={data} />;
     //   break;
-    case "Refugees And IDPs":
-      formTypeDataInputs = <RefugeesAndIdpsPage data={data} />;
-      break;
-    // case "Russia":
-    //   formTypeDataInputs = <RussiaPage data={data} />;
+    // case "Refugees And IDPs":
+    //   formTypeDataInputs = <RefugeesAndIdpsPage data={data} />;
     //   break;
+    case "Russia":
+      formTypeDataInputs = <RussiaPage data={data} />;
+      break;
     // default:
     //   break;
   }

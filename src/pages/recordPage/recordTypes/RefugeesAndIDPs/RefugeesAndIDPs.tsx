@@ -10,6 +10,14 @@ const countriesMap: { [key: string]: typeof Countries[number][1] } = {};
 Countries.forEach(([key, value]) => {
   countriesMap[key] = value;
 });
+const getLocaleDate = (date: Date, prefix?: string) => {
+  return `${prefix ? prefix : ""}${new Date(date).toLocaleDateString("en-us", {
+    month: "short",
+    day: "2-digit",
+    year: "numeric",
+  })}`;
+};
+const namespace = "refugees-and-idps";
 const IDPsPage = ({ data }: { data: Idps }) => {
   return (
     <>
@@ -27,19 +35,14 @@ const RefugeesPage = ({ data }: { data: Refugees }) => {
   return (
     <>
       <RecordContentDataRow heading="Refugees Info: ">
-        <ul>
-          <RecordContentListItem
-            heading={`Total Displaced Refugees as of ${new Date(
-              data.date_first_published
-            ).toLocaleDateString("en-us", {
-              month: "short",
-              day: "2-digit",
-              year: "numeric",
-            })}: `}
-          >
-            {data.total_num_of_refugees.toString()}
+        <ul className={`${namespace}-container`}>
+          <RecordContentListItem heading={"Total Displaced Refugees: "}>
+            {data.total_num_of_refugees.toString() +
+              " (" +
+              getLocaleDate(new Date(data.date_first_published), "as of ") +
+              ")"}
           </RecordContentListItem>
-          <li>
+          <li className={`${namespace}-host-country`}>
             {data.host_country && (
               <RecordContentDataRow heading="Host Country: ">
                 <ul>
@@ -55,7 +58,13 @@ const RefugeesPage = ({ data }: { data: Refugees }) => {
                   <RecordContentListItem
                     heading={`Refugees In ${data.host_country.country_name}: `}
                   >
-                    {data.host_country.refugees_in_host_country.toString()}
+                    {data.host_country.refugees_in_host_country.toString() +
+                      " (" +
+                      getLocaleDate(
+                        new Date(data.date_first_published),
+                        "as of "
+                      ) +
+                      ")"}
                   </RecordContentListItem>
                 </ul>
               </RecordContentDataRow>

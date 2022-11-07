@@ -1,0 +1,15 @@
+$namespace:"refugees-and-idps";
+.#{$namespace}-container{
+    .record-pg-content-list-item{
+        flex-wrap: wrap;
+        align-items: center;
+    }
+}
+.#{$namespace}-host-country{
+    h4{
+        font-size: 1rem;
+    }
+    .record-pg-content-list-item{
+        margin-bottom: 0.3rem;
+    }
+}
