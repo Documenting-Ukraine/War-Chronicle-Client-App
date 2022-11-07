@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 export const ActionCard = ({
   header,
