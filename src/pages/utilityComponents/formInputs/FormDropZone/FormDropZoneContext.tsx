@@ -1,9 +1,9 @@
 import { useState, createContext, useContext } from "react";
-import { MediaFile } from "../Thumbnails";
+import { MediaFile, MediaLink } from "../Thumbnails";
 
 interface DropZoneProviderProps {
-  newImages: MediaFile[];
-  newVideos: MediaFile[];
+  newImages: (MediaFile | MediaLink)[];
+  newVideos: (MediaFile | MediaLink)[];
   storedImages: string[];
   storedVideos: string[];
   setStoredImages: React.Dispatch<React.SetStateAction<string[]>>

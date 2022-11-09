@@ -5,10 +5,12 @@ import { unstable_batchedUpdates } from "react-dom";
 import Dropzone, { DropEvent, FileRejection } from "react-dropzone";
 import LoadingIcon from "../../loadingIcon/LoadingIcon";
 import {
+  MediaLink,
   MediaFile,
   VideoThumbnail,
   ImageThumbnail,
   generateFileMap,
+  isMediaLink,
 } from "../Thumbnails";
 import { useDropZoneProvider } from "./FormDropZoneContext";
 interface FormDropZoneProps {
@@ -113,9 +115,13 @@ const FormDropZone = ({
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     return () => {
       if (mounted && mediaType === "images")
-        newImages.forEach((file) => URL.revokeObjectURL(file.preview));
+        newImages.forEach((file) => {
+          URL.revokeObjectURL(isMediaLink(file) ? file.url : file.preview);
+        });
       if (mounted && mediaType === "videos")
-        newVideos.forEach((file) => URL.revokeObjectURL(file.preview));
+        newVideos.forEach((file) => {
+          URL.revokeObjectURL(isMediaLink(file) ? file.url : file.preview);
+        });
     };
   }, [mediaType, newImages, newVideos]);
 
@@ -201,7 +207,7 @@ const FormDropZone = ({
     mediaType === "images"
       ? newImages.map((file) => (
           <ImageThumbnail
-            key={file.name}
+            key={isMediaLink(file) ? file.url : file.name}
             file={file}
             onRemoveThumbnail={onRemoveThumbnail}
           />
@@ -209,7 +215,7 @@ const FormDropZone = ({
       : mediaType === "videos"
       ? newVideos.map((file) => (
           <VideoThumbnail
-            key={file.name}
+            key={isMediaLink(file) ? file.url : file.name}
             file={file}
             onRemoveThumbnail={onRemoveThumbnail}
           />

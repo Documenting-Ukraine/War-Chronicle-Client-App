@@ -4,7 +4,10 @@ import { RootState } from "../../../../store/rootReducer";
 import { useDropZoneProvider } from "../../../utilityComponents/formInputs/FormDropZone/FormDropZoneContext";
 import { createPortal } from "react-dom";
 import { updateRecordForm } from "../../../../store/reducers/asyncActions/recordFormActions/updateRecordForms";
-import { isItemInList } from "../../../../types/dataTypes/DataLists";
+import {
+  isItemInList,
+  isSameTypeInList,
+} from "../../../../types/dataTypes/DataLists";
 import { cloneDeep } from "lodash";
 import { useNavigate } from "react-router";
 import { CategoriesList } from "../../../../types/dataTypes/CategoryIconMap";
@@ -19,6 +22,11 @@ import PopUpBg from "../../../utilityComponents/popUpBg/PopUpBg";
 import LoadingMessage from "../../../utilityComponents/loadingMessage/LoadingMessage";
 import PageBanner from "../../../utilityComponents/pageBanner/PageBanner";
 import { useEffect, useLayoutEffect } from "react";
+import {
+  isMediaFile,
+  isMediaLink,
+  MediaLink,
+} from "../../../utilityComponents/formInputs/Thumbnails";
 const RecordFormSubmitWrapper = ({
   recordType,
   children,
@@ -44,9 +52,11 @@ const RecordFormSubmitWrapper = ({
     else document.body.style.overflow = "visible";
   }, [loadingProgress.status]);
   //clean up side effect
-  useEffect(() =>{
-    return () => {document.body.style.overflow = 'visible'};
-  }, [])
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = "visible";
+    };
+  }, []);
   const createSubmission = async (fieldValues: {
     [k: string]: FormDataEntryValue;
   }) => {
@@ -67,28 +77,50 @@ const RecordFormSubmitWrapper = ({
           progressNum: 0,
         })
       );
-      const imageUpload = awsS3UploadMedia({
-        files: newImages,
-        realmToken: realmAccessToken,
-        recordType: recordType,
-        recordTitle: extractedInputs.record_title
-          ? extractedInputs.record_title
-          : "",
-      });
-      const videoUpload = awsS3UploadMedia({
-        files: newVideos,
-        realmToken: realmAccessToken,
-        recordType: recordType,
-        recordTitle: extractedInputs.record_title
-          ? extractedInputs.record_title
-          : "",
-      });
+      const newFileImages = newImages.filter((file) => !isMediaLink(file));
+      const newFileVideos = newVideos.filter((file) => !isMediaLink(file));
+      const newLinksImages = newImages.filter((file) => isMediaLink(file));
+      const newLinksVideos = newVideos.filter((file) => isMediaFile(file));
+      const imageUpload = isSameTypeInList(newFileImages, isMediaFile)
+        ? awsS3UploadMedia({
+            files: newFileImages,
+            realmToken: realmAccessToken,
+            recordType: recordType,
+            recordTitle: extractedInputs.record_title
+              ? extractedInputs.record_title
+              : "",
+          })
+        : { uploaded: [], failed: [] };
+      const videoUpload = isSameTypeInList(newFileVideos, isMediaFile)
+        ? awsS3UploadMedia({
+            files: newFileVideos,
+            realmToken: realmAccessToken,
+            recordType: recordType,
+            recordTitle: extractedInputs.record_title
+              ? extractedInputs.record_title
+              : "",
+          })
+        : { uploaded: [], failed: [] };
       const [imageUploadLinks, videoUploadLinks] = await Promise.all([
         imageUpload,
         videoUpload,
       ]);
-      imageLinks = [...imageLinks, ...imageUploadLinks.uploaded];
-      videoLinks = [...videoLinks, ...videoUploadLinks.uploaded];
+      const newLinksImagesUrls = isSameTypeInList(newLinksImages, isMediaLink)
+        ? newLinksImages.map((file) => file.url)
+        : [];
+      const newLinksVideosUrls = isSameTypeInList(newLinksVideos, isMediaLink)
+        ? newLinksVideos.map((file) => file.url)
+        : [];
+      imageLinks = [
+        ...imageLinks,
+        ...newLinksImagesUrls,
+        ...imageUploadLinks.uploaded,
+      ];
+      videoLinks = [
+        ...videoLinks,
+        ...newLinksVideosUrls,
+        ...videoUploadLinks.uploaded,
+      ];
     } catch (e) {
       console.error(e);
       dispatch(

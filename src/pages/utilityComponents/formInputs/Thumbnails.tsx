@@ -1,16 +1,40 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-export const generateFileMap = (files: MediaFileProps[]) => {
-  const map: { [key: string]: MediaFileProps } = {};
-  for (let file of files) map[file.name] = file;
-  return map;
+import { has } from "lodash";
+export type MediaLink = {
+  url: string;
+  description?: string;
+  mediaType: "image" | "video";
 };
 export type MediaFileProps = { readonly name: string; preview: string };
+export function isMediaLink(e: any): e is MediaLink {
+  try {
+    return has(e, "url") && has(e, "mediaType");
+  } catch (err) {
+    return false;
+  }
+}
+export function isMediaFile(e: any): e is MediaFile {
+  try {
+    return has(e, "name") && has(e, "preview");
+  } catch (err) {
+    return false;
+  }
+}
+export const generateFileMap = (files: (MediaFileProps | MediaLink)[]) => {
+  const map: { [key: string]: MediaFileProps | MediaLink } = {};
+  for (let file of files) {
+    if (!isMediaLink(file)) map[file.name] = file;
+    else map[file.url] = file;
+  }
+  return map;
+};
 export interface ThumbnailProps {
-  file: MediaFileProps;
+  file: MediaFileProps | MediaLink;
   onRemoveThumbnail?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
-export type MediaFile = MediaFileProps & File
+export type MediaFile = MediaFileProps & File;
+
 export const ThumbnailWrapper = ({
   children,
   file,
@@ -21,7 +45,7 @@ export const ThumbnailWrapper = ({
   return (
     <>
       <button
-        data-file-name={file.name}
+        data-file-name={isMediaLink(file) ? file.url : file.name}
         className="remove-thumbnail-btn"
         onClick={onRemoveThumbnail}
         aria-label="remove-file"
@@ -37,11 +61,11 @@ export const ImageThumbnail = ({ file, onRemoveThumbnail }: ThumbnailProps) => {
     <div className="form-img-thumbnail">
       <ThumbnailWrapper file={file} onRemoveThumbnail={onRemoveThumbnail}>
         <img
-          src={file.preview}
-          alt = {""}
+          src={isMediaLink(file) ? file.url : file.preview}
+          alt={""}
           // Revoke data uri after image is loaded
           onLoad={() => {
-            URL.revokeObjectURL(file.preview);
+            URL.revokeObjectURL(isMediaLink(file) ? file.url : file.preview);
           }}
         />
       </ThumbnailWrapper>
@@ -55,9 +79,9 @@ export const VideoThumbnail = ({ file, onRemoveThumbnail }: ThumbnailProps) => {
         <video>
           <source
             onLoad={() => {
-              URL.revokeObjectURL(file.preview);
+              URL.revokeObjectURL(isMediaLink(file) ? file.url : file.preview);
             }}
-            src={file.preview}
+            src={isMediaLink(file) ? file.url : file.preview}
           />
         </video>
       </ThumbnailWrapper>

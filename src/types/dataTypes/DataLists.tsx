@@ -2,6 +2,16 @@
 export interface ReadonlyArray<T> {
   includes<U>(x: U & (T & U extends never ? never : unknown)): boolean;
 }
+export function isSameTypeInList<T>(
+  e: any[],
+  validateFunc: (a: any) => a is T
+): e is T[] {
+  try {
+    return e.every((item) => validateFunc(item));
+  } catch (err) {
+    return false;
+  }
+}
 export const isInList = (e: string, a: readonly any[]) => {
   try {
     return a.includes(e);
@@ -9,7 +19,7 @@ export const isInList = (e: string, a: readonly any[]) => {
     return false;
   }
 };
-export function isItemInList<S>(e: any, arr: readonly S[]): e is S{
+export function isItemInList<S>(e: any, arr: readonly S[]): e is S {
   try {
     return arr.includes(e);
   } catch (a) {
@@ -300,7 +310,8 @@ export const ResponseType = [
   "Removal of Offices",
   "Removal of Assets",
   "Removal of Products or Services",
-  "Donation", 
-  "Other"
+  "Donation",
+  "Other",
 ] as const;
-export const isResponseType = (e: string): e is typeof ResponseType[number] => isInList(e, ResponseType)
+export const isResponseType = (e: string): e is typeof ResponseType[number] =>
+  isInList(e, ResponseType);
