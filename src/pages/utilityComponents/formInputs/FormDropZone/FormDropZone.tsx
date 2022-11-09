@@ -4,7 +4,6 @@ import React, { useState, useEffect, memo } from "react";
 import { unstable_batchedUpdates } from "react-dom";
 import Dropzone, { DropEvent, FileRejection } from "react-dropzone";
 import LoadingIcon from "../../loadingIcon/LoadingIcon";
-//import { generateFilesFromUrl } from "./generateFilesFromUrl";
 import {
   MediaFile,
   VideoThumbnail,
@@ -126,9 +125,6 @@ const FormDropZone = ({
   const onDragLeave = () => {
     setIsOver(false);
   };
-  // const getFileFromEvent = () => {
-  //   setIsLoading(true);
-  // };
   const onDrop = (
     acceptedFiles: File[],
     fileRejections: FileRejection[],
