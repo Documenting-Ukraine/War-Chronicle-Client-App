@@ -21,6 +21,7 @@ interface FormDropZoneProps {
   mediaType: "videos" | "images";
   className?: string;
   defaultFiles?: string[];
+  includeThumbnails?: boolean
 }
 interface ErrorProps {
   err: boolean;
@@ -100,6 +101,7 @@ const FormDropZone = ({
   mediaType,
   className,
   defaultFiles,
+  includeThumbnails = true, 
 }: FormDropZoneProps) => {
   const { newImages, newVideos, setNewImages, setNewVideos } =
     useDropZoneProvider();
@@ -231,7 +233,6 @@ const FormDropZone = ({
         multiple
         maxSize={maxSize}
         maxFiles={maxFiles}
-        //getFilesFromEvent= {getFileFromEvent}
       >
         {({ getRootProps, getInputProps }) => {
           const inputProps = { ...getInputProps(), name: name, id: name };
@@ -289,7 +290,7 @@ const FormDropZone = ({
                 </div>
               )}
 
-              {(newThumbnails.length > 0 ||
+              {includeThumbnails && (newThumbnails.length > 0 ||
                 (defaultFiles && defaultFiles.length > 0)) && (
                 <div className="thumbnails-container">
                   {newThumbnails}

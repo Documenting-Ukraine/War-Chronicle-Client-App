@@ -29,6 +29,7 @@ import { isItemInList } from "../../../../types/dataTypes/DataLists";
 import { CategoriesList } from "../../../../types/dataTypes/CategoryIconMap";
 import { debounce } from "lodash";
 import removeAddedWhiteSpace from "../../../../helperFunctions/removeWhiteSpace";
+import RecordFormMediaInput from "./RecordFormMediaInput";
 
 export type SubmitCallbackProps = {
   recordType: string;
@@ -209,32 +210,7 @@ const RecordFormWrapper = ({
               >
                 <FormListInputs defaultValues={defaultInputs?.evidence} />
               </CustomFormInputs>
-              <CustomFormInputs
-                title="Media Files"
-                name={"mediaFiles"}
-                className="record-form-input"
-                required={false}
-              >
-                <>
-                  <FormDropZone
-                    name={"images"}
-                    mediaType={"images"}
-                    description={"Upload Images"}
-                    maxFiles={10}
-                    className={"media-form-input"}
-                    maxSize={Math.pow(10, 6) * 5}
-                    defaultFiles={defaultInputs?.media?.images}
-                  />
-                  <FormDropZone
-                    name={"videos"}
-                    defaultFiles={defaultInputs?.media?.videos}
-                    mediaType={"videos"}
-                    description={"Upload Videos"}
-                    maxFiles={10}
-                    maxSize={Math.pow(10, 8) * 5}
-                  />
-                </>
-              </CustomFormInputs>
+              <RecordFormMediaInput defaultInputs={defaultInputs}/>
               {children}
             </>
           </RecordFormSubmitWrapper>

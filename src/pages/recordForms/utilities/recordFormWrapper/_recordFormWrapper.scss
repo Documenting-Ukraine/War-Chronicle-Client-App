@@ -68,13 +68,13 @@
     display: flex;
     flex-direction: column;
   }
-  .record-form-similar-records-loading-icon{
+  .record-form-similar-records-loading-icon {
     background-color: white;
     border-radius: 0 0 0.5rem 0.5rem;
   }
 }
 
-.record-form-submit-loading-message{
+.record-form-submit-loading-message {
   background-color: white;
 }
 .record-form-submit-btn {
@@ -90,9 +90,7 @@
   margin-top: 1.8rem;
   margin-bottom: 0.5rem;
 }
-.media-form-input {
-  margin-bottom: 1rem;
-}
+
 .record-form-loading-message {
   background-color: white;
   opacity: 1;
@@ -102,6 +100,30 @@
   button {
     .exit-icon {
       stroke: $darker-gray;
+    }
+  }
+}
+//media input
+.media-form-input {
+  margin-bottom: 1rem;
+}
+.record-form-media-type-btns {
+  margin-bottom: 1.3rem;
+  button {
+    @include remove-btn-default;
+    border: 1px solid $dark-blue;
+    background-color: $dark-blue;
+    color: $white;
+    padding: 0.2rem 0.5rem;
+    &:first-child {
+      border-radius: 0.3rem 0 0 0.3rem;
+    }
+    &:last-child {
+      border-radius: 0 0.3rem 0.3rem 0;
+    }
+    &.active {
+      color: $dark-blue;
+      background-color: white;
     }
   }
 }
