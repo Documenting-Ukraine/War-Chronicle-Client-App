@@ -8,10 +8,9 @@ interface DropZoneProviderProps {
   storedVideos: string[];
   setStoredImages: React.Dispatch<React.SetStateAction<string[]>>
   setStoredVideos: React.Dispatch<React.SetStateAction<string[]>>
-  setNewImages: React.Dispatch<React.SetStateAction<MediaFile[]>>;
-  setNewVideos: React.Dispatch<React.SetStateAction<MediaFile[]>>
+  setNewImages: React.Dispatch<React.SetStateAction<(MediaFile | MediaLink)[]>>;
+  setNewVideos: React.Dispatch<React.SetStateAction<(MediaFile | MediaLink)[]>>
 }
-
 const DropZoneFileContext = createContext<DropZoneProviderProps | null>(null);
 export const useDropZoneProvider = () => {
   const context = useContext(DropZoneFileContext)
@@ -30,8 +29,8 @@ export const DropZoneProvider = ({
   };
   children: JSX.Element;
 }) => {
-  const [newImages, setNewImages] = useState<MediaFile[]>([])
-  const [newVideos, setNewVideos] = useState<MediaFile[]>([])
+  const [newImages, setNewImages] = useState<(MediaFile | MediaLink)[]>([])
+  const [newVideos, setNewVideos] = useState<(MediaFile | MediaLink)[]>([])
   const [storedImages, setStoredImages] = useState<string[]>(storedMedia?.images ? storedMedia.images : [])
   const [storedVideos, setStoredVideos] = useState<string[]>(storedMedia?.videos ? storedMedia.videos: [])
   const wrapped = {

@@ -1,8 +1,15 @@
-import { faLink, faImage } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLink,
+  faImage,
+  faPlus,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { createContext, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { MultiValue } from "react-select";
 import { RecordSubmissionType } from "../../../../types";
+import { MediaLink } from "../../../utilityComponents/formInputs/Thumbnails";
+import { v4 as uuid } from "uuid";
 import {
   isOption,
   Option,
@@ -13,11 +20,12 @@ import FormDropZone from "../../../utilityComponents/formInputs/FormDropZone/For
 import FormInputs, {
   CustomFormInputs,
 } from "../../../utilityComponents/formInputs/FormInputs";
-const MediaTypes = ["images", "videos"] as const;
+import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
+import { useDropZoneProvider } from "../../../utilityComponents/formInputs/FormDropZone/FormDropZoneContext";
+import { unstable_batchedUpdates } from "react-dom";
+import removeAddedWhiteSpace from "../../../../helperFunctions/removeWhiteSpace";
+const MediaTypes = ["Image", "Video"] as const;
 const MediaTypesList = [...transformSingleList(MediaTypes)];
-const MediaTypeContext = createContext<{
-  mediaType: typeof MediaTypes[number];
-}>({ mediaType: "images" });
 function isMediaType(e: any): e is typeof MediaTypes[number] {
   try {
     return MediaTypes.includes(e);
@@ -25,26 +33,9 @@ function isMediaType(e: any): e is typeof MediaTypes[number] {
     return false;
   }
 }
+
 const MediaWrapper = ({ children }: { children: JSX.Element }) => {
-  const [mediaType, setMediaType] = useState<typeof MediaTypes[number]>(
-    MediaTypes[0]
-  );
-  return (
-    <div>
-      <FormInputs
-        title="Media Type"
-        name={"media-type"}
-        className={"record-form-input"}
-        dropDown={MediaTypesList}
-        defaultDropDownValue={transformOptions(mediaType)}
-        customDropdownFunc={(e: Option | MultiValue<Option> | null) => {
-          if (isOption(e) && isMediaType(e.value)) setMediaType(e.value);
-        }}
-        required
-      />
-      {children}
-    </div>
-  );
+  return <div className="record-form-media-type-wrapper">{children}</div>;
 };
 const MediaThumbnails = ({
   defaultInputs,
@@ -53,41 +44,251 @@ const MediaThumbnails = ({
 }) => {
   return <div className="record-form-media-thumbnails"></div>;
 };
-
+export type MediaLinkInputProps = {
+  url: string;
+  mediaType: string;
+  description?: string;
+  idx: number;
+};
+const MediaLinkInput = ({
+  idx,
+  defaultInput,
+  callback,
+  id,
+  deleteMediaLinkInput,
+}: {
+  idx: number;
+  id: string;
+  deleteMediaLinkInput: (e: string) => void;
+  defaultInput?: {
+    mediaType: string;
+    url: string;
+    description?: string;
+  };
+  callback?: ({
+    url,
+    mediaType,
+    description,
+    idx,
+  }: MediaLinkInputProps) => void;
+}) => {
+  const [mediaType, setMediaType] = useState<"Video" | "Image">(
+    defaultInput && isMediaType(defaultInput.mediaType)
+      ? defaultInput.mediaType
+      : "Image"
+  );
+  const [url, setURL] = useState(
+    defaultInput && defaultInput.url ? defaultInput.url : ""
+  );
+  const [description, setDescription] = useState(
+    defaultInput && defaultInput.description ? defaultInput.description : ""
+  );
+  //update callback with data
+  useEffect(() => {
+    if (callback) callback({ url, description, mediaType, idx });
+  }, [mediaType, url, description, idx, callback]);
+  return (
+    <MediaWrapper>
+      <>
+        <button
+          aria-label={`delete-link-${idx}`}
+          onClick={() => deleteMediaLinkInput(id)}
+        >
+          Delete <FontAwesomeIcon icon={faTrash} /> 
+        </button>
+        <FormInputs
+          title="Media Type"
+          name={"media-type"}
+          className={"record-form-input"}
+          dropDown={MediaTypesList}
+          defaultDropDownValue={transformOptions(
+            mediaType[0].toUpperCase() +
+              mediaType.substring(1, mediaType.length)
+          )}
+          customDropdownFunc={(e: Option | MultiValue<Option> | null) => {
+            if (isOption(e) && isMediaType(e.value)) setMediaType(e.value);
+          }}
+          required
+        />
+        <FormInputs
+          title="URL"
+          name="media-link-url"
+          className="record-form-input"
+          defaultValue={url}
+          customValidation={(e) => {
+            setURL(e);
+            return { err: false, message: "" };
+          }}
+        />
+        <FormInputs
+          title="Description"
+          name="media-link-description"
+          className="record-form-input record-form-media-link-input-description"
+          textArea={true}
+          defaultValue={description}
+          customValidation={(e) => {
+            setDescription(e);
+            return { err: false, message: "" };
+          }}
+          required={false}
+        />
+      </>
+    </MediaWrapper>
+  );
+};
 const MediaLinks = ({
   defaultInputs,
 }: {
   defaultInputs?: RecordSubmissionType;
 }) => {
-  return <div className="record-form-media-links"></div>;
+  const { newImages, newVideos, setNewImages, setNewVideos } =
+    useDropZoneProvider();
+  const [mediaLinksList, setMediaLinksList] = useState<
+    (MediaLink & { id: string })[]
+  >([
+    {
+      id: uuid(),
+      mediaType: "image",
+      description: "",
+      url: "",
+    },
+  ]);
+  const updateMediaLink = useCallback(
+    () =>
+      ({ url, description, mediaType, idx }: MediaLinkInputProps) =>
+        setMediaLinksList((e) => {
+          const newArr = [...e];
+          const newValue: MediaLink & { id: string } = {
+            url,
+            description,
+            mediaType: mediaType === "Image" ? "image" : "video",
+            id: uuid(),
+          };
+          newArr[idx] = newValue;
+          return newArr;
+        }),
+    []
+  );
+  const deleteMediaLinkInput = (id: string) =>
+    setMediaLinksList((e) => e.filter((i) => i.id !== id));
+  return (
+    <>
+      <div className="record-form-media-links">
+        {mediaLinksList.map((e, idx) => (
+          <MediaLinkInput
+            key={e.id}
+            idx={idx}
+            id={e.id}
+            deleteMediaLinkInput={deleteMediaLinkInput}
+            defaultInput={{
+              ...e,
+              mediaType: e.mediaType === "image" ? "Image" : "Video",
+            }}
+            callback={updateMediaLink}
+          />
+        ))}
+      </div>
+
+      <div className="record-form-media-links-action-btns">
+        <button
+          type="button"
+          aria-label="add-media-link"
+          onClick={() =>
+            setMediaLinksList((e) => {
+              const copy = [...e];
+              copy.push({
+                id: uuid(),
+                url: "",
+                description: "",
+                mediaType: "image",
+              });
+              return copy;
+            })
+          }
+        >
+          <FontAwesomeIcon icon={faPlus} /> Add Link
+        </button>
+        <button
+          type="button"
+          aria-label="save-media-links"
+          onClick={() => {
+            //validate urls before saving
+            if (
+              !mediaLinksList.every(
+                (e) =>
+                  removeAddedWhiteSpace(e.url).length > 0 &&
+                  (e.mediaType === "image" || e.mediaType === "video")
+              )
+            )
+              return;
+            const videos = mediaLinksList.filter(
+              (e) => e.mediaType === "video"
+            );
+            const images = mediaLinksList.filter(
+              (e) => e.mediaType === "image"
+            );
+            unstable_batchedUpdates(() => {
+              setNewVideos((e) => [...e, ...videos]);
+              setNewImages((e) => [...e, ...images]);
+              setMediaLinksList([]);
+            });
+          }}
+        >
+          <FontAwesomeIcon icon={faFloppyDisk} />
+          Save
+        </button>
+      </div>
+    </>
+  );
 };
 const MediaDropZones = ({
   defaultInputs,
 }: {
   defaultInputs?: RecordSubmissionType;
 }) => {
+  const [mediaType, setMediaType] = useState<"Video" | "Image">("Image");
   return (
-    <div className="record-form-media-dropzones">
-      <FormDropZone
-        name={"images"}
-        mediaType={"images"}
-        description={"Upload Images"}
-        maxFiles={10}
-        className={"media-form-input"}
-        maxSize={Math.pow(10, 6) * 5}
-        defaultFiles={defaultInputs?.media?.images}
-        includeThumbnails={true}
+    <>
+      <FormInputs
+        title="Media Type"
+        name={"media-type"}
+        className={"record-form-input"}
+        dropDown={MediaTypesList}
+        defaultDropDownValue={transformOptions(
+          mediaType[0].toUpperCase() + mediaType.substring(1, mediaType.length)
+        )}
+        customDropdownFunc={(e: Option | MultiValue<Option> | null) => {
+          if (isOption(e) && isMediaType(e.value)) setMediaType(e.value);
+        }}
+        required
       />
-      <FormDropZone
-        name={"videos"}
-        defaultFiles={defaultInputs?.media?.videos}
-        mediaType={"videos"}
-        description={"Upload Videos"}
-        maxFiles={10}
-        maxSize={Math.pow(10, 8) * 5}
-        includeThumbnails={false}
-      />
-    </div>
+      <div className="record-form-media-dropzones">
+        {mediaType === "Image" && (
+          <FormDropZone
+            name={"images"}
+            mediaType={"images"}
+            description={"Upload Images"}
+            maxFiles={10}
+            className={"media-form-input"}
+            maxSize={Math.pow(10, 6) * 5}
+            defaultFiles={defaultInputs?.media?.images}
+            includeThumbnails={true}
+          />
+        )}
+        {mediaType === "Video" && (
+          <FormDropZone
+            name={"videos"}
+            defaultFiles={defaultInputs?.media?.videos}
+            className={"media-form-input"}
+            mediaType={"videos"}
+            description={"Upload Videos"}
+            maxFiles={10}
+            maxSize={Math.pow(10, 8) * 5}
+            includeThumbnails={false}
+          />
+        )}
+      </div>
+    </>
   );
 };
 const RecordFormMediaInput = ({
@@ -104,7 +305,7 @@ const RecordFormMediaInput = ({
         className="record-form-input"
         required={false}
       >
-        <>
+        <div className="record-form-media-container">
           <div className="record-form-media-type-btns">
             <button
               type="button"
@@ -125,13 +326,15 @@ const RecordFormMediaInput = ({
             </button>
           </div>
           {uploadType === "file" && (
-            <MediaDropZones defaultInputs={defaultInputs} />
+            <MediaWrapper>
+              <MediaDropZones defaultInputs={defaultInputs} />
+            </MediaWrapper>
           )}
           {uploadType === "link" && (
             <MediaLinks defaultInputs={defaultInputs} />
           )}
           <MediaThumbnails defaultInputs={defaultInputs} />
-        </>
+        </div>
       </CustomFormInputs>
     </>
   );

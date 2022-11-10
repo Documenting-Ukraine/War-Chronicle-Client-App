@@ -21,7 +21,7 @@ interface FormDropZoneProps {
   mediaType: "videos" | "images";
   className?: string;
   defaultFiles?: string[];
-  includeThumbnails?: boolean
+  includeThumbnails?: boolean;
 }
 interface ErrorProps {
   err: boolean;
@@ -101,7 +101,7 @@ const FormDropZone = ({
   mediaType,
   className,
   defaultFiles,
-  includeThumbnails = true, 
+  includeThumbnails = true,
 }: FormDropZoneProps) => {
   const { newImages, newVideos, setNewImages, setNewVideos } =
     useDropZoneProvider();
@@ -181,9 +181,13 @@ const FormDropZone = ({
   const onRemoveThumbnail = (e: React.MouseEvent<HTMLButtonElement>) => {
     const fileName = e.currentTarget.dataset["fileName"];
     if (mediaType === "images")
-      setNewImages((files) => files.filter((file) => file.name !== fileName));
+      setNewImages((files) =>
+        files.filter((file) => isMediaLink(file) || file.name !== fileName)
+      );
     if (mediaType === "videos")
-      setNewVideos((files) => files.filter((file) => file.name !== fileName));
+      setNewVideos((files) =>
+        files.filter((file) => isMediaLink(file) || file.name !== fileName)
+      );
   };
   const onRemoveErr = (e: React.MouseEvent<HTMLButtonElement>) => {
     const fileName = e.currentTarget.dataset["fileName"];
@@ -290,13 +294,14 @@ const FormDropZone = ({
                 </div>
               )}
 
-              {includeThumbnails && (newThumbnails.length > 0 ||
-                (defaultFiles && defaultFiles.length > 0)) && (
-                <div className="thumbnails-container">
-                  {newThumbnails}
-                  {<StoredMedia mediaType={mediaType} files={defaultFiles} />}
-                </div>
-              )}
+              {includeThumbnails &&
+                (newThumbnails.length > 0 ||
+                  (defaultFiles && defaultFiles.length > 0)) && (
+                  <div className="thumbnails-container">
+                    {newThumbnails}
+                    {<StoredMedia mediaType={mediaType} files={defaultFiles} />}
+                  </div>
+                )}
             </section>
           );
         }}

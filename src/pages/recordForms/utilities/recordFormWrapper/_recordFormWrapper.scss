@@ -104,11 +104,17 @@
   }
 }
 //media input
+.record-form-media-container {
+  padding: 1.5rem;
+  border: 2px solid $light-gray;
+  border-radius: 0.5rem;
+}
 .media-form-input {
-  margin-bottom: 1rem;
+  //margin-bottom: 1rem;
+  background-color: $white;
 }
 .record-form-media-type-btns {
-  margin-bottom: 1.3rem;
+  margin-bottom: 1.5rem;
   button {
     @include remove-btn-default;
     border: 1px solid $dark-blue;
@@ -127,3 +133,46 @@
     }
   }
 }
+.record-form-media-type-wrapper {
+  padding: 1.2rem;
+  border-radius: 0.5rem;
+  background-color: $lighter-blue;
+  color: $dark-blue;
+  border: 1px solid $dark-blue;
+}
+.record-form-media-links{
+  .record-form-media-type-wrapper{
+    margin-bottom: 1.5rem;
+    &:last-child{
+      margin-bottom: 0;
+    }
+  }
+}
+.record-form-media-link-input-description {
+  margin-bottom: 0.3rem;
+}
+.record-form-media-links-action-btns {
+  display: flex;
+  margin-top: 1.5rem;
+  button {
+    @include remove-btn-default;
+    padding: 0.3rem 0.5rem;
+    width: 100%;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease-out;
+    &:hover {
+      transform: translateY(-0.2rem);
+    }
+    &:first-child {
+      background-color: $dark-blue;
+      border: 1px solid $dark-blue;
+      color: $white;
+      margin-right: 0.3rem;
+    }
+    &:last-child {
+      border: 1px solid $darkest-gray;
+      margin-left: 0.3rem;
+    }
+  }
+}
+
