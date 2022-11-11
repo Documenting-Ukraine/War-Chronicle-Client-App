@@ -2,11 +2,12 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { has } from "lodash";
 export type MediaLink = {
+  id: string;
   url: string;
   description?: string;
   mediaType: "image" | "video";
 };
-export type MediaFileProps = { readonly name: string; preview: string };
+export type MediaFileProps = { readonly name: string; preview: string, id: string };
 export function isMediaLink(e: any): e is MediaLink {
   try {
     return has(e, "url") && has(e, "mediaType");
@@ -30,7 +31,7 @@ export const generateFileMap = (files: (MediaFileProps | MediaLink)[]) => {
   return map;
 };
 export interface ThumbnailProps {
-  file: MediaFileProps | MediaLink;
+  file: (MediaFileProps) | (MediaLink);
   onRemoveThumbnail?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 export type MediaFile = MediaFileProps & File;
@@ -45,7 +46,7 @@ export const ThumbnailWrapper = ({
   return (
     <>
       <button
-        data-file-name={isMediaLink(file) ? file.url : file.name}
+        data-file-id={file.id}
         className="remove-thumbnail-btn"
         onClick={onRemoveThumbnail}
         aria-label="remove-file"

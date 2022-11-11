@@ -67,8 +67,8 @@ const RecordFormSubmitWrapper = ({
         ? app.currentUser.accessToken
         : "";
     const extractedInputs = extractGeneralInputs(fieldValues);
-    let imageLinks: string[] = storedImages;
-    let videoLinks: string[] = storedVideos;
+    let imageLinks: MediaLink[] = storedImages;
+    let videoLinks: MediaLink[] = storedVideos;
     try {
       dispatch(
         updateLoadingState({
@@ -83,6 +83,7 @@ const RecordFormSubmitWrapper = ({
       const newLinksVideos = newVideos.filter((file) => isMediaFile(file));
       const imageUpload = isSameTypeInList(newFileImages, isMediaFile)
         ? awsS3UploadMedia({
+            mediaType: "image",
             files: newFileImages,
             realmToken: realmAccessToken,
             recordType: recordType,
@@ -93,6 +94,7 @@ const RecordFormSubmitWrapper = ({
         : { uploaded: [], failed: [] };
       const videoUpload = isSameTypeInList(newFileVideos, isMediaFile)
         ? awsS3UploadMedia({
+            mediaType: "video",
             files: newFileVideos,
             realmToken: realmAccessToken,
             recordType: recordType,
@@ -106,10 +108,10 @@ const RecordFormSubmitWrapper = ({
         videoUpload,
       ]);
       const newLinksImagesUrls = isSameTypeInList(newLinksImages, isMediaLink)
-        ? newLinksImages.map((file) => file.url)
+        ? newLinksImages
         : [];
       const newLinksVideosUrls = isSameTypeInList(newLinksVideos, isMediaLink)
-        ? newLinksVideos.map((file) => file.url)
+        ? newLinksVideos
         : [];
       imageLinks = [
         ...imageLinks,

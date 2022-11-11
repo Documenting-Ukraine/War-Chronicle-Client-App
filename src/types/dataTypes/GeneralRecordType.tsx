@@ -16,7 +16,12 @@ export type ArrayOneOrMore<T> = {
 export function isArrayOneOrMore<T>(as: T[]): as is ArrayOneOrMore<T> {
   return as.length > 0;
 }
-export type MediaLink = string;
+export type MediaLink = {
+  id: string;
+  url: string;
+  description?: string;
+  mediaType: "image" | "video";
+};
 export type Media = {
   images?: MediaLink[];
   videos?: MediaLink[];

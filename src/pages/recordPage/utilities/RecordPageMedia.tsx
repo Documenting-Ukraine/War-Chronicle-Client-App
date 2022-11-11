@@ -13,21 +13,20 @@ import "swiper/css/scrollbar";
 import { MediaLink } from "../../../types/dataTypes/GeneralRecordType";
 import { useEffect, useState } from "react";
 import LoadingIcon from "../../utilityComponents/loadingIcon/LoadingIcon";
-const mediaFileDomain = `https://${process.env.REACT_APP_MEDIA_FILES_DOMAIN}`;
 const MediaFile = ({
   type,
   link,
   className,
   wrapper,
   scrollPosition,
-  controls = false
+  controls = false,
 }: {
   scrollPosition?: ScrollPosition;
   type?: "image" | "video";
   link?: string;
   className?: string;
   wrapper?: (e: JSX.Element) => JSX.Element;
-  controls?: boolean
+  controls?: boolean;
 }) => {
   const mediaType =
     type === "image" ? (
@@ -38,7 +37,11 @@ const MediaFile = ({
         className={className ? className : ""}
       />
     ) : type === "video" ? (
-      <video key={link} className={className ? className : ""} controls={controls}>
+      <video
+        key={link}
+        className={className ? className : ""}
+        controls={controls}
+      >
         <source src={link} />
       </video>
     ) : null;
@@ -69,7 +72,7 @@ const MediaPresentation = ({
   scrollPosition,
 }: {
   namespace: string;
-  media?: { type: "image" | "video"; link: MediaLink }[];
+  media?: MediaLink[];
   scrollPosition: ScrollPosition;
 }) => {
   const [currMediaIdx, setCurrMediaIdx] = useState(0);
@@ -89,8 +92,8 @@ const MediaPresentation = ({
   return (
     <div className={`${namespace}-media-presentation`}>
       <MediaFile
-        type={currMedia?.type}
-        link={currMedia?.link}
+        type={currMedia?.mediaType}
+        link={currMedia?.url}
         wrapper={(children: JSX.Element) => (
           <div className="main-media-file">{children}</div>
         )}
@@ -106,15 +109,15 @@ const MediaPresentation = ({
         {media.map((m, idx) => (
           <SwiperSlide
             onClick={() => setCurrMediaIdx(idx)}
-            key={m.link}
+            key={m.url}
             className={`${namespace}-caro-media-item ${
               idx === currMediaIdx ? "active-media" : ""
             }`}
           >
             <MediaFile
               scrollPosition={scrollPosition}
-              type={m.type}
-              link={m.link}
+              type={m.mediaType}
+              link={m.url}
             />
           </SwiperSlide>
         ))}
@@ -137,11 +140,11 @@ const RecordPageMedia = ({
   //transform data
   const images = media.images;
   const videos = media.videos;
-  const typedImages: { type: "image"; link: string }[] = images
-    ? images.map((i) => ({ type: "image", link: `${mediaFileDomain}/${i}` }))
+  const typedImages: MediaLink[] = images
+    ? images.map((i) => ({ ...i }))
     : [];
-  const typedVideos: { type: "video"; link: string }[] = videos
-    ? videos.map((v) => ({ type: "video", link: `${mediaFileDomain}/${v}` }))
+  const typedVideos: MediaLink[] = videos
+    ? videos.map((v) => ({ ...v }))
     : [];
   const allMedia = [...typedImages, ...typedVideos];
   return <OptimizedMediaPresentation namespace={namespace} media={allMedia} />;

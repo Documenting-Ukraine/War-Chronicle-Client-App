@@ -8,7 +8,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState, useCallback } from "react";
 import { MultiValue } from "react-select";
 import { RecordSubmissionType } from "../../../../types";
-import { MediaLink } from "../../../utilityComponents/formInputs/Thumbnails";
+import {
+  isMediaLink,
+  MediaLink,
+} from "../../../utilityComponents/formInputs/Thumbnails";
 import { v4 as uuid } from "uuid";
 import {
   isOption,
@@ -24,6 +27,10 @@ import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
 import { useDropZoneProvider } from "../../../utilityComponents/formInputs/FormDropZone/FormDropZoneContext";
 import { unstable_batchedUpdates } from "react-dom";
 import removeAddedWhiteSpace from "../../../../helperFunctions/removeWhiteSpace";
+import {
+  ImageThumbnail,
+  VideoThumbnail,
+} from "../../../utilityComponents/formInputs/Thumbnails";
 const MediaTypes = ["Image", "Video"] as const;
 const MediaTypesList = [...transformSingleList(MediaTypes)];
 function isMediaType(e: any): e is typeof MediaTypes[number] {
@@ -42,7 +49,55 @@ const MediaThumbnails = ({
 }: {
   defaultInputs?: RecordSubmissionType;
 }) => {
-  return <div className="record-form-media-thumbnails"></div>;
+  const { newImages, newVideos, storedImages, storedVideos, setNewImages, setNewVideos } =
+    useDropZoneProvider();
+  const onRemoveThumbnail = (e: React.MouseEvent<HTMLButtonElement>) => {
+    //this file id only matches a single url, that has been uploaded
+    const fileId = e.currentTarget.dataset["fileId"];
+    // const images = [newImages, ...storedImages]
+    // const videos = [newVideos, ...storedVideos]
+
+  };
+  return (
+    <div className="record-form-media-thumbnails">
+      {newImages.map((file) => {
+        if (isMediaLink(file))
+          return (
+            <ImageThumbnail
+              key={file.url}
+              file={file}
+              onRemoveThumbnail={onRemoveThumbnail}
+            />
+          );
+        else
+          return (
+            <ImageThumbnail
+              key={file.name}
+              file={file}
+              onRemoveThumbnail={onRemoveThumbnail}
+            />
+          );
+      })}
+      {newVideos.map((file) => {
+        if (isMediaLink(file))
+          return (
+            <VideoThumbnail
+              key={file.url}
+              file={file}
+              onRemoveThumbnail={onRemoveThumbnail}
+            />
+          );
+        else
+          return (
+            <VideoThumbnail
+              key={file.name}
+              file={file}
+              onRemoveThumbnail={onRemoveThumbnail}
+            />
+          );
+      })}
+    </div>
+  );
 };
 export type MediaLinkInputProps = {
   url: string;
@@ -90,12 +145,16 @@ const MediaLinkInput = ({
   return (
     <MediaWrapper>
       <>
-        <button
-          aria-label={`delete-link-${idx}`}
-          onClick={() => deleteMediaLinkInput(id)}
-        >
-          Delete <FontAwesomeIcon icon={faTrash} /> 
-        </button>
+        <div className="record-form-media-input-remove-btn">
+          <h5>Media Link {idx + 1}</h5>
+          <button
+            aria-label={`delete-link-${idx}`}
+            onClick={() => deleteMediaLinkInput(id)}
+          >
+            Delete <FontAwesomeIcon icon={faTrash} />
+          </button>
+        </div>
+
         <FormInputs
           title="Media Type"
           name={"media-type"}
@@ -141,18 +200,10 @@ const MediaLinks = ({
 }: {
   defaultInputs?: RecordSubmissionType;
 }) => {
-  const { newImages, newVideos, setNewImages, setNewVideos } =
-    useDropZoneProvider();
+  const { setNewImages, setNewVideos } = useDropZoneProvider();
   const [mediaLinksList, setMediaLinksList] = useState<
     (MediaLink & { id: string })[]
-  >([
-    {
-      id: uuid(),
-      mediaType: "image",
-      description: "",
-      url: "",
-    },
-  ]);
+  >([]);
   const updateMediaLink = useCallback(
     () =>
       ({ url, description, mediaType, idx }: MediaLinkInputProps) =>

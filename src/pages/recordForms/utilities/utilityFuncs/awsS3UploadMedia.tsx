@@ -1,17 +1,20 @@
-import { MediaFile } from "../../../utilityComponents/formInputs/Thumbnails";
+import { MediaFile, MediaLink } from "../../../utilityComponents/formInputs/Thumbnails";
 import axios from "axios";
-
+import {v4 as uuid} from "uuid";
+const mediaFileDomain = `https://${process.env.REACT_APP_MEDIA_FILES_DOMAIN}`;
 const awsS3UploadMedia = async ({
   recordType,
   files,
   realmToken,
-  recordTitle
+  recordTitle,
+  mediaType
 }: {
+  mediaType: "image" | 'video';
   recordType: string;
   files: MediaFile[];
   realmToken: string; 
   recordTitle: string;
-}): Promise<{uploaded: string[], failed?: string[]}> => {
+}): Promise<{uploaded: MediaLink[], failed?: MediaLink[]}> => {
   if (files.length <= 0) return {uploaded: []};
   const fileNames = files.map((file) => {
     return{
@@ -49,11 +52,19 @@ const awsS3UploadMedia = async ({
   })
   try {
     const response = await Promise.all(uploadToS3);
-    const uploadedKeys:string[] = []
-    const failedKeys: string[] = []
+    const uploadedKeys:MediaLink[] = []
+    const failedKeys: MediaLink[] = []
     if (response.every((r, idx) => {
-      if(r.status === 200) uploadedKeys.push(fetchSignedUrls[idx].key)
-      else failedKeys.push(fetchSignedUrls[idx].name)
+      if(r.status === 200) uploadedKeys.push({
+        id: uuid(),
+        url: `${mediaFileDomain}/${fetchSignedUrls[idx].key}`,
+        mediaType: mediaType,
+      })
+      else failedKeys.push({
+        id: uuid(),
+        url: `${mediaFileDomain}/${fetchSignedUrls[idx].name}`,
+        mediaType: mediaType,
+      })
       return r.statusCode === 200
     }))
       return {uploaded: uploadedKeys};

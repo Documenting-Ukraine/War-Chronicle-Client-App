@@ -4,6 +4,7 @@ import React, { useState, useEffect, memo } from "react";
 import { unstable_batchedUpdates } from "react-dom";
 import Dropzone, { DropEvent, FileRejection } from "react-dropzone";
 import LoadingIcon from "../../loadingIcon/LoadingIcon";
+import { v4 as uuid } from "uuid";
 import {
   MediaLink,
   MediaFile,
@@ -20,7 +21,7 @@ interface FormDropZoneProps {
   description: string | JSX.Element;
   mediaType: "videos" | "images";
   className?: string;
-  defaultFiles?: string[];
+  defaultFiles?: MediaLink[];
   includeThumbnails?: boolean;
 }
 interface ErrorProps {
@@ -33,7 +34,7 @@ export const StoredMedia = memo(
     files,
   }: {
     mediaType: "images" | "videos";
-    files?: string[];
+    files?: MediaLink[];
   }) => {
     const { storedImages, storedVideos, setStoredImages, setStoredVideos } =
       useDropZoneProvider();
@@ -49,26 +50,16 @@ export const StoredMedia = memo(
     }, [files, mediaType, setStoredImages, setStoredVideos]);
     const onRemoveThumbnail = (e: React.MouseEvent<HTMLButtonElement>) => {
       const fileName = e.currentTarget.dataset["fileName"];
-      if (mediaType === "images")
-        setStoredImages((files) => files.filter((file) => file !== fileName));
-      if (mediaType === "videos")
-        setStoredVideos((files) => files.filter((file) => file !== fileName));
+      // if (mediaType === "images")
+      //   setStoredImages((files) => files.filter((file) => file !== fileName));
+      // if (mediaType === "videos")
+      //   setStoredVideos((files) => files.filter((file) => file !== fileName));
     };
     const thumbnails =
       mediaType === "images"
-        ? storedImages.map((str) => {
-            return {
-              name: str,
-              preview: str,
-            };
-          })
+        ? storedImages 
         : mediaType === "videos"
-        ? storedVideos.map((str) => {
-            return {
-              name: str,
-              preview: str,
-            };
-          })
+        ? storedVideos
         : [];
 
     return (
@@ -76,7 +67,7 @@ export const StoredMedia = memo(
         {mediaType === "images" &&
           thumbnails.map((file) => (
             <ImageThumbnail
-              key={file.name}
+              key={file.id}
               file={file}
               onRemoveThumbnail={onRemoveThumbnail}
             />
@@ -84,7 +75,7 @@ export const StoredMedia = memo(
         {mediaType === "videos" &&
           thumbnails.map((file) => (
             <VideoThumbnail
-              key={file.name}
+              key={file.id}
               file={file}
               onRemoveThumbnail={onRemoveThumbnail}
             />
@@ -147,6 +138,7 @@ const FormDropZone = ({
             if (file.name in map) return null;
             else
               return Object.assign(file, {
+                id: uuid(),
                 preview: URL.createObjectURL(file),
               });
           });
@@ -162,6 +154,7 @@ const FormDropZone = ({
             if (file.name in map) return null;
             else
               return Object.assign(file, {
+                id: uuid(),
                 preview: URL.createObjectURL(file),
               });
           });

@@ -140,12 +140,30 @@
   color: $dark-blue;
   border: 1px solid $dark-blue;
 }
-.record-form-media-links{
-  .record-form-media-type-wrapper{
+.record-form-media-links {
+  position: relative;
+  .record-form-media-type-wrapper {
     margin-bottom: 1.5rem;
-    &:last-child{
+    &:last-child {
       margin-bottom: 0;
     }
+  }
+}
+.record-form-media-input-remove-btn {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  h5 {
+    margin: 0;
+  }
+  button {
+    @include remove-btn-default;
+    background-color: $red;
+    border-radius: 0.3rem;
+    color: white;
+    padding: 0.3rem;
   }
 }
 .record-form-media-link-input-description {
@@ -172,7 +190,12 @@
     &:last-child {
       border: 1px solid $darkest-gray;
       margin-left: 0.3rem;
+      .fa-floppy-disk{
+        margin-right: 0.4rem;
+      }
     }
   }
 }
-
+.record-form-media-thumbnails{
+  
+}
