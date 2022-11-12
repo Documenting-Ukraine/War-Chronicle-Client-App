@@ -49,14 +49,21 @@ const MediaThumbnails = ({
 }: {
   defaultInputs?: RecordSubmissionType;
 }) => {
-  const { newImages, newVideos, storedImages, storedVideos, setNewImages, setNewVideos } =
+  const { newImages, newVideos, storedImages, storedVideos, setNewImages, setNewVideos, setStoredImages, setStoredVideos } =
     useDropZoneProvider();
   const onRemoveThumbnail = (e: React.MouseEvent<HTMLButtonElement>) => {
     //this file id only matches a single url, that has been uploaded
     const fileId = e.currentTarget.dataset["fileId"];
-    // const images = [newImages, ...storedImages]
-    // const videos = [newVideos, ...storedVideos]
-
+    const filterNewImages = newImages.filter((i) => i.id !== fileId)
+    const filterStoredImages = storedImages.filter((i) => i.id !== fileId)
+    const filterNewVideos =newVideos.filter((i) => i.id !== fileId)
+    const filterStoredVideos= storedVideos.filter((i) => i.id !== fileId)
+    unstable_batchedUpdates(() => {
+      setNewImages(filterNewImages)
+      setStoredImages(filterStoredImages)
+      setNewVideos(filterNewVideos)
+      setStoredVideos(filterStoredVideos)
+    })
   };
   return (
     <div className="record-form-media-thumbnails">

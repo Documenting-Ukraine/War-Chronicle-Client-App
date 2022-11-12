@@ -49,7 +49,7 @@ export const StoredMedia = memo(
       };
     }, [files, mediaType, setStoredImages, setStoredVideos]);
     const onRemoveThumbnail = (e: React.MouseEvent<HTMLButtonElement>) => {
-      const fileName = e.currentTarget.dataset["fileName"];
+      //const fileName = e.currentTarget.dataset["fileName"];
       // if (mediaType === "images")
       //   setStoredImages((files) => files.filter((file) => file !== fileName));
       // if (mediaType === "videos")

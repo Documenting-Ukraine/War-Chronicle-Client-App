@@ -7,7 +7,11 @@ export type MediaLink = {
   description?: string;
   mediaType: "image" | "video";
 };
-export type MediaFileProps = { readonly name: string; preview: string, id: string };
+export type MediaFileProps = {
+  readonly name: string;
+  preview: string;
+  id: string;
+};
 export function isMediaLink(e: any): e is MediaLink {
   try {
     return has(e, "url") && has(e, "mediaType");
@@ -31,7 +35,7 @@ export const generateFileMap = (files: (MediaFileProps | MediaLink)[]) => {
   return map;
 };
 export interface ThumbnailProps {
-  file: (MediaFileProps) | (MediaLink);
+  file: MediaFileProps | MediaLink;
   onRemoveThumbnail?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 export type MediaFile = MediaFileProps & File;
@@ -63,7 +67,7 @@ export const ImageThumbnail = ({ file, onRemoveThumbnail }: ThumbnailProps) => {
       <ThumbnailWrapper file={file} onRemoveThumbnail={onRemoveThumbnail}>
         <img
           src={isMediaLink(file) ? file.url : file.preview}
-          alt={""}
+          alt={isMediaLink(file) ? file.description : ""}
           // Revoke data uri after image is loaded
           onLoad={() => {
             URL.revokeObjectURL(isMediaLink(file) ? file.url : file.preview);
