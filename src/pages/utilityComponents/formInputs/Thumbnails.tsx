@@ -2,6 +2,10 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { has } from "lodash";
 import ReactPlayer from "react-player/lazy";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useState } from "react";
+import LoadingIcon from "../loadingIcon/LoadingIcon";
+import LazyLoad from "react-lazyload";
 export type MediaLink = {
   id: string;
   url: string;
@@ -51,7 +55,7 @@ export const ThumbnailWrapper = ({
   return (
     <>
       <button
-       type="button" 
+        type="button"
         data-file-id={file.id}
         className="remove-thumbnail-btn"
         onClick={onRemoveThumbnail}
@@ -64,39 +68,51 @@ export const ThumbnailWrapper = ({
   );
 };
 export const ImageThumbnail = ({ file, onRemoveThumbnail }: ThumbnailProps) => {
+  const [loading, setLoading] = useState(true);
   return (
     <div className="form-img-thumbnail">
       <ThumbnailWrapper file={file} onRemoveThumbnail={onRemoveThumbnail}>
-        <img
-          src={isMediaLink(file) ? file.url : file.preview}
-          alt={isMediaLink(file) ? file.description : ""}
-          // Revoke data uri after image is loaded
-          onLoad={() => {
-            URL.revokeObjectURL(isMediaLink(file) ? file.url : file.preview);
-          }}
-        />
+        <>
+          {loading && (
+            <div className="form-thumbnail-placeholder">
+              <LoadingIcon />
+            </div>
+          )}
+          <LazyLoadImage
+            src={isMediaLink(file) ? file.url : file.preview}
+            alt={isMediaLink(file) ? file.description : ""}
+            // Revoke data uri after image is loaded
+            onLoad={() => {
+              URL.revokeObjectURL(isMediaLink(file) ? file.url : file.preview);
+            }}
+            useIntersectionObserver
+            threshold={50}
+            beforeLoad={() => {
+              setLoading(false);
+            }}
+          />
+        </>
       </ThumbnailWrapper>
     </div>
   );
 };
 export const VideoThumbnail = ({ file, onRemoveThumbnail }: ThumbnailProps) => {
+  const loadingIcon = (
+    <div className="form-thumbnail-placeholder">
+      <LoadingIcon />
+    </div>
+  );
   return (
     <div className="form-video-thumbnail">
       <ThumbnailWrapper file={file} onRemoveThumbnail={onRemoveThumbnail}>
-        <ReactPlayer
-          url={isMediaLink(file) ? file.url : file.preview}
-          controls
-          width={"100%"}
-          height={"100%"}
-        />
-        {/* <video>
-          <source
-            onLoad={() => {
-              URL.revokeObjectURL(isMediaLink(file) ? file.url : file.preview);
-            }}
-            src={isMediaLink(file) ? file.url : file.preview}
+        <LazyLoad placeholder={loadingIcon}>
+          <ReactPlayer
+            url={isMediaLink(file) ? file.url : file.preview}
+            controls
+            width={"100%"}
+            height={"100%"}
           />
-        </video> */}
+        </LazyLoad>
       </ThumbnailWrapper>
     </div>
   );

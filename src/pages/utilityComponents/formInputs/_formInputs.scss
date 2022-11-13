@@ -43,7 +43,7 @@
   input[type="number"] {
     -moz-appearance: textfield;
   }
-  .form-inputs-sub-caption{
+  .form-inputs-sub-caption {
     margin-bottom: 0.3rem;
     font-size: 0.8rem;
     font-weight: 300;
@@ -202,6 +202,17 @@
   aspect-ratio: 1/1;
   padding: 2%;
   position: relative;
+  .form-thumbnail-placeholder {
+    display: flex;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    position: absolute;
+    background-color: white;
+  }
   .remove-thumbnail-btn {
     @include remove-btn-default;
     position: absolute;
@@ -237,6 +248,7 @@
 .form-video-thumbnail {
   @include thumbnail-styles();
 }
+
 .evidence-list-container {
   @extend .form-inputs-section-container;
   .add-evidence-btn {

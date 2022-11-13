@@ -1,4 +1,3 @@
-import { isMediaLink } from "../../../utilityComponents/formInputs/Thumbnails";
 import { useDropZoneProvider } from "../../../utilityComponents/formInputs/FormDropZone/FormDropZoneContext";
 import { unstable_batchedUpdates } from "react-dom";
 import {
@@ -40,44 +39,22 @@ const MediaThumbnails = () => {
           <div className="record-form-media-thumbnail-seperator"></div>
         </div>
         <div className="record-form-media-thumbnails">
-          {images.map((file) => {
-            if (isMediaLink(file))
-              return (
-                <ImageThumbnail
-                  key={file.url}
-                  file={file}
-                  onRemoveThumbnail={onRemoveThumbnail}
-                />
-              );
-            else
-              return (
-                <ImageThumbnail
-                  key={file.name}
-                  file={file}
-                  onRemoveThumbnail={onRemoveThumbnail}
-                />
-              );
-          })}
-          {videos.map((file) => {
-            if (isMediaLink(file))
-              return (
-                <VideoThumbnail
-                  key={file.url}
-                  file={file}
-                  onRemoveThumbnail={onRemoveThumbnail}
-                />
-              );
-            else
-              return (
-                <VideoThumbnail
-                  key={file.name}
-                  file={file}
-                  onRemoveThumbnail={onRemoveThumbnail}
-                />
-              );
-          })}
+          {images.map((file) => (
+            <ImageThumbnail
+              key={file.id}
+              file={file}
+              onRemoveThumbnail={onRemoveThumbnail}
+            />
+          ))}
+          {videos.map((file) => (
+            <VideoThumbnail
+              key={file.id}
+              file={file}
+              onRemoveThumbnail={onRemoveThumbnail}
+            />
+          ))}
         </div>
       </>
     );
 };
-export default MediaThumbnails
+export default MediaThumbnails;
