@@ -140,6 +140,9 @@
   color: $dark-blue;
   border: 1px solid $dark-blue;
 }
+.record-form-media-files{
+  margin-bottom: 2rem;
+}
 .record-form-media-links {
   position: relative;
   .record-form-media-type-wrapper {
@@ -196,6 +199,17 @@
     }
   }
 }
+.record-form-media-thumbnail-seperator{
+  height: 1px;
+  width: 70%;
+  background-color: $light-gray;
+}
 .record-form-media-thumbnails{
-  
+  padding-top: calc(2rem - 2%);
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  // .form-thumbnail-inner{
+    
+  // }
 }

@@ -1,6 +1,7 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { has } from "lodash";
+import ReactPlayer from "react-player/lazy";
 export type MediaLink = {
   id: string;
   url: string;
@@ -50,6 +51,7 @@ export const ThumbnailWrapper = ({
   return (
     <>
       <button
+       type="button" 
         data-file-id={file.id}
         className="remove-thumbnail-btn"
         onClick={onRemoveThumbnail}
@@ -81,14 +83,20 @@ export const VideoThumbnail = ({ file, onRemoveThumbnail }: ThumbnailProps) => {
   return (
     <div className="form-video-thumbnail">
       <ThumbnailWrapper file={file} onRemoveThumbnail={onRemoveThumbnail}>
-        <video>
+        <ReactPlayer
+          url={isMediaLink(file) ? file.url : file.preview}
+          controls
+          width={"100%"}
+          height={"100%"}
+        />
+        {/* <video>
           <source
             onLoad={() => {
               URL.revokeObjectURL(isMediaLink(file) ? file.url : file.preview);
             }}
             src={isMediaLink(file) ? file.url : file.preview}
           />
-        </video>
+        </video> */}
       </ThumbnailWrapper>
     </div>
   );
