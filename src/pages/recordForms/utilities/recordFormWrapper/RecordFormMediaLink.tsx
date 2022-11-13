@@ -129,7 +129,6 @@ export const MediaLinkInput = ({
   const { deleteMediaLinkInput, updateMediaLink } = useMediaLinksProvider();
   //update callback with data
   useEffect(() => {
-    console.log(mediaType, url, description, idx);
     updateMediaLink({ url, description, mediaType, idx });
     //eslint-disable-next-line
   }, [mediaType, url, description, idx]);
