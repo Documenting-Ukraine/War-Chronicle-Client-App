@@ -76,15 +76,28 @@ export const MediaLinksProvider = ({ children }: { children: JSX.Element }) => {
           url,
           description,
           mediaType: mediaType === "Image" ? "image" : "video",
-          id: uuid(),
+          id: newArr[idx].id,
         };
         newArr[idx] = newValue;
         return newArr;
       }),
     []
   );
-  const deleteMediaLinkInput = (id: string) =>
-    setMediaLinksList((e) => e.filter((i) => i.id !== id));
+  const deleteMediaLinkInput = (id: string) => {
+    setMediaLinksList((e) => {
+      const newArr = [...e];
+      let idx: number | null = null;
+      for (let i in newArr) {
+        if (newArr[i].id !== id) continue;
+        idx = parseInt(i);
+        break;
+      }
+      if (idx === null) return e;
+      newArr.splice(idx, 1);
+      return newArr;
+    });
+  };
+
   const wrapped = {
     mediaLinksList,
     setMediaLinksList,
@@ -116,7 +129,7 @@ export const MediaLinkInput = ({
   const { deleteMediaLinkInput, updateMediaLink } = useMediaLinksProvider();
   //update callback with data
   useEffect(() => {
-    console.log(mediaType, url, description, idx)
+    console.log(mediaType, url, description, idx);
     updateMediaLink({ url, description, mediaType, idx });
     //eslint-disable-next-line
   }, [mediaType, url, description, idx]);
@@ -126,6 +139,7 @@ export const MediaLinkInput = ({
         <div className="record-form-media-input-remove-btn">
           <h5>Media Link {idx + 1}</h5>
           <button
+            type="button"
             aria-label={`delete-link-${idx}`}
             onClick={() => deleteMediaLinkInput(id)}
           >
@@ -208,7 +222,6 @@ const MediaLinksList = () => {
           type="button"
           aria-label="save-media-links"
           onClick={() => {
-            console.log(mediaLinksList);
             if (
               mediaLinksList.every(
                 (e) =>
