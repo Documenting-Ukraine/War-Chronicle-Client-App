@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RealmApp } from "../../../realm/RealmApp";
 import { has } from "lodash";
+import serializeObjects from "../utlilites/serializeObjects";
 export interface ActivityData {
   _id: string;
   user_first_name: string;
@@ -44,7 +45,10 @@ export const fetchActivityData = createAsyncThunk(
     const userData = await app.currentUser?.callFunction(
       "search_contributions"
     );
-    if (isActivtyDataTemplate(userData)) return userData;
+    if (!isActivtyDataTemplate(userData)) return null;
+    //serialize data values
+    const data = serializeObjects(userData, true);
+    if (isActivtyDataTemplate(data)) return data;
     return null;
   }
 );
