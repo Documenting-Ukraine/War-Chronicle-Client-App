@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import GoogleBtn from "../../../utilityComponents/googleAuthBtn/GoogleAuthBtn";
 import PlaceHolderGoogle from "../../../utilityComponents/googleAuthBtn/PlaceholderGoogle";
 import { Link } from "react-router-dom";
@@ -7,20 +7,21 @@ import { User } from "realm-web";
 import { useParams } from "react-router-dom";
 import FormErrBanner from "../../../utilityComponents/formErrBanner/FormErrBanner";
 import { occupationData } from "../../data/OccupationList";
+import AppLogo from "../../../utilityComponents/logo/AppLogo";
 import Select from "react-select";
 import validatePhoneNums from "../../../../helperFunctions/validatePhoneNum";
 import useFormInputs from "../../../../hooks/use-form-inputs";
 interface DefaultInputs {
   name: string;
   required: boolean;
-  err: {err: boolean, message: string}
-  children: JSX.Element
+  err: { err: boolean; message: string };
+  children: JSX.Element;
 }
 const SignUpFormInput = ({
   name,
   required,
   err,
-  children
+  children,
 }: DefaultInputs): JSX.Element => {
   return (
     <div className="invite-link-input">
@@ -32,7 +33,7 @@ const SignUpFormInput = ({
       {err.err && <div className="err-message">{err.message}</div>}
     </div>
   );
-}
+};
 const SignUpForm = (): JSX.Element => {
   const params = useParams();
   const inviteId = params.id;
@@ -43,7 +44,7 @@ const SignUpForm = (): JSX.Element => {
     err: occErr,
     onTouch: onOccTouch,
     onDropdownChange: onOccChange,
-  } = useFormInputs({required: true});
+  } = useFormInputs({ required: true });
   const {
     value: phoneNum,
     err: phoneErr,
@@ -77,14 +78,14 @@ const SignUpForm = (): JSX.Element => {
       {signupErr.err && (
         <FormErrBanner formErr={signupErr} setFormErr={setSignupErr} />
       )}
-      <div className="invite-link-form-logo"></div>
+      <div className="invite-link-form-logo">
+        <AppLogo text />
+      </div>
       <h1 className="invite-link-form-title">Create your Account</h1>
       <div className="invite-link-input-container">
         <SignUpFormInput name="Occupation" required={true} err={occErr}>
           <Select
-            className={`invite-link-form-dropdown ${
-              occErr.err ? "error" : ""
-            }`}
+            className={`invite-link-form-dropdown ${occErr.err ? "error" : ""}`}
             classNamePrefix={"dropdown-input"}
             options={occupationData}
             onChange={onOccChange}

@@ -9,7 +9,6 @@ import React, { useEffect, useLayoutEffect, useState, useMemo } from "react";
 import FormInputs, {
   CustomFormInputs,
 } from "../../../utilityComponents/formInputs/FormInputs";
-import FormDropZone from "../../../utilityComponents/formInputs/FormDropZone/FormDropZone";
 import FormListInputs from "../../../utilityComponents/formInputs/FormListInputs";
 import FormDateInputs from "../../../utilityComponents/formInputs/FormDateInputs";
 import FormAddressInputs from "../../../utilityComponents/formInputs/FormAddressInputs";
