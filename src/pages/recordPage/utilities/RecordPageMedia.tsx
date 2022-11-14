@@ -22,7 +22,7 @@ const MediaFile = ({
   wrapper,
   scrollPosition,
   controls = false,
-  description
+  description,
 }: {
   scrollPosition?: ScrollPosition;
   type?: "image" | "video";
@@ -30,40 +30,44 @@ const MediaFile = ({
   className?: string;
   wrapper?: (e: JSX.Element) => JSX.Element;
   controls?: boolean;
-  description?: string
+  description?: string;
 }) => {
   const [loading, setLoading] = useState(true);
   const loadingIcon = (
-    <div className="form-thumbnail-placeholder">
+    <div className="media-loading-placeholder">
       <LoadingIcon />
     </div>
   );
-  const mediaType =
-    type === "image" ? (
-      <>
-        {loading && loadingIcon}
+  const mediaType = (
+    <div className="media-file-container">
+      {type === "image" ? (
+        <>
+          {loading && loadingIcon}
 
-        <LazyLoadImage
-          src={link}
-          alt={description}
+          <LazyLoadImage
+            src={link}
+            alt={description}
+            className={className ? className : ""}
+            useIntersectionObserver
+            beforeLoad={() => {
+              setLoading(false);
+            }}
+          />
+        </>
+      ) : type === "video" ? (
+        <ReactPlayer
+          url={link}
+          width={"100%"}
+          height={"100%"}
+          fallback={loadingIcon}
+          controls={controls}
           className={className ? className : ""}
-          useIntersectionObserver
-          beforeLoad={() => {
-            setLoading(false);
-          }}
+          alt={description}
         />
-      </>
-    ) : type === "video" ? (
-      <ReactPlayer
-        url={link}
-        width={"100%"}
-        height={"100%"}
-        fallback={loadingIcon}
-        controls={controls}
-        className={className ? className : ""}
-        alt={description}
-      />
-    ) : null;
+      ) : null}
+    </div>
+  );
+
   if (wrapper && mediaType)
     return wrapper(
       <LazyLoadComponent

@@ -46,8 +46,8 @@ const FormListInput = ({
           aria-label={`delete-evidence-${idx}`}
           onClick={onDeleteInput}
         >
-          {smallWidth && <span>Delete</span>}
           <FontAwesomeIcon icon={faTrash} />
+          {smallWidth && <span>Delete</span>}
         </button>
       </div>
       <FormInputs
@@ -170,8 +170,8 @@ const FormListInputs = ({
             onClick={onAddNewInput}
             aria-label={"add-new-evidence-item"}
           >
-            <span>Add {smallWidth && "Evidence"}</span>
             <FontAwesomeIcon icon={faPlus} />
+            <span>Add {smallWidth && "Evidence"}</span>
           </button>
         </div>
         {err.err && (

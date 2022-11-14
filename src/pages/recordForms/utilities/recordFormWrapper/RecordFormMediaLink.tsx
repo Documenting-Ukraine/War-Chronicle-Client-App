@@ -22,6 +22,7 @@ import { useDropZoneProvider } from "../../../utilityComponents/formInputs/FormD
 import { unstable_batchedUpdates } from "react-dom";
 import removeAddedWhiteSpace from "../../../../helperFunctions/removeWhiteSpace";
 import { MediaWrapper } from "./RecordFormMediaInput";
+import useWindowWidth from "../../../../hooks/use-window-width";
 const MediaTypes = ["Image", "Video"] as const;
 const MediaTypesList = [...transformSingleList(MediaTypes)];
 function isMediaType(e: any): e is typeof MediaTypes[number] {
@@ -127,6 +128,7 @@ export const MediaLinkInput = ({
     defaultInput && defaultInput.description ? defaultInput.description : ""
   );
   const { deleteMediaLinkInput, updateMediaLink } = useMediaLinksProvider();
+  const smallWindowWidth = useWindowWidth(576);
   //update callback with data
   useEffect(() => {
     updateMediaLink({ url, description, mediaType, idx });
@@ -142,7 +144,7 @@ export const MediaLinkInput = ({
             aria-label={`delete-link-${idx}`}
             onClick={() => deleteMediaLinkInput(id)}
           >
-            Delete <FontAwesomeIcon icon={faTrash} />
+            <FontAwesomeIcon icon={faTrash} /> {smallWindowWidth && "Delete"}
           </button>
         </div>
 
@@ -190,6 +192,7 @@ export const MediaLinkInput = ({
 const MediaLinksList = () => {
   const { setNewImages, setNewVideos } = useDropZoneProvider();
   const { mediaLinksList, setMediaLinksList } = useMediaLinksProvider();
+  const smallWindowWidth = useWindowWidth(576);
   return (
     <>
       <div className="record-form-media-links">
@@ -215,7 +218,7 @@ const MediaLinksList = () => {
             })
           }
         >
-          <FontAwesomeIcon icon={faPlus} /> Add Link
+          <FontAwesomeIcon icon={faPlus} /> {smallWindowWidth && "Add Link"}
         </button>
         <button
           type="button"
@@ -244,7 +247,7 @@ const MediaLinksList = () => {
           }}
         >
           <FontAwesomeIcon icon={faFloppyDisk} />
-          Save
+          {smallWindowWidth && "Save"}
         </button>
       </div>
     </>
