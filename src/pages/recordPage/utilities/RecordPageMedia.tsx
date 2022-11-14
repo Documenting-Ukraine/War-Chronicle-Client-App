@@ -1,9 +1,11 @@
 import { RecordSubmissionType } from "../../../types";
 import {
   LazyLoadComponent,
+  LazyLoadImage,
   ScrollPosition,
   trackWindowScroll,
 } from "react-lazy-load-image-component";
+import ReactPlayer from "react-player/lazy";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -20,6 +22,7 @@ const MediaFile = ({
   wrapper,
   scrollPosition,
   controls = false,
+  description
 }: {
   scrollPosition?: ScrollPosition;
   type?: "image" | "video";
@@ -27,28 +30,44 @@ const MediaFile = ({
   className?: string;
   wrapper?: (e: JSX.Element) => JSX.Element;
   controls?: boolean;
+  description?: string
 }) => {
+  const [loading, setLoading] = useState(true);
+  const loadingIcon = (
+    <div className="form-thumbnail-placeholder">
+      <LoadingIcon />
+    </div>
+  );
   const mediaType =
     type === "image" ? (
-      <img
-        key={link}
-        src={link}
-        alt=""
-        className={className ? className : ""}
-      />
+      <>
+        {loading && loadingIcon}
+
+        <LazyLoadImage
+          src={link}
+          alt={description}
+          className={className ? className : ""}
+          useIntersectionObserver
+          beforeLoad={() => {
+            setLoading(false);
+          }}
+        />
+      </>
     ) : type === "video" ? (
-      <video
-        key={link}
-        className={className ? className : ""}
+      <ReactPlayer
+        url={link}
+        width={"100%"}
+        height={"100%"}
+        fallback={loadingIcon}
         controls={controls}
-      >
-        <source src={link} />
-      </video>
+        className={className ? className : ""}
+        alt={description}
+      />
     ) : null;
   if (wrapper && mediaType)
     return wrapper(
       <LazyLoadComponent
-        placeholder={<LoadingIcon />}
+        placeholder={loadingIcon}
         scrollPosition={scrollPosition}
         useIntersectionObserver
       >
@@ -58,7 +77,7 @@ const MediaFile = ({
   else
     return (
       <LazyLoadComponent
-        placeholder={<LoadingIcon />}
+        placeholder={loadingIcon}
         scrollPosition={scrollPosition}
         useIntersectionObserver
       >
@@ -109,7 +128,7 @@ const MediaPresentation = ({
         {media.map((m, idx) => (
           <SwiperSlide
             onClick={() => setCurrMediaIdx(idx)}
-            key={m.url}
+            key={m.id}
             className={`${namespace}-caro-media-item ${
               idx === currMediaIdx ? "active-media" : ""
             }`}
@@ -118,6 +137,7 @@ const MediaPresentation = ({
               scrollPosition={scrollPosition}
               type={m.mediaType}
               link={m.url}
+              description={m.description}
             />
           </SwiperSlide>
         ))}
@@ -140,12 +160,8 @@ const RecordPageMedia = ({
   //transform data
   const images = media.images;
   const videos = media.videos;
-  const typedImages: MediaLink[] = images
-    ? images.map((i) => ({ ...i }))
-    : [];
-  const typedVideos: MediaLink[] = videos
-    ? videos.map((v) => ({ ...v }))
-    : [];
+  const typedImages: MediaLink[] = images ? images.map((i) => ({ ...i })) : [];
+  const typedVideos: MediaLink[] = videos ? videos.map((v) => ({ ...v })) : [];
   const allMedia = [...typedImages, ...typedVideos];
   return <OptimizedMediaPresentation namespace={namespace} media={allMedia} />;
 };

@@ -69,15 +69,16 @@ export const ThumbnailWrapper = ({
 };
 export const ImageThumbnail = ({ file, onRemoveThumbnail }: ThumbnailProps) => {
   const [loading, setLoading] = useState(true);
+  const loadingIcon = (
+    <div className="form-thumbnail-placeholder">
+      <LoadingIcon />
+    </div>
+  );
   return (
     <div className="form-img-thumbnail">
       <ThumbnailWrapper file={file} onRemoveThumbnail={onRemoveThumbnail}>
         <>
-          {loading && (
-            <div className="form-thumbnail-placeholder">
-              <LoadingIcon />
-            </div>
-          )}
+          {loading && loadingIcon}
           <LazyLoadImage
             src={isMediaLink(file) ? file.url : file.preview}
             alt={isMediaLink(file) ? file.description : ""}
@@ -90,6 +91,7 @@ export const ImageThumbnail = ({ file, onRemoveThumbnail }: ThumbnailProps) => {
             beforeLoad={() => {
               setLoading(false);
             }}
+            placeholder={loadingIcon}
           />
         </>
       </ThumbnailWrapper>
@@ -105,12 +107,18 @@ export const VideoThumbnail = ({ file, onRemoveThumbnail }: ThumbnailProps) => {
   return (
     <div className="form-video-thumbnail">
       <ThumbnailWrapper file={file} onRemoveThumbnail={onRemoveThumbnail}>
-        <LazyLoad placeholder={loadingIcon}>
+        <LazyLoad
+          style={{ width: "100%", height: "100%" }}
+          placeholder={loadingIcon}
+          offset={50}
+        >
           <ReactPlayer
             url={isMediaLink(file) ? file.url : file.preview}
             controls
             width={"100%"}
             height={"100%"}
+            fallback={loadingIcon}
+            alt={isMediaLink(file) ? file.description : ""}
           />
         </LazyLoad>
       </ThumbnailWrapper>
