@@ -45,6 +45,7 @@ jobs:
   Invalidate-Cloudfront-caches:
     needs: Build-App-And-Upload-to-S3
     continue-on-error: true
+    runs-on: ubuntu-latest
     steps: 
     - name: Invalidate Cloudfront cache 1
       uses: chetan/invalidate-cloudfront-action@v2
