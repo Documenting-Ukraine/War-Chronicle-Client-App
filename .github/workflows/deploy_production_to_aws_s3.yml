@@ -79,10 +79,10 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_S3_DEPLOY_USER_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_DEPLOY_USER_SECERT_KEY }}
     - name: Invalidate Cloudfront cache 5
-        uses: chetan/invalidate-cloudfront-action@v2
-        env:
-          DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_5 }}
-          PATHS: "/*"
-          AWS_REGION: "us-east-1"
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_S3_DEPLOY_USER_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_DEPLOY_USER_SECERT_KEY }}
+      uses: chetan/invalidate-cloudfront-action@v2
+      env:
+        DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_5 }}
+        PATHS: "/*"
+        AWS_REGION: "us-east-1"
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_S3_DEPLOY_USER_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_DEPLOY_USER_SECERT_KEY }}
