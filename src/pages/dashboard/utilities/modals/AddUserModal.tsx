@@ -31,6 +31,23 @@ function isInviteSuccessResponse(e: any): e is InviteSuccessResponse {
     return false;
   }
 }
+const accountTypeOptions: Option[] = [
+  { label: "Admin", value: "admin" },
+  { label: "Contributor", value: "contributor" },
+];
+const alertContent = (
+  <>
+    <p>
+      The e-mail address this invite is sent to, must be used to register the
+      user. Any other e-mail addresses will be rejected. This allows only
+      authorized e-mails to use the invite link.
+    </p>
+    <p>
+      It may take up to 5-10 minutes for the user to recieve their invitation.
+      If not, please have the user check their spam folder.
+    </p>
+  </>
+);
 const AddUserModal = ({
   closePopUp,
 }: {
@@ -48,7 +65,6 @@ const AddUserModal = ({
     accountType: "admin" | "contributor";
     email: string;
   } | null>(null);
-
   useEffect(() => {
     //reset multi values
     if (accountType === "admin") setAssginedScopes([]);
@@ -71,6 +87,13 @@ const AddUserModal = ({
         break;
     }
   };
+  useEffect(() => {
+    const node = document.querySelector(
+      ".dashboard-popup-modal-body"
+    ) as HTMLElement;
+    if (isLoading) node.style.overflow = "hidden";
+    else node.style.overflow = "";
+  }, [isLoading]);
   const onSendUserInvite = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -124,23 +147,6 @@ const AddUserModal = ({
       });
     }
   };
-  const alertContent = (
-    <>
-      <p>
-        The e-mail address this invite is sent to, must be used to register the
-        user. Any other e-mail addresses will be rejected. This allows only
-        authorized e-mails to use the invite link.
-      </p>
-      <p>
-        It may take up to 5-10 minutes for the user to recieve their invitation.
-        If not, please have the user check their spam folder.
-      </p>
-    </>
-  );
-  const accountTypeOptions: Option[] = [
-    { label: "Admin", value: "admin" },
-    { label: "Contributor", value: "contributor" },
-  ];
   return (
     <>
       <PopUpBg fullViewport={true} onClick={onClosePopUp}>
@@ -157,10 +163,16 @@ const AddUserModal = ({
             alertContent={alertContent}
           >
             <>
+              {isLoading && (
+                <div className="request-scope-pop-up-loading">
+                  <LoadingIcon strokeWidth={"0.2rem"} />
+                </div>
+              )}
               {submitted && (
                 <div className="add-user-pop-up-success-message">
                   <div>
-                    Successfully sent {submitted.email} a{submitted.accountType === 'admin'?"n": ''}{" "}
+                    Successfully sent {submitted.email} a
+                    {submitted.accountType === "admin" ? "n" : ""}{" "}
                     {submitted.accountType} invite link:
                   </div>
                   <CopyTextInput
@@ -173,11 +185,7 @@ const AddUserModal = ({
               {err.err && (
                 <div className="request-scope-pop-up-err">{err.message}</div>
               )}
-              {isLoading && (
-                <div className="request-scope-pop-up-loading">
-                  <LoadingIcon strokeWidth={"0.2rem"} />
-                </div>
-              )}
+
               <div className="top-spacing"></div>
               <FormInputs name="New User Gmail" />
               <FormInputs
