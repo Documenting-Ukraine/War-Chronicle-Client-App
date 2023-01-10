@@ -23,6 +23,7 @@ const CopyTextInput = ({
       >
         <div className={`${namespace}`}>{text}</div>
         <button
+        type="button"
           className={`${namespace}-copy-btn ${copied ? "copied" : ""}`}
           onClick={() => {
             navigator.clipboard.writeText(text).then(() => setCopied(true));

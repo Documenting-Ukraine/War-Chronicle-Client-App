@@ -32,6 +32,7 @@ const CategoryListItem = ({
         <div>{category}</div>
       </div>
       <button
+        type="button"
         onClick={onReassignCategory}
         className="user-scope-category-action-btn"
         data-category={category}

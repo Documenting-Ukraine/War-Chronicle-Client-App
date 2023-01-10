@@ -63,6 +63,7 @@ export const UserDropdownModal = ({
 }: Omit<UserDropdownProps, "userDropdownClass">): JSX.Element => {
   const navigate = useNavigate();
   return (
+    
     <div
       className={`user-dropdown-modal ${userModalClass ? userModalClass : ""}`}
     >
@@ -109,6 +110,7 @@ const UserDropdown = ({
 }: UserDropdownProps): JSX.Element => {
   const { ref, isClickOutside, setisClickOutside } = useIsClickOutside(false);
   return (
+    
     <div
       className={`user-dropdown-container ${
         userDropdownClass ? userDropdownClass : ""
